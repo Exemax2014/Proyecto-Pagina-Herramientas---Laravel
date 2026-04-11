@@ -1,0 +1,290 @@
+/* VARIABLES GLOBALES DE COLOR Y SOMBRAS */
+:root {
+    --hf-coal: #111111;
+    --hf-graphite: #1c1c1c;
+    --hf-highlight: #d9a441;
+    --hf-highlight-soft: #f3d18b;
+    --hf-white: #f8f5ef;
+    --hf-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
+}
+
+/* ESTILO GENERAL DEL SITIO */
+body.site-body {
+    font-family: "Source Sans 3", sans-serif;
+    color: var(--hf-coal);
+    background:
+        radial-gradient(circle at top left, rgba(217, 164, 65, 0.12), transparent 28%),
+        linear-gradient(180deg, #f4efe7 0%, #ebe4d7 100%);
+}
+
+/* SEPARA EL CONTENIDO DE LA NAVBAR */
+.site-main {
+    padding-top: 2rem;
+}
+
+/* NAVBAR FIJA CON EFECTO DE VIDRIO OSCURO */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    background: rgba(17, 17, 17, 0.96) !important;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+/* TIPOGRAFIA DESTACADA PARA TITULOS IMPORTANTES */
+.navbar-brand,
+.hero-title,
+.section-heading h2,
+.feature-item h3,
+.hero-panel h3,
+.home-card h3 {
+    font-family: "Oswald", sans-serif;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+/* COLOR BASE DE LOS LINKS DEL MENU */
+.navbar .nav-link {
+    color: rgba(248, 245, 239, 0.78);
+}
+
+/* EFECTO HOVER DEL MENU */
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+    color: var(--hf-highlight-soft);
+}
+
+/* BLOQUE PRINCIPAL DEL HERO */
+.hero-home {
+    padding: 4rem 0 3rem;
+}
+
+/* TEXTO CHIQUITO DE APERTURA DE CADA SECCION */
+.home-kicker {
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: var(--hf-highlight);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* TITULO PRINCIPAL GRANDE */
+.hero-title {
+    font-size: clamp(2.8rem, 6vw, 5.4rem);
+    line-height: 0.95;
+    max-width: 10ch;
+    margin-bottom: 1.5rem;
+}
+
+/* PARRAFO PRINCIPAL DEL HERO */
+.hero-copy {
+    font-size: 1.2rem;
+    max-width: 52rem;
+    color: #3d3d3d;
+}
+
+/* CONTENEDOR DE BOTONES DEL HERO */
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+/* BLOQUE DE DATOS RAPIDOS DEBAJO DEL HERO */
+.hero-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+/* LINEA SUPERIOR Y ESPACIADO DE CADA METRICA */
+.hero-metrics div {
+    padding-top: 1rem;
+    border-top: 1px solid rgba(17, 17, 17, 0.18);
+}
+
+/* NUMEROS Y TITULOS CORTOS DESTACADOS */
+.hero-metrics strong,
+.panel-number {
+    display: block;
+    font-family: "Oswald", sans-serif;
+    font-size: 1.5rem;
+    color: var(--hf-coal);
+}
+
+/* TEXTO SECUNDARIO DE LAS METRICAS */
+.hero-metrics span {
+    color: #575757;
+}
+
+/* TARJETA OSCURA DEL COSTADO DERECHO DEL HERO */
+.hero-panel {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent),
+        linear-gradient(135deg, var(--hf-graphite), #2a2a2a 65%, #3a3128 100%);
+    color: var(--hf-white);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.75rem;
+    padding: 2rem;
+    box-shadow: var(--hf-shadow);
+}
+
+/* ETIQUETA SUPERIOR DE LA TARJETA DESTACADA */
+.panel-label {
+    color: var(--hf-highlight-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+/* FILA INTERNA DE CADA ITEM DESTACADO */
+.hero-panel-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* SACA LA LINEA SUPERIOR DEL PRIMER ITEM */
+.hero-panel-item:first-of-type {
+    border-top: 0;
+    padding-top: 0;
+}
+
+/* TEXTO DESCRIPTIVO DENTRO DE TARJETAS OSCURAS */
+.hero-panel-item p,
+.feature-item p {
+    margin-bottom: 0;
+    color: rgba(248, 245, 239, 0.74);
+}
+
+/* NUMERACION DE LOS ITEMS DESTACADOS */
+.panel-number {
+    color: var(--hf-highlight);
+    min-width: 2.5rem;
+}
+
+/* BLOQUES GENERALES DE CADA SECCION DEL HOME */
+.home-section {
+    padding: 2rem 0 4rem;
+}
+
+/* CABECERA DE TITULO Y BAJADA DE SECCION */
+.section-heading {
+    max-width: 45rem;
+    margin-bottom: 2rem;
+}
+
+/* TITULO DE SECCION */
+.section-heading h2 {
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    margin-bottom: 0.75rem;
+}
+
+/* BAJADA DE TEXTO DE SECCION */
+.section-heading p {
+    font-size: 1.1rem;
+    color: #4f4f4f;
+}
+
+/* TARJETAS CLARAS DE CATEGORIAS */
+.home-card {
+    height: 100%;
+    padding: 1.75rem;
+    border-radius: 1.5rem;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    box-shadow: 0 16px 30px rgba(42, 36, 26, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* PEQUENO MOVIMIENTO AL PASAR EL MOUSE */
+.home-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 36px rgba(42, 36, 26, 0.14);
+}
+
+/* ICONO PRINCIPAL DE CADA TARJETA */
+.home-card i {
+    font-size: 2rem;
+    color: var(--hf-highlight);
+}
+
+/* TITULO DE CADA TARJETA */
+.home-card h3 {
+    margin: 1rem 0 0.5rem;
+}
+
+/* TEXTO DESCRIPTIVO DE CADA TARJETA */
+.home-card p {
+    margin-bottom: 0;
+    color: #545454;
+}
+
+/* SECCION OSCURA DEL FINAL */
+.home-section-dark {
+    background: linear-gradient(135deg, #161616 0%, #24201b 100%);
+    color: var(--hf-white);
+    margin-top: 1rem;
+    padding: 4rem 0;
+}
+
+/* FUERZA EL TEXTO CLARO DENTRO DE LA SECCION OSCURA */
+.home-section-dark .home-kicker,
+.home-section-dark p,
+.home-section-dark h2 {
+    color: var(--hf-white);
+}
+
+/* APILA LOS BLOQUES DE BENEFICIOS */
+.feature-stack {
+    display: grid;
+    gap: 1rem;
+}
+
+/* TARJETA DE CADA BENEFICIO */
+.feature-item {
+    padding: 1.5rem;
+    border-radius: 1.25rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* COLOR DEL FOOTER */
+footer {
+    background: #101010 !important;
+}
+
+/* AJUSTES PARA TABLET Y NOTEBOOK CHICA */
+@media (max-width: 991.98px) {
+    .hero-title {
+        max-width: 100%;
+    }
+
+    .hero-metrics {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* AJUSTES PARA CELULAR */
+@media (max-width: 575.98px) {
+    .hero-home {
+        padding-top: 2.5rem;
+    }
+
+    .hero-panel,
+    .home-card,
+    .feature-item {
+        border-radius: 1.1rem;
+    }
+
+    .hero-actions .btn {
+        width: 100%;
+    }
+}
