@@ -45,14 +45,39 @@ body.site-body {
 }
 
 /* COLOR BASE DE LOS LINKS DEL MENU */
+.navbar .navbar-nav {
+    gap: 1.5rem;
+}
+
 .navbar .nav-link {
-    color: rgba(248, 245, 239, 0.78);
+    color: rgba(248, 245, 239, 0.92);
+    font-size: 1.05rem;
+    font-weight: 600;
+    padding: 0.55rem 0.35rem;
+    letter-spacing: 0.01em;
+}
+
+.navbar .form-control {
+    min-width: 18rem;
+    max-width: 24rem;
+}
+
+@media (max-width: 991.98px) {
+    .navbar .form-control {
+        min-width: 14rem;
+        max-width: 18rem;
+    }
 }
 
 /* EFECTO HOVER DEL MENU */
 .navbar .nav-link:hover,
 .navbar .nav-link:focus {
     color: var(--hf-highlight-soft);
+    text-decoration: none;
+}
+
+.navbar .navbar-brand {
+    font-size: 1.4rem;
 }
 
 /* BLOQUE PRINCIPAL DEL HERO */
