@@ -17,15 +17,13 @@
                 </div>
             </div>
 
-            <!-- SECCION 2: NAVEGACION -->
+            <!-- SECCION 2: SOBRE LA EMPRESA -->
             <div class="col-md-3 col-12 mb-4 mb-md-0">
                 <div class="footer-section">
-                    <h4 class="footer-subtitle">NAVEGACIÓN</h4>
+                    <h4 class="footer-subtitle">SOBRE LA EMPRESA</h4>
                     <ul class="footer-links">
                         <li><a href="#">Sobre Nosotros</a></li>
                         <li><a href="#">Ubicación de Sucursales</a></li>
-                        <li><a href="#">Blog Técnico</a></li>
-                        <li><a href="#">Carreras</a></li>
                     </ul>
                 </div>
             </div>
