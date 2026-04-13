@@ -6,25 +6,29 @@
             <a class="navbar-brand fw-bold m-0" href="{{ url('/') }}">
                 HIERRO &amp; FORJA
             </a>
-
-            <!-- BUSCADOR: TABLET Y DESKTOP -->
-            <form class="d-none d-md-flex">
-                <input class="form-control form-control-sm" type="search" placeholder="Buscar...">
-            </form>
         </div>
 
         <!-- CENTRO: LINKS EN PANTALLAS MEDIANAS O MAS GRANDES -->
-        <div class="d-none d-sm-flex">
-            <ul class="navbar-nav flex-row gap-2">
+        <div class="d-none d-sm-flex mx-auto">
+            <ul class="navbar-nav flex-row gap-3 mb-0">
                 <li class="nav-item"><a class="nav-link" href="{{ url('/comercializacion') }}">Comercializaci&oacute;n</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ url('/quienes-somos') }}">Qui&eacute;nes Somos</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ url('/terminos') }}">T&eacute;rminos</a></li>
             </ul>
         </div>
-        
 
         <!-- DERECHA -->
-        <div class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-3">
+            <!-- BUSCADOR: TABLET Y DESKTOP -->
+            <form class="d-none d-md-flex">
+                <input class="form-control form-control-sm" type="search" placeholder="Buscar...">
+            </form>
+
+            <!-- ICONO DE CARRITO -->
+            <a href="#" class="text-white fs-5">
+                <i class="bi bi-cart"></i>
+            </a>
+
             <!-- ICONO DE USUARIO -->
             <a href="#" class="text-white fs-5">
                 <i class="bi bi-person-circle"></i>
