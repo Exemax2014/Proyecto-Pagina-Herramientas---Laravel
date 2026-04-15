@@ -322,39 +322,41 @@ footer {
     color: #d9a441;
     margin-bottom: 1rem;
     padding-bottom: 0.8rem;
-    border-bottom: 1px solid rgba(217, 164, 65, 0.3);
+    border-bottom: 2px solid #d9a441; /* 🔥 ahora igual que arriba */
+    min-height: 42px;
+    
 }
 
 /* DESCRIPCION DEL FOOTER */
 .footer-description {
-    font-size: 0.95rem;
+    font-size: 1.7rem;
     line-height: 1.6;
     color: #d9d5c8;
     margin: 0;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 /* LISTA DE ENLACES DEL FOOTER */
 .footer-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
+    list-style: none; /* Elimina los puntos de la lista */
+    padding: 0; /* Quita el padding interno de la lista */
+    margin: 0; /* Quita el margen de la lista */
+    display: flex; /* Usa flexbox para organizar los elementos */
+    flex-direction: column; /* Los elementos se apilan verticalmente */
+    gap: 0.7rem; /* Espacio entre cada enlace */
 }
 
 .footer-links li a {
-    color: #f8f5ef !important;
-    text-decoration: none !important;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-    display: inline-block;
+    color: #f8f5ef !important; /* Color blanco cremoso para el texto del enlace */
+    text-decoration: none !important; /* Elimina el subrayado del enlace */
+    font-size: 1.1rem; /* Tamaño de fuente un poco más grande */
+    transition: all 0.3s ease; /* Transición suave para todos los cambios (color, transform, etc.) en 0.3 segundos */
+    display: inline-block; /* Permite aplicar transformaciones como translateX */
 }
 
 .footer-links li a:hover {
-    color: #ff9e64 !important;
-    padding-left: 0.3rem;
+    color: #facc15 !important; /* Cambia el color del texto a amarillo brillante cuando el mouse pasa sobre el enlace */
+    transform: translateX(5px); /* Desplaza el enlace 5 píxeles hacia la derecha de forma suave */
 }
 
 /* ICONOS SOCIALES */

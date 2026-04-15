@@ -5,7 +5,7 @@
                 <div class="footer-section">
                     <h3 class="footer-title mb-3">HIERRO &amp; FORJA</h3>
                     <p class="footer-description">
-                        Referente en provisi&oacute;n de insumos industriales y herramientas de alta gama para profesionales exigentes.
+                       Calidad, precisión y confianza en cada herramienta.
                     </p>
                 </div>
             </div>
@@ -43,7 +43,7 @@
             </div>
             <div class="col-md-6 col-12">
                 <p class="footer-tagline text-center text-md-end mb-0">
-                    Herramientas profesionales para trabajo pesado
+                    Calidad, precisión y confianza en cada herramienta.
                 </p>
             </div>
         </div>
