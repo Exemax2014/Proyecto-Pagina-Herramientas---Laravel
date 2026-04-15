@@ -1,61 +1,76 @@
+
 <nav class="navbar navbar-dark bg-dark">
-    <div class="container-fluid d-flex align-items-center justify-content-between">
-        <!-- IZQUIERDA -->
-        <div class="d-flex align-items-center gap-4">
-            <!-- LOGO PRINCIPAL -->
-            <a class="navbar-brand fw-bold m-0" href="{{ url('/') }}">
-                HIERRO &amp; FORJA
-            </a>
-        </div>
+    <div class="container-fluid">
+        <div class="navbar-main w-100">
+            <div class="navbar-left">
+                <a class="navbar-brand fw-bold m-0" href="{{ route('home') }}">
+                    HIERRO &amp; FORJA
+                </a>
 
-        <!-- CENTRO: LINKS EN PANTALLAS MEDIANAS O MAS GRANDES -->
-        <div class="d-none d-sm-flex mx-auto">
-            <ul class="navbar-nav flex-row gap-3 mb-0">
-                <li class="nav-item"><a class="nav-link" href="{{ url('/comercializacion') }}">Comercializaci&oacute;n</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url('/quienes-somos') }}">Qui&eacute;nes Somos</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url('/terminos') }}">T&eacute;rminos</a></li>
-            </ul>
-        </div>
-
-        <!-- DERECHA -->
-        <div class="d-flex align-items-center gap-3">
-            <!-- BUSCADOR: TABLET Y DESKTOP -->
-            <form class="d-none d-md-flex">
-                <input class="form-control form-control-sm" type="search" placeholder="Buscar...">
-            </form>
-
-            <!-- ICONO DE CARRITO -->
-            <a href="#" class="text-white fs-5">
-                <i class="bi bi-cart"></i>
-            </a>
-
-            <!-- ICONO DE USUARIO -->
-            <a href="#" class="text-white fs-5">
-                <i class="bi bi-person-circle"></i>
-            </a>
-
-            <!-- BOTON HAMBURGUESA: SOLO MOBILE -->
-            <button class="btn text-white p-1 d-flex d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav" aria-controls="menuNav" aria-expanded="false" aria-label="Abrir menu">
-                <i class="bi bi-list fs-5"></i>
-            </button>
-        </div>
-    </div>
-
-    <!-- MENU DESPLEGABLE MOBILE -->
-    <div class="collapse bg-dark w-100" id="menuNav">
-        <div class="d-flex flex-column align-items-center text-center w-100 py-3">
-
-            <!-- LINKS: SOLO MOBILE -->
-            <ul class="navbar-nav d-flex flex-column align-items-center d-sm-none gap-2 w-100">
-                <li class="nav-item"><a class="nav-link" href="#">Comercialización</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Quiénes Somos</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Términos</a></li>
-            </ul>
-
-            <!-- BUSCADOR SOLO CELULAR -->
-            <div class="d-flex justify-content-center w-100 mt-3 d-md-none">
-                <input class="form-control w-75" type="search" placeholder="Buscar...">
+                <form class="navbar-search navbar-search-desktop" role="search">
+                    <input class="form-control form-control-sm" type="search" placeholder="Buscar..." aria-label="Buscar">
+                </form>
             </div>
+
+            <ul class="navbar-nav navbar-desktop-links">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('quienes-somos') ? 'active' : '' }}" href="{{ route('quienes-somos') }}">Qui&eacute;nes Somos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('comercializacion') ? 'active' : '' }}" href="{{ route('comercializacion') }}">Comercializaci&oacute;n</a>
+                </li>
+                <li class="nav-item navbar-link-extended">
+                    <a class="nav-link {{ request()->routeIs('contacto') ? 'active' : '' }}" href="{{ route('contacto') }}">Contacto</a>
+                </li>
+                <li class="nav-item navbar-link-extended">
+                    <a class="nav-link {{ request()->routeIs('terminos') ? 'active' : '' }}" href="{{ route('terminos') }}">T&eacute;rminos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('catalogo') ? 'active' : '' }}" href="{{ route('catalogo') }}">Cat&aacute;logo</a>
+                </li>
+                <li class="nav-item navbar-link-extended">
+                    <a class="nav-link {{ request()->routeIs('consultas') ? 'active' : '' }}" href="{{ route('consultas') }}">Consultas</a>
+                </li>
+            </ul>
+
+            <div class="navbar-actions">
+                <a href="{{ route('catalogo') }}" class="text-white fs-5 navbar-icon-link" aria-label="Ir al catálogo">
+                    <i class="bi bi-cart"></i>
+                </a>
+
+                <div class="dropdown">
+                    <button class="btn text-white fs-5 p-0 navbar-user-trigger" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Opciones de usuario">
+                        <i class="bi bi-person-circle"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end navbar-user-menu">
+                        <li><a class="dropdown-item" href="{{ route('login') }}">Login</a></li>
+                        <li><a class="dropdown-item" href="{{ route('registro') }}">Registro</a></li>
+                    </ul>
+                </div>
+
+                <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav" aria-controls="menuNav" aria-expanded="false" aria-label="Abrir menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="collapse navbar-collapse navbar-mobile-panel w-100" id="menuNav">
+            <ul class="navbar-nav navbar-mobile-links w-100 text-center">
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('quienes-somos') ? 'active' : '' }}" href="{{ route('quienes-somos') }}">Qui&eacute;nes Somos</a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('comercializacion') ? 'active' : '' }}" href="{{ route('comercializacion') }}">Comercializaci&oacute;n</a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('contacto') ? 'active' : '' }}" href="{{ route('contacto') }}">Contacto</a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('terminos') ? 'active' : '' }}" href="{{ route('terminos') }}">T&eacute;rminos</a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('catalogo') ? 'active' : '' }}" href="{{ route('catalogo') }}">Cat&aacute;logo</a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('consultas') ? 'active' : '' }}" href="{{ route('consultas') }}">Consultas</a></li>
+            </ul>
+
+            <form class="navbar-search navbar-search-mobile" role="search">
+                <input class="form-control" type="search" placeholder="Buscar..." aria-label="Buscar">
+            </form>
         </div>
     </div>
 </nav>

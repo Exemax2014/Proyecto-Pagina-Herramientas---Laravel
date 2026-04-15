@@ -1,11 +1,9 @@
 @extends('layouts.app')
 
 @section('contenido')
-<!-- HERO -->
 <section class="hero-home">
     <div class="container">
         <div class="row align-items-center g-5">
-            <!-- COLUMNA IZQUIERDA: MENSAJE PRINCIPAL Y BOTONES -->
             <div class="col-lg-7">
                 <span class="home-kicker">Acero, potencia y precisi&oacute;n</span>
                 <h1 class="hero-title">Herramientas que bancan el ritmo real del taller y la obra.</h1>
@@ -14,11 +12,10 @@
                     Calidad profesional, asesoramiento directo y soluciones pensadas para durar.
                 </p>
                 <div class="hero-actions">
-                    <a href="{{ url('/comercializacion') }}" class="btn btn-warning btn-lg px-4">Ver l&iacute;neas de trabajo</a>
-                    <a href="{{ url('/contacto') }}" class="btn btn-outline-light btn-lg px-4">Pedir asesoramiento</a>
+                    <a href="{{ route('catalogo') }}" class="btn btn-warning btn-lg px-4">Ver cat&aacute;logo</a>
+                    <a href="{{ route('consultas') }}" class="btn btn-outline-light btn-lg px-4">Hacer una consulta</a>
                 </div>
 
-                <!-- MINI RESUMEN DE BENEFICIOS -->
                 <div class="hero-metrics">
                     <div>
                         <strong>+120</strong>
@@ -35,7 +32,6 @@
                 </div>
             </div>
 
-            <!-- COLUMNA DERECHA: TARJETA DESTACADA DE RUBROS -->
             <div class="col-lg-5">
                 <div class="hero-panel">
                     <p class="panel-label">Selecci&oacute;n destacada</p>
@@ -66,17 +62,14 @@
     </div>
 </section>
 
-<!-- SECCIONES / CATEGORIAS -->
 <section class="home-section">
     <div class="container">
-        <!-- TITULO DE LA SECCION -->
         <div class="section-heading">
             <span class="home-kicker">Nuestras categor&iacute;as</span>
             <h2>Una base s&oacute;lida para cada tipo de trabajo</h2>
             <p>Elegimos l&iacute;neas que respondan bien en rendimiento, durabilidad y seguridad de uso.</p>
         </div>
 
-        <!-- TARJETAS DE CATEGORIAS -->
         <div class="row g-4">
             <div class="col-md-6 col-xl-3">
                 <article class="home-card">
@@ -110,11 +103,9 @@
     </div>
 </section>
 
-<!-- BLOQUE FINAL: PROPUESTA DE VALOR -->
 <section class="home-section home-section-dark">
     <div class="container">
         <div class="row g-4 align-items-center">
-            <!-- TEXTO PRINCIPAL DEL CIERRE -->
             <div class="col-lg-6">
                 <span class="home-kicker">Por qu&eacute; elegirnos</span>
                 <h2>Vendemos herramientas, pero tambi&eacute;n criterio para comprar bien.</h2>
@@ -122,10 +113,9 @@
                     La idea no es solo mostrar productos. Queremos que quien llegue a la p&aacute;gina entienda r&aacute;pido
                     qu&eacute; ofrecemos, para qu&eacute; sirve y por qu&eacute; vale la pena elegirnos.
                 </p>
-                <a href="{{ url('/quienes-somos') }}" class="btn btn-outline-warning">Conocer la empresa</a>
+                <a href="{{ route('quienes-somos') }}" class="btn btn-outline-warning">Conocer la empresa</a>
             </div>
 
-            <!-- LISTA DE PUNTOS FUERTES -->
             <div class="col-lg-6">
                 <div class="feature-stack">
                     <div class="feature-item">

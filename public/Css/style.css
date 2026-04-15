@@ -1,3 +1,4 @@
+
 /* VARIABLES GLOBALES DE COLOR Y SOMBRAS */
 :root {
     --hf-coal: #111111;
@@ -574,5 +575,262 @@ footer {
     .footer-copyright,
     .footer-tagline {
         font-size: 0.75rem;
+    }
+}
+
+/* PAGINAS INTERNAS */
+.page-section {
+    padding: 2rem 0 4rem;
+}
+
+.page-hero {
+    max-width: 48rem;
+    margin-bottom: 2rem;
+}
+
+.page-hero h1,
+.page-card h2 {
+    font-family: "Oswald", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.page-hero h1 {
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    margin-bottom: 1rem;
+}
+
+.page-hero p {
+    font-size: 1.08rem;
+    color: #4f4f4f;
+    margin-bottom: 0;
+}
+
+.page-card {
+    padding: 1.75rem;
+    border-radius: 1.4rem;
+    background: rgba(255, 255, 255, 0.74);
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    box-shadow: 0 16px 30px rgba(42, 36, 26, 0.08);
+}
+
+.page-card h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+}
+
+.page-card p:last-child,
+.page-card ul:last-child {
+    margin-bottom: 0;
+}
+
+.page-card-dark {
+    background: linear-gradient(135deg, #161616 0%, #24201b 100%);
+    color: var(--hf-white);
+}
+
+.page-card-dark p,
+.page-card-dark li {
+    color: rgba(248, 245, 239, 0.78);
+}
+
+.page-list {
+    margin: 0;
+    padding-left: 1.1rem;
+}
+
+.page-list li + li {
+    margin-top: 0.6rem;
+}
+
+.page-icon {
+    font-size: 2rem;
+    color: var(--hf-highlight);
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.contact-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.contact-label {
+    display: block;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--hf-highlight);
+    margin-bottom: 0.35rem;
+}
+
+.contact-list p {
+    margin: 0;
+}
+
+.form-placeholder {
+    display: grid;
+    gap: 1rem;
+}
+
+.placeholder-field {
+    padding: 0.95rem 1rem;
+    border-radius: 0.85rem;
+    border: 1px solid rgba(17, 17, 17, 0.12);
+    background: rgba(244, 239, 231, 0.75);
+    color: #6a665e;
+}
+
+.navbar .nav-link.active {
+    color: var(--hf-highlight);
+}
+
+@media (max-width: 575.98px) {
+    .page-section {
+        padding-top: 1rem;
+    }
+
+    .page-card {
+        padding: 1.3rem;
+        border-radius: 1.1rem;
+    }
+
+    .page-card h2 {
+        font-size: 1.35rem;
+    }
+}
+
+/* AJUSTES DE NAVBAR Y FOOTER */
+.navbar.navbar-expand-xxl .container-fluid {
+    align-items: center;
+}
+
+.navbar-shell {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.navbar-left,
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.navbar-left {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.navbar-right {
+    margin-left: auto;
+}
+
+.navbar-panel {
+    flex-basis: 100%;
+}
+
+.navbar-links {
+    align-items: center;
+}
+
+.navbar-search {
+    margin: 0;
+}
+
+.desktop-search {
+    flex: 0 1 19rem;
+}
+
+.desktop-search .form-control {
+    width: 100%;
+}
+
+.mobile-search {
+    display: none;
+}
+
+.navbar-user-trigger {
+    line-height: 1;
+}
+
+.navbar-user-menu {
+    background: rgba(22, 22, 22, 0.98);
+    border: 1px solid rgba(217, 164, 65, 0.28);
+    border-radius: 0.9rem;
+    padding: 0.45rem;
+}
+
+.navbar-user-menu .dropdown-item {
+    color: var(--hf-white);
+    border-radius: 0.65rem;
+    padding: 0.55rem 0.8rem;
+}
+
+.navbar-user-menu .dropdown-item:hover,
+.navbar-user-menu .dropdown-item:focus {
+    background: rgba(217, 164, 65, 0.14);
+    color: var(--hf-highlight-soft);
+}
+
+.footer-columns {
+    row-gap: 1.5rem;
+}
+
+@media (max-width: 1599.98px) {
+    .desktop-search {
+        display: none;
+    }
+
+    .navbar-panel {
+        padding-top: 1rem;
+    }
+
+    .navbar-links {
+        align-items: flex-start;
+        gap: 0.35rem;
+    }
+
+    .mobile-search {
+        display: block;
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .mobile-search .form-control {
+        max-width: 100%;
+        min-width: 0;
+    }
+}
+
+@media (min-width: 1600px) {
+    .navbar-panel {
+        flex: 1 1 auto;
+        display: flex !important;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .navbar-links {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 1.25rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .navbar-shell {
+        gap: 0.85rem;
+    }
+
+    .navbar-left {
+        width: 100%;
+    }
+
+    .navbar-brand {
+        font-size: 1.2rem;
     }
 }
