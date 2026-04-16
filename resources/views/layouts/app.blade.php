@@ -17,7 +17,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- CSS PROPIO -->
-    <link rel="stylesheet" href="{{ asset('Css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/styleGeneral.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/styleNavbar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/styleFooter.css') }}">        
 </head>
 <body class="site-body">
     <!-- NAVBAR -->

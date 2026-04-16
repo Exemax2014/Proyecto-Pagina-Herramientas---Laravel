@@ -1,0 +1,84 @@
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+
+/* Contenedor general del pie de página */
+footer {
+    background-color: var(--hf-graphite);
+    color: var(--hf-white);
+}
+
+/* Cada columna interna ocupa toda la altura disponible */
+.footer-section {
+    height: 100%;
+}
+
+/* Títulos del footer:
+   comparten tipografía destacada y mayúsculas */
+.footer-title,
+.footer-subtitle {
+    margin-bottom: 1rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+/* Título principal del footer */
+.footer-title {
+    font-family: "Oswald", sans-serif;
+    font-size: 1.4rem;
+    color: var(--hf-white);
+}
+
+/* Subtítulos de cada bloque */
+.footer-subtitle {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--hf-highlight);
+}
+
+/* Texto descriptivo institucional */
+.footer-description {
+    margin: 0;
+    line-height: 1.6;
+    color: rgba(248, 245, 239, 0.82);
+}
+
+/* Lista base de enlaces */
+.footer-links {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Separación vertical entre links */
+.footer-links li + li {
+    margin-top: 0.55rem;
+}
+
+/* Enlaces del footer */
+.footer-links a {
+    color: rgba(248, 245, 239, 0.88);
+    transition: color 0.2s ease;
+}
+
+/* Hover y foco de enlaces */
+.footer-links a:hover,
+.footer-links a:focus {
+    color: var(--hf-highlight);
+    text-decoration: none;
+}
+
+/* Línea divisoria entre bloques superiores e inferiores */
+.footer-divider {
+    margin: 1.5rem 0;
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Texto inferior del footer:
+   copyright y tagline comparten estilo */
+.footer-copyright,
+.footer-tagline {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: rgba(248, 245, 239, 0.72);
+}

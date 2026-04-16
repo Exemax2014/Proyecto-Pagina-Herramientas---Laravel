@@ -1,0 +1,264 @@
+/* ==========================================================================
+   NAVBAR
+   ========================================================================== */
+
+/* Barra principal fija arriba con fondo oscuro semitransparente y blur */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    background: rgba(17, 17, 17, 0.96) !important;
+    backdrop-filter: blur(8px);
+    box-shadow: var(--hf-shadow);
+}
+
+/* Ajusta el padding horizontal del contenedor interno */
+.navbar .container-fluid {
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+}
+
+/* Fila principal que distribuye logo, links y acciones */
+.navbar-main {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 70px;
+    gap: 0.75rem;
+}
+
+/* ==========================================================================
+   BLOQUE IZQUIERDO
+   ========================================================================== */
+
+/* Agrupa logo y buscador */
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 0 0 auto;
+}
+
+/* Marca principal del navbar */
+.navbar-brand {
+    margin: 0;
+    font-family: "Oswald", sans-serif;
+    font-size: 1.25rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Resetea márgenes del formulario del buscador */
+.navbar-search {
+    margin: 0;
+}
+
+/* Buscador visible en desktop */
+.navbar-search-desktop {
+    display: flex;
+    align-items: center;
+    width: 18rem;
+}
+
+/* Hace que el input ocupe todo el ancho disponible del contenedor */
+.navbar-search-desktop .form-control,
+.navbar-search-mobile .form-control {
+    width: 100%;
+}
+
+/* ==========================================================================
+   BLOQUE CENTRAL - LINKS DESKTOP
+   ========================================================================== */
+
+/* Lista principal de navegación horizontal en escritorio */
+.navbar-desktop-links {
+    display: flex !important;
+    flex: 1 1 auto;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Elimina espacios extra de cada item */
+.navbar-desktop-links .nav-item {
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo base de links del navbar */
+.navbar .nav-link {
+    margin: 0;
+    padding: 0.35rem 0.6rem;
+    color: rgba(248, 245, 239, 0.92);
+    font-size: 0.98rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+}
+
+/* Estados hover, focus y activo */
+.navbar .nav-link:hover,
+.navbar .nav-link:focus,
+.navbar .nav-link.active {
+    color: var(--hf-highlight);
+    text-decoration: none;
+}
+
+/* ==========================================================================
+   BLOQUE DERECHO - ACCIONES
+   ========================================================================== */
+
+/* Agrupa carrito, usuario y botón hamburguesa */
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex: 0 0 auto;
+    margin-left: auto;
+}
+
+/* Corrige altura de línea de iconos y disparador del usuario */
+.navbar-icon-link,
+.navbar-user-trigger {
+    line-height: 1;
+}
+
+/* Botón hamburguesa oculto por defecto hasta responsive */
+.navbar-toggler {
+    display: none;
+    padding: 0.15rem 0.25rem;
+    border: 0;
+    box-shadow: none !important;
+}
+
+/* ==========================================================================
+   MENÚ DE USUARIO
+   ========================================================================== */
+
+/* Dropdown de usuario con fondo oscuro y borde suave */
+.navbar-user-menu {
+    background: rgba(22, 22, 22, 0.98);
+    border: 1px solid rgba(217, 164, 65, 0.28);
+    border-radius: 0.9rem;
+    padding: 0.45rem;
+}
+
+/* Opciones internas del dropdown */
+.navbar-user-menu .dropdown-item {
+    padding: 0.55rem 0.8rem;
+    color: var(--hf-white);
+    border-radius: 0.65rem;
+}
+
+/* Hover/focus de opciones del dropdown */
+.navbar-user-menu .dropdown-item:hover,
+.navbar-user-menu .dropdown-item:focus {
+    background: rgba(217, 164, 65, 0.14);
+    color: var(--hf-highlight-soft);
+}
+
+/* ==========================================================================
+   PANEL MOBILE
+   ========================================================================== */
+
+/* Espaciado del panel colapsable mobile */
+.navbar-mobile-panel {
+    padding: 0.8rem 0 1rem;
+}
+
+/* Listas mobile en columna */
+.navbar-mobile-links,
+.mobile-secondary-links,
+.mobile-main-links {
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+/* Lista base mobile */
+.navbar-mobile-links {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Buscador mobile separado del resto */
+.navbar-search-mobile {
+    margin-top: 0.75rem;
+}
+
+/* Bloques ocultos por defecto hasta que responsive los active */
+.mobile-search-block,
+.mobile-secondary-links,
+.mobile-main-links {
+    display: none;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+/* Hasta pantallas grandes:
+   desaparece el buscador superior y aparece hamburguesa */
+@media (max-width: 1200px) {
+    .navbar-search-desktop {
+        display: none;
+    }
+
+    .navbar-toggler {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-search-block {
+        display: block;
+    }
+}
+
+/* Hasta notebook mediana:
+   se ocultan links secundarios del desktop y aparecen en mobile */
+@media (max-width: 980px) {
+    .navbar-desktop-links .nav-secondary {
+        display: none;
+    }
+
+    .mobile-secondary-links {
+        display: flex;
+        margin-top: 0.75rem;
+    }
+}
+
+/* Hasta tablet:
+   desaparece toda la navegación desktop y se pasa a mobile */
+@media (max-width: 800px) {
+    .navbar-desktop-links {
+        display: none !important;
+    }
+
+    .mobile-main-links {
+        display: flex;
+        margin-top: 0.75rem;
+    }
+}
+
+/* Ajustes finos para celular */
+@media (max-width: 575.98px) {
+    .navbar-brand {
+        font-size: 1.05rem;
+    }
+
+    .navbar-main {
+        gap: 0.5rem;
+    }
+
+    .navbar-actions {
+        gap: 0.4rem;
+    }
+}
