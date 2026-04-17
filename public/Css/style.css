@@ -293,35 +293,45 @@ footer {
     height: 100%;
 }
 
-/* TITULO PRINCIPAL DEL FOOTER */
-.footer-title {
+/* TITULO Y SUBTITULO DEL FOOTER */
+.footer-title,
+.footer-subtitle {
+    position: relative;
+    display: inline-block;
     font-family: "Oswald", sans-serif;
-    font-size: 1.3rem;
-    font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #f8f5ef;
-    margin-bottom: 0.8rem;
-    padding-bottom: 0.8rem;
-    border-bottom: 2px solid #d9a441;
+    margin-bottom: 1rem;
+    padding-bottom: 0.85rem;
 }
 
-/* SUBTITULOS DE LAS SECCIONES */
+.footer-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #f8f5ef;
+}
+
 .footer-subtitle {
-    font-family: "Oswald", sans-serif;
     font-size: 1.05rem;
     font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
     color: #d9a441;
-    margin-bottom: 1rem;
-    padding-bottom: 0.8rem;
-    border-bottom: 1px solid rgba(217, 164, 65, 0.3);
+}
+
+.footer-title::after,
+.footer-subtitle::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 4.5rem;
+    height: 3px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #d9a441, rgba(217, 164, 65, 0.6));
 }
 
 /* DESCRIPCION DEL FOOTER */
 .footer-description {
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     line-height: 1.6;
     color: #d9d5c8;
     margin: 0;
@@ -553,6 +563,11 @@ footer {
 
     .footer-subtitle {
         font-size: 0.85rem;
+    }
+
+    .footer-title::after,
+    .footer-subtitle::after {
+        width: 3.5rem;
     }
 
     .footer-description {
