@@ -41,14 +41,11 @@
                     &copy; 2026 HIERRO &amp; FORJA. Todos los derechos reservados.
                 </p>
             </div>
-<<<<<<< HEAD
-=======
             <div class="col-md-6 col-12">
                 <p class="footer-tagline text-center text-md-end mb-0">
                     Calidad, precisión y confianza en cada herramienta.
                 </p>
             </div>
->>>>>>> rama-josi
         </div>
     </div>
 </footer>
