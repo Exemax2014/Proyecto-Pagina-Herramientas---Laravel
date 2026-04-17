@@ -5,7 +5,7 @@
                 <div class="footer-section">
                     <h3 class="footer-title mb-3">HIERRO &amp; FORJA</h3>
                     <p class="footer-description">
-                       Herramientas profesionales para trabajo pesado.
+                       Calidad, precisión y confianza en cada herramienta.
                     </p>
                 </div>
             </div>
@@ -41,6 +41,14 @@
                     &copy; 2026 HIERRO &amp; FORJA. Todos los derechos reservados.
                 </p>
             </div>
+<<<<<<< HEAD
+=======
+            <div class="col-md-6 col-12">
+                <p class="footer-tagline text-center text-md-end mb-0">
+                    Calidad, precisión y confianza en cada herramienta.
+                </p>
+            </div>
+>>>>>>> rama-josi
         </div>
     </div>
 </footer>
