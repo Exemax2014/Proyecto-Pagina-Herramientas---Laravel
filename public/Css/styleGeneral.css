@@ -1,0 +1,537 @@
+/* VARIABLES GLOBALES DE COLOR, SOMBRAS Y APOYOS VISUALES */
+:root {
+    --hf-coal: #111111;
+    --hf-graphite: #1c1c1c;
+    --hf-highlight: #d9a441;
+    --hf-highlight-soft: #f3d18b;
+    --hf-white: #f8f5ef;
+    --hf-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
+
+    /* Sombras auxiliares para tarjetas claras */
+    --hf-card-shadow: 0 16px 30px rgba(42, 36, 26, 0.08);
+    --hf-card-shadow-hover: 0 22px 36px rgba(42, 36, 26, 0.14);
+
+    /* Fondo oscuro reutilizable */
+    --hf-dark-gradient: linear-gradient(135deg, #161616 0%, #24201b 100%);
+
+    /* Tonos de texto secundarios */
+    --hf-text-muted: #4f4f4f;
+    --hf-text-soft: #545454;
+}
+
+/* ESTILO BASE DEL SITIO:
+   define tipografía principal, color general del texto y fondo del body */
+body.site-body {
+    font-family: "Source Sans 3", sans-serif;
+    color: var(--hf-coal);
+    background:
+        radial-gradient(circle at top left, rgba(217, 164, 65, 0.12), transparent 28%),
+        linear-gradient(180deg, #f4efe7 0%, #ebe4d7 100%);
+}
+
+/* TIPOGRAFIA DESTACADA:
+   unifica los títulos principales con la misma fuente, espaciado y mayúsculas */
+.hero-title,
+.section-heading h2,
+.feature-item h3,
+.hero-panel h3,
+.home-card h3,
+.page-hero h1,
+.page-card h2,
+.contact-name {
+    font-family: "Oswald", sans-serif;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+/* TARJETAS CLARAS GENERALES:
+   base visual compartida entre cards del home y cards internas */
+.home-card,
+.page-card {
+    background: rgba(255, 255, 255, 0.74);
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    box-shadow: var(--hf-card-shadow);
+}
+
+/* BLOQUES OSCUROS GENERALES:
+   estilo base reutilizado para secciones o tarjetas oscuras */
+.home-section-dark,
+.page-card-dark {
+    background: var(--hf-dark-gradient);
+    color: var(--hf-white);
+}
+
+/* CONTENEDORES EN GRID:
+   se usa en pilas/listados que mantienen separación uniforme entre elementos */
+.feature-stack,
+.contact-list,
+.form-placeholder {
+    display: grid;
+    gap: 1rem;
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* ------------------------------------ HOME / HERO --------------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* SECCION HERO PRINCIPAL DEL INICIO */
+.hero-home {
+    padding: 4rem 0 3rem;
+}
+
+/* ETIQUETA CHICA SUPERIOR:
+   texto breve de apertura para destacar la sección */
+.home-kicker {
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: var(--hf-highlight);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* TITULO PRINCIPAL DEL HERO */
+.hero-title {
+    font-size: clamp(2.8rem, 6vw, 5.4rem);
+    line-height: 0.95;
+    max-width: 10ch;
+    margin-bottom: 1.5rem;
+}
+
+/* TEXTO DESCRIPTIVO PRINCIPAL DEL HERO */
+.hero-copy {
+    font-size: 1.2rem;
+    max-width: 52rem;
+    color: #3d3d3d;
+}
+
+/* CONTENEDOR DE BOTONES O ACCIONES DEL HERO */
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+/* GRILLA DE METRICAS O DATOS DESTACADOS */
+.hero-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+/* CADA ITEM DE METRICA:
+   agrega separación superior y una línea divisoria */
+.hero-metrics div {
+    padding-top: 1rem;
+    border-top: 1px solid rgba(17, 17, 17, 0.18);
+}
+
+/* VALORES DESTACADOS:
+   aplica al número fuerte de las métricas y a los números del panel lateral */
+.hero-metrics strong,
+.panel-number {
+    display: block;
+    font-family: "Oswald", sans-serif;
+    font-size: 1.5rem;
+}
+
+/* COLOR SOLO PARA LOS VALORES DE LAS METRICAS */
+.hero-metrics strong {
+    color: var(--hf-coal);
+}
+
+/* TEXTO SECUNDARIO DE LAS METRICAS */
+.hero-metrics span {
+    color: #575757;
+}
+
+/* PANEL DESTACADO OSCURO DEL HERO */
+.hero-panel {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent),
+        linear-gradient(135deg, var(--hf-graphite), #2a2a2a 65%, #3a3128 100%);
+    color: var(--hf-white);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.75rem;
+    padding: 2rem;
+    box-shadow: var(--hf-shadow);
+}
+
+/* ETIQUETA CHICA SUPERIOR DEL PANEL */
+.panel-label {
+    color: var(--hf-highlight-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+/* FILA INTERNA DEL PANEL:
+   organiza número + texto en una línea */
+.hero-panel-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* PRIMER ITEM DEL PANEL:
+   evita que arranque con borde arriba */
+.hero-panel-item:first-of-type {
+    padding-top: 0;
+    border-top: 0;
+}
+
+/* PARRAFOS INTERNOS EN BLOQUES OSCUROS */
+.hero-panel-item p,
+.feature-item p {
+    margin-bottom: 0;
+    color: rgba(248, 245, 239, 0.74);
+}
+
+/* NUMERACION DEL PANEL DESTACADO */
+.panel-number {
+    min-width: 2.5rem;
+    color: var(--hf-highlight);
+}
+
+/* BLOQUE GENERAL DE CADA SECCION DEL HOME */
+.home-section {
+    padding: 2rem 0 4rem;
+}
+
+/* CABECERA DE SECCION:
+   limita ancho y separa del contenido */
+.section-heading {
+    max-width: 45rem;
+    margin-bottom: 2rem;
+}
+
+/* TITULO DE CADA SECCION */
+.section-heading h2 {
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    margin-bottom: 0.75rem;
+}
+
+/* PARRAFO DE APOYO DE CADA SECCION */
+.section-heading p {
+    font-size: 1.1rem;
+    color: var(--hf-text-muted);
+}
+
+/* TARJETA DE CATEGORIA O BLOQUE DEL HOME */
+.home-card {
+    height: 100%;
+    padding: 1.75rem;
+    border-radius: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* EFECTO HOVER DE TARJETA */
+.home-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--hf-card-shadow-hover);
+}
+
+/* ICONO PRINCIPAL DE LA TARJETA */
+.home-card i {
+    font-size: 2rem;
+    color: var(--hf-highlight);
+}
+
+/* ESPACIADO DEL TITULO DE LA TARJETA */
+.home-card h3 {
+    margin: 1rem 0 0.5rem;
+}
+
+/* TEXTO DESCRIPTIVO DE LA TARJETA */
+.home-card p {
+    margin-bottom: 0;
+    color: var(--hf-text-soft);
+}
+
+/* SECCION OSCURA DE DESTACADOS O CIERRE */
+.home-section-dark {
+    margin-top: 1rem;
+    padding: 4rem 0;
+}
+
+/* TEXTO EN BLANCO DENTRO DE LA SECCION OSCURA */
+.home-section-dark .home-kicker,
+.home-section-dark p,
+.home-section-dark h2 {
+    color: var(--hf-white);
+}
+
+/* TARJETA DE BENEFICIO O FEATURE */
+.feature-item {
+    padding: 1.5rem;
+    border-radius: 1.25rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* -------------------------- ESTILOS DE TARJETAS DE CONTACTO ------------------------------ */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* CONTENEDOR VERTICAL DE TARJETAS DE CONTACTO */
+.contact-card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+/* TARJETA DE CONTACTO:
+   bloque clickeable con icono y texto */
+.contact-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    overflow: hidden;
+    padding: 0.9rem 1rem;
+    background: rgba(255, 158, 100, 0.08);
+    border: 1px solid rgba(255, 158, 100, 0.25);
+    border-radius: 0.6rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+/* CAPA DE FONDO PARA EL EFECTO HOVER */
+.contact-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0;
+    background: linear-gradient(135deg, #ff9e64, #ffb884);
+    transition: opacity 0.35s ease;
+}
+
+/* ACTIVA EL FONDO DE HOVER */
+.contact-card:hover::before {
+    opacity: 1;
+}
+
+/* ICONO DEL BLOQUE DE CONTACTO */
+.contact-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2.2rem;
+    height: 2.2rem;
+    font-size: 1.5rem;
+    background: rgba(255, 158, 100, 0.2);
+    border-radius: 0.5rem;
+    transition: all 0.35s ease;
+}
+
+/* EFECTO DEL ICONO AL HACER HOVER */
+.contact-card:hover .contact-icon {
+    background: rgba(17, 17, 17, 0.3);
+    transform: scale(1.1);
+}
+
+/* BLOQUE DE TEXTO DE LA TARJETA */
+.contact-info {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+/* NOMBRE O TITULO DEL CONTACTO */
+.contact-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: #ff9e64 !important;
+    transition: color 0.35s ease;
+}
+
+/* CAMBIO DE COLOR DEL TITULO EN HOVER */
+.contact-card:hover .contact-name {
+    color: #101010;
+}
+
+/* EFECTO GENERAL DE HOVER DE LA TARJETA */
+.contact-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 158, 100, 0.6);
+    box-shadow:
+        0 8px 20px rgba(255, 158, 100, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* --------------------------------- PAGINAS INTERNAS ------------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* BLOQUE GENERAL DE CONTENIDO INTERNO */
+.page-section {
+    padding: 2rem 0 4rem;
+}
+
+/* CABECERA PRINCIPAL DE PAGINAS INTERNAS */
+.page-hero {
+    max-width: 48rem;
+    margin-bottom: 2rem;
+}
+
+/* TITULO PRINCIPAL DE PAGINAS INTERNAS */
+.page-hero h1 {
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    margin-bottom: 1rem;
+}
+
+/* PARRAFO DE BAJADA DE PAGINAS INTERNAS */
+.page-hero p {
+    margin-bottom: 0;
+    font-size: 1.08rem;
+    color: var(--hf-text-muted);
+}
+
+/* TARJETA DE CONTENIDO INTERNO */
+.page-card {
+    padding: 1.75rem;
+    border-radius: 1.4rem;
+}
+
+/* TITULO INTERNO DE LAS TARJETAS */
+.page-card h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+}
+
+/* ULTIMO ELEMENTO SIN MARGEN INFERIOR:
+   evita espacio extra al final de la tarjeta */
+.page-card p:last-child,
+.page-card ul:last-child {
+    margin-bottom: 0;
+}
+
+/* TEXTO CLARO DENTRO DE TARJETAS OSCURAS */
+.page-card-dark p,
+.page-card-dark li {
+    color: rgba(248, 245, 239, 0.78);
+}
+
+/* LISTAS INTERNAS */
+.page-list {
+    margin: 0;
+    padding-left: 1.1rem;
+}
+
+/* SEPARACION ENTRE ITEMS DE LISTA */
+.page-list li + li {
+    margin-top: 0.6rem;
+}
+
+/* ICONO DECORATIVO O DE APOYO */
+.page-icon {
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    color: var(--hf-highlight);
+}
+
+/* ETIQUETA DE CAMPO O DATO DE CONTACTO */
+.contact-label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--hf-highlight);
+}
+
+/* PARRAFOS DENTRO DE LISTAS DE CONTACTO */
+.contact-list p {
+    margin: 0;
+}
+
+/* CAMPO VISUAL TIPO PLACEHOLDER:
+   usado para mostrar formularios simulados o bloques de entrada */
+.placeholder-field {
+    padding: 0.95rem 1rem;
+    border: 1px solid rgba(17, 17, 17, 0.12);
+    border-radius: 0.85rem;
+    background: rgba(244, 239, 231, 0.75);
+    color: #6a665e;
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* -------------------------------- AJUSTES SEGUN PANTALLAS -------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* AJUSTES PARA TABLET Y NOTEBOOK CHICA */
+@media (max-width: 991.98px) {
+    /* El título principal deja de limitarse tanto en ancho */
+    .hero-title {
+        max-width: 100%;
+    }
+
+    /* Las métricas pasan de 3 columnas a una sola */
+    .hero-metrics {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* AJUSTES PARA CELULAR */
+@media (max-width: 575.98px) {
+    /* Menos espacio arriba en el hero */
+    .hero-home {
+        padding-top: 2.5rem;
+    }
+
+    /* Reduce redondeo en tarjetas para pantallas chicas */
+    .hero-panel,
+    .home-card,
+    .feature-item,
+    .page-card {
+        border-radius: 1.1rem;
+    }
+
+    /* Botones del hero ocupan todo el ancho */
+    .hero-actions .btn {
+        width: 100%;
+    }
+
+    /* Tarjeta de contacto más compacta */
+    .contact-card {
+        padding: 0.8rem 0.9rem;
+    }
+
+    /* Icono de contacto más chico */
+    .contact-icon {
+        width: 2rem;
+        height: 2rem;
+        font-size: 1.3rem;
+    }
+
+    /* Título del contacto más chico */
+    .contact-name {
+        font-size: 0.85rem;
+    }
+
+    /* Menos espacio superior en páginas internas */
+    .page-section {
+        padding-top: 1rem;
+    }
+
+    /* Tarjeta interna más compacta */
+    .page-card {
+        padding: 1.3rem;
+    }
+
+    /* Título interno más chico */
+    .page-card h2 {
+        font-size: 1.35rem;
+    }
+}
