@@ -26,13 +26,42 @@ Route::get('/catalogo', function () {
     return view('pages.catalogo');
 })->name('catalogo');
 
+/* OPCIONAL: si ya no lo usás podés eliminarlo */
 Route::get('/consultas', function () {
     return view('pages.consultas');
 })->name('consultas');
 
+/* =========================================
+   LOGIN
+   ========================================= */
+
+/* Muestra el formulario */
 Route::get('/login', function () {
     return view('pages.login');
 })->name('login');
+
+/* Procesa el formulario (SIN base de datos) */
+Route::post('/login', function () {
+
+    /* Validación básica */
+    request()->validate([
+        'email' => 'required|email',
+        'password' => 'required|min:4',
+    ], [
+        'email.required' => 'Debes ingresar un correo.',
+        'email.email' => 'Correo inválido.',
+        'password.required' => 'Debes ingresar una contraseña.',
+        'password.min' => 'Mínimo 4 caracteres.',
+    ]);
+
+    /* Redirección directa al inicio */
+    return redirect()->route('home');
+
+})->name('login.procesar');
+
+/* =========================================
+   REGISTRO
+   ========================================= */
 
 Route::get('/registro', function () {
     return view('pages.registro');

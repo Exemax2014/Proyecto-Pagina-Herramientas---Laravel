@@ -1,0 +1,221 @@
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* -------------------------------------- LOGIN ------------------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* Tarjeta principal del login:
+   mantiene el formulario dentro de una card limpia y adaptable */
+.login-card {
+    max-width: 100%;
+}
+
+/* Estructura general del formulario:
+   organiza los campos en columna con separación uniforme */
+.login-form {
+    display: grid;
+    gap: 1.2rem;
+}
+
+/* Bloque de cada campo:
+   agrupa label + input + posible mensaje de error */
+.login-field {
+    display: grid;
+    gap: 0.45rem;
+}
+
+/* Etiqueta descriptiva de cada input */
+.login-label {
+    font-weight: 700;
+    color: var(--hf-coal);
+}
+
+/* Input visual del login:
+   mantiene coherencia con el estilo general del sitio */
+.login-input {
+    min-height: 3.25rem;
+    border: 1px solid rgba(17, 17, 17, 0.12);
+    border-radius: 0.85rem;
+    background: rgba(244, 239, 231, 0.75);
+    color: #3f3f3f;
+}
+
+/* Estado focus:
+   resalta el campo activo sin romper la estética */
+.login-input:focus {
+    border-color: rgba(217, 164, 65, 0.65);
+    box-shadow: 0 0 0 0.2rem rgba(217, 164, 65, 0.18);
+}
+
+/* Contenedor de acciones:
+   centra el botón y el link de registro debajo */
+.login-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: 0.5rem;
+}
+
+/* Botón principal:
+   centrado, con ancho controlado y presencia visual */
+.login-btn {
+    width: 100%;
+    min-width: 180px;
+    max-width: 260px;
+    min-height: 2.9rem;
+    font-weight: 700;
+    border-radius: 0.75rem;
+}
+
+/* Contenedor del enlace secundario */
+.login-register-link {
+    margin-top: 0.2rem;
+    text-align: center;
+}
+
+/* Link a registro:
+   estilo más prolijo y visible, sin parecer link genérico feo */
+.login-register-link a {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--hf-coal);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+/* Hover del link de registro */
+.login-register-link a:hover {
+    color: var(--hf-highlight);
+}
+
+/* Alerta superior del login */
+.login-alert {
+    margin-bottom: 1.2rem;
+    border-radius: 0.85rem;
+}
+
+/* Ajustes para celular */
+@media (max-width: 575.98px) {
+    /* Reduce un poco el espacio entre bloques */
+    .login-form {
+        gap: 1rem;
+    }
+
+    /* Inputs un poco más compactos */
+    .login-input {
+        min-height: 3rem;
+    }
+
+    /* Botón adaptado a pantalla chica */
+    .login-btn {
+        min-height: 2.75rem;
+        max-width: 100%;
+    }
+
+    /* Link un poco más compacto */
+    .login-register-link a {
+        font-size: 0.9rem;
+    }
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* ------------------------------------- REGISTRO ----------------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* Tarjeta principal del registro */
+.register-card {
+    max-width: 100%;
+}
+
+/* Estructura del formulario */
+.register-form {
+    display: grid;
+    gap: 1.2rem;
+}
+
+/* Bloque de cada campo */
+.register-field {
+    display: grid;
+    gap: 0.45rem;
+}
+
+/* Etiqueta de cada input */
+.register-label {
+    font-weight: 700;
+    color: var(--hf-coal);
+}
+
+/* Inputs del registro */
+.register-input {
+    min-height: 3.25rem;
+    border: 1px solid rgba(17, 17, 17, 0.12);
+    border-radius: 0.85rem;
+    background: rgba(244, 239, 231, 0.75);
+    color: #3f3f3f;
+}
+
+/* Estado focus */
+.register-input:focus {
+    border-color: rgba(217, 164, 65, 0.65);
+    box-shadow: 0 0 0 0.2rem rgba(217, 164, 65, 0.18);
+}
+
+/* Contenedor de acciones */
+.register-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: 0.5rem;
+}
+
+/* Botón principal */
+.register-btn {
+    width: 100%;
+    min-width: 180px;
+    max-width: 260px;
+    min-height: 2.9rem;
+    font-weight: 700;
+    border-radius: 0.75rem;
+}
+
+/* Texto inferior */
+.register-login-text {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #555;
+    text-align: center;
+}
+
+/* Link al login */
+.register-login-link {
+    margin-left: 0.2rem;
+    font-weight: 600;
+    color: var(--hf-highlight);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+/* Hover del link */
+.register-login-link:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 575.98px) {
+    .register-form {
+        gap: 1rem;
+    }
+
+    .register-input {
+        min-height: 3rem;
+    }
+
+    .register-btn {
+        min-height: 2.75rem;
+        max-width: 100%;
+    }
+
+    .register-login-text {
+        font-size: 0.9rem;
+    }
+}

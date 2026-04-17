@@ -19,7 +19,8 @@
     <!-- CSS PROPIO -->
     <link rel="stylesheet" href="{{ asset('css/styleGeneral.css') }}">
     <link rel="stylesheet" href="{{ asset('css/styleNavbar.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/styleFooter.css') }}">        
+    <link rel="stylesheet" href="{{ asset('css/styleFooter.css') }}">       
+    <link rel="stylesheet" href="{{ asset('css/styleVistas.css') }}"> 
 </head>
 <body class="site-body">
     <!-- NAVBAR -->
