@@ -4,9 +4,7 @@
 <section class="hero-home contact-hero-section">
     <div class="container">
         <div class="row align-items-center g-5">
-            <!-- =========================================
-                 HERO: TEXTO PRINCIPAL
-                 ========================================= -->
+            <!-- ======== HERO: TEXTO PRINCIPAL ======== -->
             <div class="col-lg-7">
                 <span class="home-kicker">Canales de atención</span>
                 <h1 class="hero-title">Estamos para responder cada consulta.</h1>
@@ -23,9 +21,7 @@
 
             </div>
 
-            <!-- =========================================
-                 HERO: PANEL LATERAL
-                 ========================================= -->
+            <!-- ======== HERO: PANEL LATERAL ======== -->
             <div class="col-lg-5">
                 <div class="hero-panel contact-hero-panel">
                     <p class="panel-label">Atención disponible</p>
@@ -59,9 +55,7 @@
     </div>
 </section>
 
-<!-- =========================================
-     CONTACTO FISICO
-     ========================================= -->
+<!-- ======== CONTACTO FISICO ======== -->
 <section class="home-section contact-section-light">
     <div class="container">
         <div class="section-heading contact-section-heading">
@@ -75,7 +69,7 @@
 
         <div class="row g-4">
             <div class="col-md-6 col-xl-3">
-                <article class="home-card contact-info-card">
+                <article class="home-card contact-info-card ">
                     <i class="bi bi-geo-alt"></i>
                     <h3>Ubicación</h3>
                     <p>Buenos Aires, Argentina. Punto de referencia para atención y coordinación comercial.</p>
@@ -88,7 +82,7 @@
                     <h3>Horarios</h3>
                     <p>Lunes a viernes de 8:00 a 18:00 hs y sábados de 8:00 a 13:00 hs.</p>
                 </article>
-            </div>
+            </div> 
 
             <div class="col-md-6 col-xl-3">
                 <article class="home-card contact-info-card">
@@ -109,63 +103,63 @@
     </div>
 </section>
 
-<!-- =========================================
-     CONTACTO ONLINE
-     ========================================= -->
+<!-- ========= CONTACTO ONLINE ======== -->
 <section class="home-section home-section-dark contact-section-dark">
     <div class="container">
+       <div class="row align-items-center g-5 contact-online-layout">
+
+    <!-- BLOQUE IZQUIERDO (40%) -->
+    <div class="col-lg-5 contact-online-info">
         <div class="section-heading contact-section-heading">
-            <span class="home-kicker">Atención remota</span>
+            <span class="home-kicker contact-dark-kicker">Atención remota</span>
             <h2>Contacto online</h2>
             <p>
-                Canales ágiles para consultas generales, pedidos de cotización, seguimiento de requerimientos
-                y asesoramiento sobre productos.
+                Canales directos para consultas, cotizaciones y seguimiento comercial.
+            </p>
+
+            <p class="contact-online-extra">
+                Si necesitás ampliar la información, más abajo encontrás el formulario de consulta.
+                Esperamos tu mensaje.
             </p>
         </div>
+    </div>
 
-        <div class="row g-4">
-            <div class="col-md-6 col-xl-3">
-                <article class="feature-item contact-online-card">
-                    <h3>Teléfono</h3>
-                    <p>
-                        <a href="tel:+541100000000">+54 11 0000 0000</a>
-                    </p>
-                </article>
-            </div>
+    <!-- BLOQUE DERECHO (60%) -->
+    <div class="col-lg-7 contact-online-cards">
+        <div class="contact-online-stack">
 
-            <div class="col-md-6 col-xl-3">
-                <article class="feature-item contact-online-card">
-                    <h3>WhatsApp</h3>
-                    <p>
-                        <a href="https://wa.me/5491100000000" target="_blank" rel="noopener noreferrer">
-                            +54 9 11 0000 0000
-                        </a>
-                    </p>
-                </article>
-            </div>
+            <article class="feature-item contact-online-card">
+                <h3>Teléfono</h3>
+                <a href="tel:+541100000000" class="contact-online-link">
+                    +54 11 0000 0000
+                </a>
+            </article>
 
-            <div class="col-md-6 col-xl-3">
-                <article class="feature-item contact-online-card">
-                    <h3>Correo</h3>
-                    <p>
-                        <a href="mailto:ventas@hierroyforja.com">ventas@hierroyforja.com</a>
-                    </p>
-                </article>
-            </div>
+            <article class="feature-item contact-online-card">
+                <h3>WhatsApp</h3>
+                <a href="https://wa.me/5491100000000"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="contact-online-link">
+                    +54 9 11 0000 0000
+                </a>
+            </article>
 
-            <div class="col-md-6 col-xl-3">
-                <article class="feature-item contact-online-card">
-                    <h3>Atención comercial</h3>
-                    <p>Consultas generales, cotizaciones, seguimiento y asesoramiento sobre productos.</p>
-                </article>
-            </div>
+            <article class="feature-item contact-online-card">
+                <h3>Correo</h3>
+                <a href="mailto:ventas@hierroyforja.com" class="contact-online-link">
+                    ventas@hierroyforja.com
+                </a>
+            </article>
+
         </div>
+    </div>
+
+</div>
     </div>
 </section>
 
-<!-- =========================================
-     FORMULARIO DE CONSULTA
-     ========================================= -->
+<!-- ======== FORMULARIO DE CONSULTA ======== -->
 <section id="contacto-formulario" class="home-section contact-form-section">
     <div class="container">
         <div class="contact-form-wrap">
@@ -250,9 +244,7 @@
     </div>
 </section>
 
-<!-- =========================================
-     SCRIPT DE ENVIO VISUAL
-     ========================================= -->
+<!-- ======== SCRIPT DE ENVIO VISUAL  ======== -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('contactoForm');

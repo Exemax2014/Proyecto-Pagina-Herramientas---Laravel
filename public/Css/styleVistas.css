@@ -225,7 +225,35 @@
 /* ------------------------------------- CONTACTO ----------------------------------------- */
 /* ═════════════════════════════════════════════════════════════════════════════════════════ */
 
-/* Sección hero específica de contacto:
+/* CONTENEDOR GENERAL:
+   asegura mejor alineación vertical */
+.contact-online-layout {
+    align-items: center;
+}
+
+/* BLOQUE IZQUIERDO (INFO):
+   mantiene ancho visual controlado */
+.contact-online-info {
+    display: flex;
+    align-items: center;
+}
+
+/* BLOQUE DERECHO (CARDS):
+   ocupa su espacio pero centra el contenido */
+.contact-online-cards {
+    display: flex;
+    justify-content: center; /* centra horizontalmente */
+}
+
+/* STACK DE CARDS:
+   controla ancho real dentro del 60% */
+.contact-online-stack {
+    width: 100%;
+    max-width: 520px; /* 🔥 clave: evita que se estiren demasiado */
+    margin: 0 auto;
+}
+
+/* HERO DE CONTACTO:
    amplía presencia visual y separa mejor la página del resto */
 .contact-hero-section {
     min-height: 78vh;
@@ -244,7 +272,7 @@
     min-height: 100%;
 }
 
-/* Encabezados de secciones de contacto */
+/* Encabezados generales de secciones de contacto */
 .contact-section-heading {
     max-width: 48rem;
     margin-bottom: 2.4rem;
@@ -255,12 +283,40 @@
     padding-top: 3rem;
 }
 
-/* Sección oscura de contacto online */
+/* SECCION OSCURA DE CONTACTO ONLINE:
+   fondo negro limpio, sin efectos extra */
 .contact-section-dark {
     margin-top: 0;
+    background: #111111;
 }
 
-/* Tarjetas de información física:
+/* Kicker específico de la sección oscura:
+   mantiene el dorado por encima del color blanco heredado */
+.contact-section-dark .contact-dark-kicker {
+    color: var(--hf-highlight);
+}
+
+/* Bloque de texto de la sección online:
+   más ordenado, más corto y con lectura clara */
+.contact-section-dark .contact-section-heading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    max-width: 29rem;
+    margin-bottom: 0;
+    gap: 0.8rem;
+}
+
+/* Texto complementario breve debajo del texto principal */
+.contact-online-extra {
+    margin-top: 0.4rem;
+    font-size: 0.96rem;
+    line-height: 1.75;
+    color: rgba(248, 245, 239, 0.78);
+}
+
+/* TARJETAS DE INFORMACION FISICA:
    aprovechan el lenguaje de home-card con mejor comportamiento visual */
 .contact-info-card {
     display: flex;
@@ -270,37 +326,69 @@
     min-height: 100%;
 }
 
-/* Iconos de tarjetas de contacto */
+/* Iconos de tarjetas de contacto físico */
 .contact-info-card i {
     font-size: 2rem;
     color: var(--hf-highlight);
 }
 
-/* Tarjetas de contacto online sobre fondo oscuro */
+/* CONTENEDOR VERTICAL DE CARDS ONLINE */
+.contact-online-stack {
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+}
+
+/* CARDS ONLINE:
+   mismo ancho, más compactas y con contenido centrado */
 .contact-online-card {
-    height: 100%;
-    transition: transform 0.2s ease, border-color 0.2s ease;
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    align-items: center;
+    width: 100%;
+    max-width: 520px;
+    min-height: 88px;
+    padding: 1.1rem 1.35rem;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Hover suave para dar sensación más actual */
+/* Hover suave */
 .contact-online-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(217, 164, 65, 0.24);
+    transform: translateY(-3px);
+    border-color: rgba(217, 164, 65, 0.28);
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.14);
 }
 
-/* Links dentro de tarjetas oscuras */
-.contact-online-card a {
-    color: var(--hf-white);
+/* Título dentro de la card:
+   más grande, fuerte y alineado visualmente con el link */
+.contact-online-card h3 {
+    margin: 0;
+    font-size: 1.18rem;
+    text-align: center;
+}
+
+/* Link simple, sin borde ni estilo de botón */
+.contact-online-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    color: var(--hf-highlight);
+    font-size: 1.02rem;
+    font-weight: 700;
+    text-align: center;
     text-decoration: none;
     transition: color 0.2s ease;
 }
 
-/* Hover de links */
-.contact-online-card a:hover {
+/* Hover del link */
+.contact-online-link:hover {
     color: var(--hf-highlight-soft);
 }
 
-/* Sección del formulario:
+/* SECCION DEL FORMULARIO:
    separa el bloque final para que tenga más presencia */
 .contact-form-section {
     padding-top: 3.5rem;
@@ -323,11 +411,11 @@
 
 /* Título del formulario */
 .contact-form-intro-block h2 {
+    margin-bottom: 0;
     font-family: "Oswald", sans-serif;
     font-size: clamp(2rem, 4vw, 3.2rem);
     letter-spacing: 0.02em;
     text-transform: uppercase;
-    margin-bottom: 0;
 }
 
 /* Texto descriptivo del formulario */
@@ -338,14 +426,14 @@
     color: var(--hf-text-muted);
 }
 
-/* Pequeño bloque de soporte debajo del texto */
+/* Bloque de soporte debajo del texto */
 .contact-form-support {
     display: grid;
     gap: 0.9rem;
     margin-top: 0.6rem;
 }
 
-/* Cada mini dato de soporte */
+/* Cada dato de soporte */
 .contact-form-support div {
     padding-top: 0.8rem;
     border-top: 1px solid rgba(17, 17, 17, 0.12);
@@ -419,7 +507,7 @@
     box-shadow: 0 0 0 0.2rem rgba(217, 164, 65, 0.18);
 }
 
-/* Botón */
+/* Contenedor del botón */
 .contact-form-actions {
     display: flex;
     justify-content: flex-start;
@@ -436,15 +524,30 @@
     border-radius: 0.8rem;
 }
 
-/* ===============================
-   RESPONSIVE
-   =============================== */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* ------------------------------------ RESPONSIVE ---------------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
 
 @media (max-width: 991.98px) {
     /* Hero menos alto en tablet */
     .contact-hero-section {
         min-height: auto;
         padding-top: 3rem;
+    }
+
+    /* El bloque de texto online gana ancho completo */
+    .contact-section-dark .contact-section-heading {
+        max-width: 100%;
+    }
+
+    /* El texto extra mantiene ancho razonable */
+    .contact-online-extra {
+        max-width: 32rem;
+    }
+
+    /* Las cards online pueden ocupar un poco más */
+    .contact-online-card {
+        max-width: 100%;
     }
 
     /* El bloque final respira un poco menos */
@@ -469,7 +572,33 @@
         padding-top: 2.5rem;
     }
 
-    /* Tarjetas más compactas */
+    /* Cards online en columna en pantallas chicas */
+    .contact-online-card {
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+        min-height: auto;
+        padding: 1rem 1.1rem;
+    }
+
+    .contact-online-card h3,
+    .contact-online-link {
+        text-align: center;
+        justify-content: center;
+    }
+
+    .contact-online-card h3 {
+        font-size: 1.1rem;
+    }
+
+    .contact-online-link {
+        font-size: 0.96rem;
+    }
+
+    .contact-online-extra {
+        font-size: 0.9rem;
+    }
+
+    /* Tarjeta del formulario más compacta */
     .contact-form-card {
         padding: 1.25rem;
         border-radius: 1.1rem;

@@ -71,7 +71,7 @@ body.site-body {
 }
 
 /* ═════════════════════════════════════════════════════════════════════════════════════════ */
-/* ------------------------------------ HOME / HERO --------------------------------------- */
+/* ------------------------------------ HOME / HERO ---------------------------------------- */
 /* ═════════════════════════════════════════════════════════════════════════════════════════ */
 
 /* SECCION HERO PRINCIPAL DEL INICIO */
@@ -79,8 +79,7 @@ body.site-body {
     padding: 4rem 0 3rem;
 }
 
-/* ETIQUETA CHICA SUPERIOR:
-   texto breve de apertura para destacar la sección */
+/* ETIQUETA CHICA SUPERIOR: texto breve de apertura para destacar la sección */
 .home-kicker {
     display: inline-block;
     margin-bottom: 1rem;

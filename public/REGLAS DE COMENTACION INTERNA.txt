@@ -1,0 +1,26 @@
+REGLAS PARA COMENTAR TODO EN LOS CODIGOS DESDE AHORA EN ADELANTE 
+
+ PARA PHP:
+
+<!--- ======== MODULOS INTERNOS (SUB MODOLOS SI LOS TIENE) ======== --->
+
+<!---- AREA ESPECIFICA: (DESCRIPCION EN CASO DE SER NECESARIO) ---->
+
+-PARA MODULOS CON MUCHA DESCRIPCION NECESARIA
+<!-- =========================================
+     NOMBRE DEL MODULO O SCRIPT ETC.
+     descripcion del m,odulo y su cfincionalidad
+     ========================================= -->
+
+
+ PARA CSS:
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* ---------------------------------- MODULO GENERAL --------------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+
+/* NOMBRE DE SECCION: descripcion de funcionalidad  */
+
+(FINAL DE UNA LINEA DE CODIGO)   /* descripcion especifica  */
+
+
