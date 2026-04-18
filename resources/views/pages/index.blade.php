@@ -13,7 +13,7 @@
                 </p>
                 <div class="hero-actions">
                     <a href="{{ route('catalogo') }}" class="btn btn-warning btn-lg px-4">Ver cat&aacute;logo</a>
-                    <a href="{{ route('consultas') }}" class="btn btn-outline-light btn-lg px-4">Hacer una consulta</a>
+                    <a href="{{ route('contacto') }}#contacto-formulario" class="btn btn-outline-light btn-lg px-4">Hacer una consulta</a>
                 </div>
 
                 <div class="hero-metrics">

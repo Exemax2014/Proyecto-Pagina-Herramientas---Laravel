@@ -25,7 +25,6 @@
                 <div class="footer-section">
                     <h4 class="footer-subtitle">SOPORTE</h4>
                     <ul class="footer-links">
-                        <li><a href="{{ route('consultas') }}">Consultas</a></li>
                         <li><a href="{{ route('contacto') }}">Contacto</a></li>
                         <li><a href="{{ route('terminos') }}">T&eacute;rminos</a></li>
                     </ul>

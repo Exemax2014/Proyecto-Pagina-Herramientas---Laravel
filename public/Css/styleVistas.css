@@ -219,3 +219,279 @@
         font-size: 0.9rem;
     }
 }
+
+
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* ------------------------------------- CONTACTO ----------------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* Sección hero específica de contacto:
+   amplía presencia visual y separa mejor la página del resto */
+.contact-hero-section {
+    min-height: 78vh;
+    display: flex;
+    align-items: center;
+}
+
+/* Ajuste de métricas dentro del hero de contacto */
+.contact-hero-metrics {
+    margin-top: 2.25rem;
+}
+
+/* Panel lateral del hero:
+   mantiene el estilo del index pero aplicado a contacto */
+.contact-hero-panel {
+    min-height: 100%;
+}
+
+/* Encabezados de secciones de contacto */
+.contact-section-heading {
+    max-width: 48rem;
+    margin-bottom: 2.4rem;
+}
+
+/* Primera sección clara de contacto */
+.contact-section-light {
+    padding-top: 3rem;
+}
+
+/* Sección oscura de contacto online */
+.contact-section-dark {
+    margin-top: 0;
+}
+
+/* Tarjetas de información física:
+   aprovechan el lenguaje de home-card con mejor comportamiento visual */
+.contact-info-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.2rem;
+    min-height: 100%;
+}
+
+/* Iconos de tarjetas de contacto */
+.contact-info-card i {
+    font-size: 2rem;
+    color: var(--hf-highlight);
+}
+
+/* Tarjetas de contacto online sobre fondo oscuro */
+.contact-online-card {
+    height: 100%;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+/* Hover suave para dar sensación más actual */
+.contact-online-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(217, 164, 65, 0.24);
+}
+
+/* Links dentro de tarjetas oscuras */
+.contact-online-card a {
+    color: var(--hf-white);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+/* Hover de links */
+.contact-online-card a:hover {
+    color: var(--hf-highlight-soft);
+}
+
+/* Sección del formulario:
+   separa el bloque final para que tenga más presencia */
+.contact-form-section {
+    padding-top: 3.5rem;
+    padding-bottom: 4.5rem;
+}
+
+/* Contenedor general del bloque final */
+.contact-form-wrap {
+    padding: 2rem 0;
+}
+
+/* Columna izquierda del formulario */
+.contact-form-intro-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    height: 100%;
+}
+
+/* Título del formulario */
+.contact-form-intro-block h2 {
+    font-family: "Oswald", sans-serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin-bottom: 0;
+}
+
+/* Texto descriptivo del formulario */
+.contact-form-intro-block p {
+    margin-bottom: 0;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--hf-text-muted);
+}
+
+/* Pequeño bloque de soporte debajo del texto */
+.contact-form-support {
+    display: grid;
+    gap: 0.9rem;
+    margin-top: 0.6rem;
+}
+
+/* Cada mini dato de soporte */
+.contact-form-support div {
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(17, 17, 17, 0.12);
+}
+
+/* Texto fuerte del soporte */
+.contact-form-support strong {
+    display: block;
+    font-family: "Oswald", sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--hf-coal);
+}
+
+/* Texto secundario del soporte */
+.contact-form-support span {
+    color: #5c5c5c;
+}
+
+/* Tarjeta del formulario */
+.contact-form-card {
+    height: 100%;
+    padding: 2rem;
+    border-radius: 1.5rem;
+}
+
+/* Formulario */
+.contact-form {
+    display: grid;
+    gap: 1.2rem;
+}
+
+/* Bloque de campo */
+.contact-form-field {
+    display: grid;
+    gap: 0.45rem;
+}
+
+/* Etiqueta del formulario */
+.contact-form-label {
+    font-weight: 700;
+    color: var(--hf-coal);
+}
+
+/* Inputs y textarea */
+.contact-form-input,
+.contact-form-textarea {
+    border: 1px solid rgba(17, 17, 17, 0.12);
+    border-radius: 0.85rem;
+    background: rgba(244, 239, 231, 0.75);
+    color: #3f3f3f;
+}
+
+/* Altura mínima de inputs */
+.contact-form-input {
+    min-height: 3.25rem;
+}
+
+/* Textarea */
+.contact-form-textarea {
+    min-height: 160px;
+    resize: vertical;
+    padding-top: 0.85rem;
+}
+
+/* Focus */
+.contact-form-input:focus,
+.contact-form-textarea:focus {
+    border-color: rgba(217, 164, 65, 0.65);
+    box-shadow: 0 0 0 0.2rem rgba(217, 164, 65, 0.18);
+}
+
+/* Botón */
+.contact-form-actions {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 0.4rem;
+}
+
+/* Botón principal */
+.contact-form-btn {
+    width: 100%;
+    min-width: 220px;
+    max-width: 320px;
+    min-height: 3rem;
+    font-weight: 700;
+    border-radius: 0.8rem;
+}
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+
+@media (max-width: 991.98px) {
+    /* Hero menos alto en tablet */
+    .contact-hero-section {
+        min-height: auto;
+        padding-top: 3rem;
+    }
+
+    /* El bloque final respira un poco menos */
+    .contact-form-card {
+        padding: 1.7rem;
+    }
+
+    .contact-form-wrap {
+        padding: 1rem 0;
+    }
+}
+
+@media (max-width: 575.98px) {
+    /* Hero más compacto */
+    .contact-hero-section {
+        padding-top: 2.5rem;
+    }
+
+    /* Menos separación entre grandes bloques */
+    .contact-form-section,
+    .contact-section-light {
+        padding-top: 2.5rem;
+    }
+
+    /* Tarjetas más compactas */
+    .contact-form-card {
+        padding: 1.25rem;
+        border-radius: 1.1rem;
+    }
+
+    /* Inputs más compactos */
+    .contact-form-input {
+        min-height: 3rem;
+    }
+
+    .contact-form-textarea {
+        min-height: 130px;
+    }
+
+    /* Botón full width */
+    .contact-form-btn {
+        max-width: 100%;
+        min-height: 2.8rem;
+    }
+
+    /* Título del formulario adaptado */
+    .contact-form-intro-block h2 {
+        font-size: 1.9rem;
+    }
+}

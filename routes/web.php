@@ -26,11 +26,6 @@ Route::get('/catalogo', function () {
     return view('pages.catalogo');
 })->name('catalogo');
 
-/* OPCIONAL: si ya no lo usás podés eliminarlo */
-Route::get('/consultas', function () {
-    return view('pages.consultas');
-})->name('consultas');
-
 /* =========================================
    LOGIN
    ========================================= */
