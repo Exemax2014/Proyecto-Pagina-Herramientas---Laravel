@@ -256,9 +256,10 @@
 /* HERO DE CONTACTO:
    amplía presencia visual y separa mejor la página del resto */
 .contact-hero-section {
-    min-height: 78vh;
     display: flex;
     align-items: center;
+    padding-top: clamp(3.5rem, 6vw, 5.5rem);
+    padding-bottom: clamp(2.5rem, 4vw, 4rem);
 }
 
 /* Ajuste de métricas dentro del hero de contacto */
@@ -280,7 +281,7 @@
 
 /* Primera sección clara de contacto */
 .contact-section-light {
-    padding-top: 3rem;
+    padding-top: clamp(2rem, 3vw, 3rem);
 }
 
 /* SECCION OSCURA DE CONTACTO ONLINE:
@@ -524,9 +525,8 @@
     border-radius: 0.8rem;
 }
 
-/* ═════════════════════════════════════════════════════════════════════════════════════════ */
-/* ------------------------------------ RESPONSIVE ---------------------------------------- */
-/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* ------------------------ RESPONSIVE ----------------------- */
 
 @media (max-width: 991.98px) {
     /* Hero menos alto en tablet */
@@ -624,3 +624,534 @@
         font-size: 1.9rem;
     }
 }
+
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* ------------------------------ TERMINOS Y CONDICIONES ---------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* HERO DE TERMINOS:
+   mantiene una anchura cómoda de lectura para la cabecera principal */
+.terms-hero {
+    max-width: 54rem;
+    margin-bottom: 0;
+}
+/* VERSION ENRIQUECIDA DEL HERO:
+   agrega más presencia visual sin perder sobriedad */
+.terms-hero-enhanced {
+    position: relative;
+    padding: 0.35rem 0 0.2rem;
+}
+
+/* ETIQUETA SUPERIOR DEL HERO:
+   presenta la sección con más identidad institucional */
+.terms-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 1rem;
+    padding: 0.42rem 0.8rem;
+    border: 1px solid rgba(217, 164, 65, 0.26);
+    border-radius: 999px;
+    background: rgba(217, 164, 65, 0.10);
+    color: #8a641a;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+/* ICONO DEL BADGE:
+   refuerza la identidad visual con un acento dorado */
+.terms-hero-badge i {
+    color: var(--hf-highlight);
+    font-size: 0.92rem;
+}
+
+/* TITULO PRINCIPAL DEL HERO:
+   mejora la jerarquía y la respiración visual */
+.terms-hero h1 {
+    margin-bottom: 0.9rem;
+    line-height: 0.95;
+}
+
+/* ACENTO DECORATIVO:
+   genera una pausa visual entre titulo y texto */
+.terms-hero-accent {
+    width: 92px;
+    height: 4px;
+    margin-bottom: 1.25rem;
+    border-radius: 999px;
+    background: linear-gradient(
+        90deg,
+        var(--hf-highlight) 0%,
+        rgba(217, 164, 65, 0.45) 65%,
+        rgba(217, 164, 65, 0.08) 100%
+    );
+}
+
+/* PARRAFO DEL HERO:
+   da mejor comodidad de lectura al texto descriptivo */
+.terms-hero p {
+    max-width: 46rem;
+}
+
+/* BLOQUE DE MICRO CONFIANZA:
+   agrega cercanía visual y evita que el hero termine de golpe */
+.terms-hero-trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    margin-top: 1.4rem;
+}
+
+/* ITEM INDIVIDUAL DE CONFIANZA:
+   transforma conceptos clave en pequeños apoyos visuales */
+.terms-hero-trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.8rem;
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.42);
+    color: var(--hf-text-muted);
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+/* ICONO DE LOS ITEMS:
+   mantiene continuidad con la paleta dorada del sitio */
+.terms-hero-trust-item i {
+    color: var(--hf-highlight);
+    font-size: 0.95rem;
+}
+
+/* EFECTO DECORATIVO DE FONDO:
+   suma identidad sin recargar el encabezado */
+.terms-hero-enhanced::after {
+    content: "";
+    position: absolute;
+    top: -2.5rem;
+    right: -2rem;
+    width: 18rem;
+    height: 18rem;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(217, 164, 65, 0.12) 0%,
+        rgba(217, 164, 65, 0.05) 38%,
+        rgba(217, 164, 65, 0) 72%
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+ /* BLOQUE DE CONFIANZA DEL HERO:
+       ajusta el aire para tablet sin desordenar el encabezado */
+    .terms-hero-trust {
+        margin-top: 1.15rem;
+    }
+
+    /* EFECTO DECORATIVO DEL HERO:
+       reduce tamaño para no invadir el contenido */
+    .terms-hero-enhanced::after {
+        width: 14rem;
+        height: 14rem;
+        top: -1.5rem;
+        right: -1rem;
+    }
+
+/* ASEGURA QUE EL CONTENIDO QUEDE POR ENCIMA DEL EFECTO */
+.terms-hero-enhanced > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* FILA PRINCIPAL DEL HERO:
+   separa correctamente la cabecera del resto del contenido */
+.terms-hero-row {
+    margin-bottom: 1.25rem;
+}
+
+/* PANEL LATERAL DE RESUMEN:
+   conserva la misma altura visual que el contenido vecino */
+.terms-hero-panel {
+    height: 100%;
+}
+
+/* PAGINA DE TERMINOS:
+   sirve como contenedor general y evita desbordes laterales */
+.terms-page {
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* BLOQUE DESTACADO INTRODUCTORIO:
+   da una entrada más institucional y con presencia de marca */
+.terms-highlight-card {
+    position: relative;
+    overflow: hidden;
+    border-left: 4px solid var(--hf-highlight);
+    background: linear-gradient(135deg, rgba(217, 164, 65, 0.10), rgba(255, 255, 255, 0.78));
+}
+
+/* ETIQUETA SUPERIOR DEL BLOQUE DESTACADO:
+   categoriza la información y suma identidad visual */
+.terms-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 0.9rem;
+    padding: 0.35rem 0.7rem;
+    border: 1px solid rgba(217, 164, 65, 0.28);
+    border-radius: 999px;
+    background: rgba(217, 164, 65, 0.12);
+    color: #8a641a;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+/* ICONO DEL BADGE:
+   acompaña el texto con un acento dorado elegante */
+.terms-badge i {
+    color: var(--hf-highlight);
+    font-size: 0.9rem;
+}
+
+/* CONTENEDOR VERTICAL DE TARJETAS:
+   organiza todos los bloques en columna con separación uniforme */
+.terms-stack {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+}
+
+/* TARJETA BASE DE TERMINOS:
+   estructura principal de cada bloque legal con estilo suave y moderno */
+.terms-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.6rem;
+    border-radius: 1.4rem;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.72));
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    box-shadow: var(--hf-card-shadow);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+/* DETALLE LATERAL DE LA TARJETA:
+   suma continuidad visual y refuerza el lenguaje institucional */
+.terms-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1rem;
+    bottom: 1rem;
+    width: 3px;
+    background: linear-gradient(180deg, var(--hf-highlight), transparent);
+    border-radius: 2px;
+}
+
+/* HOVER DE TARJETAS:
+   agrega una reacción sutil sin exagerar el movimiento */
+.terms-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hf-card-shadow-hover);
+    border-color: rgba(217, 164, 65, 0.2);
+}
+
+/* CABECERA DE CADA TARJETA:
+   alinea icono y bloque de texto de forma prolija */
+.terms-card-headline {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+}
+
+/* ICONO PRINCIPAL DE CADA BLOQUE:
+   crea una cápsula visual dorada y coherente con la identidad */
+.terms-card-icon {
+    width: 2.7rem;
+    height: 2.7rem;
+    min-width: 2.7rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: rgba(217, 164, 65, 0.12);
+    border: 1px solid rgba(217, 164, 65, 0.25);
+    color: var(--hf-highlight);
+    font-size: 1rem;
+    margin-top: 0.1rem;
+    box-shadow: 0 0 0 4px rgba(217, 164, 65, 0.05);
+}
+
+/* AGRUPADOR DE KICKER Y TITULO:
+   mejora el apilado vertical y la lectura del encabezado */
+.terms-card-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.18rem;
+}
+
+/* VARIANTE OSCURA DEL ICONO:
+   adapta el icono al bloque final oscuro sin perder contraste */
+.terms-card-headline-dark .terms-card-icon {
+    background: rgba(217, 164, 65, 0.10);
+    border-color: rgba(217, 164, 65, 0.22);
+    color: var(--hf-highlight-soft);
+    box-shadow: 0 0 0 4px rgba(217, 164, 65, 0.04);
+}
+
+/* TEXTO AUXILIAR O KICKER:
+   permite identificar rápidamente la categoría del bloque */
+.terms-card-kicker {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--hf-highlight);
+    margin: 0;
+}
+
+/* VARIANTE DEL KICKER EN OSCURO:
+   mejora la visibilidad sobre fondo negro */
+.terms-card-kicker-dark {
+    color: var(--hf-highlight-soft);
+}
+
+/* TITULOS PRINCIPALES:
+   asegura limpieza y mejor jerarquía visual */
+.terms-card h2,
+.terms-legal-card h2 {
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* PARRAFOS GENERALES:
+   mejora la lectura del contenido legal y descriptivo */
+.terms-card p,
+.terms-legal-card p {
+    line-height: 1.72;
+    margin-bottom: 0;
+}
+
+/* CONTENEDOR DE PUNTOS:
+   distribuye los bloques internos de forma clara y ordenada */
+.terms-points {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: 0.35rem;
+}
+
+/* PUNTO INDIVIDUAL:
+   reemplaza el listado clásico por piezas visuales más modernas */
+.terms-point {
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(17, 17, 17, 0.10);
+    border-radius: 0.9rem;
+    background: rgba(244, 239, 231, 0.55);
+    line-height: 1.6;
+    color: var(--hf-text-muted);
+    transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* HOVER SUAVE DE LOS PUNTOS:
+   agrega vida al contenido sin distraer la lectura */
+.terms-point:hover {
+    border-color: rgba(217, 164, 65, 0.22);
+    background: rgba(244, 239, 231, 0.72);
+    transform: translateX(2px);
+}
+
+/* SECCION LEGAL FINAL A TODO EL ANCHO:
+   saca el bloque final del ancho del container y lo expande a pantalla completa */
+.terms-legal-section {
+    width: 100vw;
+    margin-top: 1.8rem;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: 4rem 0;
+    background:
+        linear-gradient(180deg, rgba(217, 164, 65, 0.08), transparent 22%),
+        #111111;
+    position: relative;
+}
+
+/* LINEA SUPERIOR DECORATIVA:
+   aporta una terminación más premium al bloque final */
+.terms-legal-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(217, 164, 65, 0.32) 18%,
+        rgba(217, 164, 65, 0.75) 50%,
+        rgba(217, 164, 65, 0.32) 82%,
+        transparent 100%
+    );
+}
+
+/* CONTENEDOR INTERNO DEL BLOQUE FINAL:
+   mantiene aire lateral sin perder sensación de amplitud */
+.terms-legal-inner {
+    width: min(100% - 2.5rem, 1280px);
+    margin: 0 auto;
+}
+
+/* CARD LEGAL FINAL:
+   se extiende a lo ancho del contenedor interno y elimina redondeados */
+.terms-legal-card {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 0;
+    border: 1px solid rgba(217, 164, 65, 0.14);
+    border-radius: 0 !important;
+    box-shadow: none;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0)),
+        transparent;
+}
+
+/* DETALLE LATERAL DEL BLOQUE FINAL:
+   conserva el lenguaje visual de las cards claras */
+.terms-legal-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 4px;
+    background: linear-gradient(180deg, var(--hf-highlight), transparent);
+    opacity: 0.9;
+}
+
+/* ASEGURA QUE TODO EL CONTENIDO QUEDE POR ENCIMA DE LOS DETALLES */
+.terms-legal-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* PUNTOS EN FONDO OSCURO:
+   adapta la lectura y el contraste para el cierre legal */
+.terms-points-dark .terms-point {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.08);
+    color: rgba(248, 245, 239, 0.82);
+}
+
+/* HOVER DE LOS PUNTOS EN OSCURO:
+   refina la interacción manteniendo el tono sobrio */
+.terms-points-dark .terms-point:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(217, 164, 65, 0.20);
+}
+
+/* TARJETA FINAL A TODO EL ANCHO:
+   asegura que no herede restricciones extrañas desde otras vistas */
+.terms-fullwidth-card {
+    width: 100%;
+    margin: 0;
+    border-radius: 0 !important;
+}
+
+/* RESPONSIVE TABLET:
+   ajusta la separación general sin romper la estructura */
+@media (max-width: 991.98px) {
+    .terms-hero-row {
+        margin-bottom: 0.9rem;
+    }
+
+    .terms-legal-section {
+        padding: 3.2rem 0;
+    }
+}
+
+/* RESPONSIVE MOBILE:
+   compacta tamaños y espacios para mejorar la lectura en pantallas chicas */
+@media (max-width: 575.98px) {
+    .terms-highlight-card {
+        border-left-width: 3px;
+    }
+
+    .terms-badge {
+        font-size: 0.76rem;
+        padding: 0.3rem 0.6rem;
+    }
+
+    .terms-card {
+        padding: 1.2rem;
+        border-radius: 1.1rem;
+    }
+
+    .terms-card-headline {
+        gap: 0.7rem;
+    }
+
+    .terms-card-icon {
+        width: 2.4rem;
+        height: 2.4rem;
+        min-width: 2.4rem;
+        font-size: 0.92rem;
+    }
+
+    .terms-point {
+        padding: 0.8rem 0.9rem;
+    }
+
+    .terms-legal-inner {
+        width: min(100% - 1.2rem, 1280px);
+    }
+
+    .terms-legal-section {
+        padding: 2.6rem 0;
+    }
+
+        /* BADGE DEL HERO:
+       se compacta para adaptarse mejor a pantallas chicas */
+    .terms-hero-badge {
+        font-size: 0.72rem;
+        padding: 0.36rem 0.68rem;
+    }
+
+    /* ACENTO DEL HERO:
+       reduce tamaño para mantener proporción visual */
+    .terms-hero-accent {
+        width: 72px;
+        height: 3px;
+        margin-bottom: 1rem;
+    }
+
+    /* BLOQUE DE CONFIANZA:
+       achica separación para mejorar la lectura en mobile */
+    .terms-hero-trust {
+        gap: 0.6rem;
+    }
+
+    /* ITEM DE CONFIANZA:
+       se vuelve más compacto sin perder legibilidad */
+    .terms-hero-trust-item {
+        font-size: 0.84rem;
+        padding: 0.5rem 0.7rem;
+    }
+
+    /* EFECTO DECORATIVO:
+       se reduce para no saturar el encabezado */
+    .terms-hero-enhanced::after {
+        width: 10rem;
+        height: 10rem;
+        top: -1rem;
+        right: -0.8rem;
+    }
+
+
+}
+

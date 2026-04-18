@@ -106,56 +106,56 @@
 <!-- ========= CONTACTO ONLINE ======== -->
 <section class="home-section home-section-dark contact-section-dark">
     <div class="container">
-       <div class="row align-items-center g-5 contact-online-layout">
+        <div class="row align-items-start g-5">
 
-    <!-- BLOQUE IZQUIERDO (40%) -->
-    <div class="col-lg-5 contact-online-info">
-        <div class="section-heading contact-section-heading">
-            <span class="home-kicker contact-dark-kicker">Atención remota</span>
-            <h2>Contacto online</h2>
-            <p>
-                Canales directos para consultas, cotizaciones y seguimiento comercial.
-            </p>
+            <!-- COLUMNA IZQUIERDA: TEXTO -->
+            <div class="col-lg-5">
+                <div class="section-heading contact-section-heading">
+                    <span class="home-kicker contact-dark-kicker">Atención remota</span>
+                    <h2>Contacto online</h2>
+                    <p>
+                        Canales directos para consultas, cotizaciones y seguimiento comercial.
+                    </p>
 
-            <p class="contact-online-extra">
-                Si necesitás ampliar la información, más abajo encontrás el formulario de consulta.
-                Esperamos tu mensaje.
-            </p>
+                    <p class="contact-online-extra">
+                        Si necesitás ampliar la información, más abajo encontrás el formulario de consulta.
+                        Esperamos tu mensaje.
+                    </p>
+                </div>
+            </div>
+
+            <!-- COLUMNA DERECHA: CARDS EN COLUMNA -->
+            <div class="col-lg-7">
+                <div class="contact-online-stack">
+
+                    <article class="feature-item contact-online-card">
+                        <h3>Teléfono</h3>
+                        <a href="tel:+541100000000" class="contact-online-link">
+                            +54 11 0000 0000
+                        </a>
+                    </article>
+
+                    <article class="feature-item contact-online-card">
+                        <h3>WhatsApp</h3>
+                        <a href="https://wa.me/5491100000000"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="contact-online-link">
+                            +54 9 11 0000 0000
+                        </a>
+                    </article>
+
+                    <article class="feature-item contact-online-card">
+                        <h3>Correo</h3>
+                        <a href="mailto:ventas@hierroyforja.com" class="contact-online-link">
+                            ventas@hierroyforja.com
+                        </a>
+                    </article>
+
+                </div>
+            </div>
+
         </div>
-    </div>
-
-    <!-- BLOQUE DERECHO (60%) -->
-    <div class="col-lg-7 contact-online-cards">
-        <div class="contact-online-stack">
-
-            <article class="feature-item contact-online-card">
-                <h3>Teléfono</h3>
-                <a href="tel:+541100000000" class="contact-online-link">
-                    +54 11 0000 0000
-                </a>
-            </article>
-
-            <article class="feature-item contact-online-card">
-                <h3>WhatsApp</h3>
-                <a href="https://wa.me/5491100000000"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   class="contact-online-link">
-                    +54 9 11 0000 0000
-                </a>
-            </article>
-
-            <article class="feature-item contact-online-card">
-                <h3>Correo</h3>
-                <a href="mailto:ventas@hierroyforja.com" class="contact-online-link">
-                    ventas@hierroyforja.com
-                </a>
-            </article>
-
-        </div>
-    </div>
-
-</div>
     </div>
 </section>
 
