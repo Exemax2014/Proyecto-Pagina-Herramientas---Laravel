@@ -17,11 +17,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- CSS PROPIO -->
-    <link rel="stylesheet" href="{{ asset('css/styleGeneral.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/styleNavbar.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/styleFooter.css') }}">       
-    <link rel="stylesheet" href="{{ asset('css/styleVistas.css') }}"> 
+    <link rel="stylesheet" href="{{ asset('Css/styleGeneral.css') }}">
+    <link rel="stylesheet" href="{{ asset('Css/styleNavbar.css') }}">
+    <link rel="stylesheet" href="{{ asset('Css/styleFooter.css') }}">       
+    <link rel="stylesheet" href="{{ asset('Css/styleVistas.css') }}"> 
+    <link rel="stylesheet" href="{{ asset('Css/styleCatalogo.css') }}">
+
+    @stack('styles')
 </head>
+
+@stack('scripts')
+
 <body class="site-body">
     <!-- NAVBAR -->
     @include('layouts.navbar')
