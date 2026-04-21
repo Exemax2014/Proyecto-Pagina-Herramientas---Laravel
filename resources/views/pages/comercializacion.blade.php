@@ -15,8 +15,13 @@
         <div class="row g-4">
             <div class="col-md-6 col-xl-3">
                 <article class="page-card h-100">
-                    <h2>Ventas directas</h2>
-                    <p>Atenci&oacute;n personalizada para resolver compras puntuales y abastecimiento frecuente.</p>
+                    <h2>Pagos y envíos</h2>
+                    <p>
+                        Consultá todos los medios de pago, formas de envío y horarios de entrega disponibles.
+                    </p>
+                    <a href="#pagos-envios" class="btn btn-dark mt-3">
+                        Ver información
+                    </a>
                 </article>
             </div>
             <div class="col-md-6 col-xl-3">
