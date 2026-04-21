@@ -66,25 +66,28 @@
     border-radius: 0.75rem;
 }
 
-/* Contenedor del enlace secundario */
-.login-register-link {
-    margin-top: 0.2rem;
+/* Texto inferior del login */
+.login-register-text {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #555;
     text-align: center;
 }
 
 /* Link a registro:
    estilo más prolijo y visible, sin parecer link genérico feo */
-.login-register-link a {
+.login-register-link {
+    margin-left: 0.2rem;
     font-size: 0.95rem;
     font-weight: 600;
-    color: var(--hf-coal);
+    color: var(--hf-highlight);
     text-decoration: none;
     transition: color 0.2s ease;
 }
 
 /* Hover del link de registro */
-.login-register-link a:hover {
-    color: var(--hf-highlight);
+.login-register-link:hover {
+    text-decoration: underline;
 }
 
 /* Alerta superior del login */
@@ -112,7 +115,8 @@
     }
 
     /* Link un poco más compacto */
-    .login-register-link a {
+    .login-register-text,
+    .login-register-link {
         font-size: 0.9rem;
     }
 }
@@ -225,34 +229,6 @@
 /* ------------------------------------- CONTACTO ----------------------------------------- */
 /* ═════════════════════════════════════════════════════════════════════════════════════════ */
 
-/* CONTENEDOR GENERAL:
-   asegura mejor alineación vertical */
-.contact-online-layout {
-    align-items: center;
-}
-
-/* BLOQUE IZQUIERDO (INFO):
-   mantiene ancho visual controlado */
-.contact-online-info {
-    display: flex;
-    align-items: center;
-}
-
-/* BLOQUE DERECHO (CARDS):
-   ocupa su espacio pero centra el contenido */
-.contact-online-cards {
-    display: flex;
-    justify-content: center; /* centra horizontalmente */
-}
-
-/* STACK DE CARDS:
-   controla ancho real dentro del 60% */
-.contact-online-stack {
-    width: 100%;
-    max-width: 520px; /* 🔥 clave: evita que se estiren demasiado */
-    margin: 0 auto;
-}
-
 /* HERO DE CONTACTO:
    amplía presencia visual y separa mejor la página del resto */
 .contact-hero-section {
@@ -338,6 +314,9 @@
     display: grid;
     gap: 1rem;
     justify-items: start;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
 }
 
 /* CARDS ONLINE:
@@ -746,21 +725,6 @@
     z-index: 0;
 }
 
- /* BLOQUE DE CONFIANZA DEL HERO:
-       ajusta el aire para tablet sin desordenar el encabezado */
-    .terms-hero-trust {
-        margin-top: 1.15rem;
-    }
-
-    /* EFECTO DECORATIVO DEL HERO:
-       reduce tamaño para no invadir el contenido */
-    .terms-hero-enhanced::after {
-        width: 14rem;
-        height: 14rem;
-        top: -1.5rem;
-        right: -1rem;
-    }
-
 /* ASEGURA QUE EL CONTENIDO QUEDE POR ENCIMA DEL EFECTO */
 .terms-hero-enhanced > * {
     position: relative;
@@ -1066,6 +1030,21 @@
 /* RESPONSIVE TABLET:
    ajusta la separación general sin romper la estructura */
 @media (max-width: 991.98px) {
+    /* BLOQUE DE CONFIANZA DEL HERO:
+       ajusta el aire para tablet sin desordenar el encabezado */
+    .terms-hero-trust {
+        margin-top: 1.15rem;
+    }
+
+    /* EFECTO DECORATIVO DEL HERO:
+       reduce tamaño para no invadir el contenido */
+    .terms-hero-enhanced::after {
+        width: 14rem;
+        height: 14rem;
+        top: -1.5rem;
+        right: -1rem;
+    }
+
     .terms-hero-row {
         margin-bottom: 0.9rem;
     }
@@ -1154,4 +1133,3 @@
 
 
 }
-

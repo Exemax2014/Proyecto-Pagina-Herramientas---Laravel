@@ -1,0 +1,433 @@
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* ----------------------------------- DETALLE PRODUCTO ----------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* PAGINA GENERAL:
+   mantiene la vista ordenada y sin desbordes laterales */
+.product-page {
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* BREADCRUMB:
+   muestra la ruta actual dentro del sitio */
+.product-breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.88rem;
+    color: var(--hf-text-muted);
+}
+
+.product-breadcrumb a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.product-breadcrumb a:hover {
+    color: var(--hf-highlight);
+}
+
+.product-breadcrumb i {
+    font-size: 0.78rem;
+    color: rgba(17, 17, 17, 0.45);
+}
+
+/* LAYOUT PRINCIPAL:
+   divide galería e información del producto */
+.product-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+    gap: 1.6rem;
+    align-items: start;
+    margin-bottom: 2.5rem;
+}
+
+/* GALERIA:
+   organiza imagen principal y miniaturas */
+.product-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.product-main-image-wrap {
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    border-radius: 1.35rem;
+}
+
+.product-main-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    background: #ece7dd;
+}
+
+/* BADGE:
+   muestra estado del producto */
+.product-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    padding: 0.4rem 0.65rem;
+    border-radius: 999px;
+    background: var(--hf-highlight);
+    color: #111111;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+}
+
+/* MINIATURAS:
+   permiten cambiar la imagen principal */
+.product-thumbs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.product-thumb {
+    border: 1px solid rgba(17, 17, 17, 0.10);
+    border-radius: 0.95rem;
+    overflow: hidden;
+    cursor: pointer;
+    background: #f3eee5;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+    padding: 0;
+}
+
+.product-thumb.active,
+.product-thumb:hover {
+    border-color: rgba(217, 164, 65, 0.55);
+    transform: translateY(-2px);
+}
+
+.product-thumb img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+}
+
+/* INFORMACION:
+   contiene textos, precio, meta y acciones */
+.product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.product-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.product-brand {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--hf-highlight);
+}
+
+.product-title {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1;
+}
+
+.product-short {
+    margin: 0;
+    color: var(--hf-text-muted);
+    line-height: 1.7;
+}
+
+/* BLOQUE DE PRECIO:
+   resalta el valor principal del producto */
+.product-price-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.product-old-price {
+    color: #8a8a8a;
+    text-decoration: line-through;
+    font-size: 0.95rem;
+}
+
+.product-price {
+    font-size: clamp(2rem, 3vw, 2.7rem);
+    color: var(--hf-coal);
+    line-height: 1;
+}
+
+/* GRID DE METADATOS:
+   muestra datos rápidos del producto */
+.product-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+}
+
+.product-meta-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.product-meta-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--hf-highlight);
+    font-weight: 700;
+}
+
+/* DESCRIPCION:
+   bloque principal de texto explicativo */
+.product-description-card {
+    padding: 1.1rem;
+    border-radius: 1rem;
+}
+
+.product-description-card h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1.15rem;
+}
+
+.product-description-card p {
+    margin: 0;
+    line-height: 1.75;
+    color: var(--hf-text-muted);
+}
+
+/* ACCIONES:
+   cantidad y botón principal */
+.product-actions {
+    display: flex;
+    gap: 0.8rem;
+    align-items: stretch;
+}
+
+.product-qty-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 130px;
+    border: 1px solid rgba(17, 17, 17, 0.12);
+    border-radius: 0.95rem;
+    background: rgba(255, 255, 255, 0.84);
+    padding: 0.2rem;
+}
+
+.product-qty-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 0;
+    background: transparent;
+    color: var(--hf-coal);
+    border-radius: 0.8rem;
+}
+
+.product-main-btn,
+.product-secondary-btn {
+    min-height: 3rem;
+}
+
+.product-main-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    flex: 1 1 auto;
+}
+
+/* BENEFICIOS:
+   pequeños bloques de apoyo comercial */
+.product-benefits {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+}
+
+.product-benefit-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.product-benefit-card i {
+    font-size: 1.35rem;
+    color: var(--hf-highlight);
+}
+
+.product-benefit-card strong {
+    display: block;
+}
+
+.product-benefit-card span {
+    display: block;
+    color: var(--hf-text-muted);
+    font-size: 0.9rem;
+}
+
+/* SECCIONES:
+   separan especificaciones y relacionados */
+.product-section {
+    margin-top: 2.6rem;
+}
+
+/* ESPECIFICACIONES:
+   organiza tarjetas de datos técnicos */
+.product-specs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.product-spec-card {
+    padding: 1.1rem;
+    border-radius: 1rem;
+}
+
+.product-spec-card h3 {
+    margin-bottom: 0.6rem;
+    font-size: 0.88rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--hf-highlight);
+}
+
+.product-spec-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.product-spec-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8rem;
+    border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+    padding-bottom: 0.35rem;
+    font-size: 0.92rem;
+}
+
+.product-spec-item strong {
+    color: var(--hf-coal);
+    text-align: right;
+}
+
+/* RELACIONADOS:
+   cards de productos similares */
+.product-related-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.product-related-card {
+    overflow: hidden;
+    padding: 0;
+    border-radius: 1.1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-related-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--hf-card-shadow-hover);
+}
+
+.product-related-card a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.product-related-image {
+    width: 100%;
+    aspect-ratio: 4 / 4.5;
+    object-fit: cover;
+    background: #ece7dd;
+}
+
+.product-related-body {
+    padding: 0.9rem;
+}
+
+.product-related-brand {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--hf-highlight);
+}
+
+.product-related-body h3 {
+    margin: 0.2rem 0 0.35rem;
+    font-size: 1rem;
+    line-height: 1.25;
+}
+
+.product-related-price {
+    font-weight: 800;
+    color: var(--hf-coal);
+}
+
+/* TABLET:
+   el detalle pasa a una sola columna y la grilla reduce densidad */
+@media (max-width: 1199.98px) {
+    .product-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .product-specs-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .product-related-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+/* MOBILE:
+   todo se adapta a una sola columna */
+@media (max-width: 575.98px) {
+    .product-thumbs {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .product-meta-grid,
+    .product-benefits,
+    .product-specs-grid,
+    .product-related-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .product-actions {
+        flex-direction: column;
+    }
+}
+
+/* CONTENEDOR DEL TITULO */
+.section-heading {
+    width: 100%;
+}
+
+/* TITULO */
+.section-heading h2 {
+    width: 100%;
+    white-space: nowrap;
+}

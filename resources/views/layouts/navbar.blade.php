@@ -65,8 +65,11 @@
                  ICONOS + BOTON HAMBURGUESA
                  ========================================= -->
             <div class="navbar-actions">
-                <a href="{{ route('catalogo') }}" class="text-white fs-5 navbar-icon-link" aria-label="Catálogo">
+                <a href="{{ route('carrito') }}" class="text-white fs-5 navbar-icon-link navbar-cart-link position-relative" aria-label="Carrito">
                     <i class="bi bi-cart"></i>
+                    <span data-cart-count class="navbar-cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                        0
+                    </span>
                 </a>
 
                 <div class="dropdown">

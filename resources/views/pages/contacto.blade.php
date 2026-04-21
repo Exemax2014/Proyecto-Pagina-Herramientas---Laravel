@@ -1,12 +1,13 @@
 @extends('layouts.app')
 
+@section('title', 'Contacto | Hierro & Forja')
+
 @section('contenido')
 <section class="hero-home contact-hero-section">
     <div class="container">
         <div class="row align-items-center g-5">
             <!-- ======== HERO: TEXTO PRINCIPAL ======== -->
             <div class="col-lg-7">
-                <span class="home-kicker">Canales de atención</span>
                 <h1 class="hero-title">Estamos para responder cada consulta.</h1>
                 <p class="hero-copy">
                     En Hierro &amp; Forja trabajamos con atención comercial directa para ayudarte con consultas generales,

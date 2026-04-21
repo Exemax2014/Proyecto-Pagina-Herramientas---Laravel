@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Términos y condiciones | Hierro & Forja')
+
 @section('contenido')
 <section class="page-section terms-page">
     <div class="container">

@@ -1,0 +1,431 @@
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* --------------------------------------- CARRITO ---------------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* PAGINA GENERAL:
+   mantiene la vista ordenada y sin desbordes */
+.cart-page {
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* HERO:
+   presenta el paso actual de compra */
+.cart-hero {
+    margin-bottom: 1.5rem;
+}
+
+.cart-hero-inline {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.cart-hero-inline .home-kicker {
+    margin: 0;
+    white-space: nowrap;
+}
+
+.cart-hero-copy {
+    margin: 0;
+    color: var(--hf-text-muted);
+    line-height: 1.6;
+}
+
+/* LAYOUT PRINCIPAL:
+   divide listado y resumen lateral */
+.cart-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+    gap: 1.5rem;
+    align-items: start;
+}
+
+/* COLUMNA PRINCIPAL:
+   agrupa secciones del pedido */
+.cart-main {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* SIDEBAR:
+   mantiene el resumen visible */
+.cart-sidebar {
+    position: sticky;
+    top: 6.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* SECCIONES:
+   separan visualmente productos y formulario */
+.cart-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.cart-section-heading {
+    margin-bottom: 0;
+    max-width: 48rem;
+}
+
+/* WRAP DE ITEMS:
+   organiza los productos del carrito */
+.cart-items-wrap {
+    display: grid;
+    gap: 1rem;
+}
+
+/* ITEM DEL CARRITO:
+   estructura cada producto */
+.cart-item-card {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 1.15rem;
+}
+
+.cart-item-media {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 0.95rem;
+    overflow: hidden;
+    background: #ece7dd;
+}
+
+.cart-item-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* INFO DEL ITEM:
+   nombre, marca y controles */
+.cart-item-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+}
+
+.cart-item-brand {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--hf-highlight);
+}
+
+.cart-item-body h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.25;
+}
+
+.cart-item-meta {
+    margin: 0;
+    color: var(--hf-text-muted);
+    line-height: 1.6;
+    font-size: 0.92rem;
+}
+
+/* ACCIONES DEL ITEM:
+   cantidad y eliminar */
+.cart-item-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-top: 0.4rem;
+}
+
+.cart-qty-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 120px;
+    border: 1px solid rgba(17, 17, 17, 0.12);
+    border-radius: 0.9rem;
+    background: rgba(255, 255, 255, 0.84);
+    padding: 0.15rem;
+}
+
+.cart-qty-btn {
+    width: 2.2rem;
+    height: 2.2rem;
+    border: 0;
+    background: transparent;
+    border-radius: 0.75rem;
+    color: var(--hf-coal);
+}
+
+.cart-remove-btn {
+    border: 0;
+    background: transparent;
+    color: #9b2f2f;
+    font-weight: 700;
+    padding: 0;
+}
+
+/* PRECIO DEL ITEM:
+   muestra total y unitario */
+.cart-item-price {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 110px;
+}
+
+.cart-item-price strong {
+    font-size: 1.1rem;
+    color: var(--hf-coal);
+}
+
+.cart-item-price span {
+    font-size: 0.8rem;
+    color: var(--hf-text-muted);
+}
+
+/* CARRITO VACIO:
+   se muestra si no hay productos */
+.cart-empty-state {
+    text-align: center;
+    padding: 2rem;
+    border-radius: 1.2rem;
+}
+
+.cart-empty-state i {
+    font-size: 2rem;
+    color: var(--hf-highlight);
+    margin-bottom: 0.8rem;
+}
+
+.cart-empty-state h3 {
+    margin-bottom: 0.4rem;
+}
+
+/* FORMULARIO:
+   datos del cliente y entrega */
+.cart-form-card {
+    padding: 1.25rem;
+    border-radius: 1.15rem;
+}
+
+.cart-form {
+    display: grid;
+    gap: 1rem;
+}
+
+.cart-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.cart-form-field {
+    display: grid;
+    gap: 0.4rem;
+}
+
+.cart-form-field-full {
+    grid-column: 1 / -1;
+}
+
+.cart-form-field label {
+    font-weight: 700;
+    color: var(--hf-coal);
+}
+
+.cart-form-field .form-control {
+    border: 1px solid rgba(17, 17, 17, 0.12);
+    border-radius: 0.9rem;
+    background: rgba(244, 239, 231, 0.75);
+    min-height: 3rem;
+}
+
+.cart-form-field textarea.form-control {
+    min-height: 130px;
+    resize: vertical;
+}
+
+/* RESUMEN:
+   bloque lateral del total */
+.cart-summary-card {
+    padding: 1.25rem;
+    border-radius: 1.15rem;
+}
+
+.cart-summary-head {
+    margin-bottom: 1rem;
+}
+
+.cart-summary-head h2 {
+    margin-bottom: 0.35rem;
+}
+
+.cart-summary-head p {
+    margin: 0;
+    color: var(--hf-text-muted);
+    line-height: 1.6;
+}
+
+.cart-summary-lines {
+    display: grid;
+    gap: 0.7rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(17, 17, 17, 0.10);
+}
+
+.cart-summary-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+}
+
+.cart-summary-line span {
+    color: var(--hf-text-muted);
+}
+
+.cart-summary-total {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: end;
+    margin-bottom: 1rem;
+}
+
+.cart-summary-total strong {
+    font-size: 1.5rem;
+    color: var(--hf-coal);
+}
+
+/* METODOS DE PAGO:
+   opciones visuales preparadas para backend */
+.cart-payment-methods {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.cart-payment-methods h3 {
+    margin: 0 0 0.2rem;
+    font-size: 0.88rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--hf-highlight);
+}
+
+.cart-payment-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(17, 17, 17, 0.10);
+    border-radius: 0.95rem;
+    background: rgba(255, 255, 255, 0.72);
+    cursor: pointer;
+}
+
+.cart-payment-option input {
+    margin-top: 0.2rem;
+}
+
+.cart-payment-option strong {
+    display: block;
+}
+
+.cart-payment-option span {
+    display: block;
+    color: var(--hf-text-muted);
+    font-size: 0.9rem;
+}
+
+/* ACCIONES DEL RESUMEN:
+   botones principales */
+.cart-summary-actions {
+    display: grid;
+    gap: 0.7rem;
+}
+
+.cart-confirm-btn,
+.cart-continue-btn {
+    min-height: 3rem;
+}
+
+.cart-summary-note {
+    margin: 1rem 0 0;
+    color: var(--hf-text-muted);
+    line-height: 1.6;
+    font-size: 0.9rem;
+}
+
+/* BENEFICIOS:
+   pequeños bloques de confianza */
+.cart-benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+}
+
+.cart-benefit-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.cart-benefit-card i {
+    font-size: 1.35rem;
+    color: var(--hf-highlight);
+}
+
+.cart-benefit-card strong {
+    display: block;
+}
+
+.cart-benefit-card span {
+    display: block;
+    color: var(--hf-text-muted);
+    font-size: 0.9rem;
+}
+
+/* TABLET:
+   resumen baja y el formulario compacta */
+@media (max-width: 1199.98px) {
+    .cart-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .cart-sidebar {
+        position: static;
+    }
+}
+
+/* MOBILE:
+   items y formulario se apilan mejor */
+@media (max-width: 575.98px) {
+    .cart-item-card {
+        grid-template-columns: 1fr;
+    }
+
+    .cart-item-price {
+        text-align: left;
+    }
+
+    .cart-form-grid,
+    .cart-benefits-grid {
+        grid-template-columns: 1fr;
+    }
+}

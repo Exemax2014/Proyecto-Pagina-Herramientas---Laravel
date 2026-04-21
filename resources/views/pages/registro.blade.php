@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Registro | Hierro & Forja')
+
 @section('contenido')
 <section class="page-section">
     <div class="container">

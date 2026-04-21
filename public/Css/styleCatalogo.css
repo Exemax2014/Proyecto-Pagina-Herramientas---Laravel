@@ -1,0 +1,566 @@
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* -------------------------------------- CATALOGO ---------------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* PAGINA GENERAL:
+   organiza la vista y evita desbordes laterales */
+.catalog-page {
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* HERO DEL CATALOGO:
+   mantiene el encabezado corto, limpio y bien alineado */
+.catalog-hero {
+    margin-bottom: 1.5rem;
+}
+
+.catalog-hero-compact {
+    padding-bottom: 0.25rem;
+}
+
+/* HERO EN LINEA:
+   deja el kicker y la descripción uno al lado del otro */
+.catalog-hero-inline {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.catalog-hero-inline .home-kicker {
+    margin: 0;
+    white-space: nowrap;
+}
+
+.catalog-hero-copy {
+    margin: 0;
+    color: var(--hf-text-muted);
+    line-height: 1.6;
+}
+
+/* BARRA SUPERIOR:
+   usa flex para que todos los campos se reduzcan juntos
+   y el buscador mantenga siempre mayor ancho */
+.catalog-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+/* BOTON DE FILTROS MOBILE:
+   oculto en escritorio y visible en tablet/mobile */
+.catalog-filter-toggle {
+    display: none;
+    align-items: center;
+    gap: 0.45rem;
+    white-space: nowrap;
+    flex: 0 0 auto;
+}
+
+/* BUSCADOR:
+   siempre ocupa más espacio que los selects */
+.catalog-search-wrap {
+    position: relative;
+    min-width: 0;
+    flex: 4 1 0;
+}
+
+.catalog-search-wrap i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b6b6b;
+    pointer-events: none;
+}
+
+.catalog-search-input {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.8rem 1rem 0.8rem 2.8rem;
+    border: 1px solid rgba(17, 17, 17, 0.12);
+    border-radius: 0.95rem;
+    background: rgba(255, 255, 255, 0.84);
+    color: var(--hf-coal);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.catalog-search-input:focus {
+    border-color: rgba(217, 164, 65, 0.55);
+    box-shadow: 0 0 0 0.2rem rgba(217, 164, 65, 0.16);
+}
+
+/* SELECTS DE ORDEN:
+   ocupan menos espacio que el buscador y se adaptan junto a él */
+.catalog-sort-select {
+    min-width: 0;
+    min-height: 3rem;
+    border-radius: 0.95rem;
+    flex: 1 1 0;
+}
+
+/* LAYOUT PRINCIPAL:
+   divide filtros y productos */
+.catalog-layout {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 1.25rem;
+    align-items: start;
+}
+
+/* SIDEBAR:
+   mantiene filtros visibles en escritorio */
+.catalog-sidebar {
+    position: sticky;
+    top: 6.5rem;
+}
+
+/* CARD DE FILTROS:
+   compacta, clara y acorde al resto del sitio */
+.catalog-filter-card {
+    padding: 1rem;
+    border-radius: 1.1rem;
+}
+
+/* CABECERA DE FILTROS:
+   alinea título y cierre mobile */
+.catalog-filter-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.catalog-filter-head h2 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+/* BOTON DE CIERRE:
+   aparece solo en mobile */
+.catalog-filter-close {
+    display: none;
+    border: 0;
+    background: transparent;
+    color: var(--hf-coal);
+    font-size: 1rem;
+}
+
+/* GRUPOS DE FILTRO:
+   separa visualmente cada bloque de filtros */
+.catalog-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 1.15rem;
+}
+
+.catalog-filter-group h3 {
+    margin: 0 0 0.15rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--hf-highlight);
+}
+
+/* CHECKS Y RADIOS:
+   todos los items quedan alineados y compactos */
+.catalog-check,
+.catalog-radio {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    cursor: pointer;
+    color: var(--hf-text-muted);
+    font-size: 0.94rem;
+    margin: 0;
+    line-height: 1.35;
+}
+
+.catalog-check input,
+.catalog-radio input {
+    margin: 0;
+    flex-shrink: 0;
+}
+
+/* PRECIO:
+   ordena extremos y valor visible */
+.catalog-price-values {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.88rem;
+}
+
+.catalog-price-values strong {
+    color: var(--hf-coal);
+}
+
+/* ACCIONES DE FILTRO:
+   deja el botón limpiar ocupando el ancho disponible */
+.catalog-filter-actions {
+    display: grid;
+}
+
+/* MAIN:
+   evita desbordes del contenido */
+.catalog-main {
+    min-width: 0;
+}
+
+/* GRILLA:
+   distribuye productos de forma pareja */
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.15rem;
+}
+
+/* CARD DE PRODUCTO:
+   estructura limpia con hover suave */
+.catalog-product-card {
+    overflow: hidden;
+    padding: 0;
+    border-radius: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.catalog-product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--hf-card-shadow-hover);
+}
+
+/* IMAGEN DEL PRODUCTO:
+   mantiene proporción y recorte prolijo */
+.catalog-product-media {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #ece7dd;
+}
+
+.catalog-product-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+}
+
+.catalog-product-card:hover .catalog-product-media img {
+    transform: scale(1.05);
+}
+
+/* ETIQUETAS:
+   muestran estados del producto */
+.catalog-product-badge {
+    position: absolute;
+    top: 0.85rem;
+    left: 0.85rem;
+    padding: 0.35rem 0.55rem;
+    border-radius: 999px;
+    background: var(--hf-highlight);
+    color: #111111;
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+}
+
+.catalog-product-badge-dark {
+    background: #111111;
+    color: #ffffff;
+}
+
+.catalog-product-badge-soft {
+    background: rgba(255, 255, 255, 0.9);
+    color: #111111;
+}
+
+/* BOTON FLOTANTE:
+   preparado para futura acción de carrito */
+.catalog-product-action {
+    position: absolute;
+    right: 0.85rem;
+    bottom: 0.85rem;
+    width: 2.6rem;
+    height: 2.6rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.94);
+    color: var(--hf-coal);
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.12);
+    transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.catalog-product-action:hover {
+    transform: translateY(-2px);
+    background: var(--hf-highlight);
+    color: #111111;
+}
+
+/* CUERPO DEL PRODUCTO:
+   organiza marca, título, texto y precio */
+.catalog-product-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    padding: 0.95rem 0.95rem 1rem;
+    flex: 1 1 auto;
+}
+
+.catalog-product-brand {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--hf-highlight);
+}
+
+.catalog-product-body h3 {
+    margin: 0;
+    font-size: 1.02rem;
+    line-height: 1.25;
+}
+
+.catalog-product-body p {
+    margin: 0;
+    color: var(--hf-text-muted);
+    line-height: 1.55;
+    font-size: 0.9rem;
+}
+
+/* PRECIO:
+   cierra la card con jerarquía clara */
+.catalog-product-footer {
+    margin-top: auto;
+    padding-top: 0.35rem;
+}
+
+.catalog-product-price {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.catalog-product-price small {
+    color: #8a8a8a;
+    text-decoration: line-through;
+    font-size: 0.8rem;
+}
+
+.catalog-product-price strong {
+    font-size: 1.16rem;
+    color: var(--hf-coal);
+}
+
+/* ESTADO VACIO:
+   aparece cuando no hay coincidencias */
+.catalog-empty-card {
+    padding: 2rem;
+    text-align: center;
+    border-radius: 1.2rem;
+}
+
+.catalog-empty-card i {
+    font-size: 2rem;
+    color: var(--hf-highlight);
+    margin-bottom: 0.8rem;
+}
+
+.catalog-empty-card h3 {
+    margin-bottom: 0.35rem;
+}
+
+/* PAGINADO:
+   visual simple para navegación futura */
+.catalog-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.55rem;
+    margin-top: 1.6rem;
+    flex-wrap: wrap;
+}
+
+.catalog-page-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid rgba(17, 17, 17, 0.12);
+    border-radius: 0.8rem;
+    background: rgba(255, 255, 255, 0.84);
+    color: var(--hf-coal);
+    font-weight: 700;
+    transition: 0.2s ease;
+}
+
+.catalog-page-btn:hover,
+.catalog-page-btn.active {
+    background: var(--hf-highlight);
+    border-color: var(--hf-highlight);
+    color: #111111;
+}
+
+/* CONTENEDOR DE COLUMNAS DE FILTROS:
+   por defecto queda en una sola columna para escritorio */
+.catalog-filter-columns {
+    display: block;
+}
+
+/* CONTENEDOR DE MARCAS GENERADAS:
+   mantiene la misma separación que los otros filtros */
+#brandFilters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+/* TABLET GRANDE:
+   reduce la grilla y mantiene el buscador dominante */
+@media (max-width: 1199.98px) {
+    .catalog-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .catalog-search-wrap {
+        flex: 3.4 1 0;
+    }
+
+    .catalog-sort-select {
+        flex: 1 1 0;
+    }
+}
+
+/* TABLET CHICA:
+   el bloque de filtros se convierte en panel desplegable dentro del flujo */
+@media (max-width: 991.98px) {
+    .catalog-layout {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .catalog-filter-toggle {
+        display: inline-flex;
+    }
+
+    .catalog-search-wrap {
+        flex: 3 1 0;
+    }
+
+    .catalog-sort-select {
+        flex: 1 1 0;
+    }
+
+    .catalog-filter-card {
+        border-radius: 1rem;
+    }
+
+    /* SIDEBAR RESPONSIVE:
+       deja de ser lateral fijo y pasa a mostrarse debajo de la toolbar */
+    .catalog-sidebar {
+        position: static;
+        width: 100%;
+        top: auto;
+        display: none;
+        padding: 0;
+        background: transparent;
+        transform: none;
+        height: auto;
+        z-index: auto;
+    }
+
+    /* ESTADO ABIERTO:
+       muestra filtros empujando la grilla hacia abajo */
+    .catalog-sidebar.is-open {
+        display: block;
+    }
+
+    /* TARJETA INTERNA:
+       mantiene el diseño pero ya no ocupa toda la altura de pantalla */
+    .catalog-filter-card {
+        height: auto;
+        overflow: visible;
+    }
+
+    /* BOTON CERRAR:
+       sigue visible en responsive para contraer el bloque */
+    .catalog-filter-close {
+        display: inline-flex;
+    }
+
+    /* SIDEBAR DESPLEGABLE:
+        agrega una pequeña separación cuando aparece bajo la toolbar */
+    .catalog-sidebar.is-open {
+        margin-bottom: 0.25rem;
+    }
+    /* FILTROS DESPLEGADOS EN RESPONSIVE:
+        organiza categoría, marca y energía en columnas solo cuando el panel aparece */
+    .catalog-sidebar.is-open .catalog-filter-columns {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem 1.2rem;
+        align-items: start;
+        margin-bottom: 1rem;
+    }
+
+    /* PRECIO EN RESPONSIVE:
+    queda debajo de las tres columnas */
+    .catalog-sidebar.is-open .catalog-filter-group-price {
+        margin-bottom: 1rem;
+    }
+}
+
+/* MOBILE:
+   recién acá se apila la barra superior */
+@media (max-width: 575.98px) {
+    .catalog-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .catalog-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .catalog-search-wrap,
+    .catalog-sort-select {
+        width: 100%;
+        flex: initial;
+    }
+
+    .catalog-hero-inline {
+        align-items: flex-start;
+        gap: 0.55rem;
+        flex-direction: column;
+    }
+
+    .catalog-product-body {
+        padding: 0.9rem;
+    }
+
+    .catalog-product-price strong {
+        font-size: 1.08rem;
+    }
+    /* FILTROS EN MOBILE CHICO:
+   vuelven a una sola columna para que no se rompa el contenido */
+    .catalog-sidebar.is-open .catalog-filter-columns {
+        grid-template-columns: 1fr;
+    }
+
+    /* CARD CLICKEABLE:
+    indica visualmente que toda la tarjeta abre el detalle */
+    .catalog-product-card {
+        cursor: pointer;
+    }
+
+
+}

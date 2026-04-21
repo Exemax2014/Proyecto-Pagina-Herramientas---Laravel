@@ -262,3 +262,44 @@
         gap: 0.4rem;
     }
 }
+
+/* LINK DEL CARRITO:
+   evita subrayados y mantiene apariencia limpia */
+.navbar-cart-link {
+    text-decoration: none !important;
+}
+
+/* ESTADOS DEL LINK DEL CARRITO:
+   mantiene el ícono limpio en hover y focus */
+.navbar-cart-link:hover,
+.navbar-cart-link:focus,
+.navbar-cart-link:active {
+    text-decoration: none !important;
+}
+
+/* CONTADOR DEL CARRITO:
+   badge amarillo posicionado sobre el ícono */
+.navbar-cart-count {
+    position: absolute; /* ← CLAVE */
+    top: -6px;
+    right: -8px;
+
+    background: var(--hf-highlight);
+    color: #111111;
+
+    font-size: 0.65rem;
+    font-weight: 800;
+
+    min-width: 18px;
+    height: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 999px;
+    padding: 0 4px;
+
+    border: 2px solid #fff; /* opcional pero queda mejor */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}

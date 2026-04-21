@@ -1,0 +1,632 @@
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* ---------------------------------------- HOME ------------------------------------------ */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* HERO PRINCIPAL:
+   usa imagen real de fondo y mantiene el contenido más cargado a la izquierda */
+.home-hero {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background:
+        linear-gradient(90deg, rgba(17, 17, 17, 0.84) 0%, rgba(17, 17, 17, 0.66) 34%, rgba(17, 17, 17, 0.36) 58%, rgba(17, 17, 17, 0.16) 100%),
+        url('/img/fondo-index.jpg') center center / cover no-repeat;
+}
+
+/* CAPA SUPERIOR DEL HERO:
+   agrega profundidad sin tapar demasiado la imagen */
+.home-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at top right, rgba(217, 164, 65, 0.14), transparent 30%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.12));
+    pointer-events: none;
+}
+
+/* CONTENIDO DEL HERO:
+   controla ancho y legibilidad del texto */
+.home-hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 40rem;
+    color: var(--hf-white);
+    padding: 5rem 0;
+    margin-left: 5rem;
+}
+
+.home-hero-content h1 {
+    margin: 0 0 1rem;
+    font-family: "Oswald", sans-serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 0.92;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+}
+
+.home-hero-content p {
+    max-width: 34rem;
+    margin: 0;
+    font-size: 1.15rem;
+    line-height: 1.75;
+    color: rgba(248, 245, 239, 0.82);
+}
+
+/* ACCIONES DEL HERO:
+   mantiene botones principales alineados */
+.home-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 2rem;
+}
+
+/* BLOQUE DE MARCAS:
+   más fino, limpio y sin texto extra */
+.home-brands {
+    padding: 0.5rem 0 0.5rem;
+    background: rgba(231, 221, 198, 0.744);/* FONDO MÁS CLARO */
+    border-top: 1px solid rgba(17, 17, 17, 0.04);
+    border-bottom: 1px solid rgba(17, 17, 17, 0.05);
+}
+
+/* LISTADO DE MARCAS:
+   líneas de separación más claras y bloque unificado */
+.home-brands-list {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.2rem; /* separación leve entre botones */
+}
+
+.home-brand-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0.45rem 0.8rem;
+    text-decoration: none;
+    background: rgba(17, 17, 17, 0.06); /* COLOR MÁS OPACO */
+    border: 2px solid rgba(17, 17, 17, 0.08);/* BORDE MÁS FINO Y SUAVE */
+    border-radius: 0.6rem;
+    color: rgba(17, 17, 17, 0.55);
+    transition: all 0.2s ease;
+}
+
+.home-brand-link:last-child {
+    border-right: 0;
+}
+
+.home-brand-link:hover {
+    background: rgba(217, 164, 65, 0.12);
+    border-color: rgba(88, 84, 63, 0.35);
+    color: var(--hf-highlight);
+}
+
+.home-brand {
+    font-family: "Oswald", sans-serif;
+    font-size: 1.18rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+/* CATEGORIAS:
+   bloque principal con jerarquía visual y fondos por imagen */
+.home-categories {
+    padding: 2rem 0;
+}
+
+/* GRILLA JERARQUICA:
+   ordena categorías según importancia */
+.home-categories-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: 170px;
+    gap: 1rem;
+
+    width: calc(100% + 4rem);
+    margin-left: -2rem;
+}
+
+/* TARJETA BASE:
+   usa variable CSS para la imagen y agrega overlay profesional */
+.category-card {
+    position: relative;
+    display: flex;
+    align-items: end;
+    justify-content: start;
+    padding: 1.6rem;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--hf-white);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: var(--hf-card-shadow);
+    isolation: isolate;
+    transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
+}
+
+/* CAPA DE IMAGEN:
+   usa la imagen cargada desde JS */
+.category-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background-image: var(--category-image);
+    background-size: cover;
+    background-position: center;
+    transform: scale(1);
+    transition: transform 0.45s ease;
+}
+
+/* CAPA OSCURA:
+   da contraste al texto */
+.category-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.58)),
+        radial-gradient(circle at top right, rgba(217, 164, 65, 0.18), transparent 30%);
+    transition: background-color 0.3s ease;
+}
+
+/* HOVER:
+   zoom suave y más luz */
+.category-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--hf-card-shadow-hover);
+    border-color: rgba(217, 164, 65, 0.28);
+    color: var(--hf-white);
+}
+
+.category-card:hover::before {
+    transform: scale(1.08);
+}
+
+.category-card:hover::after {
+    background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.42)),
+        radial-gradient(circle at top right, rgba(217, 164, 65, 0.24), transparent 30%);
+}
+
+/* TEXTO:
+   más grande, más pro y mejor legibilidad */
+.category-card span {
+    position: relative;
+    z-index: 2;
+    font-family: "Oswald", sans-serif;
+    font-size: clamp(1.7rem, 2.6vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    line-height: 0.95;
+    color: #ffffff;
+    text-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+    transition: transform 0.22s ease;
+}
+
+.category-card:hover span {
+    transform: translateY(-3px);
+}
+
+/* TAMAÑOS SEGUN IMPORTANCIA */
+.category-card-large {
+    grid-column: span 2;
+    grid-row: span 2;
+    min-height: 100%;
+}
+
+.category-card-medium {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.category-card-small {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+/* OFERTAS DESTACADAS:
+   usa cards visuales conectadas al catálogo */
+.home-offers {
+    padding: 1rem 0 4rem;
+    background: rgba(231, 221, 198, 0.744);/* FONDO MÁS CLARO */
+}
+
+.home-products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.2rem;
+}
+
+/* LINK INTERNO DE LA CARD:
+   hace toda la card clickeable */
+.home-product-link {
+    display: block;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+}
+
+.home-product-media {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #ece7dd;
+    border-radius: 1.2rem 1.2rem 0 0;
+}
+
+.home-product-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+}
+
+.catalog-product-card:hover .home-product-media img {
+    transform: scale(1.05);
+}
+
+.home-product-badge {
+    position: absolute;
+    top: 0.85rem;
+    left: 0.85rem;
+    padding: 0.35rem 0.55rem;
+    border-radius: 999px;
+    background: var(--hf-highlight);
+    color: #111111;
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+}
+
+.home-product-body {
+    padding: 1rem;
+}
+
+.home-product-brand {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--hf-highlight);
+}
+
+.home-product-body h3 {
+    margin: 0 0 0.45rem;
+    font-family: "Oswald", sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--hf-coal);
+}
+
+.home-product-price-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 0.45rem;
+}
+
+.home-product-price {
+    font-size: 1.18rem;
+    font-weight: 800;
+    color: var(--hf-coal);
+}
+
+.home-product-old-price {
+    font-size: 0.82rem;
+    color: #868686;
+    text-decoration: line-through;
+}
+
+/* POR QUE ELEGIRNOS EN OSCURO:
+   bloque más fino, más liviano y con mejor aire visual */
+.home-benefits-dark {
+    margin-top: 1.5rem;
+    padding: 1rem 0 2rem;
+    background:
+        radial-gradient(circle at top right, rgba(217, 164, 65, 0.10), transparent 28%),
+        linear-gradient(135deg, #0f0f0f 0%, #181818 60%, #221d18 100%);
+    color: var(--hf-white);
+}
+
+/* COLUMNA IZQUIERDA:
+   limita mejor el texto para que no se vea tan ancho */
+.home-benefits-dark .section-heading,
+.home-benefits-dark .col-lg-6:first-child {
+    max-width: 36rem;
+}
+
+/* KICKER DEL BLOQUE:
+   mantiene contraste pero más sutil */
+.home-benefits-dark .home-kicker {
+    color: var(--hf-highlight-soft);
+    margin-bottom: 0.75rem;
+}
+
+/* TITULO:
+   un poco más compacto */
+.home-benefits-dark h2 {
+    color: var(--hf-white);
+    max-width: 18ch;
+    margin-bottom: 0.8rem;
+}
+
+/* TEXTO:
+   menos ancho y con mejor lectura */
+.home-benefits-dark p {
+    color: rgba(248, 245, 239, 0.76);
+    max-width: 34rem;
+    line-height: 1.65;
+    font-size: 1rem;
+}
+
+/* STACK DERECHO:
+   menos separación entre tarjetas */
+.home-benefits-dark .feature-stack {
+    gap: 0.6em;
+}
+
+/* TARJETAS DERECHAS:
+   más finas, menos altas y más elegantes */
+.home-benefits-dark .feature-item {
+    padding: 1.1rem 1.25rem;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.home-benefits-dark .feature-item:hover {
+    transform: translateY(-3px);
+    border-color: rgba(217, 164, 65, 0.28);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* TITULOS DE TARJETAS:
+   más finos y menos aparatosos */
+.home-benefits-dark .feature-item h3 {
+    color: var(--hf-highlight);
+    margin-bottom: 0.2rem;
+    font-size: 1.35rem;
+    line-height: 1.05;
+}
+
+/* TEXTO DE TARJETAS:
+   más compacto */
+.home-benefits-dark .feature-item p {
+    max-width: 100%;
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.5;
+}
+
+/* BOTON:
+   más limpio y menos pesado */
+.home-benefits-dark .btn-outline-warning {
+    border-color: var(--hf-highlight);
+    color: var(--hf-highlight);
+    padding-inline: 1rem;
+}
+
+.home-benefits-dark .btn-outline-warning:hover {
+    background: var(--hf-highlight);
+    color: #111111;
+}
+
+/* CTA FINAL:
+   bloque comercial con titulo en toda la fila y parte inferior en dos columnas */
+.home-cta {
+    padding: 5.5rem 0 4rem;
+}
+
+.home-cta-box {
+    display: flex;
+    margin: 2rem 2rem 2rem 2rem; /* top right bottom left */
+    flex-direction: column;
+    gap: 0.85rem;
+    overflow: hidden;
+    padding: 2.4rem 2.3rem;
+    border-radius: 1.6rem;
+    background:
+        radial-gradient(circle at top right, rgba(217, 164, 65, 0.14), transparent 28%),
+        linear-gradient(135deg, #151515 0%, #24201b 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: var(--hf-shadow);
+    color: var(--hf-white);
+}
+
+/* KICKER DEL CTA:
+   pequeña etiqueta superior */
+.home-cta-kicker {
+    color: var(--hf-highlight-soft);
+    margin-bottom: 0;
+}
+
+/* TITULO:
+   ocupa toda la fila y queda alineado a la izquierda */
+.home-cta-title {
+    margin: 0;
+    width: 100%;
+    font-family: "Oswald", sans-serif;
+    font-size: clamp(2rem, 3.2vw, 3.15rem);
+    line-height: 0.98;
+    text-transform: uppercase;
+    color: var(--hf-white);
+}
+
+/* FILA INFERIOR:
+   divide texto y botón en dos columnas */
+.home-cta-bottom {
+    display: grid;
+    grid-template-columns: 1fr 240px;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* TEXTO DESCRIPTIVO:
+   queda abajo a la izquierda */
+.home-cta-copy {
+    max-width: 46rem;
+}
+
+.home-cta-copy p {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgba(248, 245, 239, 0.75);
+    text-align: left;
+}
+
+/* ACCIONES:
+   el botón se alinea a la derecha */
+.home-cta-actions {
+    display: flex;
+    justify-content: center; /* siempre centrado */
+    align-items: center;
+}
+
+/* BOTON DEL CTA:
+   más chico y más prolijo */
+.btn-cta {
+    padding: 0.65rem 1.4rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 0.6rem;
+    white-space: nowrap;
+}
+
+/* RESPONSIVE MOBILE */
+@media (max-width: 575.98px) {
+    .home-categories-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 150px;
+    }
+
+    .category-card {
+        min-height: 150px;
+        padding: 1.2rem;
+    }
+
+    .category-card span {
+        font-size: 1.5rem;
+    }
+     .home-cta-box {
+        padding: 1.6rem;
+    }
+
+    .home-cta-title {
+        font-size: 1.9rem;
+    }
+
+    .home-cta-copy p {
+        font-size: 0.94rem;
+        line-height: 1.6;
+    }
+}
+
+/* RESPONSIVE TABLET:
+   adapta jerarquías y reduce columnas */
+@media (max-width: 991.98px) {
+    .home-hero {
+        min-height: 68vh;
+    }
+
+    .home-brands-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .home-categories-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: 150px;
+    }
+
+    .home-categories-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: 160px;
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .category-card-large,
+    .category-card-medium,
+    .category-card-small {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+
+    .home-products-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .home-cta {
+        padding: 4.5rem 0 4rem;
+    }
+
+    .home-cta-bottom {
+        grid-template-columns: 1fr;
+    }
+
+    .home-cta-actions {
+        justify-content: center; /* mantiene centrado en mobile */
+        margin-top: 1rem;
+    }
+}
+
+/* RESPONSIVE GRILLA*/
+@media (min-width: 1200px) {
+    .home-categories-grid {
+        width: calc(100% + 6rem);
+        margin-left: -3rem;
+    }
+}
+
+/* RESPONSIVE MOBILE:
+   simplifica la composición sin perder presencia */
+@media (max-width: 575.98px) {
+    .home-hero {
+        min-height: 62vh;
+    }
+
+    .home-hero-actions .btn {
+        width: 100%;
+    }
+
+    .home-brands-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .home-brand-link {
+        min-height: 74px;
+    }
+
+    .home-brand {
+        font-size: 1.08rem;
+    }
+
+    .home-categories-grid,
+    .home-products-grid {
+        grid-template-columns: 1fr;
+    }
+    .home-product-body {
+        padding: 0.9rem;
+    }
+
+    .home-cta-box {
+        padding: 1.6rem;
+    }
+
+    .home-cta-actions .btn {
+        width: 100%;
+    }
+}
