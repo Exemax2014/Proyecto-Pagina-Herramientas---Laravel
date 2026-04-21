@@ -2,99 +2,218 @@
    FOOTER
    ========================================================================== */
 
-/* Contenedor general del pie de página */
-footer {
-    background-color: var(--hf-graphite);
+/* CONTENEDOR GENERAL:
+   reduce altura, mejora terminación y evita que quede pegado arriba */
+.footer-main {
+    margin-top: 1rem;
+    padding: 1.8rem 0 1rem;
+    background:
+        radial-gradient(circle at top right, rgba(217, 164, 65, 0.07), transparent 28%),
+        linear-gradient(135deg, #1a1f26 0%, #20262e 100%);
     color: var(--hf-white);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Cada columna interna ocupa toda la altura disponible */
+/* FILA SUPERIOR:
+   menos altura general y mejor distribución */
+.footer-columns {
+    margin-bottom: 1rem;
+    row-gap: 1.2rem;
+}
+
+/* CADA BLOQUE:
+   ocupa toda la altura disponible */
 .footer-section {
     height: 100%;
 }
 
-/* Títulos del footer:
-   comparten tipografía destacada y mayúsculas */
-.footer-title,
-.footer-subtitle {
-    margin-bottom: 1rem;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    display: inline-block;
-    position: relative;
-    padding-bottom: 0.5rem;
+/* COLUMNA PRINCIPAL:
+   deja el bloque institucional con mejor presencia */
+.footer-brand-col {
+    padding-right: 2rem;
 }
 
+/* BLOQUE DE MARCA:
+   limita el ancho del texto para que no se desparrame */
+.footer-brand-block {
+    max-width: 21rem;
+}
+
+/* TÍTULOS:
+   comparten tipografía marcada y subtítulo decorativo */
+.footer-title,
+.footer-subtitle {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.45rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+/* LÍNEA DECORATIVA */
 .footer-title::after,
 .footer-subtitle::after {
     content: "";
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 5rem;
-    height: 0.25rem;
+    width: 4rem;
+    height: 0.18rem;
     background: var(--hf-highlight);
+    border-radius: 999px;
 }
 
-/* Título principal del footer */
+/* TÍTULO PRINCIPAL */
 .footer-title {
     font-family: "Oswald", sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.08rem;
     color: var(--hf-white);
 }
 
-/* Subtítulos de cada bloque */
+/* SUBTÍTULOS */
 .footer-subtitle {
-    font-size: 1rem;
-    font-weight: 700;
+    font-family: "Oswald", sans-serif;
+    font-size: 0.95rem;
     color: var(--hf-highlight);
 }
 
-/* Texto descriptivo institucional */
+/* DESCRIPCIÓN */
 .footer-description {
     margin: 0;
     line-height: 1.6;
     color: rgba(248, 245, 239, 0.82);
-    font-size: 1.1rem;
+    font-size: 0.95rem;
+    max-width: 18rem;
 }
 
-/* Lista base de enlaces */
+/* LISTAS */
 .footer-links {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-/* Separación vertical entre links */
+/* SEPARACIÓN ENTRE LINKS */
 .footer-links li + li {
-    margin-top: 0.55rem;
+    margin-top: 0.45rem;
 }
 
-/* Enlaces del footer */
+/* ENLACES */
 .footer-links a {
-    color: rgba(248, 245, 239, 0.88);
-    transition: color 0.2s ease;
+    color: rgba(248, 245, 239, 0.9);
     text-decoration: none;
+    font-size: 0.96rem;
+    transition: color 0.2s ease, transform 0.2s ease;
 }
 
-/* Hover y foco de enlaces */
+/* HOVER */
 .footer-links a:hover,
 .footer-links a:focus {
     color: var(--hf-highlight);
     text-decoration: none;
 }
 
-/* Línea divisoria entre bloques superiores e inferiores */
+/* DIVISOR */
 .footer-divider {
-    margin: 1.5rem 0;
-    border-color: rgba(255, 255, 255, 0.12);
+    margin: 1rem 0 0.85rem;
+    border-color: rgba(255, 255, 255, 0.08);
+    opacity: 1;
 }
 
-/* Texto inferior del footer:
-   copyright y tagline comparten estilo */
+/* FILA INFERIOR */
+.footer-bottom-row {
+    row-gap: 0.45rem;
+}
+
+/* TEXTOS FINALES */
 .footer-copyright,
 .footer-tagline {
-    font-size: 0.95rem;
-    line-height: 1.5;
-    color: rgba(248, 245, 239, 0.72);
+    font-size: 0.84rem;
+    line-height: 1.45;
+    color: rgba(248, 245, 239, 0.7);
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+/* TABLET */
+@media (max-width: 991.98px) {
+    .footer-main {
+        padding: 1.6rem 0 1rem;
+    }
+
+    .footer-brand-col {
+        padding-right: calc(var(--bs-gutter-x) * 0.5);
+        margin-bottom: 0.35rem;
+    }
+
+    .footer-brand-block {
+        max-width: 100%;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .footer-links-col {
+        text-align: center;
+    }
+
+    .footer-title::after,
+    .footer-subtitle::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .footer-description {
+        margin: 0 auto;
+        max-width: 24rem;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 575.98px) {
+    .footer-main {
+        margin-top: 1.25rem;
+        padding: 1.4rem 0 0.9rem;
+    }
+
+    .footer-columns {
+        row-gap: 1rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .footer-brand-col {
+        margin-bottom: 0.2rem;
+    }
+
+    .footer-title {
+        font-size: 1rem;
+    }
+
+    .footer-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .footer-description {
+        font-size: 0.92rem;
+        max-width: 16rem;
+    }
+
+    .footer-links li + li {
+        margin-top: 0.35rem;
+    }
+
+    .footer-links a {
+        font-size: 0.93rem;
+    }
+
+    .footer-divider {
+        margin: 0.9rem 0 0.75rem;
+    }
+
+    .footer-copyright,
+    .footer-tagline {
+        font-size: 0.78rem;
+    }
 }

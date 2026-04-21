@@ -101,6 +101,29 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /* =========================================
+        FILTROS DESDE URL:
+        lee categoria y marca desde query params y los aplica al cargar
+        ========================================= */
+    function applyFiltersFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+
+        const categoryParam = params.get('categoria');
+        const brandParam = params.get('marca');
+
+        if (categoryParam) {
+            categoryChecks.forEach(check => {
+                check.checked = check.value === categoryParam;
+            });
+        }
+
+        if (brandParam) {
+            document.querySelectorAll('.filter-brand').forEach(check => {
+                check.checked = check.value === brandParam;
+            });
+        }
+    }
+
+    /* =========================================
        FILTRADO PRINCIPAL:
        aplica búsqueda, categoría, marca, energía y precio
        ========================================= */
@@ -253,14 +276,20 @@ document.addEventListener('DOMContentLoaded', function () {
         const productosPaginados = paginateProducts(ordenados);
 
         grid.innerHTML = productosPaginados.map(producto => `
-            <article class="page-card catalog-product-card">
+            <article 
+                class="page-card catalog-product-card" 
+                data-product-id="${producto.id}"
+                role="link"
+                tabindex="0"
+                aria-label="Ver detalle de ${producto.nombre}"
+            >
                 <div class="catalog-product-media">
                     <img src="${producto.imagen}" alt="${producto.nombre}">
                     ${createBadgeHtml(producto)}
-                    <button class="catalog-product-action" type="button" aria-label="Agregar al carrito">
+                    <button class="catalog-product-action catalog-cart-btn" type="button" data-product-id="${producto.id}" aria-label="Agregar al carrito">
                         <i class="bi bi-cart-plus"></i>
                     </button>
-                </div>
+                 </div>
 
                 <div class="catalog-product-body">
                     <span class="catalog-product-brand">${producto.marca}</span>
@@ -276,6 +305,51 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
             </article>
         `).join('');
+
+        /* =========================================
+        CLICK EN CARD:
+        toda la card redirige al detalle salvo el botón de carrito
+        ========================================= */
+        grid.querySelectorAll('.catalog-product-card').forEach(card => {
+            card.addEventListener('click', function (event) {
+                if (event.target.closest('.catalog-cart-btn')) {
+                    return;
+                }
+
+                const productId = this.dataset.productId;
+                window.location.href = `${window.routeProductoBase}/${productId}`;
+            });
+
+            card.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    if (event.target.closest('.catalog-cart-btn')) {
+                        return;
+                    }
+
+                    event.preventDefault();
+                    const productId = this.dataset.productId;
+                    window.location.href = `${window.routeProductoBase}/${productId}`;
+                }
+            });
+        });
+
+        /* =========================================
+        BOTON CARRITO:
+        agrega el producto real al carrito usando localStorage
+        ========================================= */
+        grid.querySelectorAll('.catalog-cart-btn').forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.stopPropagation();
+
+                const productId = Number(this.dataset.productId);
+                const product = productos.find(item => Number(item.id) === productId);
+
+                if (!product) return;
+
+                window.CartUtils.addToCart(product, 1);
+                window.showToast('Producto agregado al carrito');
+            });
+        });
 
         if (emptyState) {
             emptyState.classList.toggle('d-none', ordenados.length > 0);
@@ -378,5 +452,6 @@ document.addEventListener('DOMContentLoaded', function () {
        ========================================= */
     generarMarcas(productos);
     bindBrandEvents();
+    applyFiltersFromUrl();
     renderProducts();
 });

@@ -26,6 +26,14 @@ Route::get('/catalogo', function () {
     return view('pages.catalogo');
 })->name('catalogo');
 
+Route::get('/producto/{id}', function ($id) {
+    return view('pages.producto');
+})->name('producto');
+
+Route::get('/carrito', function () {
+    return view('pages.carrito');
+})->name('carrito');
+
 /* =========================================
    LOGIN
    ========================================= */

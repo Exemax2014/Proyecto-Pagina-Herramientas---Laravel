@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Catálogo | Hierro & Forja')
+
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/styleCatalogo.css') }}">
 @endpush
@@ -173,6 +175,9 @@
 @endsection
 
 @push('scripts')
+<script>
+    window.routeProductoBase = "{{ url('/producto') }}";
+</script>
 <script src="{{ asset('js/catalogo-productos.js') }}"></script>
 <script src="{{ asset('js/catalogo.js') }}"></script>
 @endpush

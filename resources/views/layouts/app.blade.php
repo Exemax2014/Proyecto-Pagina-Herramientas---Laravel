@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hierro &amp; Forja</title>
+    <title>@yield('title', 'Hierro & Forja')</title>
+    <link rel="icon" type="image/png" href="{{ asset('img/icono-hierro&forja.png') }}">
 
     <!-- FUENTES -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,16 +18,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- CSS PROPIO -->
-    <link rel="stylesheet" href="{{ asset('Css/styleGeneral.css') }}">
-    <link rel="stylesheet" href="{{ asset('Css/styleNavbar.css') }}">
-    <link rel="stylesheet" href="{{ asset('Css/styleFooter.css') }}">       
-    <link rel="stylesheet" href="{{ asset('Css/styleVistas.css') }}"> 
-    <link rel="stylesheet" href="{{ asset('Css/styleCatalogo.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/styleGeneral.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/styleNavbar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/styleFooter.css') }}">       
+    <link rel="stylesheet" href="{{ asset('css/styleVistas.css') }}"> 
+    <link rel="stylesheet" href="{{ asset('css/styleCatalogo.css') }}">
 
     @stack('styles')
 </head>
-
-@stack('scripts')
 
 <body class="site-body">
     <!-- NAVBAR -->
@@ -40,7 +39,31 @@
     <!-- FOOTER -->
     @include('layouts.footer')
 
+    <!-- TOAST GLOBAL -->
+    <div id="siteToast" class="site-toast"></div>
+
+    <script>
+        window.showToast = function (message) {
+            const toast = document.getElementById('siteToast');
+            if (!toast) return;
+
+            toast.textContent = message;
+            toast.classList.add('is-visible');
+
+            clearTimeout(window.__toastTimer);
+
+            window.__toastTimer = setTimeout(() => {
+                toast.classList.remove('is-visible');
+            }, 2500);
+        };
+    </script>
+
+    <!-- JS GLOBAL DEL CARRITO -->
+    <script src="{{ asset('js/carrito-utils.js') }}"></script>
+
     <!-- JS DE BOOTSTRAP -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    @stack('scripts')
 </body>
 </html>

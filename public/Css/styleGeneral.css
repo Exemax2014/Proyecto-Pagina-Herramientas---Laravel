@@ -93,7 +93,7 @@ body.site-body {
 .hero-title {
     font-size: clamp(2.8rem, 6vw, 5.4rem);
     line-height: 0.95;
-    max-width: 10ch;
+    max-width: 20ch;
     margin-bottom: 1.5rem;
 }
 
@@ -205,7 +205,7 @@ body.site-body {
 /* CABECERA DE SECCION:
    limita ancho y separa del contenido */
 .section-heading {
-    max-width: 45rem;
+    max-width: 60rem;
     margin-bottom: 2rem;
 }
 
@@ -252,25 +252,62 @@ body.site-body {
     color: var(--hf-text-soft);
 }
 
-/* SECCION OSCURA DE DESTACADOS O CIERRE */
+/* SECCION OSCURA (POR QUE ELEGIRNOS):
+   estilo fuerte tipo marca, fondo negro real */
 .home-section-dark {
-    margin-top: 1rem;
-    padding: 4rem 0;
+    margin-top: 2rem;
+    padding: 5rem 0;
+
+    background:
+        radial-gradient(circle at top right, rgba(217, 164, 65, 0.12), transparent 30%),
+        linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 60%, #221e19 100%);
+
+    color: var(--hf-white);
 }
 
 /* TEXTO EN BLANCO DENTRO DE LA SECCION OSCURA */
-.home-section-dark .home-kicker,
-.home-section-dark p,
 .home-section-dark h2 {
     color: var(--hf-white);
+    max-width: 22ch;
+}
+
+.home-section-dark p {
+    color: rgba(248, 245, 239, 0.78);
+    max-width: 42rem;
+}
+.home-section-dark .home-kicker {
+    color: var(--hf-white);
+}
+
+.home-section-dark .btn-outline-warning {
+    border-color: var(--hf-highlight);
+    color: var(--hf-highlight);
+}
+
+.home-section-dark .btn-outline-warning:hover {
+    background: var(--hf-highlight);
+    color: #111;
 }
 
 /* TARJETA DE BENEFICIO O FEATURE */
 .feature-item {
-    padding: 1.5rem;
+    padding: 1.6rem;
     border-radius: 1.25rem;
+
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
+
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-4px);
+    border-color: rgba(217, 164, 65, 0.35);
+}
+
+.feature-item h3 {
+    color: var(--hf-highlight);
+    margin-bottom: 0.4rem;
 }
 
 /* ═════════════════════════════════════════════════════════════════════════════════════════ */
@@ -533,5 +570,42 @@ body.site-body {
     .page-card h2 {
         font-size: 1.35rem;
     }
+}
+
+/* TOAST GLOBAL:
+   muestra mensajes breves sin usar alert del navegador */
+.site-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 1.5rem;
+    transform: translateX(-50%) translateY(20px);
+
+    background: #111111;
+    color: #f5f1e8;
+
+    padding: 0.9rem 1.2rem;
+    border-radius: 0.9rem;
+
+    /* 🔥 BORDE DORADO MEJORADO */
+    border: 1.5px solid var(--hf-highlight);
+
+    /* 🔥 GLOW DORADO */
+    box-shadow: 
+        0 10px 25px rgba(0, 0, 0, 0.3),
+        0 0 10px rgba(217, 164, 65, 0.25);
+
+    font-size: 0.92rem;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 3000;
+
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    max-width: min(90vw, 420px);
+    text-align: center;
+}
+
+.site-toast.is-visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 

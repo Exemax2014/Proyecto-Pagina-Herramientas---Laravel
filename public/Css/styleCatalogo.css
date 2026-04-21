@@ -555,4 +555,12 @@
     .catalog-sidebar.is-open .catalog-filter-columns {
         grid-template-columns: 1fr;
     }
+
+    /* CARD CLICKEABLE:
+    indica visualmente que toda la tarjeta abre el detalle */
+    .catalog-product-card {
+        cursor: pointer;
+    }
+
+
 }
