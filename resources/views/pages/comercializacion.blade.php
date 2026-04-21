@@ -21,7 +21,7 @@
                     <p>
                         Consultá todos los medios de pago, formas de envío y horarios de entrega disponibles.
                     </p>
-                    <a href="#pagos-envios" class="btn btn-dark mt-3">
+                    <a href="{{ url('/pagos-envios') }}" class="btn btn-dark mt-3"> 
                         Ver información
                     </a>
                 </article>

@@ -69,3 +69,10 @@ Route::post('/login', function () {
 Route::get('/registro', function () {
     return view('pages.registro');
 })->name('registro');
+
+/* =========================================
+   ETIQUETA "PAGOS Y ENVIOS "
+   ========================================= */
+Route::get('/pagos-envios', function () {
+    return view('pages.pagos-envios');
+});
