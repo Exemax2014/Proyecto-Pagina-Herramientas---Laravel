@@ -358,7 +358,17 @@
     gap: 0.7rem;
 }
 
-.cart-confirm-btn,
+.cart-confirm-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1.5rem;
+    border-radius: 0.7rem;
+    font-weight: 600;
+    border-color: rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+}
+
 .cart-continue-btn {
     min-height: 3rem;
 }
@@ -399,6 +409,28 @@
     display: block;
     color: var(--hf-text-muted);
     font-size: 0.9rem;
+}
+.cart-continue-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1.5rem;
+    border-radius: 0.7rem;
+    font-weight: 600;
+    /* lo hacemos más gris y menos agresivo */
+    border-color: rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 0.03);
+
+    transition: all 0.2s ease;
+}
+
+/* hover más prolijo */
+.cart-continue-btn:hover {
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.35);
+    color: #111;
+    transform: translateY(-1px);
 }
 
 /* TABLET:

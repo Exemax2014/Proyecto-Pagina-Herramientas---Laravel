@@ -405,6 +405,14 @@ body.site-body {
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
+/* centrado del boton de aceptar*/
+.contact-form-actions {
+    display: flex;
+    justify-content: center !important;
+    margin-top: 1rem;
+    min-width: 220px;
+}
+
 /* ═════════════════════════════════════════════════════════════════════════════════════════ */
 /* --------------------------------- PAGINAS INTERNAS ------------------------------------- */
 /* ═════════════════════════════════════════════════════════════════════════════════════════ */
@@ -572,40 +580,58 @@ body.site-body {
     }
 }
 
-/* TOAST GLOBAL:
-   muestra mensajes breves sin usar alert del navegador */
+/* TOAST GLOBAL: ----------------------------------------------------------
+   muestra mensajes breves sin usar alert del navegador-------------------- */
 .site-toast {
     position: fixed;
     left: 50%;
-    bottom: 1.5rem;
-    transform: translateX(-50%) translateY(20px);
+    z-index: 3000;
 
     background: #111111;
     color: #f5f1e8;
 
     padding: 0.9rem 1.2rem;
     border-radius: 0.9rem;
-
-    /* 🔥 BORDE DORADO MEJORADO */
     border: 1.5px solid var(--hf-highlight);
 
-    /* 🔥 GLOW DORADO */
-    box-shadow: 
+    box-shadow:
         0 10px 25px rgba(0, 0, 0, 0.3),
         0 0 10px rgba(217, 164, 65, 0.25);
 
     font-size: 0.92rem;
     opacity: 0;
     pointer-events: none;
-    z-index: 3000;
 
     transition: opacity 0.3s ease, transform 0.3s ease;
     max-width: min(90vw, 420px);
     text-align: center;
 }
 
+/* TOAST ABAJO:
+   comportamiento actual del carrito */
+.site-toast--bottom {
+    bottom: 1.5rem;
+    transform: translateX(-50%) translateY(20px);
+}
+
+/* TOAST ARRIBA:
+   para login, registro y formularios */
+.site-toast--top {
+    top: 1.2rem;
+    transform: translateX(-50%) translateY(-20px);
+}
+
+/* ESTADO VISIBLE */
 .site-toast.is-visible {
     opacity: 1;
+}
+
+/* CUANDO ES ABAJO Y SE VE */
+.site-toast--bottom.is-visible {
     transform: translateX(-50%) translateY(0);
 }
 
+/* CUANDO ES ARRIBA Y SE VE */
+.site-toast--top.is-visible {
+    transform: translateX(-50%) translateY(0);
+}

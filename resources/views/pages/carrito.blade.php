@@ -27,7 +27,6 @@
                 <!-- ===== PRODUCTOS DEL CARRITO ===== -->
                 <section class="cart-section">
                     <div class="section-heading cart-section-heading">
-                        <span class="home-kicker">Resumen</span>
                         <h2>Productos del carrito</h2>
                         <p>Modificá cantidades, eliminá artículos o revisá los importes antes de continuar.</p>
                     </div>
@@ -47,7 +46,6 @@
                     <div class="section-heading cart-section-heading">
                         <span class="home-kicker">Contacto</span>
                         <h2>Datos del cliente y entrega</h2>
-                        <p>Este bloque ya queda preparado para conectarse después con el backend y guardar el pedido real.</p>
                     </div>
 
                     <div class="page-card cart-form-card">

@@ -141,10 +141,10 @@ document.addEventListener('DOMContentLoaded', function () {
         renderSummary();
     }
 
-   /* =========================================
-        EVENTOS DE ITEMS:
-        conecta cantidad +/- y eliminar
-        ========================================= */
+    /* =========================================
+       EVENTOS DE ITEMS:
+       conecta cantidad +/- y eliminar
+       ========================================= */
     function bindItemEvents() {
         itemsWrap.querySelectorAll('.cart-qty-minus').forEach(button => {
             button.addEventListener('click', function () {
@@ -188,32 +188,21 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     }
+
     /* =========================================
-        CONFIRMAR PEDIDO:
-        limpia carrito, actualiza vista y muestra mensaje
-        ========================================= */
+       CONFIRMAR PEDIDO:
+       limpia carrito, actualiza vista y muestra mensaje
+       ========================================= */
     confirmBtn?.addEventListener('click', function () {
         if (carrito.length === 0) {
-            itemsWrap.innerHTML = `
-                <div class="page-card cart-empty">
-                    <h3>Tu carrito está vacío</h3>
-                    <p>Agregá productos para continuar.</p>
-                </div>
-            `;
-            renderSummary();
+            renderItems();
             return;
         }
 
-        // vaciar carrito en memoria
         carrito = [];
-
-        // limpiar localStorage
         window.CartUtils.clearCart();
-
-        // actualizar UI
         renderItems();
 
-        // mensaje final
         window.showToast('Pedido realizado correctamente');
     });
 

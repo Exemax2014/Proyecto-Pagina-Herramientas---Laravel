@@ -20,8 +20,8 @@
     <!-- CSS PROPIO -->
     <link rel="stylesheet" href="{{ asset('css/styleGeneral.css') }}">
     <link rel="stylesheet" href="{{ asset('css/styleNavbar.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/styleFooter.css') }}">       
-    <link rel="stylesheet" href="{{ asset('css/styleVistas.css') }}"> 
+    <link rel="stylesheet" href="{{ asset('css/styleFooter.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/styleVistas.css') }}">
     <link rel="stylesheet" href="{{ asset('css/styleCatalogo.css') }}">
 
     @stack('styles')
@@ -42,24 +42,33 @@
     <!-- TOAST GLOBAL -->
     <div id="siteToast" class="site-toast"></div>
 
+    <!-- JS GLOBAL DEL CARRITO -->
+    <script src="{{ asset('js/carrito-utils.js') }}"></script>
+
+    <!-- FUNCIÓN TOAST GLOBAL -->
     <script>
-        window.showToast = function (message) {
+        window.showToast = function (message, position = 'bottom') {
             const toast = document.getElementById('siteToast');
             if (!toast) return;
 
+            const validPosition = position === 'top' ? 'top' : 'bottom';
+
+            toast.classList.remove('site-toast--top', 'site-toast--bottom', 'is-visible');
+            toast.classList.add(`site-toast--${validPosition}`);
+
             toast.textContent = message;
+
+            void toast.offsetWidth;
+
             toast.classList.add('is-visible');
 
             clearTimeout(window.__toastTimer);
 
             window.__toastTimer = setTimeout(() => {
                 toast.classList.remove('is-visible');
-            }, 2500);
+            }, 2600);
         };
     </script>
-
-    <!-- JS GLOBAL DEL CARRITO -->
-    <script src="{{ asset('js/carrito-utils.js') }}"></script>
 
     <!-- JS DE BOOTSTRAP -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
