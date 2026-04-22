@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
        define página actual y cantidad de productos por página
        ========================================= */
     let currentPage = 1;
-    const itemsPerPage = 9;
+    const itemsPerPage = 12;
 
     /* =========================================
        FORMATEO DE PRECIO:
