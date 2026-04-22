@@ -2,161 +2,290 @@
    FOOTER
    ========================================================================== */
 
-/* CONTENEDOR GENERAL:
-   reduce altura, mejora terminación y evita que quede pegado arriba */
 .footer-main {
-    margin-top: 1rem;
-    padding: 1.8rem 0 1rem;
+    position: relative;
+    overflow: hidden;
+    margin-top: 0.6rem;
+    padding: 1.15rem 0 0.8rem;
     background:
-        radial-gradient(circle at top right, rgba(217, 164, 65, 0.07), transparent 28%),
-        linear-gradient(135deg, #1a1f26 0%, #20262e 100%);
+        radial-gradient(circle at 14% 42%, rgba(217, 164, 65, 0.12), transparent 24%),
+        radial-gradient(circle at top right, rgba(248, 245, 239, 0.04), transparent 28%),
+        linear-gradient(135deg, #171c22 0%, #20262e 58%, #171c22 100%);
     color: var(--hf-white);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-/* FILA SUPERIOR:
-   menos altura general y mejor distribución */
+/* CONTENEDOR INTERNO:
+   ocupa casi todo el ancho pero se mantiene centrado */
+.footer-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1560px;
+    margin: 0 auto;
+    padding-left: clamp(0.7rem, 2vw, 1.8rem);
+    padding-right: clamp(0.7rem, 2vw, 1.8rem);
+    box-sizing: border-box;
+}
+
+/* FILA PRINCIPAL EN DESKTOP:
+   logo + por qué elegirnos + sobre empresa + soporte */
 .footer-columns {
-    margin-bottom: 1rem;
-    row-gap: 1.2rem;
+    display: grid;
+    grid-template-columns: minmax(180px, 280px) minmax(280px, 1.45fr) minmax(160px, 0.7fr) minmax(160px, 0.7fr);
+    gap: 1rem clamp(0.9rem, 2vw, 1.8rem);
+    align-items: center;
+    margin-bottom: 0.9rem;
 }
 
-/* CADA BLOQUE:
-   ocupa toda la altura disponible */
+/* LOGO */
+.footer-logo-block {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 7.2rem;
+    width: 100%;
+}
+
+.footer-logo-block::before {
+    content: "";
+    position: absolute;
+    inset: -1.4rem -1rem;
+    background:
+        radial-gradient(circle, rgba(248, 245, 239, 0.08), transparent 58%),
+        radial-gradient(circle, rgba(217, 164, 65, 0.13), transparent 68%);
+    filter: blur(10px);
+    opacity: 0.95;
+    pointer-events: none;
+}
+
+.footer-logo {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 18rem;
+    max-height: 11rem;
+    object-fit: contain;
+    filter: drop-shadow(0 0.7rem 1.2rem rgba(0, 0, 0, 0.32));
+}
+
+/* BLOQUE DERECHO GENERAL */
+.footer-right-block {
+    display: contents;
+}
+
+/* BLOQUES */
 .footer-section {
-    height: 100%;
+    min-width: 0;
 }
 
-/* COLUMNA PRINCIPAL:
-   deja el bloque institucional con mejor presencia */
-.footer-brand-col {
-    padding-right: 2rem;
-}
-
-/* BLOQUE DE MARCA:
-   limita el ancho del texto para que no se desparrame */
 .footer-brand-block {
-    max-width: 21rem;
+    max-width: 100%;
 }
 
-/* TÍTULOS:
-   comparten tipografía marcada y subtítulo decorativo */
 .footer-title,
 .footer-subtitle {
     position: relative;
     display: inline-block;
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.45rem;
+    margin-bottom: 0.65rem;
+    padding-bottom: 0.38rem;
+    font-family: "Oswald", sans-serif;
     letter-spacing: 0.03em;
     text-transform: uppercase;
 }
 
-/* LÍNEA DECORATIVA */
 .footer-title::after,
 .footer-subtitle::after {
     content: "";
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 4rem;
-    height: 0.18rem;
+    width: 3.5rem;
+    height: 0.16rem;
     background: var(--hf-highlight);
     border-radius: 999px;
 }
 
-/* TÍTULO PRINCIPAL */
 .footer-title {
-    font-family: "Oswald", sans-serif;
-    font-size: 1.08rem;
+    font-size: 1.02rem;
     color: var(--hf-white);
 }
 
-/* SUBTÍTULOS */
 .footer-subtitle {
-    font-family: "Oswald", sans-serif;
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     color: var(--hf-highlight);
 }
 
-/* DESCRIPCIÓN */
 .footer-description {
     margin: 0;
-    line-height: 1.6;
+    max-width: 32rem;
     color: rgba(248, 245, 239, 0.82);
-    font-size: 0.95rem;
-    max-width: 18rem;
+    font-size: 0.94rem;
+    line-height: 1.6;
 }
 
-/* LISTAS */
+/* LINKS */
+.footer-links-row {
+    display: contents;
+}
+
+.footer-links-col {
+    width: 100%;
+}
+
 .footer-links {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-/* SEPARACIÓN ENTRE LINKS */
 .footer-links li + li {
-    margin-top: 0.45rem;
+    margin-top: 0.42rem;
 }
 
-/* ENLACES */
 .footer-links a {
+    display: inline-block;
     color: rgba(248, 245, 239, 0.9);
     text-decoration: none;
-    font-size: 0.96rem;
+    font-size: 0.95rem;
     transition: color 0.2s ease, transform 0.2s ease;
 }
 
-/* HOVER */
 .footer-links a:hover,
 .footer-links a:focus {
     color: var(--hf-highlight);
     text-decoration: none;
+    transform: translateX(0.12rem);
 }
 
 /* DIVISOR */
 .footer-divider {
-    margin: 1rem 0 0.85rem;
+    margin: 0.85rem 0 0.7rem;
     border-color: rgba(255, 255, 255, 0.08);
     opacity: 1;
 }
 
 /* FILA INFERIOR */
 .footer-bottom-row {
-    row-gap: 0.45rem;
+    row-gap: 0.35rem;
 }
 
-/* TEXTOS FINALES */
 .footer-copyright,
 .footer-tagline {
-    font-size: 0.84rem;
-    line-height: 1.45;
     color: rgba(248, 245, 239, 0.7);
+    font-size: 0.82rem;
+    line-height: 1.4;
 }
 
 /* ==========================================================================
-   RESPONSIVE
-   ========================================================================== */
-
-/* TABLET */
+   TABLET
+   ==========================================================================
+   Izquierda logo / Derecha:
+   arriba por qué elegirnos
+   abajo sobre empresa + soporte
+*/
 @media (max-width: 991.98px) {
     .footer-main {
-        padding: 1.6rem 0 1rem;
+        padding: 1.15rem 0 0.85rem;
     }
 
-    .footer-brand-col {
-        padding-right: calc(var(--bs-gutter-x) * 0.5);
-        margin-bottom: 0.35rem;
+    .footer-columns {
+        grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+        grid-template-areas:
+            "logo brand"
+            "logo links";
+        align-items: center;
+        gap: 1rem 1.35rem;
+    }
+
+    .footer-logo-block {
+        grid-area: logo;
+        min-height: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .footer-logo {
+        max-width: 16rem;
+        max-height: 9.5rem;
+    }
+
+    .footer-brand-block {
+        grid-area: brand;
+        max-width: 100%;
+    }
+
+    .footer-right-block {
+        display: contents;
+    }
+
+    .footer-links-row {
+        grid-area: links;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem 1.4rem;
+        align-items: start;
+    }
+
+    .footer-description {
+        max-width: 100%;
+    }
+
+    .footer-links a:hover,
+    .footer-links a:focus {
+        transform: none;
+    }
+}
+
+/* ==========================================================================
+   MOBILE
+   ==========================================================================
+   Todo uno debajo del otro y centrado
+*/
+@media (max-width: 575.98px) {
+    .footer-main {
+        margin-top: 0.8rem;
+        padding: 1rem 0 0.8rem;
+    }
+
+    .footer-columns {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "logo"
+            "brand"
+            "links";
+        gap: 1rem;
+        margin-bottom: 0.75rem;
+        text-align: center;
+    }
+
+    .footer-logo-block {
+        min-height: 5.8rem;
+    }
+
+    .footer-logo-block::before {
+        inset: -1rem;
+    }
+
+    .footer-logo {
+        max-width: 10.8rem;
+        max-height: 6.2rem;
     }
 
     .footer-brand-block {
         max-width: 100%;
-        text-align: center;
-        margin: 0 auto;
     }
 
-    .footer-links-col {
-        text-align: center;
+    .footer-links-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .footer-title,
+    .footer-subtitle {
+        display: inline-block;
     }
 
     .footer-title::after,
@@ -165,55 +294,34 @@
         transform: translateX(-50%);
     }
 
-    .footer-description {
-        margin: 0 auto;
-        max-width: 24rem;
-    }
-}
-
-/* MOBILE */
-@media (max-width: 575.98px) {
-    .footer-main {
-        margin-top: 1.25rem;
-        padding: 1.4rem 0 0.9rem;
-    }
-
-    .footer-columns {
-        row-gap: 1rem;
-        margin-bottom: 0.8rem;
-    }
-
-    .footer-brand-col {
-        margin-bottom: 0.2rem;
-    }
-
     .footer-title {
-        font-size: 1rem;
+        font-size: 0.98rem;
     }
 
     .footer-subtitle {
-        font-size: 0.9rem;
+        font-size: 0.88rem;
     }
 
     .footer-description {
-        font-size: 0.92rem;
-        max-width: 16rem;
+        max-width: 19rem;
+        margin: 0 auto;
+        font-size: 0.91rem;
     }
 
     .footer-links li + li {
-        margin-top: 0.35rem;
+        margin-top: 0.32rem;
     }
 
     .footer-links a {
-        font-size: 0.93rem;
+        font-size: 0.92rem;
     }
 
     .footer-divider {
-        margin: 0.9rem 0 0.75rem;
+        margin: 0.8rem 0 0.65rem;
     }
 
     .footer-copyright,
     .footer-tagline {
-        font-size: 0.78rem;
+        font-size: 0.77rem;
     }
 }

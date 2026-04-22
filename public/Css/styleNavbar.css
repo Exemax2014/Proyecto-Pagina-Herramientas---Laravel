@@ -52,6 +52,7 @@
 /* Resetea márgenes del formulario del buscador */
 .navbar-search {
     margin: 0;
+    position: relative; /* necesario para el dropdown de resultados */
 }
 
 /* Buscador visible en desktop */
@@ -280,26 +281,97 @@
 /* CONTADOR DEL CARRITO:
    badge amarillo posicionado sobre el ícono */
 .navbar-cart-count {
-    position: absolute; /* ← CLAVE */
+    position: absolute;
     top: -6px;
     right: -8px;
-
     background: var(--hf-highlight);
     color: #111111;
-
     font-size: 0.65rem;
     font-weight: 800;
-
     min-width: 18px;
     height: 18px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     border-radius: 999px;
     padding: 0 4px;
-
-    border: 2px solid #fff; /* opcional pero queda mejor */
+    border: 2px solid #fff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+/* ==========================================================================
+   BUSCADOR FUNCIONAL NAVBAR
+   Solo agrega funcionalidad sin romper la fila
+   ========================================================================== */
+
+.navbar-search-results {
+    position: absolute;
+    top: calc(100% + 0.35rem);
+    left: 0;
+    right: 0;
+    z-index: 1200;
+
+    display: none;
+    overflow: hidden;
+
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 0.8rem;
+
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.navbar-search-results.is-open {
+    display: block;
+}
+
+.navbar-search-result-item {
+    display: block;
+    width: 100%;
+    padding: 0.65rem 0.85rem;
+
+    background: transparent;
+    border: 0;
+
+    color: #222;
+    font-size: 0.92rem;
+    font-weight: 500;
+
+    text-align: left;
+    cursor: pointer;
+
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.navbar-search-result-item + .navbar-search-result-item {
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.navbar-search-result-item:hover,
+.navbar-search-result-item:focus {
+    background: rgba(0, 0, 0, 0.04);
+    color: #000;
+}
+
+.navbar-search-result-brand {
+    display: block;
+    margin-bottom: 0.1rem;
+    color: var(--hf-highlight);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.navbar-search-result-name {
+    display: block;
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.navbar-search-empty {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.9rem;
+    color: #666;
 }

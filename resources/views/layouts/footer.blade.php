@@ -1,35 +1,43 @@
 <footer class="footer-main">
-    <div class="container">
-        <div class="row footer-columns align-items-start">
-            <!-- BLOQUE PRINCIPAL -->
-            <div class="col-lg-5 col-md-12 col-12 footer-brand-col">
+    <div class="footer-inner">
+        <div class="footer-columns">
+            <!-- LOGO -->
+            <div class="footer-section footer-logo-block">
+                <img
+                    src="{{ asset('img/LOGO-HIERRO&FORJA.png') }}"
+                    alt="HIERRO &amp; FORJA"
+                    class="footer-logo"
+                >
+            </div>
+
+            <!-- BLOQUE DERECHO -->
+            <div class="footer-right-block">
+                <!-- POR QUÉ ELEGIRNOS -->
                 <div class="footer-section footer-brand-block">
-                    <h3 class="footer-title">HIERRO &amp; FORJA</h3>
+                    <h3 class="footer-title">Por qu&eacute; elegirnos</h3>
                     <p class="footer-description">
-                        Calidad, precisión y confianza en cada herramienta.
+                        Acompa&ntilde;amos cada compra con variedad, asesoramiento y productos pensados
+                        para trabajo real. Te ayudamos a elegir bien seg&uacute;n tu rubro, necesidad y presupuesto.
                     </p>
                 </div>
-            </div>
 
-            <!-- SOBRE LA EMPRESA -->
-            <div class="col-lg-3 col-md-6 col-12 footer-links-col">
-                <div class="footer-section">
-                    <h4 class="footer-subtitle">Sobre la empresa</h4>
-                    <ul class="footer-links">
-                        <li><a href="{{ route('quienes-somos') }}">Qui&eacute;nes Somos</a></li>
-                        <li><a href="{{ route('comercializacion') }}">Comercializaci&oacute;n</a></li>
-                    </ul>
-                </div>
-            </div>
+                <!-- LINKS -->
+                <div class="footer-links-row">
+                    <div class="footer-section footer-links-col">
+                        <h4 class="footer-subtitle">Sobre la empresa</h4>
+                        <ul class="footer-links">
+                            <li><a href="{{ route('quienes-somos') }}">Qui&eacute;nes Somos</a></li>
+                            <li><a href="{{ route('comercializacion') }}">Comercializaci&oacute;n</a></li>
+                        </ul>
+                    </div>
 
-            <!-- SOPORTE -->
-            <div class="col-lg-4 col-md-6 col-12 footer-links-col">
-                <div class="footer-section">
-                    <h4 class="footer-subtitle">Soporte</h4>
-                    <ul class="footer-links">
-                        <li><a href="{{ route('contacto') }}">Contacto</a></li>
-                        <li><a href="{{ route('terminos') }}">T&eacute;rminos</a></li>
-                    </ul>
+                    <div class="footer-section footer-links-col">
+                        <h4 class="footer-subtitle">Soporte</h4>
+                        <ul class="footer-links">
+                            <li><a href="{{ route('contacto') }}">Contacto</a></li>
+                            <li><a href="{{ route('terminos') }}">T&eacute;rminos</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -45,7 +53,7 @@
 
             <div class="col-md-6 col-12 text-center text-md-end">
                 <p class="footer-tagline mb-0">
-                    Calidad, precisión y confianza en cada herramienta.
+                    Calidad, precisi&oacute;n y confianza en cada herramienta.
                 </p>
             </div>
         </div>

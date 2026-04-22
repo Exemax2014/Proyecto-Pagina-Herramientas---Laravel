@@ -446,6 +446,13 @@ document.addEventListener('DOMContentLoaded', function () {
         sidebar?.classList.remove('is-open');
     });
 
+    const params = new URLSearchParams(window.location.search);
+    const searchFromUrl = params.get('search');
+
+    if (searchInput && searchFromUrl) {
+        searchInput.value = searchFromUrl;
+    }
+
     /* =========================================
        INICIALIZACION:
        primero genera marcas, luego enlaza eventos y finalmente renderiza

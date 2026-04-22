@@ -10,12 +10,18 @@
                     HIERRO &amp; FORJA
                 </a>
 
-                <form class="navbar-search navbar-search-desktop" role="search">
-                    <input class="form-control form-control-sm"
-                           type="search"
-                           placeholder="Buscar..."
-                           aria-label="Buscar">
+                @unless(request()->routeIs('catalogo'))
+                <form class="navbar-search navbar-search-desktop" id="navbarSearchFormDesktop" role="search" autocomplete="off">
+                    <input
+                        class="form-control form-control-sm"
+                        id="navbarSearchInputDesktop"
+                        type="search"
+                        placeholder="Buscar..."
+                        aria-label="Buscar"
+                    >
+                    <div class="navbar-search-results" id="navbarSearchResultsDesktop"></div>
                 </form>
+                @endunless
             </div>
 
             <!-- =========================================
@@ -144,14 +150,19 @@
                 </li>
             </ul>
 
-            <!-- BUSCADOR MOBILE
-                 Desaparece primero de la barra y queda al final del desplegable -->
-            <form class="navbar-search navbar-search-mobile mobile-search-block" role="search">
-                <input class="form-control"
-                       type="search"
-                       placeholder="Buscar..."
-                       aria-label="Buscar">
+            <!-- BUSCADOR MOBILE -->
+            @unless(request()->routeIs('catalogo'))
+            <form class="navbar-search navbar-search-mobile mobile-search-block" id="navbarSearchFormMobile" role="search" autocomplete="off">
+                <input
+                    class="form-control"
+                    id="navbarSearchInputMobile"
+                    type="search"
+                    placeholder="Buscar..."
+                    aria-label="Buscar"
+                >
+                <div class="navbar-search-results" id="navbarSearchResultsMobile"></div>
             </form>
+            @endunless
 
         </div>
     </div>

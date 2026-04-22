@@ -45,6 +45,18 @@
     <!-- JS GLOBAL DEL CARRITO -->
     <script src="{{ asset('js/carrito-utils.js') }}"></script>
 
+    <!-- DATOS GLOBALES PARA BUSQUEDA -->
+    <script>
+        window.routeCatalogoBase = "{{ route('catalogo') }}";
+        window.routeProductoBase = "{{ url('/producto') }}";
+    </script>
+
+    <!-- BASE DE PRODUCTOS -->
+    <script src="{{ asset('js/catalogo-productos.js') }}"></script>
+
+    <!-- BUSCADOR DEL NAVBAR -->
+    <script src="{{ asset('js/navbar-search.js') }}"></script>
+
     <!-- FUNCIÓN TOAST GLOBAL -->
     <script>
         window.showToast = function (message, position = 'bottom') {
