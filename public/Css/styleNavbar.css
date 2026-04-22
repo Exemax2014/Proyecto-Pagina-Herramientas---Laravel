@@ -42,6 +42,7 @@
 /* Marca principal del navbar */
 .navbar-brand {
     margin: 0;
+    padding-left: 1rem;
     font-family: "Oswald", sans-serif;
     font-size: 1.25rem;
     letter-spacing: 0.02em;
