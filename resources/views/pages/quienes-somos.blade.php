@@ -43,30 +43,22 @@
 
                     <div class="hero-panel-item">
                         <span class="panel-number">01</span>
-                        <div>
-                            <h3>Identidad</h3>
-                        </div>
+                        <div><h3>Identidad</h3></div>
                     </div>
 
                     <div class="hero-panel-item">
                         <span class="panel-number">02</span>
-                        <div>
-                            <h3>Misión y visión</h3>
-                        </div>
+                        <div><h3>Misión y visión</h3></div>
                     </div>
 
                     <div class="hero-panel-item">
                         <span class="panel-number">03</span>
-                        <div>
-                            <h3>Equipo</h3>
-                        </div>
+                        <div><h3>Equipo</h3></div>
                     </div>
 
                     <div class="hero-panel-item">
                         <span class="panel-number">04</span>
-                        <div>
-                            <h3>Valores</h3>
-                        </div>
+                        <div><h3>Valores</h3></div>
                     </div>
                 </div>
             </div>
@@ -103,12 +95,10 @@
                         <h2>Nuestra identidad</h2>
                     </div>
                 </div>
-
                 <p>
                     Una empresa pensada para acompañar el trabajo real, con productos que responden
                     en obra, taller y mantenimiento profesional.
                 </p>
-
                 <div class="terms-points">
                     <div class="terms-point">Presencia comercial clara y profesional desde el primer contacto.</div>
                     <div class="terms-point">Selección de herramientas orientadas a durabilidad y rendimiento.</div>
@@ -128,12 +118,10 @@
                         <h2>Misión y visión</h2>
                     </div>
                 </div>
-
                 <p>
                     Nuestra misión y visión definen el rumbo comercial de Hierro &amp; Forja
                     y el compromiso con cada uno de nuestros clientes.
                 </p>
-
                 <div class="terms-points">
                     <div class="terms-point">Misión: brindar herramientas e insumos de calidad que acompañen el trabajo profesional.</div>
                     <div class="terms-point">Visión: ser una referencia en el rubro por atención personalizada y confianza.</div>
@@ -153,12 +141,10 @@
                         <h2>Nuestro equipo</h2>
                     </div>
                 </div>
-
                 <p>
                     Contamos con un equipo comprometido con brindar soluciones rápidas y efectivas,
                     acompañando a cada cliente en su proceso de compra y uso de herramientas.
                 </p>
-
                 <div class="terms-points">
                     <div class="terms-point">Atención directa sin intermediarios para una respuesta más ágil.</div>
                     <div class="terms-point">Conocimiento técnico para orientar cada consulta de forma precisa.</div>
@@ -178,17 +164,91 @@
                         <h2>Valores</h2>
                     </div>
                 </div>
-
                 <p>
                     Los valores que guían nuestra operación definen cómo nos relacionamos con
                     clientes, proveedores y el mercado en general.
                 </p>
-
                 <div class="terms-points">
                     <div class="terms-point">Honestidad comercial en precios, tiempos y condiciones informadas.</div>
                     <div class="terms-point">Responsabilidad en cada pedido, entrega y compromiso asumido.</div>
                     <div class="terms-point">Confianza como base de cada relación comercial duradera.</div>
                     <div class="terms-point">Profesionalismo en la imagen, atención y calidad de los productos ofrecidos.</div>
+                </div>
+            </article>
+
+            <!-- CARRUSEL -->
+            <article class="page-card terms-card">
+                <div class="terms-card-headline">
+                    <span class="terms-card-icon">
+                        <i class="bi bi-images"></i>
+                    </span>
+                    <div class="terms-card-title-group">
+                        <span class="terms-card-kicker">Galería</span>
+                        <h2>Nuestro espacio</h2>
+                    </div>
+                </div>
+
+                <p>
+                    Conocé nuestro local, nuestro equipo y el lugar donde trabajamos día a día
+                    para brindar la mejor atención.
+                </p>
+
+                <div id="carruselEmpresa" class="carousel slide mt-3" data-bs-ride="carousel">
+
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carruselEmpresa" data-bs-slide-to="0" class="active"></button>
+                        <button type="button" data-bs-target="#carruselEmpresa" data-bs-slide-to="1"></button>
+                        <button type="button" data-bs-target="#carruselEmpresa" data-bs-slide-to="2"></button>
+                        <button type="button" data-bs-target="#carruselEmpresa" data-bs-slide-to="3"></button>
+                    </div>
+
+                    <div class="carousel-inner rounded-3 overflow-hidden">
+
+                        <div class="carousel-item active">
+                            <img src="{{ asset('img/carrusel/foto-negocio.jpg.png') }}"
+                                 class="d-block w-100 carousel-img"
+                                 alt="Nuestro local">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Nuestro local</h5>
+                            </div>
+                        </div>
+
+                        <div class="carousel-item">
+                            <img src="{{ asset('img/carrusel/foto-jefes.jpg.png') }}"
+                                 class="d-block w-100 carousel-img"
+                                 alt="Dirección">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Dirección</h5>
+                            </div>
+                        </div>
+
+                        <div class="carousel-item">
+                            <img src="{{ asset('img/carrusel/foto-equipo.jpg.png') }}"
+                                 class="d-block w-100 carousel-img"
+                                 alt="Nuestro equipo">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Nuestro equipo</h5>
+                            </div>
+                        </div>
+
+                        <div class="carousel-item">
+                            <img src="{{ asset('img/carrusel/foto-ubicacion.jpg.png') }}"
+                                 class="d-block w-100 carousel-img"
+                                 alt="Nuestra ubicación">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Nuestra ubicación</h5>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carruselEmpresa" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carruselEmpresa" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+
                 </div>
             </article>
 

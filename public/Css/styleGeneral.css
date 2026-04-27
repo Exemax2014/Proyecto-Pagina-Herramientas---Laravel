@@ -635,3 +635,10 @@ body.site-body {
 .site-toast--top.is-visible {
     transform: translateX(-50%) translateY(0);
 }
+
+/* IMAGEN DE CAROUSEL */
+.carousel-img {
+    height: 420px;
+    object-fit: cover;
+    object-position: center;
+}
