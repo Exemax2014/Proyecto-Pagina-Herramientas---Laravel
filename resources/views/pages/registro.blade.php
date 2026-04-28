@@ -3,109 +3,112 @@
 @section('title', 'Registro | Hierro & Forja')
 
 @section('contenido')
-    <section class="page-section">
-        <div class="container">
-            <!--  FORMULARIO DE REGISTRO -->
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-9 col-lg-7">
-                    <article class="page-card register-card">
-                        <h2>Crear una cuenta</h2>
+<section class="page-section">
+    <div class="container">
 
-                        <form id="registroForm" class="register-form">
-                            <!-- NOMBRE Y APELLIDO -->
-                            <div class="register-field">
-                                <label for="nombre" class="register-label">Nombre y apellido</label>
-                                <input
-                                    type="text"
-                                    id="nombre"
-                                    name="nombre"
-                                    class="form-control register-input"
-                                    placeholder="Ingres&aacute; tu nombre y apellido"
-                                    required
-                                >
-                            </div>
+        <!-- FORMULARIO DE REGISTRO -->
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-9 col-lg-7">
 
-                            <!-- CORREO -->
-                            <div class="register-field">
-                                <label for="email" class="register-label">Correo electr&oacute;nico</label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    class="form-control register-input"
-                                    placeholder="Ingres&aacute; tu correo"
-                                    required
-                                >
-                            </div>
+                <article class="page-card register-card">
+                    <h2>Crear una cuenta</h2>
 
-                            <!-- CONTRASEÑA -->
-                            <div class="register-field">
-                                <label for="password" class="register-label">Contrase&ntilde;a</label>
-                                <input
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    class="form-control register-input"
-                                    placeholder="Ingres&aacute; tu contrase&ntilde;a"
-                                    required
-                                >
-                            </div>
+                    <!-- 🔥 FORM CONECTADO A LARAVEL -->
+                    <form action="{{ route('registro.procesar') }}" method="POST" class="register-form">
+                        @csrf
 
-                            <!-- REPETIR CONTRASEÑA -->
-                            <div class="register-field">
-                                <label for="password_confirmation" class="register-label">Repetir contrase&ntilde;a</label>
-                                <input
-                                    type="password"
-                                    id="password_confirmation"
-                                    name="password_confirmation"
-                                    class="form-control register-input"
-                                    placeholder="Repet&iacute; tu contrase&ntilde;a"
-                                    required
-                                >
-                            </div>
+                        <!-- NOMBRE -->
+                        <div class="register-field">
+                            <label for="nombre" class="register-label">Nombre y apellido</label>
 
-                            <!-- ACCIONES -->
-                            <div class="register-actions">
-                                <button type="submit" class="btn btn-warning register-btn">
-                                    Registrarme
-                                </button>
+                            <input
+                                type="text"
+                                id="nombre"
+                                name="nombre"
+                                class="form-control register-input"
+                                placeholder="Ingresá tu nombre y apellido"
+                                value="{{ old('nombre') }}"
+                            >
 
-                                <p class="register-login-text">
-                                    ¿Ya ten&eacute;s cuenta?
-                                    <a href="{{ route('login') }}" class="register-login-link">
-                                        Iniciar sesi&oacute;n
-                                    </a>
-                                </p>
-                            </div>
-                        </form>
-                    </article>
-                </div>
+                            @error('nombre')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- EMAIL -->
+                        <div class="register-field">
+                            <label for="email" class="register-label">Correo electrónico</label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                class="form-control register-input"
+                                placeholder="Ingresá tu correo"
+                                value="{{ old('email') }}"
+                            >
+
+                            @error('email')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- PASSWORD -->
+                        <div class="register-field">
+                            <label for="password" class="register-label">Contraseña</label>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-control register-input"
+                                placeholder="Ingresá tu contraseña"
+                            >
+
+                            @error('password')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- CONFIRMAR PASSWORD -->
+                        <div class="register-field">
+                            <label for="password_confirmation" class="register-label">
+                                Repetir contraseña
+                            </label>
+
+                            <input
+                                type="password"
+                                id="password_confirmation"
+                                name="password_confirmation"
+                                class="form-control register-input"
+                                placeholder="Repetí tu contraseña"
+                            >
+
+                            @error('password_confirmation')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- BOTÓN -->
+                        <div class="register-actions">
+                            <button type="submit" class="btn btn-warning register-btn">
+                                Registrarme
+                            </button>
+
+                            <p class="register-login-text">
+                                ¿Ya tenés cuenta?
+                                <a href="{{ route('login') }}" class="register-login-link">
+                                    Iniciar sesión
+                                </a>
+                            </p>
+                        </div>
+
+                    </form>
+                </article>
+
             </div>
         </div>
-    </section>
 
-    <!-- =========================================
-        SCRIPT DE REGISTRO VISUAL
-        No envía datos, solo simula el alta
-        ========================================= -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const form = document.getElementById('registroForm');
-
-            form.addEventListener('submit', function (event) {
-                event.preventDefault();
-
-                const password = document.getElementById('password').value;
-                const passwordConfirmation = document.getElementById('password_confirmation').value;
-
-                if (password !== passwordConfirmation) {
-                    window.showToast('Las contraseñas no coinciden.', 'top');
-                    return;
-                }
-
-                window.showToast('Se registró correctamente', 'top');
-                form.reset();
-            });
-        });
-    </script>
+    </div>
+</section>
 @endsection

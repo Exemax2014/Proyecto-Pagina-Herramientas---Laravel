@@ -48,11 +48,11 @@ Route::post('/login', function () {
 
     /* Validación básica */
     request()->validate([
-        'email' => 'required|email',
+        'email' => ['required', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/'],
         'password' => 'required|min:4',
     ], [
         'email.required' => 'Debes ingresar un correo.',
-        'email.email' => 'Correo inválido.',
+        'email.regex' => 'El correo debe tener formato ejemplo@dominio.com.',
         'password.required' => 'Debes ingresar una contraseña.',
         'password.min' => 'Mínimo 4 caracteres.',
     ]);
@@ -66,9 +66,29 @@ Route::post('/login', function () {
    REGISTRO
    ========================================= */
 
-Route::get('/registro', function () {
-    return view('pages.registro');
-})->name('registro');
+Route::post('/registro', function () {
+
+    request()->validate([
+        'nombre' => ['required', 'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/'],
+        'email' => ['required', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/'],
+        'password' => 'required|min:4',
+        'password_confirmation' => 'required|same:password',
+    ], [
+        'nombre.required' => 'Debes ingresar tu nombre.',
+        'nombre.regex' => 'El nombre solo puede contener letras y espacios.',
+
+        'email.required' => 'Debes ingresar un correo.',
+        'email.regex' => 'El correo debe tener formato ejemplo@dominio.com',
+
+        'password.required' => 'Debes ingresar una contraseña.',
+        'password.min' => 'Mínimo 4 caracteres.',
+
+        'password_confirmation.same' => 'Las contraseñas no coinciden.',
+    ]);
+
+    return redirect()->route('home');
+
+})->name('registro.procesar');
 
 /* =========================================
    ETIQUETA "PAGOS Y ENVIOS "
