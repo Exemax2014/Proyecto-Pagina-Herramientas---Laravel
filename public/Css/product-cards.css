@@ -95,17 +95,39 @@
     color: var(--hf-highlight);
 }
 
+/* TITULO PRODUCTO:
+   limita el nombre a 2 líneas para mantener cards parejas */
 .product-card-body h3 {
     margin: 0;
     font-size: 0.95rem;
     line-height: 1.2;
+
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: calc(1.2em * 2);
 }
 
+/* DESCRIPCION PRODUCTO:
+   limita el texto a 3 líneas para mantener cards parejas */
 .product-card-body p {
     margin: 0;
     color: var(--hf-text-muted);
     line-height: 1.45;
     font-size: 0.84rem;
+
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: calc(1.45em * 3);
 }
 
 .product-card-footer {
@@ -113,18 +135,35 @@
     padding-top: 0.25rem;
 }
 
+/* PRECIO PRODUCTO:
+   reserva altura fija para mantener todas las cards iguales */
 .product-card-price {
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
     gap: 0.08rem;
+    min-height: 2.85rem;
 }
 
+/* PRECIO ANTERIOR:
+   mantiene espacio reservado aunque no exista */
 .product-card-price small {
+    display: block;
+    min-height: 1rem;
+    line-height: 1rem;
     color: #8a8a8a;
     text-decoration: line-through;
     font-size: 0.76rem;
 }
 
+/* PRECIO ANTERIOR VACIO:
+   oculta visualmente pero conserva altura */
+.product-card-price small:empty {
+    visibility: hidden;
+}
+
+/* PRECIO ACTUAL:
+   valor principal alineado igual en todas las cards */
 .product-card-price strong {
     font-size: 1.02rem;
     color: var(--hf-coal);

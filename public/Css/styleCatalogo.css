@@ -432,18 +432,15 @@
     color: #111111;
 }
 
+/* ------------------------- RESPONSIVE ---------------------------*/
 /* BREAKPOINTS CONTROLADOS */
 @media (max-width: 1360px) {
-    .catalog-grid {
-        grid-template-columns: repeat(3, minmax(215px, 1fr));
-    }
-
     .catalog-content {
         grid-template-columns: 180px minmax(0, 1fr);
     }
 }
 
-@media (max-width: 1180px) {
+@media (max-width: 1200px) {
     .catalog-content {
         grid-template-columns: 170px minmax(0, 1fr);
     }

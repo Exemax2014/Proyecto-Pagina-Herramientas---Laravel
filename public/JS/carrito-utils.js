@@ -100,12 +100,13 @@
        ACTUALIZAR CONTADOR VISUAL:
        busca elementos del navbar o interfaz y actualiza el número
        ========================================= */
-    function updateCartCount() {
+   function updateCartCount() {
         const count = getCartCount();
         const countElements = document.querySelectorAll('[data-cart-count]');
 
         countElements.forEach(element => {
-            element.textContent = count;
+            element.textContent = count > 0 ? count : '';
+            element.setAttribute('data-count', count);
         });
     }
 

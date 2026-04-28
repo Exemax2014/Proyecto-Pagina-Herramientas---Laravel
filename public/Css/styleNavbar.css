@@ -210,6 +210,13 @@
     display: none;
 }
 
+/* CONTADOR CARRITO VACIO:
+   oculta el badge cuando no hay productos */
+.navbar-cart-count:empty,
+.navbar-cart-count[data-count="0"] {
+    display: none !important;
+}
+
 /* ==========================================================================
    RESPONSIVE
    ========================================================================== */
