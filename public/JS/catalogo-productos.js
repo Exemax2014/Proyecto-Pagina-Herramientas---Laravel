@@ -25,7 +25,7 @@ window.catalogoProductos = [
         imagen: "/img/productos/soldadora-inverter-lusqtoff.jpg",
         descripcion: "Ideal para trabajos exigentes con buena estabilidad de arco y estructura reforzada.",
         etiqueta: "Destacado",
-        etiquetaClase: "catalog-product-badge-dark"
+        etiquetaClase: "product-card-badge-dark"
     },
     {
         id: 3,
@@ -39,7 +39,7 @@ window.catalogoProductos = [
         imagen: "/img/productos/calibrador-digital-dewalt.jpg",
         descripcion: "Herramienta de precisión para mediciones rápidas, confiables y de lectura simple.",
         etiqueta: "Nuevo",
-        etiquetaClase: "catalog-product-badge-soft"
+        etiquetaClase: "product-card-badge-soft"
     },
     {
         id: 4,
@@ -50,7 +50,7 @@ window.catalogoProductos = [
         precio: 92000,
         precioAnterior: null,
         ventas: 5,
-        imagen: "/img/productos/casco-de-soldar-fotosensible-lusqtoff.jpg", 
+        imagen: "/img/productos/casco-de-soldar-fotosensible-lusqtoff.jpg",
         descripcion: "Protección visual y frontal para tareas de soldadura con pantalla de oscurecimiento automático.",
         etiqueta: "",
         etiquetaClase: ""
@@ -64,7 +64,7 @@ window.catalogoProductos = [
         precio: 138000,
         precioAnterior: null,
         ventas: 6,
-        imagen: "/img/productos/prensa-de-banco-lusqtoff.jpg",     
+        imagen: "/img/productos/prensa-de-banco-lusqtoff.jpg",
         descripcion: "Base firme y cuerpo robusto para sujeción segura en trabajos de taller y montaje.",
         etiqueta: "",
         etiquetaClase: ""
@@ -95,7 +95,7 @@ window.catalogoProductos = [
         imagen: "/img/productos/atornillador-inalambrico-total.webp",
         descripcion: "Ideal para montaje en seco, fijaciones ágiles y trabajo continuo con buena autonomía.",
         etiqueta: "Nuevo",
-        etiquetaClase: "catalog-product-badge-soft"
+        etiquetaClase: "product-card-badge-soft"
     },
     {
         id: 8,
@@ -137,14 +137,14 @@ window.catalogoProductos = [
         imagen: "/img/productos/sierra-circular-maquita.jpg",
         descripcion: "Corte preciso y estable para trabajos de carpintería y montaje con excelente desempeño.",
         etiqueta: "Destacado",
-        etiquetaClase: "catalog-product-badge-dark"
+        etiquetaClase: "product-card-badge-dark"
     },
     {
         id: 11,
-        nombre: "Atornillador Inaalambrico para Durlok",
+        nombre: "Atornillador Inalámbrico para Durlok",
         categoria: "durlok",
-        marca: "ilwaukee",
-        energia: "inalambrico",
+        marca: "Milwaukee",
+        energia: "inalambrica",
         precio: 115000,
         precioAnterior: null,
         ventas: 2,
@@ -278,5 +278,19 @@ window.catalogoProductos = [
         descripcion: "Sierra caladora precisa para cortes rectos y curvos en madera.",
         etiqueta: "",
         etiquetaClase: ""
-    }
+    },
+    {
+        id: 21,
+        nombre: "Amoladora Angular 1500W",
+        categoria: "ferreteria",
+        marca: "dewalt",
+        energia: "electrica",
+        precio: 155000,
+        precioAnterior: 165000,
+        ventas: 1,
+        imagen: "/img/productos/amoladora-dewalt-1500w.jpg",
+        descripcion: "Equipo compacto para corte y desbaste, exelencia que nos destaca en el mercado.",
+        etiqueta: "Oferta",
+        etiquetaClase: ""
+    },
 ];

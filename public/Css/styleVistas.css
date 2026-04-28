@@ -2,34 +2,35 @@
 /* -------------------------------------- LOGIN ------------------------------------------- */
 /* ═════════════════════════════════════════════════════════════════════════════════════════ */
 
-/* Tarjeta principal del login:
-   mantiene el formulario dentro de una card limpia y adaptable */
+/* TARJETA LOGIN:
+   contenedor principal del formulario */
 .login-card {
     max-width: 100%;
 }
 
-/* Estructura general del formulario:
-   organiza los campos en columna con separación uniforme */
+/* FORMULARIO LOGIN:
+   organiza campos en columna */
 .login-form {
     display: grid;
     gap: 1.2rem;
 }
 
-/* Bloque de cada campo:
-   agrupa label + input + posible mensaje de error */
+/* CAMPO LOGIN:
+   agrupa label, input y errores */
 .login-field {
     display: grid;
     gap: 0.45rem;
 }
 
-/* Etiqueta descriptiva de cada input */
+/* LABEL LOGIN:
+   etiqueta descriptiva del campo */
 .login-label {
     font-weight: 700;
     color: var(--hf-coal);
 }
 
-/* Input visual del login:
-   mantiene coherencia con el estilo general del sitio */
+/* INPUT LOGIN:
+   mantiene coherencia visual con el sitio */
 .login-input {
     min-height: 3.25rem;
     border: 1px solid rgba(17, 17, 17, 0.12);
@@ -38,15 +39,15 @@
     color: #3f3f3f;
 }
 
-/* Estado focus:
-   resalta el campo activo sin romper la estética */
+/* FOCUS LOGIN:
+   resalta el campo activo */
 .login-input:focus {
     border-color: rgba(217, 164, 65, 0.65);
     box-shadow: 0 0 0 0.2rem rgba(217, 164, 65, 0.18);
 }
 
-/* Contenedor de acciones:
-   centra el botón y el link de registro debajo */
+/* ACCIONES LOGIN:
+   centra botón y link inferior */
 .login-actions {
     display: flex;
     flex-direction: column;
@@ -55,8 +56,8 @@
     margin-top: 0.5rem;
 }
 
-/* Botón principal:
-   centrado, con ancho controlado y presencia visual */
+/* BOTON LOGIN:
+   ancho controlado y presencia visual */
 .login-btn {
     width: 100%;
     min-width: 180px;
@@ -66,89 +67,71 @@
     border-radius: 0.75rem;
 }
 
-/* Texto inferior del login */
+/* TEXTO REGISTRO:
+   texto inferior del login */
 .login-register-text {
     margin: 0;
     font-size: 0.95rem;
-    color: #555;
+    color: #555555;
     text-align: center;
 }
 
-/* Link a registro:
-   estilo más prolijo y visible, sin parecer link genérico feo */
+/* LINK REGISTRO:
+   enlace hacia pantalla de registro */
 .login-register-link {
     margin-left: 0.2rem;
     font-size: 0.95rem;
     font-weight: 600;
     color: var(--hf-highlight);
     text-decoration: none;
-    transition: color 0.2s ease;
 }
 
-/* Hover del link de registro */
+/* HOVER LINK REGISTRO:
+   feedback mínimo de enlace */
 .login-register-link:hover {
     text-decoration: underline;
 }
 
-/* Alerta superior del login */
+/* ALERTA LOGIN:
+   mensaje superior de error o estado */
 .login-alert {
     margin-bottom: 1.2rem;
     border-radius: 0.85rem;
-}
-
-/* Ajustes para celular */
-@media (max-width: 575.98px) {
-    /* Reduce un poco el espacio entre bloques */
-    .login-form {
-        gap: 1rem;
-    }
-
-    /* Inputs un poco más compactos */
-    .login-input {
-        min-height: 3rem;
-    }
-
-    /* Botón adaptado a pantalla chica */
-    .login-btn {
-        min-height: 2.75rem;
-        max-width: 100%;
-    }
-
-    /* Link un poco más compacto */
-    .login-register-text,
-    .login-register-link {
-        font-size: 0.9rem;
-    }
 }
 
 /* ═════════════════════════════════════════════════════════════════════════════════════════ */
 /* ------------------------------------- REGISTRO ----------------------------------------- */
 /* ═════════════════════════════════════════════════════════════════════════════════════════ */
 
-/* Tarjeta principal del registro */
+/* TARJETA REGISTRO:
+   contenedor principal del formulario */
 .register-card {
     max-width: 100%;
 }
 
-/* Estructura del formulario */
+/* FORMULARIO REGISTRO:
+   organiza campos en columna */
 .register-form {
     display: grid;
     gap: 1.2rem;
 }
 
-/* Bloque de cada campo */
+/* CAMPO REGISTRO:
+   agrupa label, input y errores */
 .register-field {
     display: grid;
     gap: 0.45rem;
 }
 
-/* Etiqueta de cada input */
+/* LABEL REGISTRO:
+   etiqueta descriptiva del campo */
 .register-label {
     font-weight: 700;
     color: var(--hf-coal);
 }
 
-/* Inputs del registro */
+/* INPUT REGISTRO:
+   mantiene estilo visual consistente */
 .register-input {
     min-height: 3.25rem;
     border: 1px solid rgba(17, 17, 17, 0.12);
@@ -157,13 +140,15 @@
     color: #3f3f3f;
 }
 
-/* Estado focus */
+/* FOCUS REGISTRO:
+   resalta el campo activo */
 .register-input:focus {
     border-color: rgba(217, 164, 65, 0.65);
     box-shadow: 0 0 0 0.2rem rgba(217, 164, 65, 0.18);
 }
 
-/* Contenedor de acciones */
+/* ACCIONES REGISTRO:
+   centra botón y link inferior */
 .register-actions {
     display: flex;
     flex-direction: column;
@@ -172,7 +157,8 @@
     margin-top: 0.5rem;
 }
 
-/* Botón principal */
+/* BOTON REGISTRO:
+   ancho controlado y presencia visual */
 .register-btn {
     width: 100%;
     min-width: 180px;
@@ -182,55 +168,36 @@
     border-radius: 0.75rem;
 }
 
-/* Texto inferior */
+/* TEXTO LOGIN:
+   texto inferior del registro */
 .register-login-text {
     margin: 0;
     font-size: 0.95rem;
-    color: #555;
+    color: #555555;
     text-align: center;
 }
 
-/* Link al login */
+/* LINK LOGIN:
+   enlace hacia pantalla de login */
 .register-login-link {
     margin-left: 0.2rem;
     font-weight: 600;
     color: var(--hf-highlight);
     text-decoration: none;
-    transition: color 0.2s ease;
 }
 
-/* Hover del link */
+/* HOVER LINK LOGIN:
+   feedback mínimo de enlace */
 .register-login-link:hover {
     text-decoration: underline;
 }
-
-/* Responsive */
-@media (max-width: 575.98px) {
-    .register-form {
-        gap: 1rem;
-    }
-
-    .register-input {
-        min-height: 3rem;
-    }
-
-    .register-btn {
-        min-height: 2.75rem;
-        max-width: 100%;
-    }
-
-    .register-login-text {
-        font-size: 0.9rem;
-    }
-}
-
 
 /* ═════════════════════════════════════════════════════════════════════════════════════════ */
 /* ------------------------------------- CONTACTO ----------------------------------------- */
 /* ═════════════════════════════════════════════════════════════════════════════════════════ */
 
-/* HERO DE CONTACTO:
-   amplía presencia visual y separa mejor la página del resto */
+/* HERO CONTACTO:
+   bloque superior de la vista contacto */
 .contact-hero-section {
     display: flex;
     align-items: center;
@@ -238,89 +205,161 @@
     padding-bottom: clamp(2.5rem, 4vw, 4rem);
 }
 
-/* Ajuste de métricas dentro del hero de contacto */
-.contact-hero-metrics {
-    margin-top: 2.25rem;
-}
-
-/* Panel lateral del hero:
-   mantiene el estilo del index pero aplicado a contacto */
+/* PANEL CONTACTO:
+   mantiene altura visual del panel lateral */
 .contact-hero-panel {
     min-height: 100%;
 }
 
-/* Encabezados generales de secciones de contacto */
+/* CABECERA CONTACTO:
+   limita ancho de lectura en secciones */
 .contact-section-heading {
     max-width: 48rem;
     margin-bottom: 2.4rem;
 }
 
-/* Primera sección clara de contacto */
+/* SECCION CLARA CONTACTO:
+   ajusta el espaciado superior */
 .contact-section-light {
     padding-top: clamp(2rem, 3vw, 3rem);
 }
 
-/* SECCION OSCURA DE CONTACTO ONLINE:
-   fondo negro limpio, sin efectos extra */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* ------------------------------- CONTACTO ONLINE OSCURO -------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* SECCION OSCURA CONTACTO:
+   bloque negro a ancho completo */
 .contact-section-dark {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
     margin-top: 0;
-    background: #111111;
+    padding: 0.4rem 0;
+    background:
+        linear-gradient(180deg, rgba(217, 164, 65, 0.08), transparent 22%),
+        #111111;
+    position: relative;
 }
 
-/* Kicker específico de la sección oscura:
-   mantiene el dorado por encima del color blanco heredado */
+/* LINEA SUPERIOR:
+   mismo detalle superior usado en términos y comercialización */
+.contact-section-dark::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(217, 164, 65, 0.32) 18%,
+        rgba(217, 164, 65, 0.75) 50%,
+        rgba(217, 164, 65, 0.32) 82%,
+        transparent 100%
+    );
+}
+
+/* TITULO CONTACTO ONLINE:
+   fuerza contraste sobre la card oscura */
+.contact-section-dark h2 {
+    color: var(--hf-white);
+}
+
+/* CONTENEDOR INTERNO:
+   iguala el ancho visual de los bloques negros institucionales */
+.contact-dark-inner {
+    width: min(100% - 2.5rem, 1280px);
+    margin: 0 auto;
+}
+
+/* CARD OSCURA CONTACTO:
+   replica la card interna de términos/comercialización */
+.contact-dark-card {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 1.75rem;
+    border: 1px solid rgba(217, 164, 65, 0.14);
+    border-radius: 0;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0)),
+        transparent;
+}
+
+/* LINEA LATERAL DORADA:
+   igual a .terms-legal-card::before */
+.contact-dark-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 4px;
+    background: linear-gradient(180deg, var(--hf-highlight), transparent);
+    opacity: 0.9;
+}
+
+/* CONTENIDO CARD OSCURA:
+   mantiene el contenido por encima de la línea */
+.contact-dark-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* FILA INTERNA ONLINE:
+   centra verticalmente las columnas de texto y botones */
+.contact-section-dark .row {
+    align-items: center !important;
+}
+
+/* KICKER OSCURO CONTACTO:
+   conserva el dorado en fondo oscuro */
 .contact-section-dark .contact-dark-kicker {
     color: var(--hf-highlight);
 }
 
-/* Bloque de texto de la sección online:
-   más ordenado, más corto y con lectura clara */
+/* COLUMNA DE TEXTO ONLINE:
+   ordena y centra verticalmente la información izquierda */
 .contact-section-dark .contact-section-heading {
     display: flex;
     flex-direction: column;
     justify-content: center;
     height: 100%;
-    max-width: 29rem;
+    max-width: 31rem;
     margin-bottom: 0;
     gap: 0.8rem;
 }
 
-/* Texto complementario breve debajo del texto principal */
+/* TEXTO PRINCIPAL ONLINE:
+   mejora contraste sobre fondo negro */
+.contact-section-dark .contact-section-heading p {
+    color: rgba(209, 207, 202, 0.88);
+}
+
+/* TEXTO EXTRA ONLINE:
+   descripción adicional de contacto con buena lectura */
 .contact-online-extra {
     margin-top: 0.4rem;
     font-size: 0.96rem;
     line-height: 1.75;
-    color: rgba(248, 245, 239, 0.78);
+    color: rgba(209, 207, 202, 0.88);
 }
 
-/* TARJETAS DE INFORMACION FISICA:
-   aprovechan el lenguaje de home-card con mejor comportamiento visual */
-.contact-info-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 0.2rem;
-    min-height: 100%;
-}
-
-/* Iconos de tarjetas de contacto físico */
-.contact-info-card i {
-    font-size: 2rem;
-    color: var(--hf-highlight);
-}
-
-/* CONTENEDOR VERTICAL DE CARDS ONLINE */
+/* STACK CONTACTO ONLINE:
+   columna de botones de teléfono, WhatsApp y correo */
 .contact-online-stack {
     display: grid;
+    align-content: center;
     gap: 1rem;
-    justify-items: start;
     width: 100%;
     max-width: 520px;
+    min-height: 100%;
     margin: 0 auto;
 }
 
-/* CARDS ONLINE:
-   mismo ancho, más compactas y con contenido centrado */
+/* BOTON ONLINE:
+   toda la card funciona como enlace clickeable */
 .contact-online-card {
     display: grid;
     grid-template-columns: 140px 1fr;
@@ -329,27 +368,45 @@
     max-width: 520px;
     min-height: 88px;
     padding: 1.1rem 1.35rem;
+    border-radius: 1.25rem;
     background: rgba(255, 255, 255, 0.07);
     border: 1px solid rgba(255, 255, 255, 0.12);
-    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    color: var(--hf-white);
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Hover suave */
+/* HOVER BOTON ONLINE:
+   deja claro que toda la card es interactiva */
 .contact-online-card:hover {
     transform: translateY(-3px);
-    border-color: rgba(217, 164, 65, 0.28);
-    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.14);
+    background: rgba(255, 255, 255, 0.10);
+    border-color: rgba(217, 164, 65, 0.35);
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18);
+    color: var(--hf-white);
 }
 
-/* Título dentro de la card:
-   más grande, fuerte y alineado visualmente con el link */
+/* TITULO CARD ONLINE:
+   nombre del canal en dorado */
 .contact-online-card h3 {
     margin: 0;
     font-size: 1.18rem;
     text-align: center;
+    color: var(--hf-highlight);
+    font-family: "Oswald", sans-serif;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
 }
 
-/* Link simple, sin borde ni estilo de botón */
+/* HOVER TITULO CARD ONLINE:
+   mantiene el título en dorado suave al interactuar */
+.contact-online-card:hover h3 {
+    color: var(--hf-highlight-soft);
+}
+
+/* DATO DEL CANAL:
+   teléfono, WhatsApp o correo */
 .contact-online-link {
     display: flex;
     align-items: center;
@@ -360,27 +417,51 @@
     font-weight: 700;
     text-align: center;
     text-decoration: none;
-    transition: color 0.2s ease;
 }
 
-/* Hover del link */
-.contact-online-link:hover {
+/* HOVER DEL DATO:
+   mantiene contraste al pasar el mouse */
+.contact-online-card:hover .contact-online-link {
     color: var(--hf-highlight-soft);
 }
 
-/* SECCION DEL FORMULARIO:
-   separa el bloque final para que tenga más presencia */
+/* ----------------------- CONTACTO FISICO -------------------------- */
+
+/* CARD CONTACTO FISICO:
+   tarjeta informativa de atención presencial */
+.contact-info-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.2rem;
+    min-height: 100%;
+}
+
+/* ICONO CONTACTO FISICO:
+   acento visual de cada tarjeta */
+.contact-info-card i {
+    font-size: 2rem;
+    color: var(--hf-highlight);
+}
+
+/* --------------------- FORMULARIO CONTACTO ------------------------ */
+
+
+/* SECCION FORMULARIO:
+   bloque inferior de contacto */
 .contact-form-section {
     padding-top: 3.5rem;
     padding-bottom: 4.5rem;
 }
 
-/* Contenedor general del bloque final */
+/* WRAP FORMULARIO:
+   separación interna del bloque */
 .contact-form-wrap {
     padding: 2rem 0;
 }
 
-/* Columna izquierda del formulario */
+/* INTRO FORMULARIO:
+   columna izquierda del formulario */
 .contact-form-intro-block {
     display: flex;
     flex-direction: column;
@@ -389,7 +470,8 @@
     height: 100%;
 }
 
-/* Título del formulario */
+/* TITULO FORMULARIO:
+   encabezado de la sección */
 .contact-form-intro-block h2 {
     margin-bottom: 0;
     font-family: "Oswald", sans-serif;
@@ -398,7 +480,8 @@
     text-transform: uppercase;
 }
 
-/* Texto descriptivo del formulario */
+/* TEXTO FORMULARIO:
+   descripción de la sección */
 .contact-form-intro-block p {
     margin-bottom: 0;
     font-size: 1.05rem;
@@ -406,20 +489,23 @@
     color: var(--hf-text-muted);
 }
 
-/* Bloque de soporte debajo del texto */
+/* SOPORTE FORMULARIO:
+   datos de respuesta y canal */
 .contact-form-support {
     display: grid;
     gap: 0.9rem;
     margin-top: 0.6rem;
 }
 
-/* Cada dato de soporte */
+/* ITEM SOPORTE:
+   separador visual de cada dato */
 .contact-form-support div {
     padding-top: 0.8rem;
     border-top: 1px solid rgba(17, 17, 17, 0.12);
 }
 
-/* Texto fuerte del soporte */
+/* TITULO SOPORTE:
+   dato destacado */
 .contact-form-support strong {
     display: block;
     font-family: "Oswald", sans-serif;
@@ -429,37 +515,43 @@
     color: var(--hf-coal);
 }
 
-/* Texto secundario del soporte */
+/* TEXTO SOPORTE:
+   descripción secundaria */
 .contact-form-support span {
     color: #5c5c5c;
 }
 
-/* Tarjeta del formulario */
+/* CARD FORMULARIO:
+   contenedor visual del form */
 .contact-form-card {
     height: 100%;
     padding: 2rem;
     border-radius: 1.5rem;
 }
 
-/* Formulario */
+/* FORMULARIO:
+   grilla de campos */
 .contact-form {
     display: grid;
     gap: 1.2rem;
 }
 
-/* Bloque de campo */
+/* CAMPO FORMULARIO:
+   agrupa label y control */
 .contact-form-field {
     display: grid;
     gap: 0.45rem;
 }
 
-/* Etiqueta del formulario */
+/* LABEL FORMULARIO:
+   etiqueta del campo */
 .contact-form-label {
     font-weight: 700;
     color: var(--hf-coal);
 }
 
-/* Inputs y textarea */
+/* INPUTS FORMULARIO:
+   base visual de inputs y textarea */
 .contact-form-input,
 .contact-form-textarea {
     border: 1px solid rgba(17, 17, 17, 0.12);
@@ -468,33 +560,38 @@
     color: #3f3f3f;
 }
 
-/* Altura mínima de inputs */
+/* INPUT FORMULARIO:
+   altura mínima del campo */
 .contact-form-input {
     min-height: 3.25rem;
 }
 
-/* Textarea */
+/* TEXTAREA FORMULARIO:
+   área de consulta */
 .contact-form-textarea {
     min-height: 160px;
     resize: vertical;
     padding-top: 0.85rem;
 }
 
-/* Focus */
+/* FOCUS FORMULARIO:
+   estado activo del campo */
 .contact-form-input:focus,
 .contact-form-textarea:focus {
     border-color: rgba(217, 164, 65, 0.65);
     box-shadow: 0 0 0 0.2rem rgba(217, 164, 65, 0.18);
 }
 
-/* Contenedor del botón */
+/* ACCIONES FORMULARIO:
+   centra el botón de envío */
 .contact-form-actions {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     margin-top: 0.4rem;
 }
 
-/* Botón principal */
+/* BOTON FORMULARIO:
+   botón principal de consulta */
 .contact-form-btn {
     width: 100%;
     min-width: 220px;
@@ -504,125 +601,33 @@
     border-radius: 0.8rem;
 }
 
-
-/* ------------------------ RESPONSIVE ----------------------- */
-
-@media (max-width: 991.98px) {
-    /* Hero menos alto en tablet */
-    .contact-hero-section {
-        min-height: auto;
-        padding-top: 3rem;
-    }
-
-    /* El bloque de texto online gana ancho completo */
-    .contact-section-dark .contact-section-heading {
-        max-width: 100%;
-    }
-
-    /* El texto extra mantiene ancho razonable */
-    .contact-online-extra {
-        max-width: 32rem;
-    }
-
-    /* Las cards online pueden ocupar un poco más */
-    .contact-online-card {
-        max-width: 100%;
-    }
-
-    /* El bloque final respira un poco menos */
-    .contact-form-card {
-        padding: 1.7rem;
-    }
-
-    .contact-form-wrap {
-        padding: 1rem 0;
-    }
-}
-
-@media (max-width: 575.98px) {
-    /* Hero más compacto */
-    .contact-hero-section {
-        padding-top: 2.5rem;
-    }
-
-    /* Menos separación entre grandes bloques */
-    .contact-form-section,
-    .contact-section-light {
-        padding-top: 2.5rem;
-    }
-
-    /* Cards online en columna en pantallas chicas */
-    .contact-online-card {
-        grid-template-columns: 1fr;
-        gap: 0.35rem;
-        min-height: auto;
-        padding: 1rem 1.1rem;
-    }
-
-    .contact-online-card h3,
-    .contact-online-link {
-        text-align: center;
-        justify-content: center;
-    }
-
-    .contact-online-card h3 {
-        font-size: 1.1rem;
-    }
-
-    .contact-online-link {
-        font-size: 0.96rem;
-    }
-
-    .contact-online-extra {
-        font-size: 0.9rem;
-    }
-
-    /* Tarjeta del formulario más compacta */
-    .contact-form-card {
-        padding: 1.25rem;
-        border-radius: 1.1rem;
-    }
-
-    /* Inputs más compactos */
-    .contact-form-input {
-        min-height: 3rem;
-    }
-
-    .contact-form-textarea {
-        min-height: 130px;
-    }
-
-    /* Botón full width */
-    .contact-form-btn {
-        max-width: 100%;
-        min-height: 2.8rem;
-    }
-
-    /* Título del formulario adaptado */
-    .contact-form-intro-block h2 {
-        font-size: 1.9rem;
-    }
-}
-
 /* ═════════════════════════════════════════════════════════════════════════════════════════ */
-/* ------------------------------ TERMINOS Y CONDICIONES ---------------------------------- */
+/* ------------------------------ TERMINOS / VISTAS INFO --------------------------------- */
 /* ═════════════════════════════════════════════════════════════════════════════════════════ */
 
-/* HERO DE TERMINOS:
-   mantiene una anchura cómoda de lectura para la cabecera principal */
+/* PAGINA TERMINOS:
+   contenedor general de vistas institucionales */
+.terms-page {
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* HERO TERMINOS:
+   cabecera institucional */
 .terms-hero {
     max-width: 54rem;
     margin-bottom: 0;
 }
-/* VERSION ENRIQUECIDA DEL HERO:
-   agrega más presencia visual sin perder sobriedad */
+
+/* HERO ENRIQUECIDO:
+   agrega presencia visual a la cabecera */
 .terms-hero-enhanced {
     position: relative;
     padding: 0.35rem 0 0.2rem;
 }
 
-/* ETIQUETA SUPERIOR DEL HERO:
-   presenta la sección con más identidad institucional */
+/* BADGE HERO:
+   etiqueta superior de sección */
 .terms-hero-badge {
     display: inline-flex;
     align-items: center;
@@ -639,22 +644,22 @@
     text-transform: uppercase;
 }
 
-/* ICONO DEL BADGE:
-   refuerza la identidad visual con un acento dorado */
+/* ICONO BADGE:
+   acento visual del badge */
 .terms-hero-badge i {
     color: var(--hf-highlight);
     font-size: 0.92rem;
 }
 
-/* TITULO PRINCIPAL DEL HERO:
-   mejora la jerarquía y la respiración visual */
+/* TITULO HERO:
+   título principal de vista */
 .terms-hero h1 {
     margin-bottom: 0.9rem;
     line-height: 0.95;
 }
 
-/* ACENTO DECORATIVO:
-   genera una pausa visual entre titulo y texto */
+/* ACENTO HERO:
+   línea decorativa inferior */
 .terms-hero-accent {
     width: 92px;
     height: 4px;
@@ -668,14 +673,14 @@
     );
 }
 
-/* PARRAFO DEL HERO:
-   da mejor comodidad de lectura al texto descriptivo */
+/* TEXTO HERO:
+   bajada descriptiva */
 .terms-hero p {
     max-width: 46rem;
 }
 
-/* BLOQUE DE MICRO CONFIANZA:
-   agrega cercanía visual y evita que el hero termine de golpe */
+/* CONFIANZA HERO:
+   micro datos bajo la descripción */
 .terms-hero-trust {
     display: flex;
     flex-wrap: wrap;
@@ -683,8 +688,8 @@
     margin-top: 1.4rem;
 }
 
-/* ITEM INDIVIDUAL DE CONFIANZA:
-   transforma conceptos clave en pequeños apoyos visuales */
+/* ITEM CONFIANZA:
+   cápsulas informativas del hero */
 .terms-hero-trust-item {
     display: inline-flex;
     align-items: center;
@@ -698,15 +703,15 @@
     font-weight: 600;
 }
 
-/* ICONO DE LOS ITEMS:
-   mantiene continuidad con la paleta dorada del sitio */
+/* ICONO CONFIANZA:
+   acento dorado de la cápsula */
 .terms-hero-trust-item i {
     color: var(--hf-highlight);
     font-size: 0.95rem;
 }
 
-/* EFECTO DECORATIVO DE FONDO:
-   suma identidad sin recargar el encabezado */
+/* DECORACION HERO:
+   fondo suave no interactivo */
 .terms-hero-enhanced::after {
     content: "";
     position: absolute;
@@ -725,33 +730,27 @@
     z-index: 0;
 }
 
-/* ASEGURA QUE EL CONTENIDO QUEDE POR ENCIMA DEL EFECTO */
+/* CONTENIDO HERO:
+   asegura que quede sobre la decoración */
 .terms-hero-enhanced > * {
     position: relative;
     z-index: 1;
 }
 
-/* FILA PRINCIPAL DEL HERO:
-   separa correctamente la cabecera del resto del contenido */
+/* FILA HERO:
+   separación inferior del encabezado */
 .terms-hero-row {
     margin-bottom: 1.25rem;
 }
 
-/* PANEL LATERAL DE RESUMEN:
-   conserva la misma altura visual que el contenido vecino */
+/* PANEL HERO:
+   altura completa del panel lateral */
 .terms-hero-panel {
     height: 100%;
 }
 
-/* PAGINA DE TERMINOS:
-   sirve como contenedor general y evita desbordes laterales */
-.terms-page {
-    position: relative;
-    overflow-x: hidden;
-}
-
-/* BLOQUE DESTACADO INTRODUCTORIO:
-   da una entrada más institucional y con presencia de marca */
+/* DESTACADO INTRO:
+   bloque introductorio institucional */
 .terms-highlight-card {
     position: relative;
     overflow: hidden;
@@ -759,8 +758,8 @@
     background: linear-gradient(135deg, rgba(217, 164, 65, 0.10), rgba(255, 255, 255, 0.78));
 }
 
-/* ETIQUETA SUPERIOR DEL BLOQUE DESTACADO:
-   categoriza la información y suma identidad visual */
+/* BADGE INTERNO:
+   etiqueta del bloque destacado */
 .terms-badge {
     display: inline-flex;
     align-items: center;
@@ -777,23 +776,23 @@
     text-transform: uppercase;
 }
 
-/* ICONO DEL BADGE:
-   acompaña el texto con un acento dorado elegante */
+/* ICONO BADGE INTERNO:
+   acento visual del badge */
 .terms-badge i {
     color: var(--hf-highlight);
     font-size: 0.9rem;
 }
 
-/* CONTENEDOR VERTICAL DE TARJETAS:
-   organiza todos los bloques en columna con separación uniforme */
+/* STACK TERMINOS:
+   columna de tarjetas informativas */
 .terms-stack {
     display: grid;
     gap: 1.25rem;
     margin-top: 1.25rem;
 }
 
-/* TARJETA BASE DE TERMINOS:
-   estructura principal de cada bloque legal con estilo suave y moderno */
+/* CARD TERMINOS:
+   tarjeta principal de contenido */
 .terms-card {
     position: relative;
     display: flex;
@@ -807,8 +806,8 @@
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-/* DETALLE LATERAL DE LA TARJETA:
-   suma continuidad visual y refuerza el lenguaje institucional */
+/* DETALLE CARD:
+   línea lateral de identidad */
 .terms-card::before {
     content: "";
     position: absolute;
@@ -820,24 +819,24 @@
     border-radius: 2px;
 }
 
-/* HOVER DE TARJETAS:
-   agrega una reacción sutil sin exagerar el movimiento */
+/* HOVER CARD:
+   efecto solo del bloque completo */
 .terms-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--hf-card-shadow-hover);
     border-color: rgba(217, 164, 65, 0.2);
 }
 
-/* CABECERA DE CADA TARJETA:
-   alinea icono y bloque de texto de forma prolija */
+/* CABECERA CARD:
+   ícono más grupo textual */
 .terms-card-headline {
     display: flex;
     align-items: flex-start;
     gap: 0.9rem;
 }
 
-/* ICONO PRINCIPAL DE CADA BLOQUE:
-   crea una cápsula visual dorada y coherente con la identidad */
+/* ICONO CARD:
+   cápsula visual del bloque */
 .terms-card-icon {
     width: 2.7rem;
     height: 2.7rem;
@@ -854,16 +853,16 @@
     box-shadow: 0 0 0 4px rgba(217, 164, 65, 0.05);
 }
 
-/* AGRUPADOR DE KICKER Y TITULO:
-   mejora el apilado vertical y la lectura del encabezado */
+/* GRUPO TITULO CARD:
+   apila kicker y título */
 .terms-card-title-group {
     display: flex;
     flex-direction: column;
     gap: 0.18rem;
 }
 
-/* VARIANTE OSCURA DEL ICONO:
-   adapta el icono al bloque final oscuro sin perder contraste */
+/* ICONO CARD OSCURO:
+   variante para bloque final */
 .terms-card-headline-dark .terms-card-icon {
     background: rgba(217, 164, 65, 0.10);
     border-color: rgba(217, 164, 65, 0.22);
@@ -871,8 +870,8 @@
     box-shadow: 0 0 0 4px rgba(217, 164, 65, 0.04);
 }
 
-/* TEXTO AUXILIAR O KICKER:
-   permite identificar rápidamente la categoría del bloque */
+/* KICKER CARD:
+   categoría del bloque */
 .terms-card-kicker {
     font-size: 0.78rem;
     letter-spacing: 0.08em;
@@ -882,72 +881,74 @@
     margin: 0;
 }
 
-/* VARIANTE DEL KICKER EN OSCURO:
-   mejora la visibilidad sobre fondo negro */
+/* KICKER OSCURO:
+   variante sobre fondo oscuro */
 .terms-card-kicker-dark {
     color: var(--hf-highlight-soft);
 }
 
-/* TITULOS PRINCIPALES:
-   asegura limpieza y mejor jerarquía visual */
+/* TITULOS CARD:
+   evita márgenes inesperados */
 .terms-card h2,
 .terms-legal-card h2 {
     margin: 0;
     line-height: 1.2;
 }
 
-/* PARRAFOS GENERALES:
-   mejora la lectura del contenido legal y descriptivo */
+/* PARRAFOS CARD:
+   lectura cómoda */
 .terms-card p,
 .terms-legal-card p {
     line-height: 1.72;
     margin-bottom: 0;
 }
 
-/* CONTENEDOR DE PUNTOS:
-   distribuye los bloques internos de forma clara y ordenada */
+/* PUNTOS INFORMATIVOS:
+   contenedor de textos secundarios no interactivos */
 .terms-points {
     display: grid;
-    gap: 0.7rem;
-    margin-top: 0.35rem;
+    gap: 0.75rem;
+    margin-top: 0.45rem;
 }
 
-/* PUNTO INDIVIDUAL:
-   reemplaza el listado clásico por piezas visuales más modernas */
+/* PUNTO INFORMATIVO:
+   bloque de lectura, no botón */
 .terms-point {
-    padding: 0.9rem 1rem;
-    border: 1px solid rgba(17, 17, 17, 0.10);
-    border-radius: 0.9rem;
-    background: rgba(244, 239, 231, 0.55);
-    line-height: 1.6;
+    position: relative;
+    padding: 0.75rem 0 0.75rem 1rem;
+    border: 0;
+    border-left: 3px solid rgba(217, 164, 65, 0.45);
+    border-radius: 0;
+    background: transparent;
     color: var(--hf-text-muted);
-    transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+    line-height: 1.7;
+    cursor: default;
 }
 
-/* HOVER SUAVE DE LOS PUNTOS:
-   agrega vida al contenido sin distraer la lectura */
+/* HOVER PUNTO:
+   neutralizado para que no parezca interactivo */
 .terms-point:hover {
-    border-color: rgba(217, 164, 65, 0.22);
-    background: rgba(244, 239, 231, 0.72);
-    transform: translateX(2px);
+    transform: none;
+    background: transparent;
+    border-left-color: rgba(217, 164, 65, 0.45);
 }
 
-/* SECCION LEGAL FINAL A TODO EL ANCHO:
-   saca el bloque final del ancho del container y lo expande a pantalla completa */
+/* SECCION LEGAL:
+   bloque final a ancho completo */
 .terms-legal-section {
     width: 100vw;
     margin-top: 1.8rem;
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
-    padding: 4rem 0;
+    padding: 0.4rem 0;
     background:
         linear-gradient(180deg, rgba(217, 164, 65, 0.08), transparent 22%),
         #111111;
     position: relative;
 }
 
-/* LINEA SUPERIOR DECORATIVA:
-   aporta una terminación más premium al bloque final */
+/* LINEA LEGAL:
+   detalle superior decorativo */
 .terms-legal-section::before {
     content: "";
     position: absolute;
@@ -965,15 +966,15 @@
     );
 }
 
-/* CONTENEDOR INTERNO DEL BLOQUE FINAL:
-   mantiene aire lateral sin perder sensación de amplitud */
+/* INNER LEGAL:
+   limita ancho del contenido */
 .terms-legal-inner {
     width: min(100% - 2.5rem, 1280px);
     margin: 0 auto;
 }
 
-/* CARD LEGAL FINAL:
-   se extiende a lo ancho del contenedor interno y elimina redondeados */
+/* CARD LEGAL:
+   tarjeta final oscura */
 .terms-legal-card {
     position: relative;
     overflow: hidden;
@@ -987,8 +988,8 @@
         transparent;
 }
 
-/* DETALLE LATERAL DEL BLOQUE FINAL:
-   conserva el lenguaje visual de las cards claras */
+/* DETALLE LEGAL:
+   línea lateral dorada */
 .terms-legal-card::before {
     content: "";
     position: absolute;
@@ -998,46 +999,163 @@
     opacity: 0.9;
 }
 
-/* ASEGURA QUE TODO EL CONTENIDO QUEDE POR ENCIMA DE LOS DETALLES */
+/* CONTENIDO LEGAL:
+   asegura contenido sobre efectos */
 .terms-legal-card > * {
     position: relative;
     z-index: 1;
 }
 
-/* PUNTOS EN FONDO OSCURO:
-   adapta la lectura y el contraste para el cierre legal */
+/* PUNTOS OSCUROS:
+   variante informativa sobre fondo oscuro */
 .terms-points-dark .terms-point {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(255, 255, 255, 0.08);
+    background: transparent;
+    border-left-color: rgba(217, 164, 65, 0.55);
     color: rgba(248, 245, 239, 0.82);
 }
 
-/* HOVER DE LOS PUNTOS EN OSCURO:
-   refina la interacción manteniendo el tono sobrio */
+/* HOVER PUNTOS OSCUROS:
+   neutralizado */
 .terms-points-dark .terms-point:hover {
-    background: rgba(255, 255, 255, 0.07);
-    border-color: rgba(217, 164, 65, 0.20);
+    background: transparent;
+    border-left-color: rgba(217, 164, 65, 0.55);
+    transform: none;
 }
 
-/* TARJETA FINAL A TODO EL ANCHO:
-   asegura que no herede restricciones extrañas desde otras vistas */
+/* CARD FULLWIDTH:
+   evita restricciones heredadas */
 .terms-fullwidth-card {
     width: 100%;
     margin: 0;
     border-radius: 0 !important;
 }
 
-/* RESPONSIVE TABLET:
-   ajusta la separación general sin romper la estructura */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* ----------------------------- QUIENES SOMOS / AJUSTES -------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* PANEL RESUMEN:
+   compacta el panel lateral de pilares */
+.terms-summary-panel {
+    padding: 1.35rem;
+    border-radius: 1.25rem;
+}
+
+/* ETIQUETA PANEL:
+   reduce presencia visual del título interno */
+.terms-summary-panel .panel-label {
+    margin-bottom: 1rem;
+    font-size: 0.78rem;
+}
+
+/* ITEM PANEL:
+   disminuye separación vertical */
+.terms-summary-panel .hero-panel-item {
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+}
+
+/* NUMERO PANEL:
+   achica la numeración lateral */
+.terms-summary-panel .panel-number {
+    min-width: 2rem;
+    font-size: 1.15rem;
+}
+
+/* TITULO PANEL:
+   evita que compita con el título principal */
+.terms-summary-panel h3 {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* CARRUSEL INSTITUCIONAL:
+   mantiene una proporción estable y responsive */
+.terms-carousel {
+    width: 100%;
+    max-width: 720px;
+    margin: 1rem auto 0;
+}
+
+/* CONTENEDOR CARRUSEL:
+   define formato cuadrado amplio sin depender de la imagen */
+.terms-carousel .carousel-inner {
+    aspect-ratio: 4 / 3;
+    background: #111111;
+}
+
+/* ITEM CARRUSEL:
+   fuerza altura completa dentro del contenedor */
+.terms-carousel .carousel-item {
+    height: 100%;
+}
+
+/* IMAGEN CARRUSEL:
+   evita deformación y cortes */
+.terms-carousel .carousel-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    background: #111111;
+}
+
+/* CAPTION CARRUSEL:
+   mejora contraste del texto */
+.terms-carousel .carousel-caption {
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    padding: 0.65rem 1rem;
+    border-radius: 0.8rem;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* ------------------------------------ RESPONSIVE ---------------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
 @media (max-width: 991.98px) {
-    /* BLOQUE DE CONFIANZA DEL HERO:
-       ajusta el aire para tablet sin desordenar el encabezado */
-    .terms-hero-trust {
-        margin-top: 1.15rem;
+    /* CONTACTO HERO:
+       compacta altura en tablet */
+    .contact-hero-section {
+        min-height: auto;
+        padding-top: 3rem;
     }
 
-    /* EFECTO DECORATIVO DEL HERO:
-       reduce tamaño para no invadir el contenido */
+    /* CONTACTO OSCURO:
+       libera ancho del texto */
+    .contact-section-dark .contact-section-heading {
+        max-width: 100%;
+    }
+
+    /* TEXTO ONLINE:
+       mantiene lectura controlada */
+    .contact-online-extra {
+        max-width: 32rem;
+    }
+
+    /* CARD ONLINE:
+       ocupa más ancho en tablet */
+    .contact-online-card {
+        max-width: 100%;
+    }
+
+    /* FORM CARD:
+       reduce padding en tablet */
+    .contact-form-card {
+        padding: 1.7rem;
+    }
+
+    /* FORM WRAP:
+       compacta separación */
+    .contact-form-wrap {
+        padding: 1rem 0;
+    }
+
+    /* HERO TERMS:
+       reduce decoración */
     .terms-hero-enhanced::after {
         width: 14rem;
         height: 14rem;
@@ -1045,18 +1163,137 @@
         right: -1rem;
     }
 
+    /* TRUST TERMS:
+       ajusta aire en tablet */
+    .terms-hero-trust {
+        margin-top: 1.15rem;
+    }
+
+    /* ROW TERMS:
+       reduce margen inferior */
     .terms-hero-row {
         margin-bottom: 0.9rem;
     }
 
+    /* LEGAL SECTION:
+       compacta padding */
     .terms-legal-section {
         padding: 3.2rem 0;
     }
+
+    .terms-summary-column {
+        display: none;
+    }
 }
 
-/* RESPONSIVE MOBILE:
-   compacta tamaños y espacios para mejorar la lectura en pantallas chicas */
 @media (max-width: 575.98px) {
+    /* LOGIN:
+       compacta estructura */
+    .login-form {
+        gap: 1rem;
+    }
+
+    .login-input {
+        min-height: 3rem;
+    }
+
+    .login-btn {
+        min-height: 2.75rem;
+        max-width: 100%;
+    }
+
+    .login-register-text,
+    .login-register-link {
+        font-size: 0.9rem;
+    }
+
+    /* REGISTRO:
+       compacta estructura */
+    .register-form {
+        gap: 1rem;
+    }
+
+    .register-input {
+        min-height: 3rem;
+    }
+
+    .register-btn {
+        min-height: 2.75rem;
+        max-width: 100%;
+    }
+
+    .register-login-text {
+        font-size: 0.9rem;
+    }
+
+    /* CONTACTO HERO:
+       reduce espacio superior */
+    .contact-hero-section {
+        padding-top: 2.5rem;
+    }
+
+    /* CONTACTO SECCIONES:
+       reduce separación vertical */
+    .contact-form-section,
+    .contact-section-light {
+        padding-top: 2.5rem;
+    }
+
+    /* CARD ONLINE:
+       pasa a una columna */
+    .contact-online-card {
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+        min-height: auto;
+        padding: 1rem 1.1rem;
+    }
+
+    /* TEXTO ONLINE:
+       centra contenido */
+    .contact-online-card h3,
+    .contact-online-link {
+        text-align: center;
+        justify-content: center;
+    }
+
+    .contact-online-card h3 {
+        font-size: 1.1rem;
+    }
+
+    .contact-online-link {
+        font-size: 0.96rem;
+    }
+
+    .contact-online-extra {
+        font-size: 0.9rem;
+    }
+
+    /* FORM CARD:
+       versión compacta */
+    .contact-form-card {
+        padding: 1.25rem;
+        border-radius: 1.1rem;
+    }
+
+    .contact-form-input {
+        min-height: 3rem;
+    }
+
+    .contact-form-textarea {
+        min-height: 130px;
+    }
+
+    .contact-form-btn {
+        max-width: 100%;
+        min-height: 2.8rem;
+    }
+
+    .contact-form-intro-block h2 {
+        font-size: 1.9rem;
+    }
+
+    /* TERMS:
+       compacta bloque destacado */
     .terms-highlight-card {
         border-left-width: 3px;
     }
@@ -1066,6 +1303,8 @@
         padding: 0.3rem 0.6rem;
     }
 
+    /* TERMS CARD:
+       versión mobile */
     .terms-card {
         padding: 1.2rem;
         border-radius: 1.1rem;
@@ -1083,9 +1322,11 @@
     }
 
     .terms-point {
-        padding: 0.8rem 0.9rem;
+        padding: 0.72rem 0 0.72rem 0.9rem;
     }
 
+    /* LEGAL MOBILE:
+       ajusta ancho y espacio */
     .terms-legal-inner {
         width: min(100% - 1.2rem, 1280px);
     }
@@ -1094,36 +1335,28 @@
         padding: 2.6rem 0;
     }
 
-        /* BADGE DEL HERO:
-       se compacta para adaptarse mejor a pantallas chicas */
+    /* HERO TERMS MOBILE:
+       compacta badge y decoraciones */
     .terms-hero-badge {
         font-size: 0.72rem;
         padding: 0.36rem 0.68rem;
     }
 
-    /* ACENTO DEL HERO:
-       reduce tamaño para mantener proporción visual */
     .terms-hero-accent {
         width: 72px;
         height: 3px;
         margin-bottom: 1rem;
     }
 
-    /* BLOQUE DE CONFIANZA:
-       achica separación para mejorar la lectura en mobile */
     .terms-hero-trust {
         gap: 0.6rem;
     }
 
-    /* ITEM DE CONFIANZA:
-       se vuelve más compacto sin perder legibilidad */
     .terms-hero-trust-item {
         font-size: 0.84rem;
         padding: 0.5rem 0.7rem;
     }
 
-    /* EFECTO DECORATIVO:
-       se reduce para no saturar el encabezado */
     .terms-hero-enhanced::after {
         width: 10rem;
         height: 10rem;
@@ -1131,5 +1364,21 @@
         right: -0.8rem;
     }
 
+    .terms-carousel .carousel-inner {
+        aspect-ratio: 1 / 1;
+    }
 
+    .terms-carousel .carousel-caption {
+        display: none;
+    }
+
+    /* CONTACTO OSCURO MOBILE:
+    adapta el ancho interno igual que términos */
+    .contact-dark-inner {
+        width: min(100% - 1.2rem, 1280px);
+    }
+
+    .contact-dark-card {
+        padding: 1.25rem;
+    }
 }

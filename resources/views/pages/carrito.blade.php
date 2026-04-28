@@ -41,7 +41,7 @@
                     </div>
                 </section>
 
-                <!-- ===== DATOS DEL CLIENTE ===== -->
+                <!-- ===== DATOS DEL CLIENTE ===== 
                 <section class="cart-section">
                     <div class="section-heading cart-section-heading">
                         <span class="home-kicker">Contacto</span>
@@ -93,7 +93,7 @@
                             </div>
                         </form>
                     </div>
-                </section>
+                </section>  -->
             </div>
 
             <!-- ===== COLUMNA DERECHA ===== -->
@@ -103,7 +103,6 @@
                 <div class="page-card cart-summary-card">
                     <div class="cart-summary-head">
                         <h2>Resumen del pedido</h2>
-                        <p>Totales calculados automáticamente según el carrito actual.</p>
                     </div>
 
                     <div class="cart-summary-lines">
@@ -130,15 +129,7 @@
 
                     <div class="cart-payment-methods">
                         <h3>Método de pago</h3>
-
-                        <label class="cart-payment-option">
-                            <input type="radio" name="payment_method" value="transferencia" checked>
-                            <div>
-                                <strong>Transferencia bancaria</strong>
-                                <span>Validación manual del pago</span>
-                            </div>
-                        </label>
-
+                        
                         <label class="cart-payment-option">
                             <input type="radio" name="payment_method" value="tarjeta">
                             <div>
@@ -165,10 +156,6 @@
                             Seguir comprando
                         </a>
                     </div>
-
-                    <p class="cart-summary-note">
-                        Este flujo queda listo para que después solo conectes el guardado real del pedido y la integración con usuarios o base de datos.
-                    </p>
                 </div>
 
                 <!-- ===== BENEFICIOS ===== -->

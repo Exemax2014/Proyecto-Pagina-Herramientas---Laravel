@@ -4,6 +4,7 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/styleIndex.css') }}">
+<link rel="stylesheet" href="{{ asset('css/product-cards.css') }}">
 @endpush
 
 @section('contenido')
@@ -55,8 +56,23 @@
 <!-- ================= OFERTAS DESTACADAS ================= -->
 <section class="home-offers">
     <div class="container">
-        <span class="home-kicker"><i class="bi bi-tag-fill"></i>  Ofertas Destacadas</span>
-        <div class="home-products-grid" id="homeOffers"></div>
+        <div class="home-offers-head">
+            <span class="home-kicker">
+                <i class="bi bi-tag-fill"></i> Ofertas destacadas
+            </span>
+
+            <div class="home-offers-controls">
+                <button type="button" class="home-offers-arrow" id="offersPrev" aria-label="Ver ofertas anteriores">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+
+                <button type="button" class="home-offers-arrow" id="offersNext" aria-label="Ver más ofertas">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="home-offers-carousel" id="homeOffers"></div>
     </div>
 </section>
 

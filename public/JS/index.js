@@ -1,20 +1,27 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const productos = window.catalogoProductos || [];
+    const productos = Array.isArray(window.catalogoProductos) ? window.catalogoProductos : [];
     const routeCatalogoBase = window.routeCatalogoBase || '/catalogo';
     const routeProductoBase = window.routeProductoBase || '/producto';
 
-    /* =========================================
-       FORMATEO DE PRECIO:
-       convierte valores numéricos al formato ARS
-       ========================================= */
     function formatPrice(value) {
         return '$' + Number(value).toLocaleString('es-AR');
     }
 
-    /* =========================================
-       MARCAS AUTOMATICAS:
-       toma marcas únicas desde el catálogo y genera links al catálogo filtrado
-       ========================================= */
+    function createBadgeHtml(producto) {
+        if (!producto.etiqueta) return '';
+
+        const extraClass = producto.etiquetaClase ? ` ${producto.etiquetaClase}` : '';
+
+        return `<span class="product-card-badge${extraClass}">${producto.etiqueta}</span>`;
+    }
+
+    function createOldPriceHtml(producto) {
+        if (!producto.precioAnterior) return '';
+
+        return `<small>${formatPrice(producto.precioAnterior)}</small>`;
+    }
+
+    /* MARCAS AUTOMATICAS */
     const marcas = [...new Set(productos.map(producto => producto.marca))];
     const brandContainer = document.getElementById('homeBrands');
 
@@ -26,11 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
         `).join('');
     }
 
-    /* =========================================
-        CATEGORIAS DEL HOME:
-        se renderizan desde JS para dejarlas listas
-        a futuro para base de datos
-        ========================================= */
+    /* CATEGORIAS DEL HOME */
     const categorias = [
         {
             nombre: 'Herrería',
@@ -51,8 +54,8 @@ document.addEventListener('DOMContentLoaded', function () {
             imagen: '/img/categorias/construccion.jpg'
         },
         {
-            nombre: 'Durlock',
-            slug: 'durlock',
+            nombre: 'Durlok',
+            slug: 'durlok',
             clase: 'category-card-medium',
             imagen: '/img/categorias/durlock.jpg'
         },
@@ -75,40 +78,148 @@ document.addEventListener('DOMContentLoaded', function () {
     if (categoriesContainer) {
         categoriesContainer.innerHTML = categorias.map(categoria => `
             <a href="${routeCatalogoBase}?categoria=${encodeURIComponent(categoria.slug)}"
-            class="category-card ${categoria.clase}"
-            style="--category-image: url('${categoria.imagen}')">
+               class="category-card ${categoria.clase}"
+               style="--category-image: url('${categoria.imagen}')">
                 <span>${categoria.nombre}</span>
             </a>
         `).join('');
     }
 
-    /* =========================================
-       OFERTAS DESTACADAS:
-       toma productos con precio anterior y arma cards visuales completas
-       ========================================= */
+    /* OFERTAS DESTACADAS */
     const offersContainer = document.getElementById('homeOffers');
-    const ofertas = productos.filter(producto => producto.precioAnterior).slice(0, 4);
+    const offersPrev = document.getElementById('offersPrev');
+    const offersNext = document.getElementById('offersNext');
 
-    if (offersContainer) {
-        offersContainer.innerHTML = ofertas.map(producto => `
-            <article class="home-card catalog-product-card">
-                <a href="${routeProductoBase}/${producto.id}" class="home-product-link">
-                    <div class="home-product-media">
-                        <img src="${producto.imagen}" alt="${producto.nombre}">
-                        <span class="home-product-badge">Oferta</span>
-                    </div>
+    let offerStartIndex = 0;
 
-                    <div class="home-product-body">
-                        <span class="home-product-brand">${producto.marca}</span>
-                        <h3>${producto.nombre}</h3>
+    const ofertas = productos.filter(producto => {
+        return producto.etiqueta === 'Oferta' || producto.precioAnterior;
+    });
 
-                        <div class="home-product-price-wrap">
-                            <span class="home-product-price">${formatPrice(producto.precio)}</span>
-                            <span class="home-product-old-price">${formatPrice(producto.precioAnterior)}</span>
+    function getVisibleOffers() {
+        if (window.innerWidth < 768) return 2;
+        if (window.innerWidth < 1200) return 3;
+        return 4;
+    }
+
+    function renderHomeOffers() {
+        if (!offersContainer) return;
+
+        const visibleOffers = getVisibleOffers();
+
+        if (offerStartIndex + visibleOffers > ofertas.length) {
+            offerStartIndex = Math.max(0, ofertas.length - visibleOffers);
+        }
+
+        const ofertasVisibles = ofertas.slice(offerStartIndex, offerStartIndex + visibleOffers);
+
+        offersContainer.innerHTML = ofertasVisibles.map(producto => `
+            <article 
+                class="page-card product-card home-product-card" 
+                data-product-id="${producto.id}"
+                role="link"
+                tabindex="0"
+                aria-label="Ver detalle de ${producto.nombre}"
+            >
+                <div class="product-card-media">
+                    <img src="${producto.imagen}" alt="${producto.nombre}">
+                    ${createBadgeHtml(producto)}
+
+                    <button 
+                        class="product-card-action home-cart-btn" 
+                        type="button" 
+                        data-product-id="${producto.id}" 
+                        aria-label="Agregar al carrito"
+                    >
+                        <i class="bi bi-cart-plus"></i>
+                    </button>
+                </div>
+
+                <div class="product-card-body">
+                    <span class="product-card-brand">${producto.marca}</span>
+                    <h3>${producto.nombre}</h3>
+                    <p>${producto.descripcion}</p>
+
+                    <div class="product-card-footer">
+                        <div class="product-card-price">
+                            ${createOldPriceHtml(producto)}
+                            <strong>${formatPrice(producto.precio)}</strong>
                         </div>
                     </div>
-                </a>
+                </div>
             </article>
         `).join('');
+
+        updateOfferControls();
+        bindHomeOfferEvents();
     }
+
+    function updateOfferControls() {
+        if (!offersPrev || !offersNext) return;
+
+        const visibleOffers = getVisibleOffers();
+
+        offersPrev.disabled = offerStartIndex === 0;
+        offersNext.disabled = offerStartIndex + visibleOffers >= ofertas.length;
+
+        offersPrev.classList.toggle('is-disabled', offersPrev.disabled);
+        offersNext.classList.toggle('is-disabled', offersNext.disabled);
+    }
+
+    function bindHomeOfferEvents() {
+        offersContainer.querySelectorAll('.home-product-card').forEach(card => {
+            card.addEventListener('click', function (event) {
+                if (event.target.closest('.home-cart-btn')) return;
+
+                const productId = this.dataset.productId;
+                window.location.href = `${routeProductoBase}/${productId}`;
+            });
+
+            card.addEventListener('keydown', function (event) {
+                if (event.key !== 'Enter' && event.key !== ' ') return;
+                if (event.target.closest('.home-cart-btn')) return;
+
+                event.preventDefault();
+
+                const productId = this.dataset.productId;
+                window.location.href = `${routeProductoBase}/${productId}`;
+            });
+        });
+
+        offersContainer.querySelectorAll('.home-cart-btn').forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.stopPropagation();
+
+                const productId = Number(this.dataset.productId);
+                const product = productos.find(item => Number(item.id) === productId);
+
+                if (!product) return;
+
+                window.CartUtils.addToCart(product, 1);
+                window.showToast('Producto agregado al carrito');
+            });
+        });
+    }
+
+    offersPrev?.addEventListener('click', function () {
+        if (offerStartIndex === 0) return;
+
+        offerStartIndex -= 1;
+        renderHomeOffers();
+    });
+
+    offersNext?.addEventListener('click', function () {
+        const visibleOffers = getVisibleOffers();
+
+        if (offerStartIndex + visibleOffers >= ofertas.length) return;
+
+        offerStartIndex += 1;
+        renderHomeOffers();
+    });
+
+    window.addEventListener('resize', function () {
+        renderHomeOffers();
+    });
+
+    renderHomeOffers();
 });

@@ -8,8 +8,7 @@
 
         <!-- =========== HERO PRINCIPAL ============= -->
         <div class="row align-items-center g-5 terms-hero-row">
-            <div class="col-lg-7">
-                <!---- cabecera institucional con mayor identidad visual ---->
+            <div class="col-lg-8">
                 <div class="page-hero terms-hero terms-hero-enhanced">
                     <span class="terms-hero-badge">
                         <i class="bi bi-shield-check"></i>
@@ -21,16 +20,17 @@
                     <div class="terms-hero-accent"></div>
 
                     <p>
-                        En esta sección se detallan las condiciones generales de uso del sitio, las pautas comerciales,
-                        las condiciones necesarias para concretar compras y las reglamentaciones internas aplicables
-                        a la relación entre la empresa y sus clientes.
+                        En esta sección se establecen las condiciones generales de uso del sitio, las pautas comerciales
+                        aplicables a las compras, los criterios de garantía y las reglamentaciones internas que organizan
+                        la relación entre Hierro &amp; Forja y sus clientes. El objetivo es brindar información clara,
+                        ordenada y accesible antes de avanzar con cualquier operación comercial.
                     </p>
 
                     <div class="terms-hero-trust">
                         <div class="terms-hero-trust-item">
                             <i class="bi bi-check2-circle"></i>
                             <span>Información clara</span>
-                    </div>
+                        </div>
 
                         <div class="terms-hero-trust-item">
                             <i class="bi bi-award"></i>
@@ -40,10 +40,10 @@
                 </div>
             </div>
 
-            <div class="col-lg-5">
-                <!---- panel destacado de referencia legal ---->
-                <div class="hero-panel terms-hero-panel">
-                    <p class="panel-label">Resumen formal</p>
+            <!-- =========== PANEL RESUMEN LATERAL ============= -->
+            <div class="col-lg-4 terms-summary-column">
+                <div class="hero-panel terms-hero-panel terms-summary-panel">
+                    <p class="panel-label">Secciones de página</p>
 
                     <div class="hero-panel-item">
                         <span class="panel-number">01</span>
@@ -79,16 +79,17 @@
         <!-- ========== BLOQUE DESTACADO INTRODUCTORIO =========== -->
         <div class="row g-4 mt-1">
             <div class="col-12">
-                <!---- introduccion institucional destacada ---->
                 <article class="page-card terms-highlight-card">
                     <span class="terms-badge">
                         <i class="bi bi-exclamation-diamond-fill"></i>
                         Información importante
                     </span>
+
                     <p>
-                        El acceso, navegación y uso del sitio implica la aceptación de estas condiciones generales.
+                        El acceso, navegación y uso del sitio implica el conocimiento de estas condiciones generales.
                         Hierro &amp; Forja podrá actualizar, modificar o ampliar los presentes términos cuando resulte
-                        necesario para adecuarlos a cambios comerciales, operativos o normativos.
+                        necesario por cambios comerciales, operativos, técnicos o normativos. Las condiciones vigentes
+                        serán las publicadas en esta sección al momento de la consulta o utilización del sitio.
                     </p>
                 </article>
             </div>
@@ -97,7 +98,7 @@
         <!-- =========== CARDS PRINCIPALES EN COLUMNA =========== -->
         <div class="terms-stack">
 
-            <!---- garantia ---->
+            <!-- ===== GARANTÍA ===== -->
             <article class="page-card terms-card">
                 <div class="terms-card-headline">
                     <span class="terms-card-icon">
@@ -111,19 +112,36 @@
                 </div>
 
                 <p>
-                    Los productos comercializados por la empresa cuentan con la garantía legal correspondiente
-                    y, en los casos que aplique, con las condiciones informadas por cada fabricante o proveedor.
+                    Los productos comercializados por la empresa cuentan con la garantía legal correspondiente y,
+                    cuando corresponda, con las condiciones específicas informadas por fabricantes, importadores o
+                    proveedores. La garantía tiene como finalidad respaldar fallas de origen o inconvenientes propios
+                    del producto, siempre que se haya utilizado de manera adecuada.
                 </p>
 
                 <div class="terms-points">
-                    <div class="terms-point">La validez de la garantía depende del uso correcto del producto.</div>
-                    <div class="terms-point">No cubre daños por golpes, mal uso, instalaciones incorrectas o desgaste impropio.</div>
-                    <div class="terms-point">La empresa podrá solicitar comprobante de compra para gestionar revisiones o reclamos.</div>
-                    <div class="terms-point">Los tiempos y alcances pueden variar según la categoría del producto.</div>
+                    <div class="terms-point">
+                        La validez de la garantía depende del uso correcto del producto, respetando su finalidad,
+                        capacidad de trabajo, indicaciones técnicas y condiciones normales de funcionamiento.
+                    </div>
+
+                    <div class="terms-point">
+                        No se consideran cubiertos los daños producidos por golpes, caídas, mal uso, instalaciones
+                        incorrectas, intervenciones no autorizadas, sobrecarga o desgaste impropio por utilización indebida.
+                    </div>
+
+                    <div class="terms-point">
+                        La empresa podrá solicitar comprobante de compra, fotografías, descripción del inconveniente
+                        o revisión del producto para iniciar la gestión correspondiente.
+                    </div>
+
+                    <div class="terms-point">
+                        Los tiempos de revisión, reparación, cambio o respuesta pueden variar según la categoría del
+                        producto y las políticas aplicables del fabricante o proveedor.
+                    </div>
                 </div>
             </article>
 
-            <!---- compra ---->
+            <!-- ===== COMPRA ===== -->
             <article class="page-card terms-card">
                 <div class="terms-card-headline">
                     <span class="terms-card-icon">
@@ -137,19 +155,36 @@
                 </div>
 
                 <p>
-                    Toda compra realizada a través del sitio o por canales comerciales de la empresa queda
-                    sujeta a disponibilidad de stock, confirmación del pedido y validación interna.
+                    Toda compra realizada a través del sitio o por canales comerciales de la empresa queda sujeta a
+                    disponibilidad de stock, confirmación del pedido, validación de datos y aceptación de las condiciones
+                    comerciales informadas. La publicación de un producto no implica reserva automática ni confirmación
+                    definitiva de la operación.
                 </p>
 
                 <div class="terms-points">
-                    <div class="terms-point">Los precios y promociones pueden actualizarse sin previo aviso.</div>
-                    <div class="terms-point">La empresa podrá confirmar o rechazar pedidos ante errores o falta de stock.</div>
-                    <div class="terms-point">La confirmación comercial final se considera válida una vez aceptado el pedido.</div>
-                    <div class="terms-point">Las imágenes y descripciones tienen carácter orientativo.</div>
+                    <div class="terms-point">
+                        Los precios, promociones, medios de pago y condiciones comerciales pueden actualizarse sin previo
+                        aviso, especialmente ante cambios de stock, proveedor, costos o campañas vigentes.
+                    </div>
+
+                    <div class="terms-point">
+                        La empresa podrá confirmar, modificar o rechazar pedidos cuando exista falta de stock, errores de
+                        carga, inconsistencias en la información publicada o imposibilidad operativa de cumplimiento.
+                    </div>
+
+                    <div class="terms-point">
+                        La confirmación comercial final se considera válida una vez aceptado el pedido por los canales
+                        correspondientes y verificadas las condiciones de pago, entrega o retiro.
+                    </div>
+
+                    <div class="terms-point">
+                        Las imágenes, descripciones y datos técnicos publicados tienen carácter orientativo y buscan facilitar
+                        la elección del producto, sin reemplazar la confirmación comercial o técnica cuando sea necesaria.
+                    </div>
                 </div>
             </article>
 
-            <!---- uso del sitio ---->
+            <!-- ===== USO DEL SITIO ===== -->
             <article class="page-card terms-card">
                 <div class="terms-card-headline">
                     <span class="terms-card-icon">
@@ -163,19 +198,35 @@
                 </div>
 
                 <p>
-                    El acceso al sitio y la utilización de sus contenidos, formularios, medios de contacto
-                    y recursos informativos implica un uso responsable, lícito y acorde a las condiciones vigentes.
+                    El acceso al sitio y la utilización de sus contenidos, formularios, medios de contacto y recursos
+                    informativos implica un uso responsable, lícito y acorde a las finalidades comerciales previstas.
+                    El sitio está pensado para informar, orientar consultas y facilitar el contacto con la empresa.
                 </p>
 
                 <div class="terms-points">
-                    <div class="terms-point">El usuario deberá navegar y utilizar el sitio conforme a la legislación vigente.</div>
-                    <div class="terms-point">No se admite el uso indebido de formularios, medios de contacto o contenidos publicados.</div>
-                    <div class="terms-point">La empresa podrá actualizar secciones, información y recursos del sitio cuando resulte necesario.</div>
-                    <div class="terms-point">La continuidad en la navegación implica conocimiento de las condiciones publicadas.</div>
+                    <div class="terms-point">
+                        El usuario deberá navegar y utilizar el sitio conforme a la legislación vigente, evitando acciones
+                        que puedan afectar su funcionamiento, seguridad, contenidos o disponibilidad.
+                    </div>
+
+                    <div class="terms-point">
+                        No se admite el uso indebido de formularios, datos de contacto, imágenes, textos, información comercial
+                        o cualquier contenido publicado por la empresa.
+                    </div>
+
+                    <div class="terms-point">
+                        Hierro &amp; Forja podrá actualizar secciones, recursos, productos, precios, textos o condiciones del
+                        sitio cuando lo considere necesario para mejorar la experiencia o adecuar la información.
+                    </div>
+
+                    <div class="terms-point">
+                        La continuidad en la navegación implica conocimiento de las condiciones publicadas y aceptación del
+                        uso del sitio bajo criterios responsables y comerciales.
+                    </div>
                 </div>
             </article>
 
-            <!---- reglamentaciones internas ---->
+            <!-- ===== REGLAMENTACIONES INTERNAS ===== -->
             <article class="page-card terms-card">
                 <div class="terms-card-headline">
                     <span class="terms-card-icon">
@@ -190,14 +241,30 @@
 
                 <p>
                     Hierro &amp; Forja opera bajo criterios internos de organización comercial, validación de pedidos,
-                    atención al cliente y administración de stock para brindar seguridad y claridad operativa.
+                    administración de stock, atención al cliente y coordinación de entregas. Estas reglas permiten mantener
+                    orden operativo, claridad en la comunicación y una mejor respuesta ante cada solicitud.
                 </p>
 
                 <div class="terms-points">
-                    <div class="terms-point">Los pedidos se gestionan según disponibilidad y orden de confirmación.</div>
-                    <div class="terms-point">Las reservas, retiros y entregas deben respetar las condiciones informadas.</div>
-                    <div class="terms-point">La empresa podrá reorganizar procedimientos internos para optimizar el servicio.</div>
-                    <div class="terms-point">Las comunicaciones oficiales serán las emitidas por canales propios de la empresa.</div>
+                    <div class="terms-point">
+                        Los pedidos se gestionan según disponibilidad, orden de confirmación, validación del pago y condiciones
+                        previamente acordadas con el cliente.
+                    </div>
+
+                    <div class="terms-point">
+                        Las reservas, retiros y entregas deben respetar los horarios, plazos, modalidades y canales informados
+                        por la empresa durante la coordinación comercial.
+                    </div>
+
+                    <div class="terms-point">
+                        La empresa podrá reorganizar procedimientos internos, medios de contacto, procesos de confirmación o
+                        modalidades de entrega para optimizar el servicio.
+                    </div>
+
+                    <div class="terms-point">
+                        Las comunicaciones oficiales serán las emitidas por canales propios o autorizados de Hierro &amp; Forja,
+                        especialmente para confirmar pedidos, pagos, disponibilidad o condiciones comerciales.
+                    </div>
                 </div>
             </article>
         </div>
@@ -219,15 +286,32 @@
                 </div>
 
                 <p>
-                    El usuario se compromete a utilizar este sitio de forma responsable, lícita y acorde a las
-                    finalidades informativas y comerciales previstas por la empresa.
+                    El usuario se compromete a utilizar este sitio de forma responsable, lícita y acorde a las finalidades
+                    informativas y comerciales previstas por la empresa. El uso del sitio, sus formularios y medios de contacto
+                    implica aceptar que la información publicada puede ser actualizada para mantenerla alineada a la operación
+                    real de Hierro &amp; Forja.
                 </p>
 
                 <div class="terms-points terms-points-dark">
-                    <div class="terms-point">No se admite el uso del sitio para actividades fraudulentas, engañosas o contrarias a la normativa vigente.</div>
-                    <div class="terms-point">La información publicada tiene carácter comercial e institucional y puede actualizarse cuando resulte necesario.</div>
-                    <div class="terms-point">La empresa podrá modificar contenidos, condiciones, precios, medios de contacto y modalidades operativas sin previo aviso.</div>
-                    <div class="terms-point">La continuidad en el uso del sitio implica conocimiento y aceptación de las presentes condiciones.</div>
+                    <div class="terms-point">
+                        No se admite el uso del sitio para actividades fraudulentas, engañosas, abusivas o contrarias a la
+                        normativa vigente.
+                    </div>
+
+                    <div class="terms-point">
+                        La información publicada tiene carácter comercial e institucional, y puede actualizarse cuando resulte
+                        necesario por cambios de stock, precios, medios de pago, disponibilidad o procesos internos.
+                    </div>
+
+                    <div class="terms-point">
+                        La empresa podrá modificar contenidos, condiciones, precios, medios de contacto y modalidades operativas
+                        sin previo aviso, procurando mantener la información lo más clara y actualizada posible.
+                    </div>
+
+                    <div class="terms-point">
+                        La continuidad en el uso del sitio implica conocimiento y aceptación de las presentes condiciones generales,
+                        junto con las actualizaciones que puedan incorporarse a futuro.
+                    </div>
                 </div>
             </article>
         </div>

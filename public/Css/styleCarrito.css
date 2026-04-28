@@ -37,11 +37,10 @@
    divide listado y resumen lateral */
 .cart-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+    grid-template-columns: minmax(0, 1.2fr) minmax(280px, 1fr);
     gap: 1.5rem;
     align-items: start;
 }
-
 /* COLUMNA PRINCIPAL:
    agrupa secciones del pedido */
 .cart-main {

@@ -2,8 +2,8 @@
 /* ---------------------------------------- HOME ------------------------------------------ */
 /* ═════════════════════════════════════════════════════════════════════════════════════════ */
 
-/* HERO PRINCIPAL:
-   usa imagen real de fondo y mantiene el contenido más cargado a la izquierda */
+/* ================= HERO ================= */
+
 .home-hero {
     position: relative;
     min-height: 60vh;
@@ -15,8 +15,6 @@
         url('/img/fondo-index.jpg') center center / cover no-repeat;
 }
 
-/* CAPA SUPERIOR DEL HERO:
-   agrega profundidad sin tapar demasiado la imagen */
 .home-hero-overlay {
     position: absolute;
     inset: 0;
@@ -26,8 +24,6 @@
     pointer-events: none;
 }
 
-/* CONTENIDO DEL HERO:
-   controla ancho y legibilidad del texto */
 .home-hero-content {
     position: relative;
     z-index: 1;
@@ -35,6 +31,7 @@
     color: var(--hf-white);
     padding: 5rem 0;
     margin-left: 5rem;
+    margin-right: auto;
 }
 
 .home-hero-content h1 {
@@ -54,8 +51,6 @@
     color: rgba(248, 245, 239, 0.82);
 }
 
-/* ACCIONES DEL HERO:
-   mantiene botones principales alineados */
 .home-hero-actions {
     display: flex;
     flex-wrap: wrap;
@@ -63,21 +58,19 @@
     margin-top: 2rem;
 }
 
-/* BLOQUE DE MARCAS:
-   más fino, limpio y sin texto extra */
+/* ================= MARCAS ================= */
+
 .home-brands {
-    padding: 0.5rem 0 0.5rem;
-    background: rgba(231, 221, 198, 0.744);/* FONDO MÁS CLARO */
+    padding: 0.5rem 0;
+    background: rgba(231, 221, 198, 0.744);
     border-top: 1px solid rgba(17, 17, 17, 0.04);
     border-bottom: 1px solid rgba(17, 17, 17, 0.05);
 }
 
-/* LISTADO DE MARCAS:
-   líneas de separación más claras y bloque unificado */
 .home-brands-list {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 0.2rem; /* separación leve entre botones */
+    gap: 0.2rem;
 }
 
 .home-brand-link {
@@ -87,15 +80,11 @@
     min-height: 52px;
     padding: 0.45rem 0.8rem;
     text-decoration: none;
-    background: rgba(17, 17, 17, 0.06); /* COLOR MÁS OPACO */
-    border: 2px solid rgba(17, 17, 17, 0.08);/* BORDE MÁS FINO Y SUAVE */
+    background: rgba(17, 17, 17, 0.06);
+    border: 2px solid rgba(17, 17, 17, 0.08);
     border-radius: 0.6rem;
     color: rgba(17, 17, 17, 0.55);
     transition: all 0.2s ease;
-}
-
-.home-brand-link:last-child {
-    border-right: 0;
 }
 
 .home-brand-link:hover {
@@ -112,26 +101,21 @@
     text-transform: uppercase;
 }
 
-/* CATEGORIAS:
-   bloque principal con jerarquía visual y fondos por imagen */
+/* ================= CATEGORÍAS ================= */
+
 .home-categories {
     padding: 2rem 0;
 }
 
-/* GRILLA JERARQUICA:
-   ordena categorías según importancia */
 .home-categories-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     grid-auto-rows: 170px;
     gap: 1rem;
-
     width: calc(100% + 4rem);
     margin-left: -2rem;
 }
 
-/* TARJETA BASE:
-   usa variable CSS para la imagen y agrega overlay profesional */
 .category-card {
     position: relative;
     display: flex;
@@ -148,8 +132,6 @@
     transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
 }
 
-/* CAPA DE IMAGEN:
-   usa la imagen cargada desde JS */
 .category-card::before {
     content: "";
     position: absolute;
@@ -162,8 +144,6 @@
     transition: transform 0.45s ease;
 }
 
-/* CAPA OSCURA:
-   da contraste al texto */
 .category-card::after {
     content: "";
     position: absolute;
@@ -175,8 +155,6 @@
     transition: background-color 0.3s ease;
 }
 
-/* HOVER:
-   zoom suave y más luz */
 .category-card:hover {
     transform: translateY(-6px);
     box-shadow: var(--hf-card-shadow-hover);
@@ -194,8 +172,6 @@
         radial-gradient(circle at top right, rgba(217, 164, 65, 0.24), transparent 30%);
 }
 
-/* TEXTO:
-   más grande, más pro y mejor legibilidad */
 .category-card span {
     position: relative;
     z-index: 2;
@@ -214,122 +190,74 @@
     transform: translateY(-3px);
 }
 
-/* TAMAÑOS SEGUN IMPORTANCIA */
 .category-card-large {
     grid-column: span 2;
     grid-row: span 2;
     min-height: 100%;
 }
 
-.category-card-medium {
-    grid-column: span 1;
-    grid-row: span 1;
-}
-
+.category-card-medium,
 .category-card-small {
     grid-column: span 1;
     grid-row: span 1;
 }
 
-/* OFERTAS DESTACADAS:
-   usa cards visuales conectadas al catálogo */
+/* ================= OFERTAS DESTACADAS ================= */
+
 .home-offers {
     padding: 1rem 0 4rem;
-    background: rgba(231, 221, 198, 0.744);/* FONDO MÁS CLARO */
-}
-
-.home-products-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1.2rem;
-}
-
-/* LINK INTERNO DE LA CARD:
-   hace toda la card clickeable */
-.home-product-link {
-    display: block;
-    height: 100%;
-    color: inherit;
-    text-decoration: none;
-}
-
-.home-product-media {
-    position: relative;
-    aspect-ratio: 1 / 1;
+    background: rgba(231, 221, 198, 0.744);
     overflow: hidden;
-    background: #ece7dd;
-    border-radius: 1.2rem 1.2rem 0 0;
 }
 
-.home-product-media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.35s ease;
-}
-
-.catalog-product-card:hover .home-product-media img {
-    transform: scale(1.05);
-}
-
-.home-product-badge {
-    position: absolute;
-    top: 0.85rem;
-    left: 0.85rem;
-    padding: 0.35rem 0.55rem;
-    border-radius: 999px;
-    background: var(--hf-highlight);
-    color: #111111;
-    font-size: 0.68rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-}
-
-.home-product-body {
-    padding: 1rem;
-}
-
-.home-product-brand {
-    display: block;
-    margin-bottom: 0.25rem;
-    font-size: 0.72rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--hf-highlight);
-}
-
-.home-product-body h3 {
-    margin: 0 0 0.45rem;
-    font-family: "Oswald", sans-serif;
-    font-size: 1.1rem;
-    line-height: 1.2;
-    letter-spacing: 0.01em;
-    text-transform: uppercase;
-    color: var(--hf-coal);
-}
-
-.home-product-price-wrap {
+.home-offers-head {
     display: flex;
-    align-items: baseline;
-    gap: 0.45rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
-.home-product-price {
-    font-size: 1.18rem;
-    font-weight: 800;
+.home-offers-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.home-offers-arrow {
+    width: 2.4rem;
+    height: 2.4rem;
+    border: 1px solid rgba(17, 17, 17, 0.14);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.88);
     color: var(--hf-coal);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.home-product-old-price {
-    font-size: 0.82rem;
-    color: #868686;
-    text-decoration: line-through;
+.home-offers-arrow:hover {
+    background: var(--hf-highlight);
+    transform: translateY(-1px);
 }
 
-/* POR QUE ELEGIRNOS EN OSCURO:
-   bloque más fino, más liviano y con mejor aire visual */
+.home-offers-arrow.is-disabled,
+.home-offers-arrow:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.home-offers-carousel {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 1rem;
+    overflow: visible;
+}
+
+/* ================= POR QUÉ ELEGIRNOS ================= */
+
 .home-benefits-dark {
     margin-top: 1.5rem;
     padding: 1rem 0 2rem;
@@ -339,30 +267,22 @@
     color: var(--hf-white);
 }
 
-/* COLUMNA IZQUIERDA:
-   limita mejor el texto para que no se vea tan ancho */
 .home-benefits-dark .section-heading,
 .home-benefits-dark .col-lg-6:first-child {
     max-width: 36rem;
 }
 
-/* KICKER DEL BLOQUE:
-   mantiene contraste pero más sutil */
 .home-benefits-dark .home-kicker {
     color: var(--hf-highlight-soft);
     margin-bottom: 0.75rem;
 }
 
-/* TITULO:
-   un poco más compacto */
 .home-benefits-dark h2 {
     color: var(--hf-white);
     max-width: 18ch;
     margin-bottom: 0.8rem;
 }
 
-/* TEXTO:
-   menos ancho y con mejor lectura */
 .home-benefits-dark p {
     color: rgba(248, 245, 239, 0.76);
     max-width: 34rem;
@@ -370,40 +290,33 @@
     font-size: 1rem;
 }
 
-/* STACK DERECHO:
-   menos separación entre tarjetas */
 .home-benefits-dark .feature-stack {
     gap: 0.6em;
 }
 
-/* TARJETAS DERECHAS:
-   más finas, menos altas y más elegantes */
 .home-benefits-dark .feature-item {
     padding: 1.1rem 1.25rem;
     border-radius: 1rem;
     background: rgba(255, 255, 255, 0.035);
     border: 1px solid rgba(255, 255, 255, 0.09);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
-    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+    transition: none;
 }
 
 .home-benefits-dark .feature-item:hover {
-    transform: translateY(-3px);
-    border-color: rgba(217, 164, 65, 0.28);
-    background: rgba(255, 255, 255, 0.05);
+    transform: none;
+    background: rgba(255, 255, 255, 0.035);
+    border-color: rgba(255, 255, 255, 0.09);
 }
 
-/* TITULOS DE TARJETAS:
-   más finos y menos aparatosos */
 .home-benefits-dark .feature-item h3 {
     color: var(--hf-highlight);
-    margin-bottom: 0.2rem;
-    font-size: 1.35rem;
-    line-height: 1.05;
+    margin-bottom: 0.35rem;
+    font-size: 1.08rem;
+    line-height: 1.2;
+    font-weight: 700;
 }
 
-/* TEXTO DE TARJETAS:
-   más compacto */
 .home-benefits-dark .feature-item p {
     max-width: 100%;
     margin: 0;
@@ -411,8 +324,6 @@
     line-height: 1.5;
 }
 
-/* BOTON:
-   más limpio y menos pesado */
 .home-benefits-dark .btn-outline-warning {
     border-color: var(--hf-highlight);
     color: var(--hf-highlight);
@@ -424,15 +335,11 @@
     color: #111111;
 }
 
-/* CTA FINAL:
-   bloque comercial con titulo en toda la fila y parte inferior en dos columnas */
-.home-cta {
-    padding: 5.5rem 0 4rem;
-}
+/* ================= CTA FINAL ================= */
 
 .home-cta-box {
     display: flex;
-    margin: 2rem 2rem 2rem 2rem; /* top right bottom left */
+    margin: 2rem;
     flex-direction: column;
     gap: 0.85rem;
     overflow: hidden;
@@ -446,15 +353,6 @@
     color: var(--hf-white);
 }
 
-/* KICKER DEL CTA:
-   pequeña etiqueta superior */
-.home-cta-kicker {
-    color: var(--hf-highlight-soft);
-    margin-bottom: 0;
-}
-
-/* TITULO:
-   ocupa toda la fila y queda alineado a la izquierda */
 .home-cta-title {
     margin: 0;
     width: 100%;
@@ -465,8 +363,6 @@
     color: var(--hf-white);
 }
 
-/* FILA INFERIOR:
-   divide texto y botón en dos columnas */
 .home-cta-bottom {
     display: grid;
     grid-template-columns: 1fr 240px;
@@ -474,8 +370,6 @@
     gap: 1.5rem;
 }
 
-/* TEXTO DESCRIPTIVO:
-   queda abajo a la izquierda */
 .home-cta-copy {
     max-width: 46rem;
 }
@@ -488,16 +382,12 @@
     text-align: left;
 }
 
-/* ACCIONES:
-   el botón se alinea a la derecha */
 .home-cta-actions {
     display: flex;
-    justify-content: center; /* siempre centrado */
+    justify-content: center;
     align-items: center;
 }
 
-/* BOTON DEL CTA:
-   más chico y más prolijo */
 .btn-cta {
     padding: 0.65rem 1.4rem;
     font-size: 0.95rem;
@@ -506,49 +396,49 @@
     white-space: nowrap;
 }
 
-/* RESPONSIVE MOBILE */
-@media (max-width: 575.98px) {
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* ------------------------------------- RESPONSIVE --------------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* DESKTOP GRANDE */
+@media (min-width: 1200px) {
     .home-categories-grid {
-        grid-template-columns: 1fr;
-        grid-auto-rows: 150px;
-    }
-
-    .category-card {
-        min-height: 150px;
-        padding: 1.2rem;
-    }
-
-    .category-card span {
-        font-size: 1.5rem;
-    }
-     .home-cta-box {
-        padding: 1.6rem;
-    }
-
-    .home-cta-title {
-        font-size: 1.9rem;
-    }
-
-    .home-cta-copy p {
-        font-size: 0.94rem;
-        line-height: 1.6;
+        width: calc(100% + 6rem);
+        margin-left: -3rem;
     }
 }
 
-/* RESPONSIVE TABLET:
-   adapta jerarquías y reduce columnas */
+/* PANTALLAS MEDIANAS: ofertas en 3 cards */
+@media (max-width: 1199.98px) {
+    .home-offers-carousel {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+}
+
+/* TABLET */
 @media (max-width: 991.98px) {
     .home-hero {
         min-height: 68vh;
     }
 
-    .home-brands-list {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+    .home-hero-content {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        padding: 4.5rem 1.25rem;
     }
 
-    .home-categories-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        grid-auto-rows: 150px;
+    .home-hero-content p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .home-hero-actions {
+        justify-content: center;
+    }
+
+    .home-brands-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .home-categories-grid {
@@ -565,37 +455,50 @@
         grid-row: span 1;
     }
 
-    .home-products-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .home-cta {
-        padding: 4.5rem 0 4rem;
-    }
-
     .home-cta-bottom {
         grid-template-columns: 1fr;
     }
 
     .home-cta-actions {
-        justify-content: center; /* mantiene centrado en mobile */
+        justify-content: center;
         margin-top: 1rem;
     }
 }
 
-/* RESPONSIVE GRILLA*/
-@media (min-width: 1200px) {
-    .home-categories-grid {
-        width: calc(100% + 6rem);
-        margin-left: -3rem;
+/* PANTALLAS PEQUEÑAS: ofertas en 2 cards */
+@media (max-width: 767.98px) {
+    .home-offers-carousel {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 0.75rem;
     }
 }
 
-/* RESPONSIVE MOBILE:
-   simplifica la composición sin perder presencia */
+/* MOBILE */
 @media (max-width: 575.98px) {
     .home-hero {
         min-height: 62vh;
+    }
+
+    .home-hero-content {
+        margin-left: auto;
+        margin-right: auto;
+        padding: 4rem 1rem;
+        text-align: center;
+    }
+
+    .home-hero-content h1 {
+        font-size: clamp(2.4rem, 11vw, 3.6rem);
+    }
+
+    .home-hero-content p {
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .home-hero-actions {
+        justify-content: center;
     }
 
     .home-hero-actions .btn {
@@ -614,16 +517,32 @@
         font-size: 1.08rem;
     }
 
-    .home-categories-grid,
-    .home-products-grid {
+    .home-categories-grid {
         grid-template-columns: 1fr;
+        grid-auto-rows: 150px;
     }
-    .home-product-body {
-        padding: 0.9rem;
+
+    .category-card {
+        min-height: 150px;
+        padding: 1.2rem;
+    }
+
+    .category-card span {
+        font-size: 1.5rem;
     }
 
     .home-cta-box {
+        margin: 1rem;
         padding: 1.6rem;
+    }
+
+    .home-cta-title {
+        font-size: 1.9rem;
+    }
+
+    .home-cta-copy p {
+        font-size: 0.94rem;
+        line-height: 1.6;
     }
 
     .home-cta-actions .btn {

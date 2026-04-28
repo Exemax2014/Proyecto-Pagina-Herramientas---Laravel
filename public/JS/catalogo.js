@@ -1,14 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-    /* =========================================
-       DATOS TEMPORALES DEL CATALOGO:
-       toma el array global cargado desde catalogo-productos.js
-       ========================================= */
     const productos = Array.isArray(window.catalogoProductos) ? window.catalogoProductos : [];
 
-    /* =========================================
-       REFERENCIAS GENERALES DEL DOM:
-       elementos principales de búsqueda, orden, paginación y layout
-       ========================================= */
     const searchInput = document.getElementById('catalogSearch');
     const sortMarketSelect = document.getElementById('catalogSortMarket');
     const sortNameSelect = document.getElementById('catalogSortName');
@@ -22,50 +14,26 @@ document.addEventListener('DOMContentLoaded', function () {
     const emptyState = document.getElementById('catalogEmptyState');
     const pagination = document.querySelector('.catalog-pagination');
 
-    /* =========================================
-       FILTROS FIJOS:
-       categorías y tipo de energía ya existen en el HTML desde el inicio
-       ========================================= */
     const categoryChecks = Array.from(document.querySelectorAll('.filter-category'));
     const energyRadios = Array.from(document.querySelectorAll('input[name="energy"]'));
 
-    /* =========================================
-       PAGINACION:
-       define página actual y cantidad de productos por página
-       ========================================= */
     let currentPage = 1;
     const itemsPerPage = 12;
 
-    /* =========================================
-       FORMATEO DE PRECIO:
-       convierte números a formato monetario argentino
-       ========================================= */
     function formatPrice(value) {
         return '$' + Number(value).toLocaleString('es-AR');
     }
 
-    /* =========================================
-       MARCAS SELECCIONADAS:
-       obtiene dinámicamente las marcas activas
-       ========================================= */
     function getSelectedBrands() {
         return Array.from(document.querySelectorAll('.filter-brand:checked'))
             .map(check => check.value);
     }
 
-    /* =========================================
-       ENERGIA SELECCIONADA:
-       devuelve el valor activo del grupo de radios
-       ========================================= */
     function getSelectedEnergy() {
         const selected = energyRadios.find(radio => radio.checked);
         return selected ? selected.value : '';
     }
 
-    /* =========================================
-       GENERADOR AUTOMATICO DE MARCAS:
-       crea el bloque de filtros de marca a partir de los productos cargados
-       ========================================= */
     function generarMarcas(productos) {
         const contenedor = document.getElementById('brandFilters');
         if (!contenedor) return;
@@ -85,10 +53,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    /* =========================================
-       EVENTOS DE MARCAS:
-       como las marcas se generan dinámicamente, sus eventos se asignan después
-       ========================================= */
     function bindBrandEvents() {
         const brandChecks = Array.from(document.querySelectorAll('.filter-brand'));
 
@@ -100,10 +64,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    /* =========================================
-        FILTROS DESDE URL:
-        lee categoria y marca desde query params y los aplica al cargar
-        ========================================= */
     function applyFiltersFromUrl() {
         const params = new URLSearchParams(window.location.search);
 
@@ -123,10 +83,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    /* =========================================
-       FILTRADO PRINCIPAL:
-       aplica búsqueda, categoría, marca, energía y precio
-       ========================================= */
     function getFilteredProducts() {
         const search = searchInput ? searchInput.value.trim().toLowerCase() : '';
         const maxPrice = rangeInput ? Number(rangeInput.value) : 300000;
@@ -148,10 +104,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    /* =========================================
-       ORDENAMIENTO:
-       usa un select para precio/ventas y otro para nombre
-       ========================================= */
     function sortProducts(productosFiltrados) {
         const marketSort = sortMarketSelect ? sortMarketSelect.value : 'default';
         const nameSort = sortNameSelect ? sortNameSelect.value : 'default';
@@ -191,40 +143,27 @@ document.addEventListener('DOMContentLoaded', function () {
         return productosOrdenados;
     }
 
-    /* =========================================
-       ETIQUETA VISUAL DEL PRODUCTO:
-       genera badges como Oferta, Nuevo o Destacado
-       ========================================= */
     function createBadgeHtml(producto) {
         if (!producto.etiqueta) return '';
 
         const extraClass = producto.etiquetaClase ? ` ${producto.etiquetaClase}` : '';
-        return `<span class="catalog-product-badge${extraClass}">${producto.etiqueta}</span>`;
+
+        return `<span class="product-card-badge${extraClass}">${producto.etiqueta}</span>`;
     }
 
-    /* =========================================
-       PRECIO ANTERIOR:
-       solo se muestra si el producto lo tiene cargado
-       ========================================= */
     function createOldPriceHtml(producto) {
         if (!producto.precioAnterior) return '';
+
         return `<small>${formatPrice(producto.precioAnterior)}</small>`;
     }
 
-    /* =========================================
-       PAGINACION DE PRODUCTOS:
-       corta el array según la página actual
-       ========================================= */
     function paginateProducts(productosOrdenados) {
         const start = (currentPage - 1) * itemsPerPage;
         const end = start + itemsPerPage;
+
         return productosOrdenados.slice(start, end);
     }
 
-    /* =========================================
-       RENDER DE BOTONES DE PAGINACION:
-       genera los números según la cantidad de páginas
-       ========================================= */
     function renderPagination(totalItems) {
         if (!pagination) return;
 
@@ -258,10 +197,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    /* =========================================
-       RENDER DE PRODUCTOS:
-       dibuja la grilla completa según filtros, orden y página actual
-       ========================================= */
     function renderProducts() {
         if (!grid) return;
 
@@ -269,6 +204,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const ordenados = sortProducts(filtrados);
 
         const totalPages = Math.ceil(ordenados.length / itemsPerPage);
+
         if (currentPage > totalPages && totalPages > 0) {
             currentPage = totalPages;
         }
@@ -277,27 +213,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
         grid.innerHTML = productosPaginados.map(producto => `
             <article 
-                class="page-card catalog-product-card" 
+                class="page-card product-card catalog-product-card" 
                 data-product-id="${producto.id}"
                 role="link"
                 tabindex="0"
                 aria-label="Ver detalle de ${producto.nombre}"
             >
-                <div class="catalog-product-media">
+                <div class="product-card-media">
                     <img src="${producto.imagen}" alt="${producto.nombre}">
                     ${createBadgeHtml(producto)}
-                    <button class="catalog-product-action catalog-cart-btn" type="button" data-product-id="${producto.id}" aria-label="Agregar al carrito">
+
+                    <button class="product-card-action catalog-cart-btn" type="button" data-product-id="${producto.id}" aria-label="Agregar al carrito">
                         <i class="bi bi-cart-plus"></i>
                     </button>
-                 </div>
+                </div>
 
-                <div class="catalog-product-body">
-                    <span class="catalog-product-brand">${producto.marca}</span>
+                <div class="product-card-body">
+                    <span class="product-card-brand">${producto.marca}</span>
                     <h3>${producto.nombre}</h3>
                     <p>${producto.descripcion}</p>
 
-                    <div class="catalog-product-footer">
-                        <div class="catalog-product-price">
+                    <div class="product-card-footer">
+                        <div class="product-card-price">
                             ${createOldPriceHtml(producto)}
                             <strong>${formatPrice(producto.precio)}</strong>
                         </div>
@@ -306,10 +243,6 @@ document.addEventListener('DOMContentLoaded', function () {
             </article>
         `).join('');
 
-        /* =========================================
-        CLICK EN CARD:
-        toda la card redirige al detalle salvo el botón de carrito
-        ========================================= */
         grid.querySelectorAll('.catalog-product-card').forEach(card => {
             card.addEventListener('click', function (event) {
                 if (event.target.closest('.catalog-cart-btn')) {
@@ -321,22 +254,19 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             card.addEventListener('keydown', function (event) {
-                if (event.key === 'Enter' || event.key === ' ') {
-                    if (event.target.closest('.catalog-cart-btn')) {
-                        return;
-                    }
+                if (event.key !== 'Enter' && event.key !== ' ') return;
 
-                    event.preventDefault();
-                    const productId = this.dataset.productId;
-                    window.location.href = `${window.routeProductoBase}/${productId}`;
+                if (event.target.closest('.catalog-cart-btn')) {
+                    return;
                 }
+
+                event.preventDefault();
+
+                const productId = this.dataset.productId;
+                window.location.href = `${window.routeProductoBase}/${productId}`;
             });
         });
 
-        /* =========================================
-        BOTON CARRITO:
-        agrega el producto real al carrito usando localStorage
-        ========================================= */
         grid.querySelectorAll('.catalog-cart-btn').forEach(button => {
             button.addEventListener('click', function (event) {
                 event.stopPropagation();
@@ -358,10 +288,6 @@ document.addEventListener('DOMContentLoaded', function () {
         renderPagination(ordenados.length);
     }
 
-    /* =========================================
-       RANGO DE PRECIO:
-       actualiza texto y vuelve a la primera página
-       ========================================= */
     if (rangeInput && rangeValue) {
         rangeInput.addEventListener('input', function () {
             rangeValue.textContent = formatPrice(this.value);
@@ -370,10 +296,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    /* =========================================
-       BUSQUEDA Y ORDEN:
-       reaccionan automáticamente y reinician paginación
-       ========================================= */
     searchInput?.addEventListener('input', function () {
         currentPage = 1;
         renderProducts();
@@ -389,10 +311,6 @@ document.addEventListener('DOMContentLoaded', function () {
         renderProducts();
     });
 
-    /* =========================================
-       FILTROS FIJOS:
-       categorías y energía reinician paginación
-       ========================================= */
     categoryChecks.forEach(check => {
         check.addEventListener('change', function () {
             currentPage = 1;
@@ -407,10 +325,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    /* =========================================
-       RESET GENERAL:
-       limpia filtros y vuelve a página 1
-       ========================================= */
     resetBtn?.addEventListener('click', function () {
         if (searchInput) searchInput.value = '';
         if (sortMarketSelect) sortMarketSelect.value = 'default';
@@ -434,10 +348,6 @@ document.addEventListener('DOMContentLoaded', function () {
         renderProducts();
     });
 
-    /* =========================================
-       SIDEBAR RESPONSIVE:
-       abre y cierra el bloque de filtros debajo de la toolbar
-       ========================================= */
     filterToggle?.addEventListener('click', function () {
         sidebar?.classList.toggle('is-open');
     });
@@ -453,10 +363,6 @@ document.addEventListener('DOMContentLoaded', function () {
         searchInput.value = searchFromUrl;
     }
 
-    /* =========================================
-       INICIALIZACION:
-       primero genera marcas, luego enlaza eventos y finalmente renderiza
-       ========================================= */
     generarMarcas(productos);
     bindBrandEvents();
     applyFiltersFromUrl();

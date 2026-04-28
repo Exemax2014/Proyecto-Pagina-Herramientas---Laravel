@@ -4,6 +4,7 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/styleCatalogo.css') }}">
+<link rel="stylesheet" href="{{ asset('css/product-cards.css') }}">
 @endpush
 
 @section('contenido')
