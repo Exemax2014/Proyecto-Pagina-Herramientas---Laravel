@@ -9,19 +9,21 @@
                 <a class="navbar-brand" href="{{ route('home') }}">
                     HIERRO &amp; FORJA
                 </a>
-
-                @unless(request()->routeIs('catalogo'))
-                <form class="navbar-search navbar-search-desktop" id="navbarSearchFormDesktop" role="search" autocomplete="off">
-                    <input
-                        class="form-control form-control-sm"
-                        id="navbarSearchInputDesktop"
-                        type="search"
-                        placeholder="Buscar..."
-                        aria-label="Buscar"
-                    >
-                    <div class="navbar-search-results" id="navbarSearchResultsDesktop"></div>
-                </form>
-                @endunless
+                
+                <div class="navbar-search-slot">
+                    @unless(request()->routeIs('catalogo'))
+                        <form class="navbar-search navbar-search-desktop" id="navbarSearchFormDesktop" role="search" autocomplete="off">
+                            <input
+                                class="form-control form-control-sm"
+                                id="navbarSearchInputDesktop"
+                                type="search"
+                                placeholder="Buscar..."
+                                aria-label="Buscar"
+                            >
+                            <div class="navbar-search-results" id="navbarSearchResultsDesktop"></div>
+                        </form>
+                    @endunless
+                </div>
             </div>
 
             <!-- =========================================

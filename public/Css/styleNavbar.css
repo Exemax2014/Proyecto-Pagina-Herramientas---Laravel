@@ -56,11 +56,19 @@
     position: relative; /* necesario para el dropdown de resultados */
 }
 
-/* Buscador visible en desktop */
+/* SLOT BUSCADOR DESKTOP:
+   reserva siempre el espacio aunque el buscador no exista en catálogo */
+.navbar-search-slot {
+    width: 18rem;
+    min-width: 18rem;
+}
+
+/* BUSCADOR DESKTOP:
+   ocupa el espacio reservado del slot */
 .navbar-search-desktop {
     display: flex;
     align-items: center;
-    width: 18rem;
+    width: 100%;
 }
 
 /* Hace que el input ocupe todo el ancho disponible del contenedor */
@@ -222,6 +230,22 @@
     .mobile-search-block {
         display: block;
     }
+
+    .navbar-search-slot,
+    .navbar-search-desktop {
+        display: none;
+    }
+
+    .navbar-toggler {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-search-block {
+        display: block;
+    }
+
 }
 
 /* Hasta notebook mediana:
