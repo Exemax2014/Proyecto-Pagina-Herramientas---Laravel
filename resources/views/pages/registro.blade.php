@@ -6,21 +6,18 @@
 <section class="page-section">
     <div class="container">
 
-        <!-- FORMULARIO DE REGISTRO -->
         <div class="row justify-content-center">
             <div class="col-12 col-md-9 col-lg-7">
 
                 <article class="page-card register-card">
                     <h2>Crear una cuenta</h2>
 
-                    <!-- 🔥 FORM CONECTADO A LARAVEL -->
                     <form action="{{ route('registro.procesar') }}" method="POST" class="register-form">
                         @csrf
 
                         <!-- NOMBRE -->
                         <div class="register-field">
                             <label for="nombre" class="register-label">Nombre y apellido</label>
-
                             <input
                                 type="text"
                                 id="nombre"
@@ -29,7 +26,6 @@
                                 placeholder="Ingresá tu nombre y apellido"
                                 value="{{ old('nombre') }}"
                             >
-
                             @error('nombre')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -38,7 +34,6 @@
                         <!-- EMAIL -->
                         <div class="register-field">
                             <label for="email" class="register-label">Correo electrónico</label>
-
                             <input
                                 type="email"
                                 id="email"
@@ -47,7 +42,6 @@
                                 placeholder="Ingresá tu correo"
                                 value="{{ old('email') }}"
                             >
-
                             @error('email')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -56,7 +50,6 @@
                         <!-- PASSWORD -->
                         <div class="register-field">
                             <label for="password" class="register-label">Contraseña</label>
-
                             <input
                                 type="password"
                                 id="password"
@@ -64,7 +57,6 @@
                                 class="form-control register-input"
                                 placeholder="Ingresá tu contraseña"
                             >
-
                             @error('password')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -75,7 +67,6 @@
                             <label for="password_confirmation" class="register-label">
                                 Repetir contraseña
                             </label>
-
                             <input
                                 type="password"
                                 id="password_confirmation"
@@ -83,7 +74,6 @@
                                 class="form-control register-input"
                                 placeholder="Repetí tu contraseña"
                             >
-
                             @error('password_confirmation')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror

@@ -66,6 +66,11 @@ Route::post('/login', function () {
    REGISTRO
    ========================================= */
 
+/* Muestra el formulario de registro */
+Route::get('/registro', function () {
+    return view('pages.registro');
+})->name('registro');   
+
 Route::post('/registro', function () {
 
     request()->validate([
@@ -86,7 +91,7 @@ Route::post('/registro', function () {
         'password_confirmation.same' => 'Las contraseñas no coinciden.',
     ]);
 
-    return redirect()->route('home');
+    return redirect()->route('home')->with('registro_ok', true);
 
 })->name('registro.procesar');
 
