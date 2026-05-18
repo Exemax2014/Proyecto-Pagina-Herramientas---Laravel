@@ -23,14 +23,7 @@
 
                 <!-- LINKS -->
                 <div class="footer-links-row">
-                    <div class="footer-section footer-links-col">
-                        <h4 class="footer-subtitle">Sobre la empresa</h4>
-                        <ul class="footer-links">
-                            <li><a href="{{ route('quienes-somos') }}">Qui&eacute;nes Somos</a></li>
-                            <li><a href="{{ route('comercializacion') }}">Comercializaci&oacute;n</a></li>
-                        </ul>
-                    </div>
-
+                    
                     <div class="footer-section footer-links-col">
                         <h4 class="footer-subtitle">Soporte</h4>
                         <ul class="footer-links">
@@ -38,6 +31,15 @@
                             <li><a href="{{ route('terminos') }}">T&eacute;rminos</a></li>
                         </ul>
                     </div>
+
+                    <div class="footer-section footer-links-col">
+                        <h4 class="footer-subtitle">Sobre la empresa</h4>
+                        <ul class="footer-links">
+                            <li><a href="{{ route('quienes-somos') }}">Qui&eacute;nes Somos</a></li>
+                            <li><a href="{{ route('comercializacion') }}">Comercializaci&oacute;n</a></li>
+                        </ul>
+                    </div>
+                    
                 </div>
             </div>
         </div>
