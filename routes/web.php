@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductoController;
 
 Route::get('/', function () {
     return view('pages.index');
@@ -22,13 +23,9 @@ Route::get('/terminos', function () {
     return view('pages.terminos');
 })->name('terminos');
 
-Route::get('/catalogo', function () {
-    return view('pages.catalogo');
-})->name('catalogo');
-
-Route::get('/producto/{id}', function ($id) {
-    return view('pages.producto');
-})->name('producto');
+Route::get('/catalogo', [ProductoController::class, 'index'])->name('catalogo');
+Route::get('/catalogo/filtrar', [ProductoController::class, 'filtrar'])->name('catalogo.filtrar');
+Route::get('/producto/{id}', [ProductoController::class, 'show'])->name('producto');
 
 Route::get('/carrito', function () {
     return view('pages.carrito');
@@ -69,7 +66,7 @@ Route::post('/login', function () {
 /* Muestra el formulario de registro */
 Route::get('/registro', function () {
     return view('pages.registro');
-})->name('registro');   
+})->name('registro');
 
 Route::post('/registro', function () {
 

@@ -182,7 +182,8 @@
 @push('scripts')
 <script>
     window.routeProductoBase = "{{ url('/producto') }}";
+    window.routeFiltrar = "{{ route('catalogo.filtrar') }}";
+    window.marcasDisponibles = @json($marcas->map(fn($m) => ['id' => $m->id, 'nombre' => $m->nombre]));
 </script>
-<script src="{{ asset('js/catalogo-productos.js') }}"></script>
 <script src="{{ asset('js/catalogo.js') }}"></script>
 @endpush
