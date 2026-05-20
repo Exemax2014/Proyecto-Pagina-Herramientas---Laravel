@@ -101,9 +101,6 @@
                         {{ $producto->nombre }}
                     </h1>
 
-                    <p class="product-short">
-                        {{ $producto->descripcion }}
-                    </p>
                 </div>
 
                 <div class="product-price-block">
@@ -196,59 +193,106 @@
             </div>
         </section>
 
+        <!-- ================= RELACIONADOS ================= -->
+        @if($relacionados->count() > 0)
+        <section class="product-section">
+            <div class="section-heading">
+                <span class="home-kicker">Sugerencias</span>
+                <h2>Productos relacionados</h2>
+            </div>
+
+            <div class="product-related-grid">
+                @foreach($relacionados as $rel)
+                    @php
+                        $relImagen = $rel->imagenPrincipal?->url ?? 'img/producto-sin-imagen.png';
+                    @endphp
+                    <article class="page-card product-related-card">
+                        <a href="{{ route('producto', $rel->id) }}">
+                            <img src="{{ asset($relImagen) }}" alt="{{ $rel->nombre }}" class="product-related-image">
+                            <div class="product-related-body">
+                                <span class="product-related-brand">{{ $rel->marca->nombre }}</span>
+                                <h3>{{ $rel->nombre }}</h3>
+                                <span class="product-related-price">
+                                    ${{ number_format($rel->precio, 0, ',', '.') }}
+                                </span>
+                            </div>
+                        </a>
+                    </article>
+                @endforeach
+            </div>
+        </section>
+        @endif
+
     </div>
 </section>
 @endsection
 
 @push('scripts')
 <script>
+    window.productoActual = {
+        id: {{ $producto->id }},
+        nombre: @json($producto->nombre),
+        marca: @json($producto->marca->nombre),
+        precio: {{ $producto->precio }},
+        precioAnterior: {{ $producto->precio_anterior ?? 'null' }},
+        imagen: @json($imagenPrincipalUrl),
+        categoria: @json($producto->categoria->slug),
+        energia: @json($producto->energia),
+        ventas: {{ $producto->ventas }},
+        descripcion: @json($producto->descripcion),
+        etiqueta: @json($producto->etiqueta),
+        etiquetaClase: @json($producto->etiqueta_clase),
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
         const mainImage = document.getElementById('productMainImage');
         const thumbs = Array.from(document.querySelectorAll('.product-thumb'));
         const prevBtn = document.getElementById('galleryPrev');
         const nextBtn = document.getElementById('galleryNext');
+        const qtyEl = document.getElementById('productQty');
+        const qtyMinus = document.querySelector('[aria-label="Restar cantidad"]');
+        const qtyPlus = document.querySelector('[aria-label="Sumar cantidad"]');
+        const addToCartBtn = document.querySelector('.product-main-btn');
 
-        if (!mainImage || thumbs.length === 0) return;
-
+        let qty = 1;
         let currentIndex = 0;
 
+        // Galería
         function showImage(index) {
-            if (index < 0) {
-                index = thumbs.length - 1;
-            }
-
-            if (index >= thumbs.length) {
-                index = 0;
-            }
-
+            if (index < 0) index = thumbs.length - 1;
+            if (index >= thumbs.length) index = 0;
             currentIndex = index;
-
-            const selectedThumb = thumbs[currentIndex];
-            const imageUrl = selectedThumb.dataset.image;
-
-            mainImage.src = imageUrl;
-
-            thumbs.forEach(thumb => thumb.classList.remove('active'));
-            selectedThumb.classList.add('active');
+            if (thumbs.length > 0) {
+                mainImage.src = thumbs[currentIndex].dataset.image;
+                thumbs.forEach(t => t.classList.remove('active'));
+                thumbs[currentIndex].classList.add('active');
+            }
         }
 
         thumbs.forEach((thumb, index) => {
-            thumb.addEventListener('click', () => {
-                showImage(index);
-            });
+            thumb.addEventListener('click', () => showImage(index));
         });
 
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                showImage(currentIndex - 1);
-            });
-        }
+        prevBtn?.addEventListener('click', () => showImage(currentIndex - 1));
+        nextBtn?.addEventListener('click', () => showImage(currentIndex + 1));
 
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                showImage(currentIndex + 1);
-            });
-        }
+        // Cantidad
+        qtyMinus?.addEventListener('click', () => {
+            qty = Math.max(1, qty - 1);
+            if (qtyEl) qtyEl.textContent = qty;
+        });
+
+        qtyPlus?.addEventListener('click', () => {
+            qty += 1;
+            if (qtyEl) qtyEl.textContent = qty;
+        });
+
+        // Carrito
+        addToCartBtn?.addEventListener('click', () => {
+            if (!window.CartUtils) return;
+            window.CartUtils.addToCart(window.productoActual, qty);
+            window.showToast('Producto agregado al carrito');
+        });
     });
 </script>
 @endpush

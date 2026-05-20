@@ -17,16 +17,32 @@
 
                         <!-- NOMBRE -->
                         <div class="register-field">
-                            <label for="nombre" class="register-label">Nombre y apellido</label>
+                            <label for="nombre" class="register-label">Nombre</label>
                             <input
                                 type="text"
                                 id="nombre"
                                 name="nombre"
                                 class="form-control register-input"
-                                placeholder="Ingresá tu nombre y apellido"
+                                placeholder="Ingresá tu nombre"
                                 value="{{ old('nombre') }}"
                             >
                             @error('nombre')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- APELLIDO -->
+                        <div class="register-field">
+                            <label for="apellido" class="register-label">Apellido</label>
+                            <input
+                                type="text"
+                                id="apellido"
+                                name="apellido"
+                                class="form-control register-input"
+                                placeholder="Ingresá tu apellido"
+                                value="{{ old('apellido') }}"
+                            >
+                            @error('apellido')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>

@@ -97,12 +97,18 @@ class ProductoController extends Controller
         ]);
     }
 
-    public function show($id)
-    {
+    public function show($id){
         $producto = Producto::with(['imagenes', 'categoria', 'marca'])
             ->where('activo', true)
             ->findOrFail($id);
 
-        return view('pages.producto', compact('producto'));
+        $relacionados = Producto::with(['imagenPrincipal', 'marca'])
+            ->where('activo', true)
+            ->where('categoria_id', $producto->categoria_id)
+            ->where('id', '!=', $producto->id)
+            ->limit(4)
+            ->get();
+
+        return view('pages.producto', compact('producto', 'relacionados'));
     }
 }

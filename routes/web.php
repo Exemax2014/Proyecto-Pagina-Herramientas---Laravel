@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
     return view('pages.index');
@@ -36,65 +37,38 @@ Route::get('/carrito', function () {
    ========================================= */
 
 /* Muestra el formulario */
-Route::get('/login', function () {
-    return view('pages.login');
-})->name('login');
+Route::get('/login', [AuthController::class, 'mostrarLogin'])->name('login');
 
-/* Procesa el formulario (SIN base de datos) */
-Route::post('/login', function () {
-
-    /* Validación básica */
-    request()->validate([
-        'email' => ['required', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/'],
-        'password' => 'required|min:4',
-    ], [
-        'email.required' => 'Debes ingresar un correo.',
-        'email.regex' => 'El correo debe tener formato ejemplo@dominio.com.',
-        'password.required' => 'Debes ingresar una contraseña.',
-        'password.min' => 'Mínimo 4 caracteres.',
-    ]);
-
-    /* Redirección directa al inicio */
-    return redirect()->route('home');
-
-})->name('login.procesar');
+/* Procesa el formulario */
+Route::post('/login', [AuthController::class, 'procesarLogin'])->name('login.procesar');
 
 /* =========================================
    REGISTRO
    ========================================= */
 
 /* Muestra el formulario de registro */
-Route::get('/registro', function () {
-    return view('pages.registro');
-})->name('registro');
+Route::get('/registro', [AuthController::class, 'mostrarRegistro'])->name('registro');
 
-Route::post('/registro', function () {
+/* Procesa el formulario */
+Route::post('/registro', [AuthController::class, 'procesarRegistro'])->name('registro.procesar');
 
-    request()->validate([
-        'nombre' => ['required', 'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/'],
-        'email' => ['required', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/'],
-        'password' => 'required|min:4',
-        'password_confirmation' => 'required|same:password',
-    ], [
-        'nombre.required' => 'Debes ingresar tu nombre.',
-        'nombre.regex' => 'El nombre solo puede contener letras y espacios.',
-
-        'email.required' => 'Debes ingresar un correo.',
-        'email.regex' => 'El correo debe tener formato ejemplo@dominio.com',
-
-        'password.required' => 'Debes ingresar una contraseña.',
-        'password.min' => 'Mínimo 4 caracteres.',
-
-        'password_confirmation.same' => 'Las contraseñas no coinciden.',
-    ]);
-
-    return redirect()->route('home')->with('registro_ok', true);
-
-})->name('registro.procesar');
+/* =========================================
+   LOGOUT
+   ========================================= */
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 /* =========================================
    ETIQUETA "PAGOS Y ENVIOS "
    ========================================= */
 Route::get('/pagos-envios', function () {
     return view('pages.pagos-envios');
+});
+
+/* =========================================
+   PANEL ADMINISTRADOR
+   ========================================= */
+use App\Http\Controllers\Admin\AdminController;
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 });

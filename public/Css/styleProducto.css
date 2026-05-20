@@ -400,17 +400,17 @@
 
 .product-related-image {
     width: 100%;
-    aspect-ratio: 4 / 4.5;
-    object-fit: cover;
+    aspect-ratio: 4 / 3;
+    object-fit: contain;
     background: #ece7dd;
 }
 
 .product-related-body {
-    padding: 0.9rem;
+    padding:  0.6rem 0.8rem;
 }
 
 .product-related-brand {
-    font-size: 0.72rem;
+    font-size: 0.65rem;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -419,13 +419,14 @@
 
 .product-related-body h3 {
     margin: 0.2rem 0 0.35rem;
-    font-size: 1rem;
+    font-size: 0.85rem;
     line-height: 1.25;
 }
 
 .product-related-price {
     font-weight: 800;
     color: var(--hf-coal);
+    font-size: 0.9rem;
 }
 
 /* TABLET:
