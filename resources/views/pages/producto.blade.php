@@ -1,83 +1,144 @@
 @extends('layouts.app')
 
-@section('title', 'Detalle del producto | Hierro & Forja')
+@section('title', $producto->nombre . ' | Hierro & Forja')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/styleProducto.css') }}">
 @endpush
 
 @section('contenido')
+
+@php
+    $imagenes = $producto->imagenes->sortBy('orden');
+    $imagenPrincipal = $imagenes->firstWhere('es_principal', true) ?? $imagenes->first();
+
+    $imagenPrincipalUrl = $imagenPrincipal
+        ? asset($imagenPrincipal->url)
+        : asset('img/producto-sin-imagen.png');
+
+    $categoriaNombre = $producto->categoria->nombre ?? 'Sin categoría';
+    $marcaNombre = $producto->marca->nombre ?? 'Sin marca';
+
+    $energiaTexto = match($producto->energia) {
+        'electrica' => 'Eléctrica',
+        'manual' => 'Manual',
+        'inalambrica' => 'Inalámbrica',
+        default => 'No especificada'
+    };
+@endphp
+
 <section class="page-section product-page">
     <div class="container">
 
         <!-- ================= BREADCRUMB ================= -->
-        <nav class="product-breadcrumb" id="productBreadcrumb"></nav>
+        <nav class="product-breadcrumb">
+            <a href="{{ url('/') }}">Inicio</a>
+            <span>/</span>
+            <span>{{ $categoriaNombre }}</span>
+            <span>/</span>
+            <strong>{{ $producto->nombre }}</strong>
+        </nav>
 
         <!-- ================= DETALLE PRINCIPAL ================= -->
-        <div class="product-layout" id="productDetailWrap">
+        <div class="product-layout">
 
             <!-- ===== GALERIA ===== -->
             <div class="product-gallery">
                 <div class="page-card product-main-image-wrap">
-                    <img id="productMainImage" src="" alt="" class="product-main-image">
-                    <span id="productBadge" class="product-badge d-none"></span>
+                    <img 
+                        src="{{ $imagenPrincipalUrl }}" 
+                        alt="{{ $producto->nombre }}" 
+                        class="product-main-image"
+                    >
+
+                    @if($producto->etiqueta)
+                        <span class="product-badge {{ $producto->etiqueta_clase }}">
+                            {{ $producto->etiqueta }}
+                        </span>
+                    @endif
                 </div>
 
-                <div class="product-thumbs" id="productThumbs"></div>
+                @if($imagenes->count() > 1)
+                    <div class="product-thumbs">
+                        @foreach($imagenes as $imagen)
+                            <button type="button" class="product-thumb">
+                                <img 
+                                    src="{{ asset($imagen->url) }}" 
+                                    alt="{{ $producto->nombre }}"
+                                >
+                            </button>
+                        @endforeach
+                    </div>
+                @endif
             </div>
 
             <!-- ===== INFORMACION ===== -->
             <div class="product-info">
                 <div class="product-head">
-                    <span class="product-brand" id="productBrand"></span>
-                    <h1 class="product-title" id="productTitle"></h1>
-                    <p class="product-short" id="productShort"></p>
+                    <span class="product-brand">{{ $marcaNombre }}</span>
+
+                    <h1 class="product-title">
+                        {{ $producto->nombre }}
+                    </h1>
+
+                    <p class="product-short">
+                        {{ $producto->descripcion }}
+                    </p>
                 </div>
 
                 <div class="product-price-block">
-                    <small id="productOldPrice" class="product-old-price d-none"></small>
-                    <strong id="productPrice" class="product-price"></strong>
+                    @if($producto->precio_anterior)
+                        <small class="product-old-price">
+                            ${{ number_format($producto->precio_anterior, 0, ',', '.') }}
+                        </small>
+                    @endif
+
+                    <strong class="product-price">
+                        ${{ number_format($producto->precio, 0, ',', '.') }}
+                    </strong>
                 </div>
 
                 <div class="product-meta-grid">
                     <div class="page-card product-meta-card">
                         <span class="product-meta-label">Categoría</span>
-                        <strong id="productCategory"></strong>
+                        <strong>{{ $categoriaNombre }}</strong>
                     </div>
 
                     <div class="page-card product-meta-card">
                         <span class="product-meta-label">Marca</span>
-                        <strong id="productBrandMeta"></strong>
+                        <strong>{{ $marcaNombre }}</strong>
                     </div>
 
                     <div class="page-card product-meta-card">
                         <span class="product-meta-label">Energía</span>
-                        <strong id="productEnergy"></strong>
+                        <strong>{{ $energiaTexto }}</strong>
                     </div>
 
                     <div class="page-card product-meta-card">
                         <span class="product-meta-label">Ventas</span>
-                        <strong id="productSales"></strong>
+                        <strong>{{ $producto->ventas }}</strong>
                     </div>
                 </div>
 
                 <div class="page-card product-description-card">
                     <h2>Descripción</h2>
-                    <p id="productDescription"></p>
+                    <p>{{ $producto->descripcion }}</p>
                 </div>
 
                 <div class="product-actions">
                     <div class="product-qty-box">
-                        <button type="button" class="product-qty-btn" id="qtyMinus" aria-label="Restar cantidad">
+                        <button type="button" class="product-qty-btn" aria-label="Restar cantidad">
                             <i class="bi bi-dash"></i>
                         </button>
-                        <span id="productQty">1</span>
-                        <button type="button" class="product-qty-btn" id="qtyPlus" aria-label="Sumar cantidad">
+
+                        <span>1</span>
+
+                        <button type="button" class="product-qty-btn" aria-label="Sumar cantidad">
                             <i class="bi bi-plus"></i>
                         </button>
                     </div>
 
-                    <button type="button" class="btn btn-warning product-main-btn" id="productAddToCartBtn">
+                    <button type="button" class="btn btn-warning product-main-btn">
                         <i class="bi bi-cart-plus"></i>
                         Agregar al carrito
                     </button>
@@ -114,23 +175,29 @@
                 <h2>Especificaciones del producto</h2>
             </div>
 
-            <div class="product-specs-grid" id="productSpecs"></div>
-        </section>
+            <div class="product-specs-grid">
+                <div class="page-card product-meta-card">
+                    <span class="product-meta-label">Stock disponible</span>
+                    <strong>{{ $producto->stock }}</strong>
+                </div>
 
-        <!-- ================= RELACIONADOS ================= -->
-        <section class="product-section">
-            <div class="section-heading">
-                <span class="home-kicker">Sugerencias</span>
-                <h2>Productos relacionados</h2>
+                <div class="page-card product-meta-card">
+                    <span class="product-meta-label">Tipo de energía</span>
+                    <strong>{{ $energiaTexto }}</strong>
+                </div>
+
+                <div class="page-card product-meta-card">
+                    <span class="product-meta-label">Marca</span>
+                    <strong>{{ $marcaNombre }}</strong>
+                </div>
+
+                <div class="page-card product-meta-card">
+                    <span class="product-meta-label">Categoría</span>
+                    <strong>{{ $categoriaNombre }}</strong>
+                </div>
             </div>
-
-            <div class="product-related-grid" id="relatedProducts"></div>
         </section>
+
     </div>
 </section>
 @endsection
-
-@push('scripts')
-<script src="{{ asset('js/catalogo-productos.js') }}"></script>
-<script src="{{ asset('js/producto-detalle.js') }}"></script>
-@endpush
