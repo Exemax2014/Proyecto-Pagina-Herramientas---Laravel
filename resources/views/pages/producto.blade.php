@@ -45,11 +45,25 @@
             <!-- ===== GALERIA ===== -->
             <div class="product-gallery">
                 <div class="page-card product-main-image-wrap">
+
+                    @if($imagenes->count() > 1)
+                        <button type="button" class="product-gallery-arrow product-gallery-prev" id="galleryPrev" aria-label="Imagen anterior">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+                    @endif
+
                     <img 
+                        id="productMainImage"
                         src="{{ $imagenPrincipalUrl }}" 
                         alt="{{ $producto->nombre }}" 
                         class="product-main-image"
                     >
+
+                    @if($imagenes->count() > 1)
+                        <button type="button" class="product-gallery-arrow product-gallery-next" id="galleryNext" aria-label="Imagen siguiente">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+                    @endif
 
                     @if($producto->etiqueta)
                         <span class="product-badge {{ $producto->etiqueta_clase }}">
@@ -59,12 +73,18 @@
                 </div>
 
                 @if($imagenes->count() > 1)
-                    <div class="product-thumbs">
-                        @foreach($imagenes as $imagen)
-                            <button type="button" class="product-thumb">
+                    <div class="product-thumbs" id="productThumbs">
+                        @foreach($imagenes as $index => $imagen)
+                            <button 
+                                type="button" 
+                                class="product-thumb {{ $index === 0 ? 'active' : '' }}"
+                                data-index="{{ $index }}"
+                                data-image="{{ asset($imagen->url) }}"
+                                aria-label="Ver imagen {{ $index + 1 }}"
+                            >
                                 <img 
                                     src="{{ asset($imagen->url) }}" 
-                                    alt="{{ $producto->nombre }}"
+                                    alt="{{ $producto->nombre }} imagen {{ $index + 1 }}"
                                 >
                             </button>
                         @endforeach
@@ -96,28 +116,6 @@
                     <strong class="product-price">
                         ${{ number_format($producto->precio, 0, ',', '.') }}
                     </strong>
-                </div>
-
-                <div class="product-meta-grid">
-                    <div class="page-card product-meta-card">
-                        <span class="product-meta-label">Categoría</span>
-                        <strong>{{ $categoriaNombre }}</strong>
-                    </div>
-
-                    <div class="page-card product-meta-card">
-                        <span class="product-meta-label">Marca</span>
-                        <strong>{{ $marcaNombre }}</strong>
-                    </div>
-
-                    <div class="page-card product-meta-card">
-                        <span class="product-meta-label">Energía</span>
-                        <strong>{{ $energiaTexto }}</strong>
-                    </div>
-
-                    <div class="page-card product-meta-card">
-                        <span class="product-meta-label">Ventas</span>
-                        <strong>{{ $producto->ventas }}</strong>
-                    </div>
                 </div>
 
                 <div class="page-card product-description-card">
@@ -201,3 +199,56 @@
     </div>
 </section>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const mainImage = document.getElementById('productMainImage');
+        const thumbs = Array.from(document.querySelectorAll('.product-thumb'));
+        const prevBtn = document.getElementById('galleryPrev');
+        const nextBtn = document.getElementById('galleryNext');
+
+        if (!mainImage || thumbs.length === 0) return;
+
+        let currentIndex = 0;
+
+        function showImage(index) {
+            if (index < 0) {
+                index = thumbs.length - 1;
+            }
+
+            if (index >= thumbs.length) {
+                index = 0;
+            }
+
+            currentIndex = index;
+
+            const selectedThumb = thumbs[currentIndex];
+            const imageUrl = selectedThumb.dataset.image;
+
+            mainImage.src = imageUrl;
+
+            thumbs.forEach(thumb => thumb.classList.remove('active'));
+            selectedThumb.classList.add('active');
+        }
+
+        thumbs.forEach((thumb, index) => {
+            thumb.addEventListener('click', () => {
+                showImage(index);
+            });
+        });
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                showImage(currentIndex - 1);
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                showImage(currentIndex + 1);
+            });
+        }
+    });
+</script>
+@endpush

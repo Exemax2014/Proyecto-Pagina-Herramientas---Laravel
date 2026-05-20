@@ -51,21 +51,30 @@
     display: flex;
     flex-direction: column;
     gap: 0.9rem;
+    width: 100%;
 }
 
+/* Recuadro fijo para todas las imágenes */
 .product-main-image-wrap {
     position: relative;
     overflow: hidden;
     padding: 0;
     border-radius: 1.35rem;
+    width: 100%;
+    height: 460px;
+    background: #ece7dd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+/* Imagen adaptada al máximo posible sin deformarse */
 .product-main-image {
     width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
     display: block;
-    background: #ece7dd;
 }
 
 /* BADGE:
@@ -111,8 +120,41 @@
 .product-thumb img {
     width: 100%;
     aspect-ratio: 1 / 1;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
+    background: #ece7dd;
+}
+
+.product-gallery-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 3;
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--hf-coal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transform: translateY(-50%);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.product-gallery-arrow:hover {
+    background: var(--hf-highlight);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.product-gallery-prev {
+    left: 0.85rem;
+}
+
+.product-gallery-next {
+    right: 0.85rem;
 }
 
 /* INFORMACION:
@@ -293,7 +335,7 @@
    organiza tarjetas de datos técnicos */
 .product-specs-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1rem;
 }
 
@@ -393,10 +435,6 @@
         grid-template-columns: 1fr;
     }
 
-    .product-specs-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
     .product-related-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
@@ -404,6 +442,17 @@
 
 /* MOBILE:
    todo se adapta a una sola columna */
+@media (max-width: 768px) {
+    .product-specs-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .product-main-image-wrap {
+        height: 360px;
+    }
+
+}
+
 @media (max-width: 575.98px) {
     .product-thumbs {
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -411,13 +460,27 @@
 
     .product-meta-grid,
     .product-benefits,
-    .product-specs-grid,
     .product-related-grid {
         grid-template-columns: 1fr;
     }
 
     .product-actions {
         flex-direction: column;
+    }
+}
+
+@media (max-width: 430px) {
+    .product-specs-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .product-main-image-wrap {
+        height: 260px;
+    }
+
+    .product-gallery-arrow {
+        width: 34px;
+        height: 34px;
     }
 }
 
