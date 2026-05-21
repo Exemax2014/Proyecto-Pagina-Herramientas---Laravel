@@ -384,3 +384,304 @@ body {
     padding: 0.25rem 0.45rem;
     border-radius: 999px;
 }
+
+/* ================= ACCIONES TABLA ADMIN ================= */
+
+.admin-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+}
+
+.admin-action-form {
+    margin: 0;
+    padding: 0;
+    display: inline-flex;
+}
+
+.admin-action-btn {
+    min-width: 105px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+/* ================= RESUMEN DE RESULTADOS ================= */
+
+.admin-results-summary {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.admin-results-summary strong {
+    color: #1e1e2e;
+}
+
+/* ================= PAGINACIÓN ADMIN ================= */
+
+.admin-pagination-wrapper nav {
+    width: 100%;
+}
+
+/* Oculta la paginación móvil de Laravel */
+.admin-pagination-wrapper nav > div:first-child {
+    display: none !important;
+}
+
+/* Muestra solo la paginación de escritorio */
+.admin-pagination-wrapper nav > div:last-child {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.admin-pagination-wrapper p {
+    margin-bottom: 0 !important;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.admin-pagination-wrapper .pagination {
+    margin-bottom: 0;
+    gap: 0.25rem;
+}
+
+.admin-pagination-wrapper .page-item .page-link {
+    min-width: 36px;
+    height: 36px;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.85rem;
+    line-height: 1;
+    color: #1e1e2e;
+    border-radius: 0.55rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-pagination-wrapper .page-item.active .page-link {
+    background-color: #1e1e2e;
+    border-color: #1e1e2e;
+    color: #fff;
+}
+
+.admin-pagination-wrapper .page-item.disabled .page-link {
+    color: #999;
+    background-color: #f1f1f1;
+}
+
+.admin-pagination-wrapper svg {
+    width: 14px !important;
+    height: 14px !important;
+}
+
+@media (max-width: 575.98px) {
+    .admin-pagination-wrapper nav > div:last-child {
+        justify-content: center !important;
+        text-align: center;
+    }
+
+    .admin-pagination-wrapper p {
+        width: 100%;
+        text-align: center;
+    }
+
+    .admin-pagination-wrapper .pagination {
+        justify-content: center;
+    }
+}
+
+/* ================= SELECCIÓN / ELIMINACIÓN DE IMÁGENES ================= */
+
+.admin-main-image-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 1rem;
+}
+
+.admin-main-image-option {
+    position: relative;
+    margin: 0;
+}
+
+.admin-main-image-radio-label {
+    display: block;
+    cursor: pointer;
+    margin: 0;
+}
+
+.admin-main-image-radio {
+    display: none;
+}
+
+.admin-main-image-card {
+    position: relative;
+    height: 130px;
+    border: 2px solid transparent;
+    border-radius: 0.9rem;
+    background: #f3eee5;
+    overflow: hidden;
+    transition: border-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+}
+
+.admin-main-image-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 0.35rem;
+}
+
+.admin-main-image-check {
+    position: absolute;
+    left: 0.45rem;
+    bottom: 0.45rem;
+    background: #ffc107;
+    color: #111;
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 0.25rem 0.5rem;
+    border-radius: 999px;
+    opacity: 0;
+}
+
+.admin-main-image-radio:checked + .admin-main-image-card {
+    border-color: #ffc107;
+    transform: translateY(-2px);
+}
+
+.admin-main-image-radio:checked + .admin-main-image-card .admin-main-image-check {
+    opacity: 1;
+}
+
+.admin-old-image-remove {
+    position: absolute;
+    top: 0.45rem;
+    right: 0.45rem;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(220, 53, 69, 0.95);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.admin-image-delete-label {
+    position: absolute;
+    left: 0.45rem;
+    top: 0.45rem;
+    background: #dc3545;
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 0.25rem 0.5rem;
+    border-radius: 999px;
+    opacity: 0;
+    z-index: 3;
+}
+
+.admin-main-image-option.is-marked-delete .admin-main-image-card {
+    opacity: 0.35;
+    border-color: #dc3545;
+    transform: none;
+}
+
+.admin-main-image-option.is-marked-delete .admin-image-delete-label {
+    opacity: 1;
+}
+
+.admin-main-image-option.is-marked-delete .admin-old-image-remove {
+    background: #198754;
+}
+
+
+
+/* ══════════════════════════════════════════════════════════════════════════════════════════════════ */
+/* --------------------------------------- ADMIN USUARIOS ------------------------------------------ */
+/* ══════════════════════════════════════════════════════════════════════════════════════════════════ */
+
+.admin-users-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(320px, 0.8fr);
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.admin-users-card-head h2 {
+    margin-bottom: 0.25rem;
+}
+
+.admin-users-card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.admin-users-card-head .btn {
+    white-space: nowrap;
+}
+
+.admin-mini-search {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+}
+
+.admin-mini-search .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.admin-mini-search .btn {
+    width: 48px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.admin-users-table th,
+.admin-users-table td {
+    padding-top: 0.45rem !important;
+    padding-bottom: 0.45rem !important;
+    vertical-align: middle;
+}
+
+.admin-users-table td {
+    font-size: 0.86rem;
+    line-height: 1.2;
+}
+
+.admin-users-table .small {
+    font-size: 0.7rem;
+}
+
+.admin-user-action-btn {
+    min-width: 95px;
+    height: 30px;
+    font-size: 0.76rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+@media (max-width: 1199.98px) {
+    .admin-users-layout {
+        grid-template-columns: 1fr;
+    }
+}

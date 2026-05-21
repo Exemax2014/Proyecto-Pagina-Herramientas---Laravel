@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AdminProductoController;
+use App\Http\Controllers\Admin\AdminUsuarioController;
 
 Route::get('/', function () {
     return view('pages.index');
@@ -84,6 +85,29 @@ Route::prefix('admin')
             
         Route::post('/productos', [AdminProductoController::class, 'store'])
             ->name('productos.store');
+
+        Route::get('/productos/{producto}/editar', [AdminProductoController::class, 'edit'])
+            ->name('productos.edit');    
+
+        Route::patch('/productos/{producto}', [AdminProductoController::class, 'update'])
+            ->name('productos.update');    
             
-            
+        Route::patch('/productos/{producto}/desactivar', [AdminProductoController::class, 'desactivar'])
+            ->name('productos.desactivar');
+
+        Route::patch('/productos/{producto}/activar', [AdminProductoController::class, 'activar'])
+            ->name('productos.activar');
+
+        
+        
+        Route::get('/usuarios', [AdminUsuarioController::class, 'index'])
+            ->name('usuarios.index');
+
+        Route::patch('/usuarios/{usuario}/activar', [AdminUsuarioController::class, 'activar'])
+            ->name('usuarios.activar');
+
+        Route::patch('/usuarios/{usuario}/desactivar', [AdminUsuarioController::class, 'desactivar'])
+            ->name('usuarios.desactivar');    
+        
+        
 });

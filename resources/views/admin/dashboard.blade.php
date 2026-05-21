@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Dashboard | Hierro & Forja')
-@section('page-title', 'Dashboard')
+@section('title', 'Panel Pincipal | Hierro & Forja')
+@section('page-title', 'Panel Pincipal')
 
 @section('contenido')
 

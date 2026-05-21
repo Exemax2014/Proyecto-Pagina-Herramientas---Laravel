@@ -31,19 +31,39 @@
         </div>
     </div>
 
+    <div class="admin-results-summary mb-3">
+        @if($buscar)
+            <span>
+                Resultados para: <strong>"{{ $buscar }}"</strong>
+            </span>
+
+            <span>
+                {{ $productos->total() }} producto{{ $productos->total() !== 1 ? 's' : '' }} encontrado{{ $productos->total() !== 1 ? 's' : '' }}
+            </span>
+
+            <a href="{{ route('admin.productos.index') }}" class="btn btn-sm btn-outline-secondary">
+                Limpiar búsqueda
+            </a>
+        @else
+            <span>
+                Mostrando <strong>{{ $productos->total() }}</strong> productos cargados.
+            </span>
+        @endif
+    </div>
+
     <div class="admin-card p-0 overflow-hidden">
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
+            <table class="table table-hover align-middle mb-0 admin-products-table">
                 <thead class="table-light">
                     <tr>
-                        <th>Imagen</th>
-                        <th>Producto</th>
-                        <th>Categoría</th>
-                        <th>Marca</th>
-                        <th>Precio</th>
-                        <th>Stock</th>
-                        <th>Estado</th>
-                        <th class="text-end">Acciones</th>
+                        <th class="text-center">Imagen</th>
+                        <th class="text-center">Producto</th>
+                        <th class="text-center">Categoría</th>
+                        <th class="text-center">Marca</th>
+                        <th class="text-center">Precio</th>
+                        <th class="text-center">Stock</th>
+                        <th class="text-center">Estado</th>
+                        <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
 
@@ -74,7 +94,7 @@
                                 @endif
                             </td>
 
-                            <td>
+                            <td class="text-center">
                                 {{ $producto->categoria->nombre ?? 'Sin categoría' }}
                             </td>
 
@@ -82,7 +102,7 @@
                                 {{ $producto->marca->nombre ?? 'Sin marca' }}
                             </td>
 
-                            <td>
+                            <td class="text-center">
                                 <strong>
                                     ${{ number_format($producto->precio, 0, ',', '.') }}
                                 </strong>
@@ -94,7 +114,7 @@
                                 @endif
                             </td>
 
-                            <td>
+                            <td class="text-center">            
                                 @if($producto->stock <= 0)
                                     <span class="badge bg-danger">Sin stock</span>
                                 @elseif($producto->stock <= 3)
@@ -108,7 +128,7 @@
                                 @endif
                             </td>
 
-                            <td>
+                            <td class="text-center">        
                                 @if($producto->activo)
                                     <span class="badge bg-success">Activo</span>
                                 @else
@@ -116,23 +136,41 @@
                                 @endif
                             </td>
 
-                            <td class="text-end">
-                                <div class="btn-group">
-                                    <a 
-                                        href="{{ route('producto', $producto->id) }}" 
-                                        class="btn btn-sm btn-outline-dark"
-                                        target="_blank"
-                                    >
-                                        Ver
-                                    </a>
-
-                                    <a href="#" class="btn btn-sm btn-outline-primary">
+                            <td class="text-center">
+                                <div class="admin-actions">
+                                    <a href="{{ route('admin.productos.edit', $producto) }}" class="btn btn-sm btn-outline-primary admin-action-btn">
                                         Editar
                                     </a>
 
-                                    <button type="button" class="btn btn-sm btn-outline-danger">
-                                        Eliminar
-                                    </button>
+                                    @if($producto->activo)
+                                        <form 
+                                            action="{{ route('admin.productos.desactivar', $producto) }}" 
+                                            method="POST"
+                                            class="admin-action-form"
+                                            onsubmit="return confirm('¿Seguro que querés dar de baja este producto?');"
+                                        >
+                                            @csrf
+                                            @method('PATCH')
+
+                                            <button type="submit" class="btn btn-sm btn-outline-danger admin-action-btn">
+                                                Dar de baja
+                                            </button>
+                                        </form>
+                                    @else
+                                        <form 
+                                            action="{{ route('admin.productos.activar', $producto) }}" 
+                                            method="POST"
+                                            class="admin-action-form"
+                                            onsubmit="return confirm('¿Querés dar de alta este producto?');"
+                                        >
+                                            @csrf
+                                            @method('PATCH')
+
+                                            <button type="submit" class="btn btn-sm btn-outline-success admin-action-btn">
+                                                Dar de alta
+                                            </button>
+                                        </form>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
@@ -148,8 +186,8 @@
         </div>
     </div>
 
-    <div class="mt-4">
-        {{ $productos->links() }}
+    <div class="admin-pagination-wrapper mt-4">
+        {{ $productos->links('pagination::bootstrap-5') }}
     </div>
 
 @endsection

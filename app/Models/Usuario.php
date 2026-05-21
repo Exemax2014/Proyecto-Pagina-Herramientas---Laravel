@@ -18,6 +18,7 @@ class Usuario extends Model
         'provincia',
         'codigo_postal',
         'role',
+        'activo',
     ];
 
     protected $hidden = [
@@ -26,5 +27,6 @@ class Usuario extends Model
 
     protected $casts = [
         'password' => 'hashed',
+        'activo' => 'boolean',
     ];
 }

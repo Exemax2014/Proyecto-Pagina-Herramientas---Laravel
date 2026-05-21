@@ -24,7 +24,7 @@
             <li>
                 <a href="{{ route('admin.dashboard') }}"
                    class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                    <i class="bi bi-speedometer2"></i> Dashboard
+                    <i class="bi bi-speedometer2"></i> Panel Pincipal
                 </a>
             </li>
 
@@ -36,7 +36,7 @@
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{ route('admin.usuarios.index') }}" class="{{ request()->routeIs('admin.usuarios.*') ? 'active' : '' }}">
                     <i class="bi bi-people"></i> Usuarios
                 </a>
             </li>
