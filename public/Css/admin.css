@@ -1,0 +1,333 @@
+/* ═════════════════════════════════════════════════════════════════════════════════════════════════ */
+/* ---------------------------------------- PANEL ADMIN -------------------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════════════ */
+
+body {
+    background: #f4f6f9;
+}
+
+/* ================= SIDEBAR ================= */
+
+.admin-sidebar {
+    width: 240px;
+    min-height: 100vh;
+    background: #1e1e2e;
+    color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 0;
+    z-index: 1000;
+}
+
+.admin-sidebar .brand {
+    font-size: 1.1rem;
+    font-weight: 800;
+    padding: 0 1.5rem 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    letter-spacing: 0.05em;
+}
+
+.admin-sidebar .brand span {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.5);
+    margin-top: 0.2rem;
+}
+
+.admin-nav {
+    list-style: none;
+    padding: 1rem 0;
+    margin: 0;
+    flex: 1;
+}
+
+.admin-nav a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 0.92rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.admin-nav a:hover,
+.admin-nav a.active {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+}
+
+.admin-nav a i {
+    font-size: 1.1rem;
+    width: 20px;
+}
+
+.admin-sidebar .admin-user {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.5);
+}
+
+/* ================= CONTENIDO GENERAL ================= */
+
+.admin-main {
+    margin-left: 240px;
+    padding: 2rem;
+}
+
+.admin-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.admin-topbar h1 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+/* ================= CARDS ================= */
+
+.admin-card {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.admin-card h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+/* ================= MÉTRICAS ================= */
+
+.stat-card {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+}
+
+.stat-card h3 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+.stat-card p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: #6c757d;
+}
+
+/* ================= TABLAS ================= */
+
+.admin-table-img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    background: #f3eee5;
+    border-radius: 10px;
+}
+
+.table th {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6c757d;
+}
+
+.table td {
+    font-size: 0.92rem;
+}
+
+.table .btn-group .btn {
+    white-space: nowrap;
+}
+
+/* ================= FORMULARIOS ================= */
+
+.admin-form-label {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: #1e1e2e;
+}
+
+.form-control,
+.form-select {
+    border-radius: 0.75rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #d9a441;
+    box-shadow: 0 0 0 0.2rem rgba(217, 164, 65, 0.18);
+}
+
+/* ================= BOTONES ================= */
+
+.btn {
+    border-radius: 0.75rem;
+}
+
+.btn-warning {
+    font-weight: 700;
+}
+
+/* ================= PAGINACIÓN ================= */
+
+.pagination {
+    margin-bottom: 0;
+}
+
+.pagination .page-link {
+    font-size: 0.9rem;
+    padding: 0.45rem 0.75rem;
+    color: #1e1e2e;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #1e1e2e;
+    border-color: #1e1e2e;
+    color: #fff;
+}
+
+.pagination svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* ================= ALERTAS ================= */
+
+.alert {
+    border-radius: 0.85rem;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 991.98px) {
+    .admin-sidebar {
+        position: static;
+        width: 100%;
+        min-height: auto;
+    }
+
+    .admin-main {
+        margin-left: 0;
+        padding: 1rem;
+    }
+
+    .admin-nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 575.98px) {
+    .admin-nav {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-card {
+        padding: 1rem;
+    }
+
+    .stat-card {
+        padding: 1rem;
+    }
+}
+
+
+
+
+/* ══════════════════════════════════════════════════════════════════════════════════════════════════ */
+/* --------------------------------------- ADMIN PRODUCTOS ------------------------------------------ */
+/* ══════════════════════════════════════════════════════════════════════════════════════════════════ */
+
+.admin-products-toolbar {
+    display: flex;
+    align-items: stretch;
+    gap: 1rem;
+    width: 100%;
+}
+
+.admin-products-search {
+    flex: 0 1 70%;
+    display: flex;
+    gap: 0;
+}
+
+.admin-products-search .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.admin-products-search .btn {
+    min-width: 150px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.admin-product-create-btn {
+    flex: 1;
+    min-width: 190px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    white-space: nowrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-products-toolbar {
+        flex-direction: column;
+    }
+
+    .admin-products-search {
+        flex: 1 1 auto;
+        width: 100%;
+    }
+
+    .admin-product-create-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-products-search {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .admin-products-search .form-control,
+    .admin-products-search .btn {
+        border-radius: 0.75rem;
+        width: 100%;
+    }
+}

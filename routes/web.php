@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\AdminProductoController;
 
 Route::get('/', function () {
     return view('pages.index');
@@ -69,6 +70,15 @@ Route::get('/pagos-envios', function () {
    ========================================= */
 use App\Http\Controllers\Admin\AdminController;
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware('admin')
+    ->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+
+        Route::get('/productos', [AdminProductoController::class, 'index'])
+            ->name('productos.index');
+
+        Route::get('/productos/crear', [AdminProductoController::class, 'create'])
+            ->name('productos.create');    
 });
