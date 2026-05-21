@@ -7,334 +7,90 @@ use App\Models\Categoria;
 use App\Models\Marca;
 use App\Models\Producto;
 use App\Models\ProductoImagen;
+use RuntimeException;
 
 class ProductoSeeder extends Seeder
 {
     public function run(): void
     {
-        // Categorias
-        $categorias = [
-            ['nombre' => 'Ferretería',    'slug' => 'ferreteria'],
-            ['nombre' => 'Herrería',      'slug' => 'herreria'],
-            ['nombre' => 'Construcción',  'slug' => 'construccion'],
-            ['nombre' => 'Carpintería',   'slug' => 'carpinteria'],
-            ['nombre' => 'Pinturería',    'slug' => 'pintureria'],
-            ['nombre' => 'Durlok',        'slug' => 'durlok'],
-        ];
+        $jsonPath = database_path('data/productos.json');
 
-        foreach ($categorias as $cat) {
-            Categoria::create($cat);
+        if (! file_exists($jsonPath)) {
+            throw new RuntimeException("No se encontró el archivo productos.json en: {$jsonPath}");
         }
 
-        // Marcas
-        $marcas = ['Bosch', 'Lusqtoff', 'DeWalt', 'Makita', 'Ingco', 'Total', 'Bremen', 'Stanley', 'Milwaukee'];
+        $productos = json_decode(file_get_contents($jsonPath), true);
 
-        foreach ($marcas as $marca) {
-            Marca::create(['nombre' => $marca]);
+        if (! is_array($productos)) {
+            throw new RuntimeException('El archivo productos.json no tiene un formato JSON válido.');
         }
-
-        // Productos
-        $productos = [
-            [
-                'nombre'        => 'Amoladora Angular 900W',
-                'categoria'     => 'ferreteria',
-                'marca'         => 'Bosch',
-                'energia'       => 'electrica',
-                'precio'        => 125000,
-                'precio_anterior' => 145000,
-                'ventas'        => 2,
-                'descripcion'   => 'Equipo compacto para corte y desbaste con excelente agarre y potencia constante.',
-                'etiqueta'      => 'Oferta',
-                'etiqueta_clase' => null,
-                'imagen'        => '/img/productos/amoladora-bosh-900w.jpg',
-            ],
-            [
-                'nombre'        => 'Soldadora Inverter 220A',
-                'categoria'     => 'herreria',
-                'marca'         => 'Lusqtoff',
-                'energia'       => 'electrica',
-                'precio'        => 280000,
-                'precio_anterior' => null,
-                'ventas'        => 15,
-                'descripcion'   => 'Ideal para trabajos exigentes con buena estabilidad de arco y estructura reforzada.',
-                'etiqueta'      => 'Destacado',
-                'etiqueta_clase' => 'product-card-badge-dark',
-                'imagen'        => '/img/productos/soldadora-inverter-lusqtoff.jpg',
-            ],
-            [
-                'nombre'        => 'Calibrador Digital',
-                'categoria'     => 'construccion',
-                'marca'         => 'DeWalt',
-                'energia'       => 'manual',
-                'precio'        => 45000,
-                'precio_anterior' => null,
-                'ventas'        => 11,
-                'descripcion'   => 'Herramienta de precisión para mediciones rápidas, confiables y de lectura simple.',
-                'etiqueta'      => 'Nuevo',
-                'etiqueta_clase' => 'product-card-badge-soft',
-                'imagen'        => '/img/productos/calibrador-digital-dewalt.jpg',
-            ],
-            [
-                'nombre'        => 'Casco de Soldar Fotosensible',
-                'categoria'     => 'herreria',
-                'marca'         => 'Makita',
-                'energia'       => 'manual',
-                'precio'        => 92000,
-                'precio_anterior' => null,
-                'ventas'        => 5,
-                'descripcion'   => 'Protección visual y frontal para tareas de soldadura con pantalla de oscurecimiento automático.',
-                'etiqueta'      => null,
-                'etiqueta_clase' => null,
-                'imagen'        => '/img/productos/casco-de-soldar-fotosensible-lusqtoff.jpg',
-            ],
-            [
-                'nombre'        => 'Prensa de Banco Reforzada',
-                'categoria'     => 'carpinteria',
-                'marca'         => 'Lusqtoff',
-                'energia'       => 'manual',
-                'precio'        => 138000,
-                'precio_anterior' => null,
-                'ventas'        => 6,
-                'descripcion'   => 'Base firme y cuerpo robusto para sujeción segura en trabajos de taller y montaje.',
-                'etiqueta'      => null,
-                'etiqueta_clase' => null,
-                'imagen'        => '/img/productos/prensa-de-banco-lusqtoff.jpg',
-            ],
-            [
-                'nombre'        => 'Guantes de Seguridad Industrial',
-                'categoria'     => 'pintureria',
-                'marca'         => 'Ingco',
-                'energia'       => 'manual',
-                'precio'        => 28000,
-                'precio_anterior' => 34000,
-                'ventas'        => 8,
-                'descripcion'   => 'Protección y comodidad para manipulación diaria en entornos de trabajo exigentes.',
-                'etiqueta'      => 'Oferta',
-                'etiqueta_clase' => null,
-                'imagen'        => '/img/productos/Ingco-guantes-reforzados.jpg',
-            ],
-            [
-                'nombre'        => 'Atornillador Inalámbrico',
-                'categoria'     => 'durlok',
-                'marca'         => 'Total',
-                'energia'       => 'inalambrica',
-                'precio'        => 167000,
-                'precio_anterior' => null,
-                'ventas'        => 9,
-                'descripcion'   => 'Ideal para montaje en seco, fijaciones ágiles y trabajo continuo con buena autonomía.',
-                'etiqueta'      => 'Nuevo',
-                'etiqueta_clase' => 'product-card-badge-soft',
-                'imagen'        => '/img/productos/atornillador-inalambrico-total.webp',
-            ],
-            [
-                'nombre'        => 'Cinta Métrica 8m',
-                'categoria'     => 'construccion',
-                'marca'         => 'Bremen',
-                'energia'       => 'manual',
-                'precio'        => 19000,
-                'precio_anterior' => null,
-                'ventas'        => 20,
-                'descripcion'   => 'Lectura clara, cuerpo resistente y traba segura para mediciones de uso intensivo.',
-                'etiqueta'      => null,
-                'etiqueta_clase' => null,
-                'imagen'        => '/img/productos/cinta-metrica-8m-bremen.jpg',
-            ],
-            [
-                'nombre'        => 'Kit-3 Brochas Profesional',
-                'categoria'     => 'pintureria',
-                'marca'         => 'Stanley',
-                'energia'       => 'manual',
-                'precio'        => 14500,
-                'precio_anterior' => null,
-                'ventas'        => 19,
-                'descripcion'   => 'Buena cobertura, mango firme y terminación pareja para trabajos de pintura interior y exterior.',
-                'etiqueta'      => null,
-                'etiqueta_clase' => null,
-                'imagen'        => '/img/productos/brochas-profesional-stanley.webp',
-            ],
-            [
-                'nombre'        => 'Sierra Circular',
-                'categoria'     => 'carpinteria',
-                'marca'         => 'Makita',
-                'energia'       => 'electrica',
-                'precio'        => 243000,
-                'precio_anterior' => null,
-                'ventas'        => 4,
-                'descripcion'   => 'Corte preciso y estable para trabajos de carpintería y montaje con excelente desempeño.',
-                'etiqueta'      => 'Destacado',
-                'etiqueta_clase' => 'product-card-badge-dark',
-                'imagen'        => '/img/productos/sierra-circular-maquita.jpg',
-            ],
-            [
-                'nombre'        => 'Atornillador Inalámbrico para Durlok',
-                'categoria'     => 'durlok',
-                'marca'         => 'Milwaukee',
-                'energia'       => 'inalambrica',
-                'precio'        => 115000,
-                'precio_anterior' => null,
-                'ventas'        => 2,
-                'descripcion'   => 'Fijación segura para placas y estructuras livianas con instalación rápida y práctica.',
-                'etiqueta'      => null,
-                'etiqueta_clase' => null,
-                'imagen'        => '/img/productos/atornillador-durlock-inalambrico-milwaukee.jpg',
-            ],
-            [
-                'nombre'        => 'Martillo de Uña',
-                'categoria'     => 'ferreteria',
-                'marca'         => 'Total',
-                'energia'       => 'manual',
-                'precio'        => 22000,
-                'precio_anterior' => null,
-                'ventas'        => 5,
-                'descripcion'   => 'Herramienta clásica, resistente y cómoda para tareas generales de fijación y desmontaje.',
-                'etiqueta'      => null,
-                'etiqueta_clase' => null,
-                'imagen'        => '/img/productos/martillo-de-uña-total.jpg',
-            ],
-            [
-                'nombre'        => 'Sierra Circular Inalámbrica DeWalt',
-                'categoria'     => 'carpinteria',
-                'marca'         => 'DeWalt',
-                'energia'       => 'inalambrica',
-                'precio'        => 320000,
-                'precio_anterior' => null,
-                'ventas'        => 3,
-                'descripcion'   => 'Sierra circular inalámbrica de alto rendimiento ideal para cortes precisos en madera.',
-                'etiqueta'      => 'Más vendido',
-                'etiqueta_clase' => null,
-                'imagen'        => '/img/productos/sierra-circular-inalambrica-dewalt.jpg',
-            ],
-            [
-                'nombre'        => 'Taladro Inalámbrico DeWalt con Baterías',
-                'categoria'     => 'construccion',
-                'marca'         => 'DeWalt',
-                'energia'       => 'inalambrica',
-                'precio'        => 280000,
-                'precio_anterior' => 310000,
-                'ventas'        => 5,
-                'descripcion'   => 'Taladro atornillador con baterías de larga duración, ideal para uso intensivo en obra.',
-                'etiqueta'      => 'Oferta',
-                'etiqueta_clase' => null,
-                'imagen'        => '/img/productos/taladro-inalambrico-dewalt-con-baterias.webp',
-            ],
-            [
-                'nombre'        => 'Atornillador de Impacto Inalámbrico DeWalt',
-                'categoria'     => 'ferreteria',
-                'marca'         => 'DeWalt',
-                'energia'       => 'inalambrica',
-                'precio'        => 260000,
-                'precio_anterior' => null,
-                'ventas'        => 4,
-                'descripcion'   => 'Atornillador compacto y potente, perfecto para trabajos exigentes.',
-                'etiqueta'      => 'Nuevo',
-                'etiqueta_clase' => null,
-                'imagen'        => '/img/productos/atornillador-de-impacto-inalambrico-dewalt.jpg',
-            ],
-            [
-                'nombre'        => 'Sierra Circular Makita',
-                'categoria'     => 'carpinteria',
-                'marca'         => 'Makita',
-                'energia'       => 'electrica',
-                'precio'        => 210000,
-                'precio_anterior' => null,
-                'ventas'        => 2,
-                'descripcion'   => 'Sierra circular con cable de gran precisión para cortes continuos en madera.',
-                'etiqueta'      => null,
-                'etiqueta_clase' => null,
-                'imagen'        => '/img/productos/sierra-circular-maquita.jpg',
-            ],
-            [
-                'nombre'        => 'Martillo de Goma Ingco',
-                'categoria'     => 'herreria',
-                'marca'         => 'Ingco',
-                'energia'       => 'manual',
-                'precio'        => 25000,
-                'precio_anterior' => null,
-                'ventas'        => 7,
-                'descripcion'   => 'Martillo de goma resistente ideal para trabajos sin dañar superficies.',
-                'etiqueta'      => null,
-                'etiqueta_clase' => null,
-                'imagen'        => '/img/productos/martillo-de-goma-ingco.webp',
-            ],
-            [
-                'nombre'        => 'Caja de Herramientas Apilable con Ruedas Milwaukee',
-                'categoria'     => 'ferreteria',
-                'marca'         => 'Milwaukee',
-                'energia'       => 'manual',
-                'precio'        => 180000,
-                'precio_anterior' => 210000,
-                'ventas'        => 4,
-                'descripcion'   => 'Sistema modular con ruedas para transporte cómodo de herramientas.',
-                'etiqueta'      => 'Oferta',
-                'etiqueta_clase' => null,
-                'imagen'        => '/img/productos/caja-de-herraminetas-apilable-con-rueda-milwaukee.jpg',
-            ],
-            [
-                'nombre'        => 'Caja de Herramientas Apilable con Manija Milwaukee',
-                'categoria'     => 'ferreteria',
-                'marca'         => 'Milwaukee',
-                'energia'       => 'manual',
-                'precio'        => 150000,
-                'precio_anterior' => null,
-                'ventas'        => 5,
-                'descripcion'   => 'Caja resistente y práctica con manija para organización de herramientas.',
-                'etiqueta'      => null,
-                'etiqueta_clase' => null,
-                'imagen'        => '/img/productos/caja-de-herramientas-apilable-con-manija-milwaukee.jpg',
-            ],
-            [
-                'nombre'        => 'Sierra Caladora con Cable Makita',
-                'categoria'     => 'carpinteria',
-                'marca'         => 'Makita',
-                'energia'       => 'electrica',
-                'precio'        => 145000,
-                'precio_anterior' => null,
-                'ventas'        => 2,
-                'descripcion'   => 'Sierra caladora precisa para cortes rectos y curvos en madera.',
-                'etiqueta'      => null,
-                'etiqueta_clase' => null,
-                'imagen'        => '/img/productos/sierra-caladora-con-cable-makita.jpg',
-            ],
-            [
-                'nombre'        => 'Amoladora Angular 1500W',
-                'categoria'     => 'ferreteria',
-                'marca'         => 'DeWalt',
-                'energia'       => 'electrica',
-                'precio'        => 155000,
-                'precio_anterior' => 165000,
-                'ventas'        => 1,
-                'descripcion'   => 'Equipo compacto para corte y desbaste, excelencia que nos destaca en el mercado.',
-                'etiqueta'      => 'Oferta',
-                'etiqueta_clase' => null,
-                'imagen'        => '/img/productos/amoladora-dewalt-1500w.jpg',
-            ],
-        ];
 
         foreach ($productos as $data) {
-            $categoria = Categoria::where('slug', $data['categoria'])->first();
-            $marca     = Marca::where('nombre', $data['marca'])->first();
+            /*
+            |--------------------------------------------------------------------------
+            | Categoría
+            |--------------------------------------------------------------------------
+            */
+            $categoria = Categoria::updateOrCreate(
+                ['slug' => $data['categoria']['slug']],
+                [
+                    'nombre' => $data['categoria']['nombre'],
+                ]
+            );
 
-            $producto = Producto::create([
-                'nombre'         => $data['nombre'],
-                'descripcion'    => $data['descripcion'],
-                'precio'         => $data['precio'],
-                'precio_anterior' => $data['precio_anterior'],
-                'stock'          => 10,
-                'ventas'         => $data['ventas'],
-                'energia'        => $data['energia'],
-                'etiqueta'       => $data['etiqueta'],
-                'etiqueta_clase' => $data['etiqueta_clase'],
-                'activo'         => true,
-                'categoria_id'   => $categoria->id,
-                'marca_id'       => $marca->id,
-            ]);
+            /*
+            |--------------------------------------------------------------------------
+            | Marca
+            |--------------------------------------------------------------------------
+            */
+            $marca = Marca::updateOrCreate(
+                ['nombre' => $data['marca']['nombre']],
+                [
+                    'logo_url' => $data['marca']['logo_url'] ?? null,
+                ]
+            );
 
-            ProductoImagen::create([
-                'producto_id'  => $producto->id,
-                'url'          => $data['imagen'],
-                'orden'        => 0,
-                'es_principal' => true,
-            ]);
+            /*
+            |--------------------------------------------------------------------------
+            | Producto
+            |--------------------------------------------------------------------------
+            */
+            $producto = Producto::updateOrCreate(
+                ['nombre' => $data['nombre']],
+                [
+                    'descripcion'     => $data['descripcion'],
+                    'precio'          => $data['precio'],
+                    'precio_anterior' => $data['precio_anterior'] ?? null,
+                    'stock'           => $data['stock'] ?? 10,
+                    'ventas'          => $data['ventas'] ?? 0,
+                    'energia'         => $data['energia'],
+                    'etiqueta'        => $data['etiqueta'] ?? null,
+                    'etiqueta_clase'  => $data['etiqueta_clase'] ?? null,
+                    'activo'          => $data['activo'] ?? true,
+                    'categoria_id'    => $categoria->id,
+                    'marca_id'        => $marca->id,
+                ]
+            );
+
+            /*
+            |--------------------------------------------------------------------------
+            | Imágenes del producto
+            |--------------------------------------------------------------------------
+            */
+            if (! empty($data['imagenes']) && is_array($data['imagenes'])) {
+                foreach ($data['imagenes'] as $imagen) {
+                    ProductoImagen::updateOrCreate(
+                        [
+                            'producto_id' => $producto->id,
+                            'url'         => $imagen['url'],
+                        ],
+                        [
+                            'orden'        => $imagen['orden'] ?? 0,
+                            'es_principal' => $imagen['es_principal'] ?? false,
+                        ]
+                    );
+                }
+            }
         }
     }
 }

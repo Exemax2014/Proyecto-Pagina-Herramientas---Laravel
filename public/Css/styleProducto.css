@@ -141,7 +141,7 @@
     cursor: pointer;
     transform: translateY(-50%);
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
-    transition: background 0.2s ease, transform 0.2s ease;
+    transition: background-color  0.2s ease, transform 0.2s ease;
 }
 
 .product-gallery-arrow:hover {
@@ -400,17 +400,17 @@
 
 .product-related-image {
     width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: contain;
+    aspect-ratio: 4 / 4.5;
+    object-fit: cover;
     background: #ece7dd;
 }
 
 .product-related-body {
-    padding:  0.6rem 0.8rem;
+    padding: 0.9rem;
 }
 
 .product-related-brand {
-    font-size: 0.65rem;
+    font-size: 0.72rem;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -419,14 +419,13 @@
 
 .product-related-body h3 {
     margin: 0.2rem 0 0.35rem;
-    font-size: 0.85rem;
+    font-size: 1rem;
     line-height: 1.25;
 }
 
 .product-related-price {
     font-weight: 800;
     color: var(--hf-coal);
-    font-size: 0.9rem;
 }
 
 /* TABLET:

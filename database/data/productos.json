@@ -1,0 +1,569 @@
+[
+    {
+        "nombre": "Amoladora Angular 900W",
+        "categoria": {
+            "nombre": "Ferretería",
+            "slug": "ferreteria"
+        },
+        "marca": {
+            "nombre": "Bosch",
+            "logo_url": null
+        },
+        "energia": "electrica",
+        "precio": 125000,
+        "precio_anterior": 145000,
+        "stock": 10,
+        "ventas": 2,
+        "descripcion": "Equipo compacto para corte y desbaste con excelente agarre y potencia constante.",
+        "etiqueta": "Oferta",
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/amoladora-bosh-900w.jpg",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Soldadora Inverter 220A",
+        "categoria": {
+            "nombre": "Herrería",
+            "slug": "herreria"
+        },
+        "marca": {
+            "nombre": "Lusqtoff",
+            "logo_url": null
+        },
+        "energia": "electrica",
+        "precio": 280000,
+        "precio_anterior": null,
+        "stock": 10,
+        "ventas": 15,
+        "descripcion": "Ideal para trabajos exigentes con buena estabilidad de arco y estructura reforzada.",
+        "etiqueta": "Destacado",
+        "etiqueta_clase": "product-card-badge-dark",
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/soldadora-inverter-lusqtoff.jpg",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Calibrador Digital",
+        "categoria": {
+            "nombre": "Construcción",
+            "slug": "construccion"
+        },
+        "marca": {
+            "nombre": "DeWalt",
+            "logo_url": null
+        },
+        "energia": "manual",
+        "precio": 45000,
+        "precio_anterior": null,
+        "stock": 10,
+        "ventas": 11,
+        "descripcion": "Herramienta de precisión para mediciones rápidas, confiables y de lectura simple.",
+        "etiqueta": "Nuevo",
+        "etiqueta_clase": "product-card-badge-soft",
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/calibrador-digital-dewalt.jpg",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Casco de Soldar Fotosensible",
+        "categoria": {
+            "nombre": "Herrería",
+            "slug": "herreria"
+        },
+        "marca": {
+            "nombre": "Makita",
+            "logo_url": null
+        },
+        "energia": "manual",
+        "precio": 92000,
+        "precio_anterior": null,
+        "stock": 10,
+        "ventas": 5,
+        "descripcion": "Protección visual y frontal para tareas de soldadura con pantalla de oscurecimiento automático.",
+        "etiqueta": null,
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/casco-de-soldar-fotosensible-lusqtoff.jpg",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Prensa de Banco Reforzada",
+        "categoria": {
+            "nombre": "Carpintería",
+            "slug": "carpinteria"
+        },
+        "marca": {
+            "nombre": "Lusqtoff",
+            "logo_url": null
+        },
+        "energia": "manual",
+        "precio": 138000,
+        "precio_anterior": null,
+        "stock": 10,
+        "ventas": 6,
+        "descripcion": "Base firme y cuerpo robusto para sujeción segura en trabajos de taller y montaje.",
+        "etiqueta": null,
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/prensa-de-banco-lusqtoff.jpg",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Guantes de Seguridad Industrial",
+        "categoria": {
+            "nombre": "Pinturería",
+            "slug": "pintureria"
+        },
+        "marca": {
+            "nombre": "Ingco",
+            "logo_url": null
+        },
+        "energia": "manual",
+        "precio": 28000,
+        "precio_anterior": 34000,
+        "stock": 10,
+        "ventas": 8,
+        "descripcion": "Protección y comodidad para manipulación diaria en entornos de trabajo exigentes.",
+        "etiqueta": "Oferta",
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/Ingco-guantes-reforzados.jpg",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Atornillador Inalámbrico",
+        "categoria": {
+            "nombre": "Durlok",
+            "slug": "durlok"
+        },
+        "marca": {
+            "nombre": "Total",
+            "logo_url": null
+        },
+        "energia": "inalambrica",
+        "precio": 167000,
+        "precio_anterior": null,
+        "stock": 10,
+        "ventas": 9,
+        "descripcion": "Ideal para montaje en seco, fijaciones ágiles y trabajo continuo con buena autonomía.",
+        "etiqueta": "Nuevo",
+        "etiqueta_clase": "product-card-badge-soft",
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/atornillador-inalambrico-total.webp",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Cinta Métrica 8m",
+        "categoria": {
+            "nombre": "Construcción",
+            "slug": "construccion"
+        },
+        "marca": {
+            "nombre": "Bremen",
+            "logo_url": null
+        },
+        "energia": "manual",
+        "precio": 19000,
+        "precio_anterior": null,
+        "stock": 10,
+        "ventas": 20,
+        "descripcion": "Lectura clara, cuerpo resistente y traba segura para mediciones de uso intensivo.",
+        "etiqueta": null,
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/cinta-metrica-8m-bremen.jpg",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Kit-3 Brochas Profesional",
+        "categoria": {
+            "nombre": "Pinturería",
+            "slug": "pintureria"
+        },
+        "marca": {
+            "nombre": "Stanley",
+            "logo_url": null
+        },
+        "energia": "manual",
+        "precio": 14500,
+        "precio_anterior": null,
+        "stock": 10,
+        "ventas": 19,
+        "descripcion": "Buena cobertura, mango firme y terminación pareja para trabajos de pintura interior y exterior.",
+        "etiqueta": null,
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/brochas-profesional-stanley.webp",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Sierra Circular",
+        "categoria": {
+            "nombre": "Carpintería",
+            "slug": "carpinteria"
+        },
+        "marca": {
+            "nombre": "Makita",
+            "logo_url": null
+        },
+        "energia": "electrica",
+        "precio": 243000,
+        "precio_anterior": null,
+        "stock": 10,
+        "ventas": 4,
+        "descripcion": "Corte preciso y estable para trabajos de carpintería y montaje con excelente desempeño.",
+        "etiqueta": "Destacado",
+        "etiqueta_clase": "product-card-badge-dark",
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/sierra-circular-maquita.jpg",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Atornillador Inalámbrico para Durlok",
+        "categoria": {
+            "nombre": "Durlok",
+            "slug": "durlok"
+        },
+        "marca": {
+            "nombre": "Milwaukee",
+            "logo_url": null
+        },
+        "energia": "inalambrica",
+        "precio": 115000,
+        "precio_anterior": null,
+        "stock": 10,
+        "ventas": 2,
+        "descripcion": "Fijación segura para placas y estructuras livianas con instalación rápida y práctica.",
+        "etiqueta": null,
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/atornillador-durlock-inalambrico-milwaukee.jpg",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Martillo de Uña",
+        "categoria": {
+            "nombre": "Ferretería",
+            "slug": "ferreteria"
+        },
+        "marca": {
+            "nombre": "Total",
+            "logo_url": null
+        },
+        "energia": "manual",
+        "precio": 22000,
+        "precio_anterior": null,
+        "stock": 10,
+        "ventas": 5,
+        "descripcion": "Herramienta clásica, resistente y cómoda para tareas generales de fijación y desmontaje.",
+        "etiqueta": null,
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/martillo-de-uña-total.jpg",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Sierra Circular Inalámbrica DeWalt",
+        "categoria": {
+            "nombre": "Carpintería",
+            "slug": "carpinteria"
+        },
+        "marca": {
+            "nombre": "DeWalt",
+            "logo_url": null
+        },
+        "energia": "inalambrica",
+        "precio": 320000,
+        "precio_anterior": null,
+        "stock": 10,
+        "ventas": 3,
+        "descripcion": "Sierra circular inalámbrica de alto rendimiento ideal para cortes precisos en madera.",
+        "etiqueta": "Más vendido",
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/sierra-circular-inalambrica-dewalt.jpg",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Taladro Inalámbrico DeWalt con Baterías",
+        "categoria": {
+            "nombre": "Construcción",
+            "slug": "construccion"
+        },
+        "marca": {
+            "nombre": "DeWalt",
+            "logo_url": null
+        },
+        "energia": "inalambrica",
+        "precio": 280000,
+        "precio_anterior": 310000,
+        "stock": 10,
+        "ventas": 5,
+        "descripcion": "Taladro atornillador con baterías de larga duración, ideal para uso intensivo en obra.",
+        "etiqueta": "Oferta",
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/taladro-inalambrico-dewalt-con-baterias.webp",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Atornillador de Impacto Inalámbrico DeWalt",
+        "categoria": {
+            "nombre": "Ferretería",
+            "slug": "ferreteria"
+        },
+        "marca": {
+            "nombre": "DeWalt",
+            "logo_url": null
+        },
+        "energia": "inalambrica",
+        "precio": 260000,
+        "precio_anterior": null,
+        "stock": 10,
+        "ventas": 4,
+        "descripcion": "Atornillador compacto y potente, perfecto para trabajos exigentes.",
+        "etiqueta": "Nuevo",
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/atornillador-de-impacto-inalambrico-dewalt.jpg",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Sierra Circular Makita",
+        "categoria": {
+            "nombre": "Carpintería",
+            "slug": "carpinteria"
+        },
+        "marca": {
+            "nombre": "Makita",
+            "logo_url": null
+        },
+        "energia": "electrica",
+        "precio": 210000,
+        "precio_anterior": null,
+        "stock": 10,
+        "ventas": 2,
+        "descripcion": "Sierra circular con cable de gran precisión para cortes continuos en madera.",
+        "etiqueta": null,
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/sierra-circular-maquita.jpg",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Martillo de Goma Ingco",
+        "categoria": {
+            "nombre": "Herrería",
+            "slug": "herreria"
+        },
+        "marca": {
+            "nombre": "Ingco",
+            "logo_url": null
+        },
+        "energia": "manual",
+        "precio": 25000,
+        "precio_anterior": null,
+        "stock": 10,
+        "ventas": 7,
+        "descripcion": "Martillo de goma resistente ideal para trabajos sin dañar superficies.",
+        "etiqueta": null,
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/martillo-de-goma-ingco.webp",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Caja de Herramientas Apilable con Ruedas Milwaukee",
+        "categoria": {
+            "nombre": "Ferretería",
+            "slug": "ferreteria"
+        },
+        "marca": {
+            "nombre": "Milwaukee",
+            "logo_url": null
+        },
+        "energia": "manual",
+        "precio": 180000,
+        "precio_anterior": 210000,
+        "stock": 10,
+        "ventas": 4,
+        "descripcion": "Sistema modular con ruedas para transporte cómodo de herramientas.",
+        "etiqueta": "Oferta",
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/caja-de-herraminetas-apilable-con-rueda-milwaukee.jpg",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Caja de Herramientas Apilable con Manija Milwaukee",
+        "categoria": {
+            "nombre": "Ferretería",
+            "slug": "ferreteria"
+        },
+        "marca": {
+            "nombre": "Milwaukee",
+            "logo_url": null
+        },
+        "energia": "manual",
+        "precio": 150000,
+        "precio_anterior": null,
+        "stock": 10,
+        "ventas": 5,
+        "descripcion": "Caja resistente y práctica con manija para organización de herramientas.",
+        "etiqueta": null,
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/caja-de-herramientas-apilable-con-manija-milwaukee.jpg",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Sierra Caladora con Cable Makita",
+        "categoria": {
+            "nombre": "Carpintería",
+            "slug": "carpinteria"
+        },
+        "marca": {
+            "nombre": "Makita",
+            "logo_url": null
+        },
+        "energia": "electrica",
+        "precio": 145000,
+        "precio_anterior": null,
+        "stock": 10,
+        "ventas": 2,
+        "descripcion": "Sierra caladora precisa para cortes rectos y curvos en madera.",
+        "etiqueta": null,
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/sierra-caladora-con-cable-makita.jpg",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Amoladora Angular 1500W",
+        "categoria": {
+            "nombre": "Ferretería",
+            "slug": "ferreteria"
+        },
+        "marca": {
+            "nombre": "DeWalt",
+            "logo_url": null
+        },
+        "energia": "electrica",
+        "precio": 155000,
+        "precio_anterior": 165000,
+        "stock": 10,
+        "ventas": 1,
+        "descripcion": "Equipo compacto para corte y desbaste, excelencia que nos destaca en el mercado.",
+        "etiqueta": "Oferta",
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/amoladora-dewalt-1500w.jpg",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
+    }
+]
