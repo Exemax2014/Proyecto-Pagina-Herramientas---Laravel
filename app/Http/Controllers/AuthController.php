@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
@@ -36,6 +35,12 @@ class AuthController extends Controller
         if (!$usuario || !Hash::check($request->password, $usuario->password)) {
             return back()
                 ->withErrors(['email' => 'Correo o contraseña incorrectos.'])
+                ->withInput(['email' => $request->email]);
+        }
+
+        if (!$usuario->activo) {
+            return back()
+                ->withErrors(['email' => 'Este usuario está dado de baja. Contactá al administrador.'])
                 ->withInput(['email' => $request->email]);
         }
 
@@ -89,6 +94,7 @@ class AuthController extends Controller
             'email'    => $request->email,
             'password' => Hash::make($request->password),
             'role'     => 'comprador',
+            'activo'   => true,
         ]);
 
         return redirect()->route('login')->with('registro_ok', true);

@@ -615,15 +615,10 @@ body {
 /* --------------------------------------- ADMIN USUARIOS ------------------------------------------ */
 /* ══════════════════════════════════════════════════════════════════════════════════════════════════ */
 
-.admin-users-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1.7fr) minmax(320px, 0.8fr);
+.admin-users-stack {
+    display: flex;
+    flex-direction: column;
     gap: 1.5rem;
-    align-items: start;
-}
-
-.admin-users-card-head h2 {
-    margin-bottom: 0.25rem;
 }
 
 .admin-users-card-head {
@@ -631,6 +626,11 @@ body {
     align-items: flex-start;
     justify-content: space-between;
     gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.admin-users-card-head h2 {
+    margin-bottom: 0.25rem;
 }
 
 .admin-users-card-head .btn {
@@ -641,6 +641,7 @@ body {
     display: flex;
     align-items: stretch;
     gap: 0;
+    max-width: 520px;
 }
 
 .admin-mini-search .form-control {
@@ -656,18 +657,27 @@ body {
 
 .admin-users-table th,
 .admin-users-table td {
-    padding-top: 0.45rem !important;
-    padding-bottom: 0.45rem !important;
+    padding-top: 0.42rem !important;
+    padding-bottom: 0.42rem !important;
     vertical-align: middle;
 }
 
+.admin-users-table th {
+    font-size: 0.72rem;
+}
+
 .admin-users-table td {
-    font-size: 0.86rem;
+    font-size: 0.84rem;
     line-height: 1.2;
 }
 
 .admin-users-table .small {
     font-size: 0.7rem;
+}
+
+.admin-users-table .badge {
+    font-size: 0.68rem;
+    padding: 0.3em 0.5em;
 }
 
 .admin-user-action-btn {
@@ -680,8 +690,6 @@ body {
     white-space: nowrap;
 }
 
-@media (max-width: 1199.98px) {
-    .admin-users-layout {
-        grid-template-columns: 1fr;
-    }
+.admin-buyers-table {
+    min-width: 1050px;
 }

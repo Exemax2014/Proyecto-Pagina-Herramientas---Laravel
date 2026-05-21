@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Admin\AdminProductoController;
 use App\Http\Controllers\Admin\AdminUsuarioController;
 
 Route::get('/', function () {
@@ -102,6 +101,12 @@ Route::prefix('admin')
         
         Route::get('/usuarios', [AdminUsuarioController::class, 'index'])
             ->name('usuarios.index');
+
+        Route::get('/usuarios/crear-admin', [AdminUsuarioController::class, 'createAdmin'])
+            ->name('usuarios.create-admin');    
+
+        Route::post('/usuarios/crear-admin', [AdminUsuarioController::class, 'storeAdmin'])
+            ->name('usuarios.store-admin');    
 
         Route::patch('/usuarios/{usuario}/activar', [AdminUsuarioController::class, 'activar'])
             ->name('usuarios.activar');
