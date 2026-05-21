@@ -9,25 +9,39 @@
 
         {{-- ADMINISTRADORES --}}
         <div class="admin-card">
-            <a href="{{ route('admin.usuarios.create-admin') }}" class="btn btn-sm btn-warning">
-                <i class="bi bi-person-plus"></i>
-                Crear administrador
-            </a>
+            <div class="admin-users-card-head">
+                <div>
+                    <h2>Usuarios Administradores</h2>
+                </div>
 
-            <form method="GET" action="{{ route('admin.usuarios.index') }}" class="admin-mini-search mt-3 mb-3">
-                <input 
-                    type="text"
-                    name="buscar_admin"
-                    class="form-control"
-                    placeholder="Buscar administrador por nombre, email o DNI..."
-                    value="{{ $buscarAdmin }}"
-                >
+                <a href="{{ route('admin.usuarios.create-admin') }}" class="btn btn-sm btn-warning">
+                    <i class="bi bi-person-plus"></i>
+                    Crear administrador
+                </a>
+            </div>
 
-                <button type="submit" class="btn btn-dark">
-                    <i class="bi bi-search"></i>
-                </button>
-            </form>
+            <div class="admin-search-block mt-3 mb-3">
+                <form method="GET" action="{{ route('admin.usuarios.index') }}" class="admin-mini-search">
+                    <input 
+                        type="text"
+                        name="buscar_admin"
+                        class="form-control"
+                        placeholder="Buscar administrador por nombre, email o DNI..."
+                        value="{{ $buscarAdmin }}"
+                    >
 
+                    <button type="submit" class="btn btn-dark admin-search-btn">
+                        <i class="bi bi-search"></i>
+                    </button>
+
+                    @if($buscarAdmin)
+                        <a href="{{ route('admin.usuarios.index') }}" class="btn btn-outline-secondary admin-clear-btn">
+                            Limpiar
+                        </a>
+                    @endif
+                </form>
+            </div>
+        
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0 admin-users-table">
                     <thead class="table-light">
@@ -131,19 +145,27 @@
                 <h2>Usuarios Clientes</h2>
             </div>
 
-            <form method="GET" action="{{ route('admin.usuarios.index') }}" class="admin-mini-search mt-3 mb-3">
-                <input 
-                    type="text"
-                    name="buscar_comprador"
-                    class="form-control"
-                    placeholder="Buscar comprador por nombre, email o DNI..."
-                    value="{{ $buscarComprador }}"
-                >
+            <div class="admin-search-block mt-3 mb-3">
+                <form method="GET" action="{{ route('admin.usuarios.index') }}" class="admin-mini-search">
+                    <input 
+                        type="text"
+                        name="buscar_comprador"
+                        class="form-control"
+                        placeholder="Buscar comprador por nombre, email o DNI..."
+                        value="{{ $buscarComprador }}"
+                    >
 
-                <button type="submit" class="btn btn-dark">
-                    <i class="bi bi-search"></i>
-                </button>
-            </form>
+                    <button type="submit" class="btn btn-dark admin-search-btn">
+                        <i class="bi bi-search"></i>
+                    </button>
+
+                    @if($buscarComprador)
+                        <a href="{{ route('admin.usuarios.index') }}" class="btn btn-outline-secondary admin-clear-btn">
+                            Limpiar
+                        </a>
+                    @endif
+                </form>
+            </div>
 
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0 admin-users-table admin-buyers-table">

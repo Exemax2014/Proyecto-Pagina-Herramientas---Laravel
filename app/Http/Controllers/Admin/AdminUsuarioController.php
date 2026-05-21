@@ -7,7 +7,6 @@ use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
 
 class AdminUsuarioController extends Controller
 {
@@ -80,7 +79,6 @@ class AdminUsuarioController extends Controller
             'ciudad' => ['nullable', 'string', 'max:100'],
             'provincia' => ['nullable', 'string', 'max:100'],
             'codigo_postal' => ['nullable', 'string', 'max:20'],
-            'activo' => ['required', 'boolean'],
         ]);
 
         Usuario::create([
@@ -95,7 +93,7 @@ class AdminUsuarioController extends Controller
             'provincia' => $datos['provincia'] ?? null,
             'codigo_postal' => $datos['codigo_postal'] ?? null,
             'role' => 'admin',
-            'activo' => $datos['activo'],
+            'activo' => true,
         ]);
 
         return redirect()
