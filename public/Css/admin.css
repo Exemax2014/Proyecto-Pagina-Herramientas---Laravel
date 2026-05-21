@@ -331,3 +331,56 @@ body {
         width: 100%;
     }
 }
+
+/* ================= PREVIEW IMÁGENES PRODUCTO ================= */
+
+.admin-images-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 1rem;
+}
+
+.admin-image-preview-item {
+    position: relative;
+    background: #f3eee5;
+    border-radius: 0.85rem;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.08);
+    aspect-ratio: 1 / 1;
+}
+
+.admin-image-preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    padding: 0.35rem;
+}
+
+.admin-image-remove {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.4rem;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(220, 53, 69, 0.92);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.admin-image-main {
+    position: absolute;
+    left: 0.4rem;
+    bottom: 0.4rem;
+    background: #ffc107;
+    color: #111;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.25rem 0.45rem;
+    border-radius: 999px;
+}

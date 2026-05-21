@@ -80,5 +80,10 @@ Route::prefix('admin')
             ->name('productos.index');
 
         Route::get('/productos/crear', [AdminProductoController::class, 'create'])
-            ->name('productos.create');    
+            ->name('productos.create');   
+            
+        Route::post('/productos', [AdminProductoController::class, 'store'])
+            ->name('productos.store');
+            
+            
 });

@@ -5,7 +5,20 @@
 
 @section('contenido')
 
-    <form action="#" method="POST" enctype="multipart/form-data">
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <strong>Hay errores en el formulario:</strong>
+
+            <ul class="mb-0 mt-2">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+
+    <form action="{{ route('admin.productos.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="row g-4">
@@ -50,14 +63,22 @@
 
                         <div class="col-12 col-md-6">
                             <label class="admin-form-label">Marca</label>
-                            <select name="marca_id" class="form-select">
-                                <option value="">Seleccionar marca</option>
+
+                            <input 
+                                type="text"
+                                name="marca_nombre"
+                                class="form-control"
+                                list="marcasList"
+                                placeholder="Seleccionar o escribir nueva marca"
+                                value="{{ old('marca_nombre') }}"
+                            >
+
+                            <datalist id="marcasList">
                                 @foreach($marcas as $marca)
-                                    <option value="{{ $marca->id }}">
-                                        {{ $marca->nombre }}
-                                    </option>
+                                    <option value="{{ $marca->nombre }}"></option>
                                 @endforeach
-                            </select>
+                            </datalist>
+                            
                         </div>
 
                         <div class="col-12 col-md-6">
@@ -89,10 +110,13 @@
                         <input 
                             type="file" 
                             name="imagenes[]" 
+                            id="productImagesInput"
                             class="form-control" 
                             accept="image/*"
                             multiple
                         >
+                        <div id="productImagesPreview" class="admin-images-preview mt-3"></div>
+                        
                         <small class="text-muted">
                             Podés subir una o varias imágenes. La primera será tomada como imagen principal.
                         </small>
@@ -132,7 +156,7 @@
                             type="number" 
                             name="stock" 
                             class="form-control" 
-                            value="{{ old('stock', 10) }}"
+                            value="{{ old('stock') }}"
                         >
                     </div>
 
@@ -165,7 +189,7 @@
                 </div>
 
                 <div class="admin-card">
-                    <button type="button" class="btn btn-warning w-100 mb-1" disabled>
+                    <button type="submit" class="btn btn-warning w-100 mb-1">
                         <i class="bi bi-save"></i>
                         Guardar producto
                     </button>
@@ -176,3 +200,70 @@
     </form>
 
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const input = document.getElementById('productImagesInput');
+        const preview = document.getElementById('productImagesPreview');
+
+        if (!input || !preview) return;
+
+        let selectedFiles = [];
+
+        input.addEventListener('change', () => {
+            selectedFiles = Array.from(input.files);
+            renderPreview();
+            updateInputFiles();
+        });
+
+        function renderPreview() {
+            preview.innerHTML = '';
+
+            selectedFiles.forEach((file, index) => {
+                const reader = new FileReader();
+
+                reader.onload = (event) => {
+                    const item = document.createElement('div');
+                    item.classList.add('admin-image-preview-item');
+
+                    item.innerHTML = `
+                        <img src="${event.target.result}" alt="Imagen ${index + 1}">
+                        <button type="button" class="admin-image-remove" data-index="${index}">
+                            <i class="bi bi-x"></i>
+                        </button>
+                        ${index === 0 ? '<span class="admin-image-main">Principal</span>' : ''}
+                    `;
+
+                    preview.appendChild(item);
+                };
+
+                reader.readAsDataURL(file);
+            });
+        }
+
+        preview.addEventListener('click', (event) => {
+            const removeButton = event.target.closest('.admin-image-remove');
+
+            if (!removeButton) return;
+
+            const index = Number(removeButton.dataset.index);
+
+            selectedFiles.splice(index, 1);
+
+            renderPreview();
+            updateInputFiles();
+        });
+
+        function updateInputFiles() {
+            const dataTransfer = new DataTransfer();
+
+            selectedFiles.forEach(file => {
+                dataTransfer.items.add(file);
+            });
+
+            input.files = dataTransfer.files;
+        }
+    });
+</script>
+@endpush
