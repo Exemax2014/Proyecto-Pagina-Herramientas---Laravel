@@ -5,9 +5,15 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AdminProductoController;
 use App\Http\Controllers\Admin\AdminUsuarioController;
+use App\Models\Producto;
 
 Route::get('/', function () {
-    return view('pages.index');
+    $productosHome = Producto::with(['categoria', 'marca', 'imagenPrincipal'])
+        ->where('activo', true)
+        ->orderBy('id')
+        ->get();
+
+    return view('pages.index', compact('productosHome'));
 })->name('home');
 
 Route::get('/quienes-somos', function () {

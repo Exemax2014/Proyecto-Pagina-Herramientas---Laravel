@@ -136,11 +136,32 @@
 
 @endsection
 
+@php
+    $catalogoProductosHome = $productosHome->map(function ($producto) {
+        return [
+            'id' => $producto->id,
+            'nombre' => $producto->nombre,
+            'descripcion' => $producto->descripcion,
+            'precio' => (float) $producto->precio,
+            'precioAnterior' => $producto->precio_anterior !== null ? (float) $producto->precio_anterior : null,
+            'ventas' => (int) $producto->ventas,
+            'energia' => $producto->energia,
+            'etiqueta' => $producto->etiqueta,
+            'etiquetaClase' => $producto->etiqueta_clase,
+            'categoria' => $producto->categoria?->slug,
+            'categoriaNombre' => $producto->categoria?->nombre,
+            'marca' => $producto->marca?->nombre,
+            'imagen' => $producto->imagenPrincipal?->url ?? '/img/productos/default.jpg',
+        ];
+    })->values();
+@endphp
+
 @push('scripts')
 <script>
     window.routeCatalogoBase = "{{ route('catalogo') }}";
     window.routeProductoBase = "{{ url('/producto') }}";
+    window.catalogoProductos = @json($catalogoProductosHome);
 </script>
-<script src="{{ asset('js/catalogo-productos.js') }}"></script>
+
 <script src="{{ asset('js/index.js') }}"></script>
 @endpush

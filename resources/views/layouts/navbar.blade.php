@@ -12,10 +12,18 @@
                 
                 <div class="navbar-search-slot">
                     @unless(request()->routeIs('catalogo'))
-                        <form class="navbar-search navbar-search-desktop" id="navbarSearchFormDesktop" role="search" autocomplete="off">
+                        <form 
+                            class="navbar-search navbar-search-desktop" 
+                            id="navbarSearchFormDesktop" 
+                            role="search" 
+                            method="GET"
+                            action="{{ route('catalogo') }}"
+                            autocomplete="off"
+                        >                           
                             <input
                                 class="form-control form-control-sm"
                                 id="navbarSearchInputDesktop"
+                                name="search"
                                 type="search"
                                 placeholder="Buscar..."
                                 aria-label="Buscar"
@@ -179,16 +187,24 @@
 
             <!-- BUSCADOR MOBILE -->
             @unless(request()->routeIs('catalogo'))
-            <form class="navbar-search navbar-search-mobile mobile-search-block" id="navbarSearchFormMobile" role="search" autocomplete="off">
-                <input
-                    class="form-control"
-                    id="navbarSearchInputMobile"
-                    type="search"
-                    placeholder="Buscar..."
-                    aria-label="Buscar"
-                >
-                <div class="navbar-search-results" id="navbarSearchResultsMobile"></div>
-            </form>
+                <form 
+                    class="navbar-search navbar-search-mobile mobile-search-block" 
+                    id="navbarSearchFormMobile" 
+                    role="search" 
+                    method="GET"
+                    action="{{ route('catalogo') }}"
+                    autocomplete="off"
+                >               
+                    <input
+                        class="form-control"
+                        id="navbarSearchInputMobile"
+                        name="search"
+                        type="search"
+                        placeholder="Buscar..."
+                        aria-label="Buscar"
+                    >
+                    <div class="navbar-search-results" id="navbarSearchResultsMobile"></div>
+                </form>
             @endunless
 
         </div>
