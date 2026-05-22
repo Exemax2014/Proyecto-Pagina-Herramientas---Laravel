@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Catálogo | Hierro & Forja')
+@section('title', 'Catalogo | Hierro & Forja')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/styleCatalogo.css') }}">
@@ -11,20 +11,17 @@
 <section class="page-section catalog-page">
     <div class="container">
 
-        <!-- ================= HERO DE CATALOGO ================= -->
         <div class="catalog-hero catalog-hero-compact">
             <div class="catalog-hero-inline">
-                <span class="home-kicker">Catálogo comercial</span>
-                <p class="catalog-hero-copy">Herramientas, insumos y soluciones para trabajo técnico, comercial e industrial.</p>
+                <span class="home-kicker">Catalogo comercial</span>
+                <p class="catalog-hero-copy">Herramientas, insumos y soluciones para trabajo tecnico, comercial e industrial.</p>
             </div>
         </div>
 
-        <!-- ================= SHELL PRINCIPAL ================= -->
         <div class="catalog-shell">
-            <!-- ===== CONTENIDO GENERAL ===== -->
             <div class="catalog-content">
 
-                <div> <!-- ===== SIDEBAR FILTROS DESKTOP / DROPDOWN RESPONSIVE ===== -->
+                <div>
                     <aside class="catalog-sidebar" id="catalogSidebar">
                         <div class="page-card catalog-filter-card">
                             <div class="catalog-filter-head">
@@ -36,37 +33,14 @@
 
                             <div class="catalog-filter-columns">
                                 <div class="catalog-filter-group">
-                                    <h3>Categoría</h3>
+                                    <h3>Categoria</h3>
 
-                                    <label class="catalog-check">
-                                        <input type="checkbox" class="filter-category" value="construccion">
-                                        <span>Construcción</span>
-                                    </label>
-
-                                    <label class="catalog-check">
-                                        <input type="checkbox" class="filter-category" value="herreria">
-                                        <span>Herrería</span>
-                                    </label>
-
-                                    <label class="catalog-check">
-                                        <input type="checkbox" class="filter-category" value="carpinteria">
-                                        <span>Carpintería</span>
-                                    </label>
-
-                                    <label class="catalog-check">
-                                        <input type="checkbox" class="filter-category" value="durlok">
-                                        <span>Durlok</span>
-                                    </label>
-
-                                    <label class="catalog-check">
-                                        <input type="checkbox" class="filter-category" value="pintureria">
-                                        <span>Pinturería</span>
-                                    </label>
-
-                                    <label class="catalog-check">
-                                        <input type="checkbox" class="filter-category" value="ferreteria">
-                                        <span>Ferretería</span>
-                                    </label>
+                                    @foreach($categorias as $categoria)
+                                        <label class="catalog-check">
+                                            <input type="checkbox" class="filter-category" value="{{ $categoria->slug }}">
+                                            <span>{{ $categoria->nombre }}</span>
+                                        </label>
+                                    @endforeach
                                 </div>
 
                                 <div class="catalog-filter-group">
@@ -75,7 +49,7 @@
                                 </div>
 
                                 <div class="catalog-filter-group">
-                                    <h3>Tipo de energía</h3>
+                                    <h3>Tipo de energia</h3>
 
                                     <label class="catalog-radio">
                                         <input type="radio" name="energy" value="" checked>
@@ -89,18 +63,18 @@
 
                                     <label class="catalog-radio">
                                         <input type="radio" name="energy" value="electrica">
-                                        <span>Eléctrica</span>
+                                        <span>Electrica</span>
                                     </label>
 
                                     <label class="catalog-radio">
                                         <input type="radio" name="energy" value="inalambrica">
-                                        <span>Inalámbrica</span>
+                                        <span>Inalambrica</span>
                                     </label>
                                 </div>
                             </div>
 
                             <div class="catalog-filter-group catalog-filter-group-price">
-                                <h3>Precio máximo</h3>
+                                <h3>Precio maximo</h3>
                                 <input
                                     type="range"
                                     id="catalogPriceRange"
@@ -124,10 +98,8 @@
                         </div>
                     </aside>
                 </div>
-                
-                <!-- ===== COLUMNA DERECHA: BUSCADOR + PRODUCTOS ===== -->
+
                 <div class="catalog-results-column">
-                    <!-- ================= BARRA SUPERIOR ================= -->
                     <div class="catalog-toolbar">
                         <button type="button" class="btn btn-outline-dark catalog-filter-toggle" id="catalogFilterToggle">
                             <i class="bi bi-sliders"></i>
@@ -148,7 +120,7 @@
                             <option value="default">Precios</option>
                             <option value="price-asc">Precio: menor a mayor</option>
                             <option value="price-desc">Precio: mayor a menor</option>
-                            <option value="best-sellers">Más vendidos</option>
+                            <option value="best-sellers">Mas vendidos</option>
                         </select>
 
                         <select id="catalogSortName" class="form-select catalog-sort-select">
@@ -158,7 +130,6 @@
                         </select>
                     </div>
 
-                    <!-- ===== GRILLA ===== -->
                     <div class="catalog-main">
                         <div class="catalog-grid" id="catalogGrid"></div>
 
@@ -166,7 +137,7 @@
                             <div class="page-card catalog-empty-card">
                                 <i class="bi bi-search"></i>
                                 <h3>No encontramos productos</h3>
-                                <p>Probá cambiando los filtros o limpiando la búsqueda.</p>
+                                <p>Proba cambiando los filtros o limpiando la busqueda.</p>
                             </div>
                         </div>
 

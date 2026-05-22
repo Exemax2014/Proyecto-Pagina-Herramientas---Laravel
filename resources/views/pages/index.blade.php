@@ -37,7 +37,13 @@
 <!-- ================= MARCAS AUTOMATICAS ================= -->
 <section class="home-brands">
     <div class="container">
-        <div id="homeBrands" class="home-brands-list"></div>
+        <div class="home-brands-list">
+            @foreach($marcasHome as $marca)
+                <a href="{{ route('catalogo', ['marca' => $marca->nombre]) }}" class="home-brand-link">
+                    <span class="home-brand">{{ $marca->nombre }}</span>
+                </a>
+            @endforeach
+        </div>
     </div>
 </section>
 
@@ -49,7 +55,17 @@
             <p>Accedé al catálogo según el área de trabajo y entrá directamente con la categoría ya seleccionada.</p>
         </div>
 
-         <div class="home-categories-grid" id="homeCategoriesGrid"></div>
+        <div class="home-categories-grid">
+            @foreach($categoriasHome as $categoria)
+                <a
+                    href="{{ route('catalogo', ['categoria' => $categoria->slug]) }}"
+                    class="category-card {{ $categoria->clase }}"
+                    style="--category-image: url('{{ $categoria->imagen }}')"
+                >
+                    <span>{{ $categoria->nombre }}</span>
+                </a>
+            @endforeach
+        </div>
     </div>
 </section>
 
@@ -72,7 +88,64 @@
             </div>
         </div>
 
-        <div class="home-offers-carousel" id="homeOffers"></div>
+        <div class="home-offers-carousel" id="homeOffers">
+            @foreach($ofertasHome as $producto)
+                @php
+                    $imagen = $producto->imagenPrincipal?->url
+                        ? asset($producto->imagenPrincipal->url)
+                        : asset('img/producto-sin-imagen.png');
+                @endphp
+
+                <article
+                    class="page-card product-card home-product-card"
+                    data-product-link="{{ route('producto', $producto->id) }}"
+                    role="link"
+                    tabindex="0"
+                    aria-label="Ver detalle de {{ $producto->nombre }}"
+                >
+                    <div class="product-card-media">
+                        <img src="{{ $imagen }}" alt="{{ $producto->nombre }}">
+
+                        @if($producto->etiqueta)
+                            <span class="product-card-badge {{ $producto->etiqueta_clase }}">
+                                {{ $producto->etiqueta }}
+                            </span>
+                        @endif
+
+                        <button
+                            class="product-card-action home-cart-btn"
+                            type="button"
+                            aria-label="Agregar {{ $producto->nombre }} al carrito"
+                            data-product-id="{{ $producto->id }}"
+                            data-product-nombre="{{ $producto->nombre }}"
+                            data-product-marca="{{ $producto->marca?->nombre }}"
+                            data-product-categoria="{{ $producto->categoria?->slug }}"
+                            data-product-energia="{{ $producto->energia }}"
+                            data-product-precio="{{ (float) $producto->precio }}"
+                            data-product-imagen="{{ $imagen }}"
+                        >
+                            <i class="bi bi-cart-plus"></i>
+                        </button>
+                    </div>
+
+                    <div class="product-card-body">
+                        <span class="product-card-brand">{{ $producto->marca?->nombre }}</span>
+                        <h3>{{ $producto->nombre }}</h3>
+                        <p>{{ $producto->descripcion }}</p>
+
+                        <div class="product-card-footer">
+                            <div class="product-card-price">
+                                @if($producto->precio_anterior)
+                                    <small>${{ number_format($producto->precio_anterior, 0, ',', '.') }}</small>
+                                @endif
+
+                                <strong>${{ number_format($producto->precio, 0, ',', '.') }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            @endforeach
+        </div>
     </div>
 </section>
 
@@ -136,32 +209,6 @@
 
 @endsection
 
-@php
-    $catalogoProductosHome = $productosHome->map(function ($producto) {
-        return [
-            'id' => $producto->id,
-            'nombre' => $producto->nombre,
-            'descripcion' => $producto->descripcion,
-            'precio' => (float) $producto->precio,
-            'precioAnterior' => $producto->precio_anterior !== null ? (float) $producto->precio_anterior : null,
-            'ventas' => (int) $producto->ventas,
-            'energia' => $producto->energia,
-            'etiqueta' => $producto->etiqueta,
-            'etiquetaClase' => $producto->etiqueta_clase,
-            'categoria' => $producto->categoria?->slug,
-            'categoriaNombre' => $producto->categoria?->nombre,
-            'marca' => $producto->marca?->nombre,
-            'imagen' => $producto->imagenPrincipal?->url ?? '/img/productos/default.jpg',
-        ];
-    })->values();
-@endphp
-
 @push('scripts')
-<script>
-    window.routeCatalogoBase = "{{ route('catalogo') }}";
-    window.routeProductoBase = "{{ url('/producto') }}";
-    window.catalogoProductos = @json($catalogoProductosHome);
-</script>
-
 <script src="{{ asset('js/index.js') }}"></script>
 @endpush

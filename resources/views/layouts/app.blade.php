@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Hierro & Forja')</title>
-    <link rel="icon" type="image/png" href="{{ asset('img/icono-hierro&forja.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('img/ICONO-HIERRO&FORJA.png') }}">
 
     <!-- FUENTES -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,15 +44,6 @@
 
     <!-- JS GLOBAL DEL CARRITO -->
     <script src="{{ asset('js/carrito-utils.js') }}"></script>
-
-    <!-- DATOS GLOBALES PARA BUSQUEDA -->
-    <script>
-        window.routeCatalogoBase = "{{ route('catalogo') }}";
-        window.routeProductoBase = "{{ url('/producto') }}";
-    </script>
-
-    <!-- BASE DE PRODUCTOS -->
-    <script src="{{ asset('js/catalogo-productos.js') }}"></script>
 
     <!-- BUSCADOR DEL NAVBAR -->
     <script src="{{ asset('js/navbar-search.js') }}"></script>

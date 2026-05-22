@@ -27,8 +27,8 @@
                                 type="search"
                                 placeholder="Buscar..."
                                 aria-label="Buscar"
+                                value="{{ request('search') }}"
                             >
-                            <div class="navbar-search-results" id="navbarSearchResultsDesktop"></div>
                         </form>
                     @endunless
                 </div>
@@ -202,8 +202,8 @@
                         type="search"
                         placeholder="Buscar..."
                         aria-label="Buscar"
+                        value="{{ request('search') }}"
                     >
-                    <div class="navbar-search-results" id="navbarSearchResultsMobile"></div>
                 </form>
             @endunless
 

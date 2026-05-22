@@ -220,6 +220,13 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
+        const marcaParam = params.get('marca');
+        if (marcaParam) {
+            document.querySelectorAll('.filter-brand').forEach(check => {
+                check.checked = check.value === marcaParam;
+            });
+        }
+
         const searchParam = params.get('search');
         if (searchInput && searchParam) {
             searchInput.value = searchParam;

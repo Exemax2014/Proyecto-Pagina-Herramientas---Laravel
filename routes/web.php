@@ -5,15 +5,75 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AdminProductoController;
 use App\Http\Controllers\Admin\AdminUsuarioController;
+use App\Models\Categoria;
+use App\Models\Marca;
 use App\Models\Producto;
 
 Route::get('/', function () {
-    $productosHome = Producto::with(['categoria', 'marca', 'imagenPrincipal'])
+    $marcasHome = Marca::query()
+        ->whereHas('productos', function ($query) {
+            $query->where('activo', true);
+        })
+        ->orderBy('nombre')
+        ->get();
+
+    $categoriasHome = Categoria::query()
+        ->whereHas('productos', function ($query) {
+            $query->where('activo', true);
+        })
+        ->get()
+        ->sortBy(function ($categoria) {
+            $orden = [
+                'herreria',
+                'carpinteria',
+                'construccion',
+                'durlok',
+                'ferreteria',
+                'pintureria',
+            ];
+
+            $posicion = array_search($categoria->slug, $orden, true);
+
+            return $posicion === false ? 999 : $posicion;
+        })
+        ->values()
+        ->map(function ($categoria) {
+            $imagen = match ($categoria->slug) {
+                'herreria' => 'img/categorias/herreria.jpg',
+                'carpinteria' => 'img/categorias/carpinteria.jpg',
+                'construccion' => 'img/categorias/construccion.jpg',
+                'durlok' => 'img/categorias/durlock.jpg',
+                'ferreteria' => 'img/categorias/ferreteria.jpg',
+                'pintureria' => 'img/categorias/pintura.jpg',
+                default => 'img/fondo-index.jpg',
+            };
+
+            $clase = match ($categoria->slug) {
+                'herreria', 'carpinteria' => 'category-card-large',
+                'construccion', 'durlok' => 'category-card-medium',
+                default => 'category-card-small',
+            };
+
+            return (object) [
+                'id' => $categoria->id,
+                'nombre' => $categoria->nombre,
+                'slug' => $categoria->slug,
+                'imagen' => asset($imagen),
+                'clase' => $clase,
+            ];
+        });
+
+    $ofertasHome = Producto::with(['categoria', 'marca', 'imagenPrincipal'])
         ->where('activo', true)
+        ->where(function ($query) {
+            $query->whereNotNull('precio_anterior')
+                ->orWhere('etiqueta', 'Oferta');
+        })
+        ->orderByDesc('ventas')
         ->orderBy('id')
         ->get();
 
-    return view('pages.index', compact('productosHome'));
+    return view('pages.index', compact('marcasHome', 'categoriasHome', 'ofertasHome'));
 })->name('home');
 
 Route::get('/quienes-somos', function () {
@@ -64,13 +124,6 @@ Route::post('/registro', [AuthController::class, 'procesarRegistro'])->name('reg
    LOGOUT
    ========================================= */
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-/* =========================================
-   ETIQUETA "PAGOS Y ENVIOS "
-   ========================================= */
-Route::get('/pagos-envios', function () {
-    return view('pages.pagos-envios');
-});
 
 /* =========================================
    PANEL ADMINISTRADOR
