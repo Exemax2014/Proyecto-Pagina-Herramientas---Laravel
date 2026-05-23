@@ -12,7 +12,7 @@ body {
 /* ================= SIDEBAR ================= */
 
 .admin-sidebar {
-    width: 240px;
+    width: 200px;
     min-height: 100vh;
     background: linear-gradient(180deg, #111111 0%, #1e1e2e 100%);
     color: #fff;
@@ -80,8 +80,8 @@ body {
 /* ================= CONTENIDO GENERAL ================= */
 
 .admin-main {
-    margin-left: 240px;
-    padding: 2rem;
+    margin-left: 200px;
+    padding: 1rem;
     min-height: 100vh;
 }
 
@@ -836,6 +836,23 @@ body {
     vertical-align: middle;
 }
 
+.admin-category-thumb {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 0.85rem;
+    border: 1px solid rgba(181, 137, 66, 0.18);
+    background: #f3eee5;
+}
+
+.admin-category-thumb-placeholder {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #8b6728;
+    font-size: 1.2rem;
+}
+
 .admin-category-count {
     display: inline-flex;
     align-items: center;
@@ -853,4 +870,47 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+}
+
+.admin-check-block {
+    padding: 0.85rem 1rem;
+    border-radius: 0.85rem;
+    background: rgba(217, 164, 65, 0.08);
+    border: 1px solid rgba(181, 137, 66, 0.15);
+}
+
+.admin-check-block .form-check-input {
+    margin-top: 0.15rem;
+}
+
+.admin-check-block .form-check-label {
+    color: #3d2d14;
+    font-weight: 600;
+}
+
+.admin-category-image-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.admin-category-image-current {
+    width: 100%;
+    max-width: 260px;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: 0.95rem;
+    border: 1px solid rgba(181, 137, 66, 0.18);
+    background: #f3eee5;
+}
+
+.admin-category-image-empty {
+    min-height: 180px;
+    border-radius: 0.95rem;
+    border: 1px dashed rgba(181, 137, 66, 0.3);
+    background: rgba(217, 164, 65, 0.06);
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    color: #8b6728;
 }

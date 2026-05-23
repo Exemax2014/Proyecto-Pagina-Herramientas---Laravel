@@ -26,9 +26,12 @@
             <table class="table table-hover align-middle mb-0 admin-categories-table">
                 <thead class="table-light">
                     <tr>
+                        <th class="text-center">Imagen</th>
                         <th>Categoria</th>
                         <th>Slug</th>
                         <th class="text-center">Productos asociados</th>
+                        <th class="text-center">Inicio</th>
+                        <th class="text-center">Orden</th>
                         <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
@@ -36,6 +39,20 @@
                 <tbody>
                     @forelse($categorias as $categoria)
                         <tr>
+                            <td class="text-center" style="width: 96px;">
+                                @if($categoria->imagen_url)
+                                    <img
+                                        src="{{ asset($categoria->imagen_url) }}"
+                                        alt="{{ $categoria->nombre }}"
+                                        class="admin-category-thumb"
+                                    >
+                                @else
+                                    <div class="admin-category-thumb admin-category-thumb-placeholder">
+                                        <i class="bi bi-image"></i>
+                                    </div>
+                                @endif
+                            </td>
+
                             <td>
                                 <strong>{{ $categoria->nombre }}</strong>
                             </td>
@@ -52,6 +69,18 @@
                             </td>
 
                             <td class="text-center">
+                                @if($categoria->mostrar_en_inicio)
+                                    <span class="badge text-bg-success">Visible</span>
+                                @else
+                                    <span class="badge text-bg-secondary">Oculta</span>
+                                @endif
+                            </td>
+
+                            <td class="text-center">
+                                {{ $categoria->orden_inicio ?? '-' }}
+                            </td>
+
+                            <td class="text-center">
                                 <a href="{{ route('admin.categorias.edit', $categoria) }}" class="btn btn-sm btn-outline-primary admin-action-btn">
                                     Editar
                                 </a>
@@ -59,7 +88,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center py-5">
+                            <td colspan="7" class="text-center py-5">
                                 No hay categorias cargadas.
                             </td>
                         </tr>

@@ -17,7 +17,7 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.categorias.store') }}" method="POST">
+    <form action="{{ route('admin.categorias.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="row g-4">
@@ -50,6 +50,48 @@
                             <small class="text-muted">
                                 Se normaliza automaticamente para usarlo en filtros, enlaces y catalogo.
                             </small>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="admin-form-label">Imagen de la categoria</label>
+                            <input
+                                type="file"
+                                name="imagen"
+                                class="form-control"
+                                accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                            >
+
+                            <small class="text-muted">
+                                Formatos permitidos: JPG, JPEG, PNG y WEBP. Maximo 4096 KB.
+                            </small>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <div class="form-check admin-check-block">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="mostrar_en_inicio"
+                                    id="mostrarEnInicio"
+                                    value="1"
+                                    @checked(old('mostrar_en_inicio', true))
+                                >
+                                <label class="form-check-label" for="mostrarEnInicio">
+                                    Mostrar en inicio
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="admin-form-label">Orden en inicio</label>
+                            <input
+                                type="number"
+                                name="orden_inicio"
+                                class="form-control"
+                                min="1"
+                                value="{{ old('orden_inicio') }}"
+                                placeholder="Opcional"
+                            >
                         </div>
                     </div>
                 </div>

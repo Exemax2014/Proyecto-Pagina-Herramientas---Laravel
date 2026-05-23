@@ -17,7 +17,7 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.categorias.update', $categoria) }}" method="POST">
+    <form action="{{ route('admin.categorias.update', $categoria) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
 
@@ -50,20 +50,84 @@
                                 Si lo modificas, se volvera a normalizar automaticamente.
                             </small>
                         </div>
+
+                        <div class="col-12">
+                            <label class="admin-form-label">Imagen nueva</label>
+                            <input
+                                type="file"
+                                name="imagen"
+                                class="form-control"
+                                accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                            >
+
+                            <small class="text-muted">
+                                Si subis una nueva imagen, reemplaza la actual.
+                            </small>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <div class="form-check admin-check-block">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="mostrar_en_inicio"
+                                    id="mostrarEnInicio"
+                                    value="1"
+                                    @checked(old('mostrar_en_inicio', $categoria->mostrar_en_inicio))
+                                >
+                                <label class="form-check-label" for="mostrarEnInicio">
+                                    Mostrar en inicio
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="admin-form-label">Orden en inicio</label>
+                            <input
+                                type="number"
+                                name="orden_inicio"
+                                class="form-control"
+                                min="1"
+                                value="{{ old('orden_inicio', $categoria->orden_inicio) }}"
+                                placeholder="Opcional"
+                            >
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="col-12 col-xl-4">
                 <div class="admin-card mb-4">
-                    <h2>Uso actual</h2>
+                    <h2>Imagen actual</h2>
 
-                    <div class="admin-category-usage">
-                        <span class="admin-category-count">
-                            <i class="bi bi-box-seam"></i>
-                            {{ $categoria->productos_count }} producto{{ $categoria->productos_count === 1 ? '' : 's' }}
-                        </span>
-                    </div>
+                    @if($categoria->imagen_url)
+                        <div class="admin-category-image-panel">
+                            <img
+                                src="{{ asset($categoria->imagen_url) }}"
+                                alt="{{ $categoria->nombre }}"
+                                class="admin-category-image-current"
+                            >
+
+                            <div class="form-check admin-check-block mt-3">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="eliminar_imagen"
+                                    id="eliminarImagen"
+                                    value="1"
+                                    @checked(old('eliminar_imagen'))
+                                >
+                                <label class="form-check-label" for="eliminarImagen">
+                                    Eliminar imagen actual
+                                </label>
+                            </div>
+                        </div>
+                    @else
+                        <div class="admin-category-image-panel admin-category-image-empty">
+                            <i class="bi bi-image"></i>
+                            <span>Sin imagen cargada</span>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="admin-card">
