@@ -21,14 +21,26 @@
     --hf-text-soft: #545454;
 }
 
+html,
+body {
+    min-height: 100%;
+}
+
 /* BODY GENERAL:
    define tipografía principal, color base y fondo institucional */
 body.site-body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     font-family: "Source Sans 3", sans-serif;
     color: var(--hf-coal);
     background:
         radial-gradient(circle at top left, rgba(217, 164, 65, 0.12), transparent 28%),
         linear-gradient(180deg, #f4efe7 0%, #ebe4d7 100%);
+}
+
+main.site-main {
+    flex: 1 0 auto;
 }
 
 /* TIPOGRAFIA DE TITULOS:

@@ -105,6 +105,10 @@ Route::get('/mis-datos', [PerfilController::class, 'misDatos'])
     ->middleware('usuario')
     ->name('mis-datos');
 
+Route::patch('/mis-datos', [PerfilController::class, 'update'])
+    ->middleware('usuario')
+    ->name('mis-datos.update');
+
 /* =========================================
    LOGIN
    ========================================= */
