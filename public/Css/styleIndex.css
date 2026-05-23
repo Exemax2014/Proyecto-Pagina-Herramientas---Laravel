@@ -69,8 +69,13 @@
 
 .home-brands-list {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 0.2rem;
+    gap: 0.55rem;
+    justify-content: center;
+    justify-items: center;
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
+    align-content: start;
 }
 
 .home-brand-link {
@@ -78,6 +83,8 @@
     align-items: center;
     justify-content: center;
     min-height: 52px;
+    width: 100%;
+    min-width: 0;
     padding: 0.45rem 0.8rem;
     text-decoration: none;
     background: rgba(17, 17, 17, 0.06);
@@ -99,6 +106,18 @@
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
+    text-align: center;
+}
+
+.brands-count-6,
+.brands-count-8,
+.brands-count-12 {
+    grid-template-columns: repeat(6, minmax(132px, 150px));
+}
+
+.brands-count-8 .brand-slot-7,
+.brands-count-8 .brand-slot-8 {
+    display: none;
 }
 
 /* ================= CATEGORÍAS ================= */
@@ -437,8 +456,20 @@
         justify-content: center;
     }
 
-    .home-brands-list {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+    .brands-count-6,
+    .brands-count-8,
+    .brands-count-12 {
+        grid-template-columns: repeat(4, minmax(122px, 138px));
+    }
+
+    .brands-count-8 .brand-slot-7,
+    .brands-count-8 .brand-slot-8 {
+        display: flex;
+    }
+
+    .brands-count-6 .brand-slot-5,
+    .brands-count-6 .brand-slot-6 {
+        display: none;
     }
 
     .home-categories-grid {
@@ -505,16 +536,33 @@
         width: 100%;
     }
 
-    .home-brands-list {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    .brands-count-6,
+    .brands-count-8,
+    .brands-count-12 {
+        grid-template-columns: repeat(2, minmax(116px, 130px));
+    }
+
+    .brands-count-8 .brand-slot-7,
+    .brands-count-8 .brand-slot-8 {
+        display: flex;
+    }
+
+    .brands-count-6 .brand-slot-5,
+    .brands-count-6 .brand-slot-6,
+    .brands-count-12 .brand-slot-9,
+    .brands-count-12 .brand-slot-10,
+    .brands-count-12 .brand-slot-11,
+    .brands-count-12 .brand-slot-12 {
+        display: none;
     }
 
     .home-brand-link {
-        min-height: 74px;
+        min-height: 60px;
+        padding: 0.45rem 0.65rem;
     }
 
     .home-brand {
-        font-size: 1.08rem;
+        font-size: 0.98rem;
     }
 
     .home-categories-grid {

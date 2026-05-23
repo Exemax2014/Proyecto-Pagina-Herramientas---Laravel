@@ -50,6 +50,13 @@
             </li>
 
             <li>
+                <a href="{{ route('admin.marcas.index') }}"
+                   class="{{ request()->routeIs('admin.marcas.*') ? 'active' : '' }}">
+                    <i class="bi bi-award"></i> Marcas
+                </a>
+            </li>
+
+            <li>
                 <a href="#">
                     <i class="bi bi-chat-left-text"></i> Consultas
                 </a>

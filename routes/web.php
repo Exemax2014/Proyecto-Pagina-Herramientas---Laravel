@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\Admin\AdminCategoriaController;
+use App\Http\Controllers\Admin\AdminMarcaController;
 use App\Http\Controllers\Admin\AdminProductoController;
 use App\Http\Controllers\Admin\AdminUsuarioController;
 use App\Models\Categoria;
@@ -13,10 +14,10 @@ use App\Models\Producto;
 
 Route::get('/', function () {
     $marcasHome = Marca::query()
-        ->whereHas('productos', function ($query) {
-            $query->where('activo', true);
-        })
-        ->orderBy('nombre')
+        ->where('mostrar_en_inicio', true)
+        ->whereBetween('orden_inicio', [1, 12])
+        ->orderBy('orden_inicio')
+        ->limit(12)
         ->get();
 
     $categoriasHome = Categoria::query()
@@ -168,6 +169,18 @@ Route::prefix('admin')
 
         Route::patch('/categorias/{categoria}', [AdminCategoriaController::class, 'update'])
             ->name('categorias.update');
+
+        Route::get('/marcas', [AdminMarcaController::class, 'index'])
+            ->name('marcas.index');
+
+        Route::post('/marcas', [AdminMarcaController::class, 'store'])
+            ->name('marcas.store');
+
+        Route::patch('/marcas/inicio', [AdminMarcaController::class, 'updateHomeSelection'])
+            ->name('marcas.update-home');
+
+        Route::patch('/marcas/{marca}', [AdminMarcaController::class, 'update'])
+            ->name('marcas.update');
 
         Route::get('/usuarios', [AdminUsuarioController::class, 'index'])
             ->name('usuarios.index');

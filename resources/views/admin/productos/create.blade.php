@@ -63,22 +63,17 @@
 
                         <div class="col-12 col-md-6">
                             <label class="admin-form-label">Marca</label>
-
-                            <input 
-                                type="text"
-                                name="marca_nombre"
-                                class="form-control"
-                                list="marcasList"
-                                placeholder="Seleccionar o escribir nueva marca"
-                                value="{{ old('marca_nombre') }}"
-                            >
-
-                            <datalist id="marcasList">
+                            <select name="marca_id" class="form-select">
+                                <option value="">Seleccionar marca</option>
                                 @foreach($marcas as $marca)
-                                    <option value="{{ $marca->nombre }}"></option>
+                                    <option value="{{ $marca->id }}" @selected((string) old('marca_id') === (string) $marca->id)>
+                                        {{ $marca->nombre }}
+                                    </option>
                                 @endforeach
-                            </datalist>
-                            
+                            </select>
+                            <small class="text-muted d-block mt-2">
+                                Si necesitás una marca nueva, cargala primero desde Admin Marcas.
+                            </small>
                         </div>
 
                         <div class="col-12 col-md-6">

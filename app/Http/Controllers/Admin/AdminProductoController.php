@@ -139,7 +139,7 @@ class AdminProductoController extends Controller
             'nombre' => ['required', 'string', 'max:255'],
             'descripcion' => ['required', 'string'],
             'categoria_id' => ['required', 'exists:categorias,id'],
-            'marca_nombre' => ['required', 'string', 'max:255'],
+            'marca_id' => ['required', 'exists:marcas,id'],
             'energia' => ['required', 'in:electrica,manual,inalambrica'],
             'precio' => ['required', 'numeric', 'min:0'],
             'precio_anterior' => ['nullable', 'numeric', 'min:0'],
@@ -173,11 +173,6 @@ class AdminProductoController extends Controller
 
     private function guardarDatosProducto(Producto $producto, array $datos): void
     {
-        $marca = Marca::firstOrCreate(
-            ['nombre' => trim($datos['marca_nombre'])],
-            ['logo_url' => null]
-        );
-
         $producto->fill([
             'nombre' => $datos['nombre'],
             'descripcion' => $datos['descripcion'],
@@ -190,7 +185,7 @@ class AdminProductoController extends Controller
             'etiqueta_clase' => $datos['etiqueta_clase'] ?? null,
             'activo' => $datos['activo'],
             'categoria_id' => $datos['categoria_id'],
-            'marca_id' => $marca->id,
+            'marca_id' => $datos['marca_id'],
         ]);
 
         $producto->save();

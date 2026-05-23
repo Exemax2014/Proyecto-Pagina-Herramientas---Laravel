@@ -37,9 +37,9 @@
 <!-- ================= MARCAS AUTOMATICAS ================= -->
 <section class="home-brands">
     <div class="container">
-        <div class="home-brands-list">
-            @foreach($marcasHome as $marca)
-                <a href="{{ route('catalogo', ['marca' => $marca->nombre]) }}" class="home-brand-link">
+        <div class="home-brands-list brands-count-{{ $marcasHome->count() }}">
+            @foreach($marcasHome as $index => $marca)
+                <a href="{{ route('catalogo', ['marca' => $marca->nombre]) }}" class="home-brand-link brand-slot-{{ $index + 1 }}">
                     <span class="home-brand">{{ $marca->nombre }}</span>
                 </a>
             @endforeach

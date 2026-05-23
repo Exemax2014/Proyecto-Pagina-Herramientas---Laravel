@@ -99,7 +99,7 @@
             </div>
 
             <div class="row g-3">
-                <div class="col-12 col-sm-6 col-xl-4">
+                <div class="col-12 col-md-4">
                     <div class="stat-card">
                         <div class="stat-icon">
                             <i class="bi bi-people"></i>
@@ -111,7 +111,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-sm-6 col-xl-4">
+                <div class="col-12 col-md-4">
                     <div class="stat-card">
                         <div class="stat-icon">
                             <i class="bi bi-person"></i>
@@ -123,7 +123,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-sm-6 col-xl-4">
+                <div class="col-12 col-md-4">
                     <div class="stat-card">
                         <div class="stat-icon">
                             <i class="bi bi-person-badge"></i>
