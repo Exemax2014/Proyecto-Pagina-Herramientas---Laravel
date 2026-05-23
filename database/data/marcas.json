@@ -1,0 +1,62 @@
+[
+    {
+        "nombre": "Baw",
+        "mostrar_en_inicio": true,
+        "orden_inicio": 7
+    },
+    {
+        "nombre": "Bosch",
+        "mostrar_en_inicio": true,
+        "orden_inicio": 2
+    },
+    {
+        "nombre": "Bremen",
+        "mostrar_en_inicio": true,
+        "orden_inicio": 5
+    },
+    {
+        "nombre": "DeWalt",
+        "mostrar_en_inicio": true,
+        "orden_inicio": 4
+    },
+    {
+        "nombre": "Gamma",
+        "mostrar_en_inicio": true,
+        "orden_inicio": 9
+    },
+    {
+        "nombre": "Ingco",
+        "mostrar_en_inicio": true,
+        "orden_inicio": 6
+    },
+    {
+        "nombre": "Lusqtoff",
+        "mostrar_en_inicio": true,
+        "orden_inicio": 3
+    },
+    {
+        "nombre": "Makita",
+        "mostrar_en_inicio": true,
+        "orden_inicio": 1
+    },
+    {
+        "nombre": "Milwaukee",
+        "mostrar_en_inicio": true,
+        "orden_inicio": 8
+    },
+    {
+        "nombre": "Neng",
+        "mostrar_en_inicio": true,
+        "orden_inicio": 10
+    },
+    {
+        "nombre": "Stanley",
+        "mostrar_en_inicio": true,
+        "orden_inicio": 11
+    },
+    {
+        "nombre": "Total",
+        "mostrar_en_inicio": true,
+        "orden_inicio": 12
+    }
+]

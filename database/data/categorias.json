@@ -1,0 +1,51 @@
+[
+    {
+        "nombre": "Carpintería",
+        "slug": "carpinteria",
+        "imagen_url": "/img/categorias/carpinteria-6a11fc6ee2eff.jpg",
+        "mostrar_en_inicio": true,
+        "orden_inicio": 4
+    },
+    {
+        "nombre": "Construcción",
+        "slug": "construccion",
+        "imagen_url": "/img/categorias/construccion-6a11fc663a400.jpg",
+        "mostrar_en_inicio": true,
+        "orden_inicio": 1
+    },
+    {
+        "nombre": "Durlok",
+        "slug": "durlok",
+        "imagen_url": "/img/categorias/durlok-6a11fc8118dd0.jpg",
+        "mostrar_en_inicio": true,
+        "orden_inicio": 6
+    },
+    {
+        "nombre": "Electricidad",
+        "slug": "electricidad",
+        "imagen_url": "/img/categorias/electricidad-6a11ffccc2e9e.jpg",
+        "mostrar_en_inicio": false,
+        "orden_inicio": null
+    },
+    {
+        "nombre": "Ferretería",
+        "slug": "ferreteria",
+        "imagen_url": "/img/categorias/ferreteria-6a11fc49320a2.jpg",
+        "mostrar_en_inicio": true,
+        "orden_inicio": 3
+    },
+    {
+        "nombre": "Herrería",
+        "slug": "herreria",
+        "imagen_url": "/img/categorias/herreria-6a11fc575e8e7.jpg",
+        "mostrar_en_inicio": true,
+        "orden_inicio": 2
+    },
+    {
+        "nombre": "Pinturería",
+        "slug": "pintureria",
+        "imagen_url": "/img/categorias/pintureria-6a11fc768f38f.jpg",
+        "mostrar_en_inicio": true,
+        "orden_inicio": 5
+    }
+]
