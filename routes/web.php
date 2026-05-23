@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\Admin\AdminCategoriaController;
+use App\Http\Controllers\Admin\AdminConsultaController;
 use App\Http\Controllers\Admin\AdminMarcaController;
 use App\Http\Controllers\Admin\AdminProductoController;
 use App\Http\Controllers\Admin\AdminUsuarioController;
@@ -77,6 +79,8 @@ Route::get('/comercializacion', function () {
 Route::get('/contacto', function () {
     return view('pages.contacto');
 })->name('contacto');
+
+Route::post('/contacto', [ConsultaController::class, 'store'])->name('contacto.store');
 
 Route::get('/terminos', function () {
     return view('pages.terminos');
@@ -181,6 +185,12 @@ Route::prefix('admin')
 
         Route::patch('/marcas/{marca}', [AdminMarcaController::class, 'update'])
             ->name('marcas.update');
+
+        Route::get('/consultas', [AdminConsultaController::class, 'index'])
+            ->name('consultas.index');
+
+        Route::patch('/consultas/{consulta}/leida', [AdminConsultaController::class, 'marcarLeida'])
+            ->name('consultas.leida');
 
         Route::get('/usuarios', [AdminUsuarioController::class, 'index'])
             ->name('usuarios.index');

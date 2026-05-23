@@ -57,7 +57,8 @@
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{ route('admin.consultas.index') }}"
+                   class="{{ request()->routeIs('admin.consultas.*') ? 'active' : '' }}">
                     <i class="bi bi-chat-left-text"></i> Consultas
                 </a>
             </li>

@@ -3,13 +3,13 @@
 @section('title', 'Contacto | Hierro & Forja')
 
 @section('contenido')
+    @php
+        $usuarioContacto = session('usuario_id') ? \App\Models\Usuario::find(session('usuario_id')) : null;
+    @endphp
 
-    <!-- =========== HERO PRINCIPAL ============= -->
     <section class="hero-home contact-hero-section">
         <div class="container">
             <div class="row align-items-center g-5">
-
-                <!-- ===== HERO: TEXTO PRINCIPAL ===== -->
                 <div class="col-lg-8">
                     <h1 class="hero-title">Contacto</h1>
                     <h2>Estamos para responder cada consulta.</h2>
@@ -27,7 +27,6 @@
                     </div>
                 </div>
 
-                <!-- ===== HERO: PANEL RESUMEN LATERAL ===== -->
                 <div class="col-lg-4 terms-summary-column">
                     <div class="hero-panel contact-hero-panel terms-summary-panel">
                         <p class="panel-label">Secciones de página</p>
@@ -54,17 +53,14 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <!-- =========== CONTACTO FÍSICO ============= -->
     <section class="home-section contact-section-light">
         <div class="container">
             <div class="section-heading contact-section-heading">
                 <span class="home-kicker">Atención presencial</span>
-
                 <h2>Contacto físico en local</h2>
 
                 <p>
@@ -123,17 +119,13 @@
         </div>
     </section>
 
-    <!-- =========== CONTACTO ONLINE ============= -->
     <section class="contact-section-dark">
         <div class="contact-dark-inner">
             <div class="contact-dark-card">
                 <div class="row align-items-center g-5">
-
-                    <!-- ===== COLUMNA IZQUIERDA: TEXTO ===== -->
                     <div class="col-lg-5">
                         <div class="section-heading contact-section-heading">
                             <span class="home-kicker contact-dark-kicker">Atención remota</span>
-
                             <h2>Contacto online</h2>
 
                             <p>
@@ -148,46 +140,36 @@
                         </div>
                     </div>
 
-                    <!-- ===== COLUMNA DERECHA: CANALES ===== -->
                     <div class="col-lg-7">
                         <div class="contact-online-stack">
-
-                            <!-- BOTÓN TELÉFONO -->
                             <a href="tel:+541100000000" class="feature-item contact-online-card">
                                 <h3>Teléfono</h3>
                                 <span class="contact-online-link">+54 11 0000 0000</span>
                             </a>
 
-                            <!-- BOTÓN WHATSAPP -->
                             <a href="https://wa.me/5491100000000"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="feature-item contact-online-card">
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="feature-item contact-online-card">
                                 <h3>WhatsApp</h3>
                                 <span class="contact-online-link">+54 9 11 0000 0000</span>
                             </a>
 
-                            <!-- BOTÓN CORREO -->
                             <a href="mailto:ventas@hierroyforja.com" class="feature-item contact-online-card">
                                 <h3>Correo</h3>
                                 <span class="contact-online-link">ventas@hierroyforja.com</span>
                             </a>
-
                         </div>
                     </div>
-
                 </div>
             </div>
-        </div>    
+        </div>
     </section>
 
-    <!-- =========== FORMULARIO DE CONSULTA ============= -->
     <section id="contacto-formulario" class="home-section contact-form-section">
         <div class="container">
             <div class="contact-form-wrap">
                 <div class="row g-4 align-items-center">
-
-                    <!-- ===== TEXTO DEL FORMULARIO ===== -->
                     <div class="col-lg-5">
                         <div class="contact-form-intro-block">
                             <h2>Formulario de consulta</h2>
@@ -213,51 +195,123 @@
                         </div>
                     </div>
 
-                    <!-- ===== FORMULARIO ===== -->
                     <div class="col-lg-7">
                         <article class="page-card contact-form-card">
-                            <form id="contactoForm" class="contact-form">
-
-                                <!-- CAMPO: NOMBRE COMPLETO -->
-                                <div class="contact-form-field">
-                                    <label for="nombre_completo" class="contact-form-label">Nombre completo</label>
-                                    <input
-                                        type="text"
-                                        id="nombre_completo"
-                                        name="nombre_completo"
-                                        class="form-control contact-form-input"
-                                        placeholder="Ingresá tu nombre y apellido"
-                                        required
-                                    >
+                            @if(session('success'))
+                                <div class="alert alert-success mb-4">
+                                    {{ session('success') }}
                                 </div>
+                            @endif
 
-                                <!-- CAMPO: CORREO ELECTRÓNICO -->
-                                <div class="contact-form-field">
-                                    <label for="correo" class="contact-form-label">Correo electrónico</label>
-                                    <input
-                                        type="email"
-                                        id="correo"
-                                        name="correo"
-                                        class="form-control contact-form-input"
-                                        placeholder="Ingresá tu correo"
-                                        required
-                                    >
+                            @if ($errors->any())
+                                <div class="alert alert-danger mb-4">
+                                    <strong>Hay errores en el formulario:</strong>
+
+                                    <ul class="mb-0 mt-2">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
                                 </div>
+                            @endif
 
-                                <!-- CAMPO: MOTIVO O CONSULTA -->
+                            <form id="contactoForm" class="contact-form" action="{{ route('contacto.store') }}" method="POST">
+                                @csrf
+
+                                @if($usuarioContacto)
+                                    <div class="contact-form-support mb-4">
+                                        <div>
+                                            <strong>Nombre</strong>
+                                            <span>{{ $usuarioContacto->nombre }} {{ $usuarioContacto->apellido }}</span>
+                                        </div>
+
+                                        <div>
+                                            <strong>Correo</strong>
+                                            <span>{{ $usuarioContacto->email }}</span>
+                                        </div>
+
+                                        <div>
+                                            <strong>Teléfono</strong>
+                                            <span>{{ $usuarioContacto->telefono ?: 'No cargado' }}</span>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="contact-form-field">
+                                        <label for="nombre_completo" class="contact-form-label">Nombre completo</label>
+                                        <input
+                                            type="text"
+                                            id="nombre_completo"
+                                            name="nombre_completo"
+                                            class="form-control contact-form-input @error('nombre_completo') is-invalid @enderror"
+                                            placeholder="Ingresá tu nombre y apellido"
+                                            value="{{ old('nombre_completo') }}"
+                                            required
+                                        >
+
+                                        @error('nombre_completo')
+                                            <div class="invalid-feedback d-block">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="contact-form-field">
+                                        <label for="correo" class="contact-form-label">Correo electrónico</label>
+                                        <input
+                                            type="email"
+                                            id="correo"
+                                            name="correo"
+                                            class="form-control contact-form-input @error('correo') is-invalid @enderror"
+                                            placeholder="Ingresá tu correo"
+                                            value="{{ old('correo') }}"
+                                            required
+                                        >
+
+                                        @error('correo')
+                                            <div class="invalid-feedback d-block">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="contact-form-field">
+                                        <label for="telefono" class="contact-form-label">Teléfono</label>
+                                        <input
+                                            type="text"
+                                            id="telefono"
+                                            name="telefono"
+                                            class="form-control contact-form-input @error('telefono') is-invalid @enderror"
+                                            placeholder="Ingresá tu teléfono"
+                                            value="{{ old('telefono') }}"
+                                            required
+                                        >
+
+                                        @error('telefono')
+                                            <div class="invalid-feedback d-block">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                @endif
+
                                 <div class="contact-form-field">
                                     <label for="consulta" class="contact-form-label">Motivo o consulta</label>
                                     <textarea
                                         id="consulta"
                                         name="consulta"
-                                        class="form-control contact-form-textarea"
+                                        class="form-control contact-form-textarea @error('consulta') is-invalid @enderror"
                                         rows="5"
                                         placeholder="Escribí tu consulta"
                                         required
-                                    ></textarea>
+                                    >{{ old('consulta') }}</textarea>
+
+                                    @error('consulta')
+                                        <div class="invalid-feedback d-block">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
 
-                                <!-- BOTÓN DE ENVÍO -->
                                 <div class="contact-form-actions">
                                     <button type="submit" class="btn btn-warning contact-form-btn">
                                         Enviar consulta
@@ -266,24 +320,8 @@
                             </form>
                         </article>
                     </div>
-
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- =========== SCRIPT DE ENVÍO VISUAL ============= -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const form = document.getElementById('contactoForm');
-
-            form.addEventListener('submit', function (event) {
-                event.preventDefault();
-
-                window.showToast('Gracias, hemos recibido su consulta y le responderemos a la brevedad.', 'top');
-
-                form.reset();
-            });
-        });
-    </script>
 @endsection
