@@ -7,7 +7,6 @@
 
     <div class="admin-users-stack">
 
-        {{-- ADMINISTRADORES --}}
         <div class="admin-card">
             <div class="admin-users-card-head">
                 <div>
@@ -22,7 +21,7 @@
 
             <div class="admin-search-block mt-3 mb-3">
                 <form method="GET" action="{{ route('admin.usuarios.index') }}" class="admin-mini-search">
-                    <input 
+                    <input
                         type="text"
                         name="buscar_admin"
                         class="form-control"
@@ -41,7 +40,7 @@
                     @endif
                 </form>
             </div>
-        
+
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0 admin-users-table">
                     <thead class="table-light">
@@ -58,6 +57,11 @@
 
                     <tbody>
                         @forelse($administradores as $usuario)
+                            @php
+                                $esRoot = $usuario->email === 'admin@hierroforja.com';
+                                $telefonoLimpio = preg_replace('/\D+/', '', $usuario->telefono ?? '');
+                                $whatsAppDisponible = filled($telefonoLimpio) && strlen($telefonoLimpio) >= 8;
+                            @endphp
                             <tr>
                                 <td>
                                     <strong>{{ $usuario->nombre }} {{ $usuario->apellido }}</strong>
@@ -87,39 +91,58 @@
                                 </td>
 
                                 <td class="text-center">
-                                    @if($usuario->email === 'admin@hierroforja.com')
-                                        <button type="button" class="btn btn-sm btn-outline-dark admin-user-action-btn" disabled>
-                                            Root
-                                        </button>
-                                    @elseif($usuario->activo)
-                                        <form 
-                                            action="{{ route('admin.usuarios.desactivar', $usuario) }}" 
-                                            method="POST"
-                                            class="admin-action-form"
-                                            onsubmit="return confirm('¿Seguro que querés dar de baja este administrador?');"
-                                        >
-                                            @csrf
-                                            @method('PATCH')
+                                    <div class="admin-user-actions-stack">
+                                        @if(! $esRoot && filled($usuario->email))
+                                            <a href="mailto:{{ $usuario->email }}" class="btn btn-sm btn-outline-secondary admin-user-contact-btn">
+                                                Enviar correo
+                                            </a>
+                                        @endif
 
-                                            <button type="submit" class="btn btn-sm btn-outline-danger admin-user-action-btn">
-                                                Dar de baja
-                                            </button>
-                                        </form>
-                                    @else
-                                        <form 
-                                            action="{{ route('admin.usuarios.activar', $usuario) }}" 
-                                            method="POST"
-                                            class="admin-action-form"
-                                            onsubmit="return confirm('¿Querés dar de alta este administrador?');"
-                                        >
-                                            @csrf
-                                            @method('PATCH')
+                                        @if(! $esRoot && $whatsAppDisponible)
+                                            <a
+                                                href="https://wa.me/{{ $telefonoLimpio }}"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="btn btn-sm btn-outline-success admin-user-contact-btn"
+                                            >
+                                                WhatsApp
+                                            </a>
+                                        @endif
 
-                                            <button type="submit" class="btn btn-sm btn-outline-success admin-user-action-btn">
-                                                Dar de alta
+                                        @if($esRoot)
+                                            <button type="button" class="btn btn-sm btn-outline-dark admin-user-action-btn" disabled>
+                                                Root
                                             </button>
-                                        </form>
-                                    @endif
+                                        @elseif($usuario->activo)
+                                            <form
+                                                action="{{ route('admin.usuarios.desactivar', $usuario) }}"
+                                                method="POST"
+                                                class="admin-action-form"
+                                                onsubmit="return confirm('¿Seguro que querés dar de baja este administrador?');"
+                                            >
+                                                @csrf
+                                                @method('PATCH')
+
+                                                <button type="submit" class="btn btn-sm btn-outline-danger admin-user-action-btn">
+                                                    Dar de baja
+                                                </button>
+                                            </form>
+                                        @else
+                                            <form
+                                                action="{{ route('admin.usuarios.activar', $usuario) }}"
+                                                method="POST"
+                                                class="admin-action-form"
+                                                onsubmit="return confirm('¿Querés dar de alta este administrador?');"
+                                            >
+                                                @csrf
+                                                @method('PATCH')
+
+                                                <button type="submit" class="btn btn-sm btn-outline-success admin-user-action-btn">
+                                                    Dar de alta
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </div>
                                 </td>
                             </tr>
                         @empty
@@ -138,8 +161,6 @@
             </div>
         </div>
 
-
-        {{-- COMPRADORES --}}
         <div class="admin-card">
             <div class="admin-users-card-head">
                 <h2>Usuarios Clientes</h2>
@@ -147,7 +168,7 @@
 
             <div class="admin-search-block mt-3 mb-3">
                 <form method="GET" action="{{ route('admin.usuarios.index') }}" class="admin-mini-search">
-                    <input 
+                    <input
                         type="text"
                         name="buscar_comprador"
                         class="form-control"
@@ -185,6 +206,10 @@
 
                     <tbody>
                         @forelse($compradores as $usuario)
+                            @php
+                                $telefonoLimpio = preg_replace('/\D+/', '', $usuario->telefono ?? '');
+                                $whatsAppDisponible = filled($telefonoLimpio) && strlen($telefonoLimpio) >= 8;
+                            @endphp
                             <tr>
                                 <td>
                                     <strong>{{ $usuario->nombre }} {{ $usuario->apellido }}</strong>
@@ -223,35 +248,54 @@
                                 </td>
 
                                 <td class="text-center">
-                                    @if($usuario->activo)
-                                        <form 
-                                            action="{{ route('admin.usuarios.desactivar', $usuario) }}" 
-                                            method="POST"
-                                            class="admin-action-form"
-                                            onsubmit="return confirm('¿Seguro que querés dar de baja este usuario?');"
-                                        >
-                                            @csrf
-                                            @method('PATCH')
+                                    <div class="admin-user-actions-stack">
+                                        @if(filled($usuario->email))
+                                            <a href="mailto:{{ $usuario->email }}" class="btn btn-sm btn-outline-secondary admin-user-contact-btn">
+                                                Enviar correo
+                                            </a>
+                                        @endif
 
-                                            <button type="submit" class="btn btn-sm btn-outline-danger admin-user-action-btn">
-                                                Dar de baja
-                                            </button>
-                                        </form>
-                                    @else
-                                        <form 
-                                            action="{{ route('admin.usuarios.activar', $usuario) }}" 
-                                            method="POST"
-                                            class="admin-action-form"
-                                            onsubmit="return confirm('¿Querés dar de alta este usuario?');"
-                                        >
-                                            @csrf
-                                            @method('PATCH')
+                                        @if($whatsAppDisponible)
+                                            <a
+                                                href="https://wa.me/{{ $telefonoLimpio }}"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="btn btn-sm btn-outline-success admin-user-contact-btn"
+                                            >
+                                                WhatsApp
+                                            </a>
+                                        @endif
 
-                                            <button type="submit" class="btn btn-sm btn-outline-success admin-user-action-btn">
-                                                Dar de alta
-                                            </button>
-                                        </form>
-                                    @endif
+                                        @if($usuario->activo)
+                                            <form
+                                                action="{{ route('admin.usuarios.desactivar', $usuario) }}"
+                                                method="POST"
+                                                class="admin-action-form"
+                                                onsubmit="return confirm('¿Seguro que querés dar de baja este usuario?');"
+                                            >
+                                                @csrf
+                                                @method('PATCH')
+
+                                                <button type="submit" class="btn btn-sm btn-outline-danger admin-user-action-btn">
+                                                    Dar de baja
+                                                </button>
+                                            </form>
+                                        @else
+                                            <form
+                                                action="{{ route('admin.usuarios.activar', $usuario) }}"
+                                                method="POST"
+                                                class="admin-action-form"
+                                                onsubmit="return confirm('¿Querés dar de alta este usuario?');"
+                                            >
+                                                @csrf
+                                                @method('PATCH')
+
+                                                <button type="submit" class="btn btn-sm btn-outline-success admin-user-action-btn">
+                                                    Dar de alta
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </div>
                                 </td>
                             </tr>
                         @empty

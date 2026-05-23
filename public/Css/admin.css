@@ -848,6 +848,24 @@ body {
     white-space: nowrap;
 }
 
+.admin-user-actions-stack {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+}
+
+.admin-user-contact-btn {
+    min-width: 108px;
+    height: 30px;
+    font-size: 0.76rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
 .admin-buyers-table {
     min-width: 1050px;
 }
