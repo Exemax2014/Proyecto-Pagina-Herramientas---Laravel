@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\Admin\AdminProductoController;
 use App\Http\Controllers\Admin\AdminUsuarioController;
 use App\Models\Categoria;
@@ -99,6 +100,10 @@ Route::get('/producto/{id}', [ProductoController::class, 'show'])->name('product
 Route::get('/carrito', function () {
     return view('pages.carrito');
 })->name('carrito');
+
+Route::get('/mis-datos', [PerfilController::class, 'misDatos'])
+    ->middleware('usuario')
+    ->name('mis-datos');
 
 /* =========================================
    LOGIN
