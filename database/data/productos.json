@@ -639,5 +639,79 @@
                 "es_principal": false
             }
         ]
+    },
+    {
+        "nombre": "Multimetro Digital Baw Rm113d Trms Autorrango 600v 10a",
+        "categoria": {
+            "nombre": "Electricidad",
+            "slug": "electricidad"
+        },
+        "marca": {
+            "nombre": "Baw",
+            "logo_url": null
+        },
+        "energia": "inalambrica",
+        "precio": 42000,
+        "precio_anterior": null,
+        "stock": 8,
+        "ventas": 0,
+        "descripcion": "El multímetro digital RM113D es un instrumento de medición multi-función de alta precisión, rápida respuesta y elevado nivel de seguridad.\r\nIncorpora un CI especial de hasta 6000 cuentas. Este CI está compuesto por un convertidor A/D de alta precisión y un procesador digital de alta velocidad que puede realizar cálculos RMS reales de alta velocidad.\r\nProvee mediciones precisas, alta resolución, velocidad de operación rápida, calibración de software completa, sin cambios en la precisión con el uso a largo plazo.",
+        "etiqueta": "Destacado",
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/multimetro-digital-baw-rm113d-trms-autorrango-600v-10a-6a1202aace93b.webp",
+                "orden": 0,
+                "es_principal": true
+            },
+            {
+                "url": "/img/productos/multimetro-digital-baw-rm113d-trms-autorrango-600v-10a-6a1202aacee4d.webp",
+                "orden": 1,
+                "es_principal": false
+            },
+            {
+                "url": "/img/productos/multimetro-digital-baw-rm113d-trms-autorrango-600v-10a-6a1202aacf23a.webp",
+                "orden": 2,
+                "es_principal": false
+            }
+        ]
+    },
+    {
+        "nombre": "Multímetro Digital Automático 6000 Cuentas Recargable",
+        "categoria": {
+            "nombre": "Electricidad",
+            "slug": "electricidad"
+        },
+        "marca": {
+            "nombre": "Neng",
+            "logo_url": null
+        },
+        "energia": "inalambrica",
+        "precio": 65000,
+        "precio_anterior": null,
+        "stock": 12,
+        "ventas": 0,
+        "descripcion": "Multímetro digital inteligente de 6000 cuentas de verdadero valor eficaz (TRMS) con carga automática por USB-C\r\n\r\nEste multímetro digital inteligente, equipado con batería recargable y pantalla de alta resolución, combina precisión profesional con la comodidad de un moderno dispositivo, lo que lo convierte en la opción ideal for técnicos, electricistas y aficionados.\r\n\r\n*** Características principales\r\n1. Alta precisión de 6000 cuentas (TRMS): proporciona lecturas estables y precisas en todo momento.\r\n2. Rango automático: detecta automáticamente el tipo de medición, eliminando los ajustes manuales.\r\n3. Función NCV: detección de voltaje sin contacto for mayor seguridad en el trabajo.\r\n4. Pantalla LCD retroiluminada: lecturas claras incluso en condiciones de poca luz.\r\n5. Batería recargable por USB-C: ahorra y prolonga la vida útil de la batería.\r\n6. Protección contra sobrecargas y diseño robusto: su carcasa duradera y antideslizante lo hace ideal for su uso en el taller o en el campo.\r\n7. Multifunción: Voltímetro (CA/CC) / Amperímetro / Ohmímetro / Comprobador de Continuidad / Comprobador de Diodos / Medición de Frecuencia y Capacitancia",
+        "etiqueta": "Nuevo",
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/multimetro-digital-automatico-6000-cuentas-recargable-6a12034f2c91a.webp",
+                "orden": 0,
+                "es_principal": true
+            },
+            {
+                "url": "/img/productos/multimetro-digital-automatico-6000-cuentas-recargable-6a12034f2cea3.webp",
+                "orden": 1,
+                "es_principal": false
+            },
+            {
+                "url": "/img/productos/multimetro-digital-automatico-6000-cuentas-recargable-6a12034f2d2bd.webp",
+                "orden": 2,
+                "es_principal": false
+            }
+        ]
     }
 ]

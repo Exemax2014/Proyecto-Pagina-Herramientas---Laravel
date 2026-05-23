@@ -28,7 +28,7 @@
                     <tr>
                         <th class="text-center">Imagen</th>
                         <th>Categoria</th>
-                        <th>Slug</th>
+                        <th>Identificador URL</th>
                         <th class="text-center">Productos asociados</th>
                         <th class="text-center">Inicio</th>
                         <th class="text-center">Orden</th>
@@ -39,7 +39,7 @@
                 <tbody>
                     @forelse($categorias as $categoria)
                         <tr>
-                            <td class="text-center" style="width: 96px;">
+                            <td class="text-center" style="width: 126px;">
                                 @if($categoria->imagen_url)
                                     <img
                                         src="{{ asset($categoria->imagen_url) }}"
@@ -66,13 +66,19 @@
                                     <i class="bi bi-box-seam"></i>
                                     {{ $categoria->productos_count }}
                                 </span>
+
+                                @if($categoria->productos_count === 0)
+                                    <div class="admin-category-note">
+                                        Sin productos para inicio
+                                    </div>
+                                @endif
                             </td>
 
                             <td class="text-center">
                                 @if($categoria->mostrar_en_inicio)
-                                    <span class="badge text-bg-success">Visible</span>
+                                    <span class="badge admin-home-badge admin-home-badge-visible">Visible</span>
                                 @else
-                                    <span class="badge text-bg-secondary">Oculta</span>
+                                    <span class="badge admin-home-badge admin-home-badge-hidden">Oculta</span>
                                 @endif
                             </td>
 

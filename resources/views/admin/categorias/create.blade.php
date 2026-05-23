@@ -22,10 +22,10 @@
 
         <div class="row g-4">
             <div class="col-12 col-xl-8">
-                <div class="admin-card">
+                <div class="admin-card admin-category-form-card h-100">
                     <h2>Datos de la categoria</h2>
 
-                    <div class="row g-3">
+                    <div class="row g-4 admin-category-form-grid">
                         <div class="col-12">
                             <label class="admin-form-label">Nombre</label>
                             <input
@@ -67,31 +67,35 @@
                         </div>
 
                         <div class="col-12 col-md-6">
-                            <div class="form-check admin-check-block">
+                            <div class="admin-check-card">
                                 <input
-                                    class="form-check-input"
+                                    class="form-check-input admin-check-card-input"
                                     type="checkbox"
                                     name="mostrar_en_inicio"
                                     id="mostrarEnInicio"
                                     value="1"
-                                    @checked(old('mostrar_en_inicio', true))
+                                    @checked(old('mostrar_en_inicio'))
                                 >
-                                <label class="form-check-label" for="mostrarEnInicio">
-                                    Mostrar en inicio
+                                <label class="form-check-label admin-check-card-label" for="mostrarEnInicio">
+                                    <span class="admin-check-card-title">Mostrar en inicio</span>
+                                    <span class="admin-check-card-copy">Solo disponible para categorias con productos asociados.</span>
                                 </label>
                             </div>
                         </div>
 
                         <div class="col-12 col-md-6">
                             <label class="admin-form-label">Orden en inicio</label>
-                            <input
-                                type="number"
+                            <select
                                 name="orden_inicio"
-                                class="form-control"
-                                min="1"
-                                value="{{ old('orden_inicio') }}"
-                                placeholder="Opcional"
+                                class="form-select"
                             >
+                                <option value="">Seleccionar orden</option>
+                                @foreach(range(1, 6) as $orden)
+                                    <option value="{{ $orden }}" @selected((string) old('orden_inicio') === (string) $orden)>
+                                        {{ $orden }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -115,3 +119,28 @@
     </form>
 
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const mostrarEnInicio = document.getElementById('mostrarEnInicio');
+        const ordenInput = document.querySelector('select[name="orden_inicio"]');
+
+        if (!mostrarEnInicio || !ordenInput) return;
+
+        function syncOrdenInicio() {
+            const activa = mostrarEnInicio.checked;
+
+            ordenInput.disabled = !activa;
+            ordenInput.required = activa;
+
+            if (!activa) {
+                ordenInput.value = '';
+            }
+        }
+
+        mostrarEnInicio.addEventListener('change', syncOrdenInicio);
+        syncOrdenInicio();
+    });
+</script>
+@endpush

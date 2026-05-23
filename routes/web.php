@@ -20,48 +20,35 @@ Route::get('/', function () {
         ->get();
 
     $categoriasHome = Categoria::query()
+        ->where('mostrar_en_inicio', true)
+        ->whereBetween('orden_inicio', [1, 6])
         ->whereHas('productos', function ($query) {
             $query->where('activo', true);
         })
+        ->orderBy('orden_inicio')
+        ->limit(6)
         ->get()
-        ->sortBy(function ($categoria) {
-            $orden = [
-                'herreria',
-                'carpinteria',
-                'construccion',
-                'durlok',
-                'ferreteria',
-                'pintureria',
+        ->values()
+        ->map(function ($categoria, $index) {
+            $clases = [
+                'category-card-large',
+                'category-card-large',
+                'category-card-medium',
+                'category-card-medium',
+                'category-card-small',
+                'category-card-small',
             ];
 
-            $posicion = array_search($categoria->slug, $orden, true);
-
-            return $posicion === false ? 999 : $posicion;
-        })
-        ->values()
-        ->map(function ($categoria) {
-            $imagen = match ($categoria->slug) {
-                'herreria' => 'img/categorias/herreria.jpg',
-                'carpinteria' => 'img/categorias/carpinteria.jpg',
-                'construccion' => 'img/categorias/construccion.jpg',
-                'durlok' => 'img/categorias/durlock.jpg',
-                'ferreteria' => 'img/categorias/ferreteria.jpg',
-                'pintureria' => 'img/categorias/pintura.jpg',
-                default => 'img/fondo-index.jpg',
-            };
-
-            $clase = match ($categoria->slug) {
-                'herreria', 'carpinteria' => 'category-card-large',
-                'construccion', 'durlok' => 'category-card-medium',
-                default => 'category-card-small',
-            };
+            $imagen = $categoria->imagen_url
+                ? asset($categoria->imagen_url)
+                : asset('img/fondo-index.jpg');
 
             return (object) [
                 'id' => $categoria->id,
                 'nombre' => $categoria->nombre,
                 'slug' => $categoria->slug,
-                'imagen' => asset($imagen),
-                'clase' => $clase,
+                'imagen' => $imagen,
+                'clase' => $clases[$index] ?? 'category-card-small',
             ];
         });
 
