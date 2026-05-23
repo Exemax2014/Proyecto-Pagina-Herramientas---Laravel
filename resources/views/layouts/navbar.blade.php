@@ -112,19 +112,14 @@
 
                     <ul class="dropdown-menu dropdown-menu-end navbar-user-menu">
                         @if(session('usuario_id'))
-                            <li class="dropdown-header">
-                                {{ $nombreMostrar }}
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-
                             @if(session('usuario_role') === 'admin')
-                                <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Panel admin</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Ir al panel admin</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                            @else
+                                <li><a class="dropdown-item" href="{{ route('mis-datos') }}">Mis datos</a></li>
+                                <li><a class="dropdown-item" href="#">Mis compras</a></li>
                                 <li><hr class="dropdown-divider"></li>
                             @endif
-
-                            <li><a class="dropdown-item" href="{{ route('mis-datos') }}">Mis datos</a></li>
-                            <li><a class="dropdown-item" href="#">Mis compras</a></li>
-                            <li><hr class="dropdown-divider"></li>
 
                             <li>
                                 <form action="{{ route('logout') }}" method="POST">

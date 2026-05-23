@@ -10,6 +10,7 @@ use App\Models\ProductoImagen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class AdminProductoController extends Controller
 {
@@ -45,6 +46,7 @@ class AdminProductoController extends Controller
     public function store(Request $request)
     {
         $datos = $this->validarProducto($request, false);
+        $datos['activo'] = true;
 
         DB::transaction(function () use ($request, $datos) {
             $producto = new Producto();
@@ -73,7 +75,7 @@ class AdminProductoController extends Controller
 
     public function update(Request $request, Producto $producto)
     {
-        $datos = $this->validarProducto($request, true);
+        $datos = $this->validarProducto($request, true, $producto);
 
         DB::transaction(function () use ($request, $datos, $producto) {
             $this->guardarDatosProducto($producto, $datos);
@@ -131,7 +133,7 @@ class AdminProductoController extends Controller
             ->with('success', 'Producto dado de alta correctamente.');
     }
 
-    private function validarProducto(Request $request, bool $esEdicion): array
+    private function validarProducto(Request $request, bool $esEdicion, ?Producto $producto = null): array
     {
         $reglas = [
             'nombre' => ['required', 'string', 'max:255'],
@@ -139,7 +141,6 @@ class AdminProductoController extends Controller
             'categoria_id' => ['required', 'exists:categorias,id'],
             'marca_nombre' => ['required', 'string', 'max:255'],
             'energia' => ['required', 'in:electrica,manual,inalambrica'],
-            'activo' => ['required', 'boolean'],
             'precio' => ['required', 'numeric', 'min:0'],
             'precio_anterior' => ['nullable', 'numeric', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],
@@ -151,10 +152,23 @@ class AdminProductoController extends Controller
         ];
 
         if ($esEdicion) {
+            $reglas['activo'] = ['required', 'boolean'];
             $reglas['imagen_principal_id'] = ['nullable', 'integer', 'exists:producto_imagenes,id'];
         }
 
-        return $request->validate($reglas);
+        $datos = $request->validate($reglas);
+
+        $this->validarPrecioAnterior($datos);
+
+        if ($esEdicion && $producto) {
+            $imagenPrincipalId = ! empty($datos['imagen_principal_id'])
+                ? (int) $datos['imagen_principal_id']
+                : null;
+
+            $this->validarImagenPrincipalPerteneceAlProducto($imagenPrincipalId, $producto);
+        }
+
+        return $datos;
     }
 
     private function guardarDatosProducto(Producto $producto, array $datos): void
@@ -207,37 +221,6 @@ class AdminProductoController extends Controller
                 'orden' => $ultimoOrden + $index + 1,
                 'es_principal' => false,
             ]);
-        }
-    }
-
-    private function sincronizarImagenesExistentes(Producto $producto, array $datos): void
-    {
-        $imagenesEliminar = $datos['imagenes_eliminar'] ?? [];
-
-        if (! empty($imagenesEliminar)) {
-            $imagenes = ProductoImagen::where('producto_id', $producto->id)
-                ->whereIn('id', $imagenesEliminar)
-                ->get();
-
-            foreach ($imagenes as $imagen) {
-                $rutaFisica = public_path(ltrim($imagen->url, '/'));
-
-                if (file_exists($rutaFisica)) {
-                    unlink($rutaFisica);
-                }
-
-                $imagen->delete();
-            }
-        }
-
-        $ordenes = $datos['imagenes_orden'] ?? [];
-
-        foreach ($ordenes as $imagenId => $orden) {
-            ProductoImagen::where('producto_id', $producto->id)
-                ->where('id', $imagenId)
-                ->update([
-                    'orden' => $orden,
-                ]);
         }
     }
 
@@ -350,5 +333,39 @@ class AdminProductoController extends Controller
             database_path('data/productos.json'),
             json_encode($productos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
         );
+    }
+
+    private function validarPrecioAnterior(array $datos): void
+    {
+        if (! array_key_exists('precio_anterior', $datos) || $datos['precio_anterior'] === null || $datos['precio_anterior'] === '') {
+            return;
+        }
+
+        if ((float) $datos['precio_anterior'] > (float) $datos['precio']) {
+            return;
+        }
+
+        throw ValidationException::withMessages([
+            'precio_anterior' => 'El precio anterior debe ser mayor que el precio actual.',
+        ]);
+    }
+
+    private function validarImagenPrincipalPerteneceAlProducto(?int $imagenPrincipalId, Producto $producto): void
+    {
+        if (! $imagenPrincipalId) {
+            return;
+        }
+
+        $perteneceAlProducto = $producto->imagenes()
+            ->where('id', $imagenPrincipalId)
+            ->exists();
+
+        if ($perteneceAlProducto) {
+            return;
+        }
+
+        throw ValidationException::withMessages([
+            'imagen_principal_id' => 'La imagen principal seleccionada no pertenece a este producto.',
+        ]);
     }
 }

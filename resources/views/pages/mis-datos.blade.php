@@ -36,9 +36,16 @@
                             </p>
                         </div>
 
-                        <a href="{{ route('catalogo') }}" class="btn btn-outline-dark">
-                            Volver al catalogo
-                        </a>
+                        @if(session('usuario_role') === 'admin')
+                            <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-dark">
+                                Volver al panel admin
+                            </a>
+                        @else
+                            <a href="{{ route('catalogo') }}" class="btn btn-outline-dark">
+                                Volver al catalogo
+                            </a>
+                        @endif
+
                     </div>
 
                     <form action="{{ route('mis-datos.update') }}" method="POST">
@@ -164,9 +171,15 @@
                             </div>
 
                             <div class="col-12 d-flex justify-content-end gap-2 mt-3">
-                                <a href="{{ route('catalogo') }}" class="btn btn-outline-dark">
-                                    Cancelar
-                                </a>
+                                @if(session('usuario_role') === 'admin')
+                                    <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-dark">
+                                        Cancelar
+                                    </a>
+                                @else    
+                                    <a href="{{ route('catalogo') }}" class="btn btn-outline-dark">
+                                        Cancelar
+                                    </a>
+                                @endif
 
                                 <button type="submit" class="btn btn-warning">
                                     Guardar cambios

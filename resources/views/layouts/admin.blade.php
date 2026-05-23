@@ -43,7 +43,8 @@
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{ route('admin.categorias.index') }}"
+                   class="{{ request()->routeIs('admin.categorias.*') ? 'active' : '' }}">
                     <i class="bi bi-tags"></i> Categorías
                 </a>
             </li>
@@ -59,6 +60,11 @@
                     <i class="bi bi-bag-check"></i> Pedidos
                 </a>
             </li>
+            <li>
+                <a href="{{ route('home') }}">
+                    <i class="bi bi-arrow-left-circle"></i> Ver sitio
+                </a>
+            </li>
         </ul>
 
         <div class="admin-user">
@@ -66,6 +72,10 @@
             {{ session('usuario_nombre') }}
 
             <br>
+
+            <a href="{{ route('mis-datos') }}" class="btn btn-sm btn-outline-light mt-2 w-100">
+                Mis datos
+            </a>
 
             <form action="{{ route('logout') }}" method="POST" class="mt-1">
                 @csrf
@@ -81,10 +91,6 @@
 
         <div class="admin-topbar">
             <h1>@yield('page-title', 'Panel administrador')</h1>
-
-            <a href="{{ route('home') }}" class="btn btn-outline-dark btn-sm">
-                <i class="bi bi-arrow-left"></i> Ver sitio
-            </a>
         </div>
 
         @if(session('success'))

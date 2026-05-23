@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\Admin\AdminCategoriaController;
 use App\Http\Controllers\Admin\AdminProductoController;
 use App\Http\Controllers\Admin\AdminUsuarioController;
 use App\Models\Categoria;
@@ -166,8 +167,21 @@ Route::prefix('admin')
         Route::patch('/productos/{producto}/activar', [AdminProductoController::class, 'activar'])
             ->name('productos.activar');
 
-        
-        
+        Route::get('/categorias', [AdminCategoriaController::class, 'index'])
+            ->name('categorias.index');
+
+        Route::get('/categorias/crear', [AdminCategoriaController::class, 'create'])
+            ->name('categorias.create');
+
+        Route::post('/categorias', [AdminCategoriaController::class, 'store'])
+            ->name('categorias.store');
+
+        Route::get('/categorias/{categoria}/editar', [AdminCategoriaController::class, 'edit'])
+            ->name('categorias.edit');
+
+        Route::patch('/categorias/{categoria}', [AdminCategoriaController::class, 'update'])
+            ->name('categorias.update');
+
         Route::get('/usuarios', [AdminUsuarioController::class, 'index'])
             ->name('usuarios.index');
 

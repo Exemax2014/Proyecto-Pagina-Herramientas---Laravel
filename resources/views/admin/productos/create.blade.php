@@ -91,13 +91,6 @@
                             </select>
                         </div>
 
-                        <div class="col-12 col-md-6">
-                            <label class="admin-form-label">Estado</label>
-                            <select name="activo" class="form-select">
-                                <option value="1">Activo</option>
-                                <option value="0">Inactivo</option>
-                            </select>
-                        </div>
                     </div>
                 </div>
 

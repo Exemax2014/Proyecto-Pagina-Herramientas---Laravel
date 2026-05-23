@@ -71,7 +71,7 @@
         "descripcion": "Herramienta de precisión para mediciones rápidas, confiables y de lectura simple.",
         "etiqueta": "Nuevo",
         "etiqueta_clase": "product-card-badge-soft",
-        "activo": true,
+        "activo": false,
         "imagenes": [
             {
                 "url": "/img/productos/calibrador-digital-dewalt.jpg",
@@ -284,7 +284,7 @@
         "precio_anterior": null,
         "stock": 10,
         "ventas": 2,
-        "descripcion": "Fijación segura para placas y estructuras livianas con instalación rápida y práctica.",
+        "descripcion": "Fijación segura para placas y estructuras livianas con instalación rápida y práctica. Una buena herramienta inalambrica ideal para trabajos de exigencia",
         "etiqueta": null,
         "etiqueta_clase": null,
         "activo": true,
@@ -578,7 +578,7 @@
         },
         "energia": "electrica",
         "precio": 225000,
-        "precio_anterior": null,
+        "precio_anterior": 280000,
         "stock": 17,
         "ventas": 0,
         "descripcion": "El taladro percutor Makita HP1630 de 13 mm de mandril y 16 mm (5/8″)(5/8pulgadas) de capacidad, posee un potente motor de 710 W que proporciona 0-3,200 RPM y 0-48,000 IPM para las aplicaciones más exigentes. Ofrece una operación de 2 modos para «Sólo rotación» o «Martilleo con rotación» para múltiples aplicaciones con un mango lateral giratorio 360°",
@@ -589,7 +589,7 @@
             {
                 "url": "/img/productos/taladro-maquita-13mm-220v-710w-6a0ea52588358.jpg",
                 "orden": 0,
-                "es_principal": true
+                "es_principal": false
             },
             {
                 "url": "/img/productos/taladro-maquita-13mm-220v-710w-6a0ea5258894b.jpg",
@@ -598,6 +598,43 @@
             },
             {
                 "url": "/img/productos/taladro-maquita-13mm-220v-710w-6a0ea52588d73.jpg",
+                "orden": 2,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "Medidor de distancia Dwht77100 láser de 100 pies Dewalt",
+        "categoria": {
+            "nombre": "Carpintería",
+            "slug": "carpinteria"
+        },
+        "marca": {
+            "nombre": "DeWalt",
+            "logo_url": null
+        },
+        "energia": "inalambrica",
+        "precio": 95000,
+        "precio_anterior": 105000,
+        "stock": 12,
+        "ventas": 0,
+        "descripcion": "Puede llevar consigo este medidor de distancia láser de 100 pies, delgado y compacto, a casi cualquier lugar de trabajo, ya que cabe cómodamente en su bolsillo. La operación de 2 botones de la herramienta permite realizar mediciones sin complicaciones, lo que permite al usuario cambiar rápidamente entre unidades de medida (pies, pulgadas y metros). Para facilitar la lectura en interiores y exteriores, la pantalla LCD retroiluminada permanece constantemente brillante y fue diseñada para ayudarlo a leer las mediciones bajo la luz solar directa.",
+        "etiqueta": "Nuevo",
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/medidor-de-distancia-dwht77100-laser-de-100-pies-dewalt-6a112f1677ce2.webp",
+                "orden": 0,
+                "es_principal": false
+            },
+            {
+                "url": "/img/productos/medidor-de-distancia-dwht77100-laser-de-100-pies-dewalt-6a112f16781ea.jpg",
+                "orden": 1,
+                "es_principal": true
+            },
+            {
+                "url": "/img/productos/medidor-de-distancia-dwht77100-laser-de-100-pies-dewalt-6a112f16785b9.webp",
                 "orden": 2,
                 "es_principal": false
             }
