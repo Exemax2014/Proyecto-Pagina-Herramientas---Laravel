@@ -139,6 +139,26 @@
     line-height: 1;
 }
 
+.navbar-user-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.2rem 0.35rem;
+    border: 0;
+}
+
+.navbar-user-name {
+    display: inline-block;
+    max-width: 110px;
+    overflow: hidden;
+    color: rgba(248, 245, 239, 0.92);
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 /* Botón hamburguesa oculto por defecto hasta responsive */
 .navbar-toggler {
     display: none;
@@ -293,6 +313,11 @@
 
     .navbar-actions {
         gap: 0.4rem;
+    }
+
+    .navbar-user-name {
+        max-width: 84px;
+        font-size: 0.85rem;
     }
 }
 
