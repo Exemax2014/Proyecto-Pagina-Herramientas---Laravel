@@ -713,5 +713,32 @@
                 "es_principal": false
             }
         ]
+    },
+    {
+        "nombre": "salamines Lario",
+        "categoria": {
+            "nombre": "Construcción",
+            "slug": "construccion"
+        },
+        "marca": {
+            "nombre": "Bosch",
+            "logo_url": null
+        },
+        "energia": "manual",
+        "precio": 1500,
+        "precio_anterior": null,
+        "stock": 7,
+        "ventas": 0,
+        "descripcion": "5kg",
+        "etiqueta": "Nuevo",
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/salamines-lario-6a14cc7aa8640.png",
+                "orden": 0,
+                "es_principal": true
+            }
+        ]
     }
 ]
