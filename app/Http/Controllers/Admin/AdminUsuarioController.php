@@ -173,6 +173,13 @@ class AdminUsuarioController extends Controller
 
     public function activar(Usuario $usuario)
     {
+        // Prevenir que un usuario se active/desactive a sí mismo
+        if ($usuario->id === session('usuario_id')) {
+            return redirect()
+                ->route('admin.usuarios.index')
+                ->with('error', 'No podés modificar tu propio usuario.');
+        }
+
         $usuario->update([
             'activo' => true,
         ]);
@@ -184,10 +191,18 @@ class AdminUsuarioController extends Controller
 
     public function desactivar(Usuario $usuario)
     {
+        // Prevenir que el root sea dado de baja
         if ($usuario->email === self::ROOT_EMAIL) {
             return redirect()
                 ->route('admin.usuarios.index')
                 ->with('error', 'El administrador root no puede ser dado de baja.');
+        }
+
+        // Prevenir que un usuario se desactive a sí mismo
+        if ($usuario->id === session('usuario_id')) {
+            return redirect()
+                ->route('admin.usuarios.index')
+                ->with('error', 'No podés modificar tu propio usuario.');
         }
 
         $usuario->update([

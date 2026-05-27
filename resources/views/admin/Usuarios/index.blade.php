@@ -59,6 +59,7 @@
                         @forelse($administradores as $usuario)
                             @php
                                 $esRoot = $usuario->email === 'admin@hierroforja.com';
+                                $esMismo = $usuario->id === session('usuario_id');
                                 $telefonoLimpio = preg_replace('/\D+/', '', $usuario->telefono ?? '');
                                 $whatsAppDisponible = filled($telefonoLimpio) && strlen($telefonoLimpio) >= 8;
                             @endphp
@@ -112,6 +113,10 @@
                                         @if($esRoot)
                                             <button type="button" class="btn btn-sm btn-outline-dark admin-user-action-btn" disabled>
                                                 Root
+                                            </button>
+                                        @elseif($esMismo)
+                                            <button type="button" class="btn btn-sm btn-outline-info admin-user-action-btn" disabled>
+                                                Tu cuenta
                                             </button>
                                         @elseif($usuario->activo)
                                             <form

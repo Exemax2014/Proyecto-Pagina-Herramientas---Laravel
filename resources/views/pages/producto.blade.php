@@ -126,7 +126,7 @@
                             <i class="bi bi-dash"></i>
                         </button>
 
-                        <span>1</span>
+                        <span id="productQty">1</span>
 
                         <button type="button" class="product-qty-btn" aria-label="Sumar cantidad">
                             <i class="bi bi-plus"></i>
@@ -242,6 +242,7 @@
         descripcion: @json($producto->descripcion),
         etiqueta: @json($producto->etiqueta),
         etiquetaClase: @json($producto->etiqueta_clase),
+        stock: {{ $producto->stock }},
     };
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -276,15 +277,15 @@
         prevBtn?.addEventListener('click', () => showImage(currentIndex - 1));
         nextBtn?.addEventListener('click', () => showImage(currentIndex + 1));
 
-        // Cantidad
+        // Cantidad - actualiza visualmente el contador en tiempo real
         qtyMinus?.addEventListener('click', () => {
             qty = Math.max(1, qty - 1);
-            if (qtyEl) qtyEl.textContent = qty;
+            qtyEl.textContent = qty;
         });
 
         qtyPlus?.addEventListener('click', () => {
-            qty += 1;
-            if (qtyEl) qtyEl.textContent = qty;
+            qty = Math.min(window.productoActual.stock, qty + 1);
+            qtyEl.textContent = qty;
         });
 
         // Carrito
