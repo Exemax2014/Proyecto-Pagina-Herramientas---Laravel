@@ -1,244 +1,142 @@
 # AGENTS.md - Proyecto Hierro & Forja
 
-## Contexto general
+## Resumen del proyecto
 
-Estamos trabajando sobre un e-commerce de herramientas llamado "Hierro & Forja" para Taller de Programacion Web 2026.
+Proyecto: Tienda online "Hierro & Forja".
+Stack: Laravel + PHP + MariaDB. Frontend con Blade y CSS/JS tradicional.
+Base de usuarios real: tabla `usuarios` y modelo `Usuario`. El sistema usa sesión manual (no usar `auth()->user()` ni Laravel Auth estándar).
 
-Stack confirmado en el repo:
-- Laravel
-- PHP
-- Herd
-- MariaDB
-- Blade
-- CSS/JS tradicional
-
-Notas importantes:
-- Verificar siempre la ruta actual antes de ejecutar comandos.
-- No tocar MySQL del puerto 3306.
-- La base real del proyecto usa MariaDB en puerto 3307.
-- La base de datos esperada es `baseDeDatosHerramientas`.
-- Cada alumno puede tener su propio `.env`.
-- No modificar ni commitear `.env`.
-
-## Reglas de trabajo
-
-- Revisar primero la estructura real del proyecto.
-- Usar el codigo actual del repo como fuente principal de verdad.
-- Si este archivo queda desactualizado, indicar que punto conviene corregir.
-- No asumir faltantes sin revisar archivos reales.
-- No hacer cambios masivos sin explicar antes el plan corto.
-- Resolver una tarea por vez.
-- Priorizar codigo simple y entendible para nivel universitario.
-- Mantener el estilo actual del proyecto.
-- No migrar a Laravel Auth estandar salvo pedido explicito.
-- El login real usa sesion manual con tabla `usuarios`.
-- No ejecutar `php artisan migrate:fresh --seed` sin confirmacion del usuario.
-
-## Sesion de usuario
-
-La sesion manual usa estas claves:
+Variables de sesión obligatorias:
 - `session('usuario_id')`
 - `session('usuario_nombre')`
 - `session('usuario_email')`
 - `session('usuario_role')`
 
-Roles usados:
-- `admin`
-- `comprador`
+No modificar `.env` ni ejecutar comandos de base de datos sin autorización.
 
-## Estructura real confirmada
+## Principios operativos para agentes y desarrolladores
 
-Modelos presentes:
-- `app/Models/Categoria.php`
-- `app/Models/Marca.php`
-- `app/Models/Producto.php`
-- `app/Models/ProductoImagen.php`
-- `app/Models/Usuario.php`
-- `app/Models/User.php` sigue existiendo, pero el flujo real usa `Usuario`
+- Trabajar paso a paso: siempre proponer un plan antes de editar.
+- No tocar módulos no solicitados (controladores, vistas, modelos, rutas, CSS/JS salvo que se indique explícitamente).
+- No ejecutar `php artisan migrate:fresh --seed` ni crear/ejecutar migraciones sin permiso explícito.
+- Evitar cambios masivos: mantener commits pequeños y con mensajes claros.
 
-Controladores presentes:
-- `app/Http/Controllers/AuthController.php`
-- `app/Http/Controllers/ProductoController.php`
-- `app/Http/Controllers/Admin/AdminController.php`
-- `app/Http/Controllers/Admin/AdminProductoController.php`
-- `app/Http/Controllers/Admin/AdminUsuarioController.php`
+## Funcionalidades públicas confirmadas
 
-Middleware presente:
-- `app/Http/Middleware/AdminMiddleware.php`
+- Home conectado a base de datos y renderizado con Blade.
+- Catálogo conectado al backend con filtros por categoría, marca, energía, precio y búsqueda.
+- Buscador del navbar redirige a `/catalogo?search=texto`.
+- Detalle de producto conectado a base de datos.
+- Carrito: implementación frontend usando `localStorage` (no hay checkout real aún).
+- Login / Registro / Logout: sesión manual usando la tabla `usuarios` y el modelo `Usuario`.
+- Mis datos: ver y editar perfil (sesión manual requerida).
+- Contacto: guarda consultas en base y diferencia visitante vs usuario logueado.
 
-Vistas confirmadas:
-- `resources/views/layouts/app.blade.php`
-- `resources/views/layouts/admin.blade.php`
-- `resources/views/layouts/navbar.blade.php`
-- `resources/views/layouts/footer.blade.php`
-- `resources/views/pages/index.blade.php`
-- `resources/views/pages/catalogo.blade.php`
-- `resources/views/pages/producto.blade.php`
-- `resources/views/pages/carrito.blade.php`
-- `resources/views/pages/contacto.blade.php`
-- `resources/views/pages/login.blade.php`
-- `resources/views/pages/registro.blade.php`
-- `resources/views/pages/quienes-somos.blade.php`
-- `resources/views/pages/comercializacion.blade.php`
-- `resources/views/pages/terminos.blade.php`
-- `resources/views/admin/dashboard.blade.php`
-- `resources/views/admin/productos/create.blade.php`
-- `resources/views/admin/productos/edit.blade.php`
-- `resources/views/admin/productos/index.blade.php`
-- `resources/views/admin/Usuarios/index.blade.php`
-- `resources/views/admin/Usuarios/create-admin.blade.php`
+## Panel Admin (estado actual)
 
-Detalle a tener en cuenta:
-- La ruta `/pagos-envios` existe en `routes/web.php`, pero hoy no esta la vista `resources/views/pages/pagos-envios.blade.php`.
+Dashboard:
+- Panel con métricas avanzadas y estilo visual aprobado (no cambiar estética sin coordinar).
 
-## Relaciones esperadas del dominio
+Productos:
+- Listar, buscar, crear, editar, activar/desactivar.
+- Soporta múltiples imágenes por producto y una imagen principal.
+- Productos nuevos se crean activos por defecto.
+- Marca se selecciona desde un `select`; ya no se crean marcas por texto libre (no usar `Marca::firstOrCreate`).
 
-- `Categoria` hasMany `Producto`
-- `Marca` hasMany `Producto`
-- `Producto` belongsTo `Categoria`
-- `Producto` belongsTo `Marca`
-- `Producto` hasMany `ProductoImagen`
-- `Producto` hasOne `imagenPrincipal`
-- `ProductoImagen` belongsTo `Producto`
-- `Usuario` es independiente y usa password hasheado
+Categorías (Admin):
+- Gestión de categorías: listar, crear y editar. No hay eliminación física para evitar romper productos asociados.
+- Cada categoría puede tener una imagen y un flag para mostrarse en home.
+- Orden esperado: posiciones 1 a 6 para home.
+- Una categoría sin productos no se debe mostrar en home.
 
-## Tablas principales esperadas
+Marcas (Admin):
+- Gestión de marcas desde una vista específica.
+- Soporta creación de nuevas marcas y edición inline.
+- Home muestra marcas desde BD; solo se permiten 6, 8 o 12 marcas visibles (configurable desde admin).
+- No usar logos de marcas por ahora. Las marcas se muestran como texto/nombre.
 
-`categorias`
-- `id`
-- `nombre`
-- `slug`
-- `timestamps`
+Consultas (Admin):
+- Listado de consultas con marcado como leída, botón para enviar correo y botón WhatsApp.
 
-`marcas`
-- `id`
-- `nombre`
-- `logo_url`
-- `timestamps`
+Usuarios (Admin):
+- Listado separado por rol (compradores/administradores).
+- Botones correo/WhatsApp en fichas de usuario (root: botones ocultos para `admin@hierroforja.com`).
 
-`productos`
-- `id`
-- `nombre`
-- `descripcion`
-- `precio`
-- `precio_anterior`
-- `stock`
-- `ventas`
-- `energia`
-- `etiqueta`
-- `etiqueta_clase`
-- `activo`
-- `categoria_id`
-- `marca_id`
-- `timestamps`
+Nota: No se modificó lógica funcional en controladores, modelos, vistas ni rutas al actualizar este documento.
 
-`producto_imagenes`
-- `id`
-- `producto_id`
-- `url`
-- `orden`
-- `es_principal`
-- `timestamps`
+## Sincronización y datos en el repositorio
 
-`usuarios`
-- `id`
-- `nombre`
-- `apellido`
-- `email`
-- `password`
-- `dni`
-- `telefono`
-- `direccion`
-- `ciudad`
-- `provincia`
-- `codigo_postal`
-- `role`
-- `activo`
-- `timestamps`
+- Productos: sincronizados desde `database/data/productos.json`.
+- Categorías: sincronizadas desde `database/data/categorias.json`.
+- Marcas: sincronizadas desde `database/data/marcas.json`.
+-- Seeders existentes: `CategoriaSeeder`, `MarcaSeeder`, `ProductoSeeder`.
+-- El `DatabaseSeeder` ejecuta, en este orden: `CategoriaSeeder`, `MarcaSeeder`, `ProductoSeeder`.
+-- Comando disponible: `php artisan catalogo:export-base`.
 
-## Estado funcional confirmado en el repo
+No se sincronizan en el repo: usuarios reales, consultas reales, sesiones ni pedidos.
 
-Ya esta implementado o parcialmente implementado:
-- Catalogo conectado al backend.
-- Filtros y busqueda en catalogo.
-- Vista detalle de producto conectada al backend.
-- Login y registro contra tabla `usuarios`.
-- Password hasheado con cast en `Usuario`.
-- Logout.
-- Redireccion al panel admin si el usuario tiene role `admin`.
-- Middleware `admin` registrado en `bootstrap/app.php`.
-- Dashboard admin basico.
-- Panel admin de productos con listado, alta, edicion, activacion y desactivacion.
-- Carga de multiples imagenes para productos.
-- Exportacion de `database/data/productos.json` desde el admin de productos.
-- Panel admin de usuarios con listado separado por rol, alta de administradores, activacion y desactivacion.
-- Validacion para no desactivar el admin root `admin@hierroforja.com`.
+## Diseño y assets (guía visual)
 
-Pendiente o no confirmado en el codigo actual:
-- Middleware general de autenticacion para compradores.
-- CRUD admin de categorias.
-- Consultas de contacto guardadas en base.
-- Pedidos y `pedido_items`.
-- Panel comprador.
-- Emails.
+- Admin: fondo cálido/beige, cards marfil, sidebar oscuro, bordes dorados suaves, botones redondeados, métricas con íconos.
+- Mantener esta estética en futuras secciones del admin salvo indicación contraria.
+- CSS principal admin: `public/Css/admin.css`.
+- CSS home: `public/Css/styleIndex.css`.
 
-## Datos cargados esperados
+## Reglas de mantenimiento de código (nuevas y obligatorias)
 
-Segun `database/data/productos.json`:
-- 6 categorias base:
-  `ferreteria`, `herreria`, `construccion`, `carpinteria`, `pintureria`, `durlok`
-- 9 marcas base:
-  `Bosch`, `Lusqtoff`, `DeWalt`, `Makita`, `Ingco`, `Total`, `Bremen`, `Stanley`, `Milwaukee`
-- 22 productos en el JSON actual
+- No escribir código por escribir: cada cambio debe tener una razón clara en la descripción del commit.
+- CSS:
+  - Antes de crear una clase nueva, revisar si existe una clase reutilizable.
+  - Evitar duplicar reglas; modificar el bloque existente si aplica.
+  - No agregar `!important` salvo justificación documentada en el PR.
+  - Mantener encabezados/secciones existentes en los archivos CSS.
 
-Usuario admin esperado:
-- `admin@hierroforja.com / admin1234`
+- Vistas Blade:
+  - Mantener estructura legible; evitar mezclar demasiada lógica de negocio en la vista.
+  - Comentar sólo la lógica no obvia (por ejemplo: reglas de orden para home, validaciones de stock, sincronización por seeders, sesión manual).
 
-## Rutas importantes confirmadas
+- PHP / Backend:
+  - Evitar duplicar lógica en controladores; extraer funciones pequeñas si se reutiliza en 2+ lugares.
+  - No crear helpers, services o nuevas abstracciones si la tarea es pequeña y no las requiere.
+  - No borrar código funcional sin explicación detallada en la PR.
+  - En migraciones, no modificar migraciones antiguas ya ejecutadas; crear nuevas migraciones cuando se requiera.
 
-Publicas:
-- `/`
-- `/catalogo`
-- `/catalogo/filtrar`
-- `/producto/{id}`
-- `/login`
-- `/registro`
-- `/carrito`
-- `/quienes-somos`
-- `/comercializacion`
-- `/contacto`
-- `/terminos`
-- `/pagos-envios`
+- General:
+  - Mantener cambios pequeños, claros y testeables.
+  - Si una corrección afecta varias áreas, proponer división por bloques y revisiones antes de editar.
+  - Los comandos artisan que modifiquen datos deben documentar claramente qué archivos o datos afectan.
 
-Admin protegidas por middleware `admin`:
-- `/admin/dashboard`
-- `/admin/productos`
-- `/admin/productos/crear`
-- `/admin/productos/{producto}/editar`
-- `/admin/usuarios`
-- `/admin/usuarios/crear-admin`
+Reglas sobre comentarios:
+- Comentar lógica de negocio delicada (orden de categorías, validaciones de stock, sincronización por seeders, reglas especiales de home, sesión manual).
+- No comentar lo obvio ("incrementa contador", "retorna vista", "asigna variable").
 
-## Comandos utiles
+## Pendientes principales (prioridad alta)
 
-- `php artisan migrate`
-- `php artisan db:show`
-- `php artisan tinker`
-- `php artisan make:controller Admin/NombreController`
-- `php artisan make:middleware NombreMiddleware`
+- Pedidos / Checkout real: crear tablas `pedidos` y `pedido_items`.
+- Integrar proceso de confirmación de compra desde carrito y descontar stock.
+- Asociar pedidos a usuarios y registrar historial de compras.
+- Panel admin para pedidos y métricas reales en dashboard.
+- Limpieza técnica: revisar `exportarProductosJson`, `app/Models/User.php`, mayúsculas/minúsculas en `Css/css` y `JS/js`, compatibilidad con hosting Linux.
 
-Usar con confirmacion previa:
-- `php artisan migrate:fresh --seed`
+## Reglas de trabajo (operativas)
 
-## Forma esperada de trabajar
+- Primero: plan detallado y acotado.
+- Segundo: editar solo los archivos necesarios.
+- Informar siempre al cerrar la tarea: archivos modificados, qué cambió, cómo probar, y qué no se tocó.
+- No modificar `.env` ni usar Laravel Auth estándar; mantener la sesión manual existente.
 
-Cuando se pida una tarea:
+## Comandos útiles (referencia)
 
-1. Revisar archivos relacionados.
-2. Explicar brevemente que se encontro.
-3. Proponer un plan corto.
-4. Modificar solo los archivos necesarios.
-5. Al final informar:
-   - archivos modificados
-   - que se agrego o cambio
-   - como probarlo
-   - comandos necesarios
+- `php artisan catalogo:export-base` — exporta categorías y marcas actuales a:
+  - `database/data/categorias.json`
+  - `database/data/marcas.json`
+- `php artisan migrate` — ejecutar migraciones (usar con precaución en entornos locales controlados).
+
+## ¿Qué cambió en este archivo?
+
+- Se actualizó la descripción del estado actual del proyecto y del admin.
+- Se añadieron reglas de mantenimiento de código detalladas.
+- Se consolidó la guía de diseño y los assets principales.
+- Se enumeraron pendientes y reglas de trabajo operativas.
+
+Mantener este documento actualizado es prioritario: si detectas información desactualizada, proponer un cambio en PR con referencias.
