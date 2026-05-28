@@ -74,6 +74,7 @@ Nota: No se modificó lógica funcional en controladores, modelos, vistas ni rut
 -- Comando disponible: `php artisan catalogo:export-base`.
 
 No se sincronizan en el repo: usuarios reales, consultas reales, sesiones ni pedidos.
+Las consultas pueden generarse localmente desde `/contacto` y verse desde `/admin/consultas`.
 
 ## Diseño y assets (guía visual)
 
