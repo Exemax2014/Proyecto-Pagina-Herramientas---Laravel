@@ -663,7 +663,7 @@
             {
                 "url": "/img/productos/multimetro-digital-baw-rm113d-trms-autorrango-600v-10a-6a1202aace93b.webp",
                 "orden": 0,
-                "es_principal": true
+                "es_principal": false
             },
             {
                 "url": "/img/productos/multimetro-digital-baw-rm113d-trms-autorrango-600v-10a-6a1202aacee4d.webp",
@@ -673,7 +673,7 @@
             {
                 "url": "/img/productos/multimetro-digital-baw-rm113d-trms-autorrango-600v-10a-6a1202aacf23a.webp",
                 "orden": 2,
-                "es_principal": false
+                "es_principal": true
             }
         ]
     },
@@ -700,7 +700,7 @@
             {
                 "url": "/img/productos/multimetro-digital-automatico-6000-cuentas-recargable-6a12034f2c91a.webp",
                 "orden": 0,
-                "es_principal": true
+                "es_principal": false
             },
             {
                 "url": "/img/productos/multimetro-digital-automatico-6000-cuentas-recargable-6a12034f2cea3.webp",
@@ -710,7 +710,7 @@
             {
                 "url": "/img/productos/multimetro-digital-automatico-6000-cuentas-recargable-6a12034f2d2bd.webp",
                 "orden": 2,
-                "es_principal": false
+                "es_principal": true
             }
         ]
     },
