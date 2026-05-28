@@ -51,6 +51,8 @@
             endpoints: {
                 obtener: @json(route('carrito.obtener')),
                 agregar: @json(route('carrito.agregar')),
+                actualizar: @json(route('carrito.actualizar', ['item' => '__ITEM__'])),
+                migrar: @json(route('carrito.migrar')),
                 confirmar: @json(route('carrito.confirmar')),
                 itemBase: @json(url('/carrito/item')),
             }

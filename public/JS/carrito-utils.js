@@ -1,5 +1,8 @@
 (function () {
     const CART_STORAGE_KEY = 'hf_cart';
+    const CART_MIGRATED_FLAG = 'hf_cart_migrated';
+    const BACKEND_CART_COUNT_KEY = 'hf_backend_cart_count';
+    let migrationPromise = null;
 
     function getCsrfToken() {
         return document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
@@ -76,8 +79,33 @@
     }
 
     function clearCart() {
-        saveCart([]);
+        localStorage.removeItem(CART_STORAGE_KEY);
         updateCartCount();
+    }
+
+    function getMigrationFlag() {
+        return sessionStorage.getItem(CART_MIGRATED_FLAG) === '1';
+    }
+
+    function setMigrationFlag(value) {
+        if (value) {
+            sessionStorage.setItem(CART_MIGRATED_FLAG, '1');
+            return;
+        }
+
+        sessionStorage.removeItem(CART_MIGRATED_FLAG);
+    }
+
+    function getBackendCartCountCache() {
+        return Number(sessionStorage.getItem(BACKEND_CART_COUNT_KEY) || 0);
+    }
+
+    function setBackendCartCountCache(count) {
+        sessionStorage.setItem(BACKEND_CART_COUNT_KEY, String(Number(count) || 0));
+    }
+
+    function clearBackendCartCountCache() {
+        sessionStorage.removeItem(BACKEND_CART_COUNT_KEY);
     }
 
     function getCartCount() {
@@ -121,17 +149,13 @@
         return {
             ok: true,
             local: true,
-            message: 'Producto agregado al carrito',
+            message: null,
+            suppressToast: true,
             carrito: {
                 items: cart,
                 cantidad_total: getCartCount(),
             },
         };
-    }
-
-    function syncLegacyCartFromBackend(carrito) {
-        const items = normalizeLegacyCart(carrito?.items || []);
-        saveCart(items);
     }
 
     function getBackendCartCount(carrito) {
@@ -149,10 +173,19 @@
     }
 
     function updateCartCountFromCarrito(carrito) {
-        syncLegacyCartFromBackend(carrito);
         const count = getBackendCartCount(carrito);
+        setBackendCartCountCache(count);
         renderCartCount(count);
         return count;
+    }
+
+    function getLocalCartItemsForMigration() {
+        return normalizeLegacyCart(getCart())
+            .map(item => ({
+                producto_id: item.producto_id,
+                cantidad: item.cantidad,
+            }))
+            .filter(item => item.producto_id > 0 && item.cantidad > 0);
     }
 
     async function requestJson(url, options = {}) {
@@ -203,20 +236,44 @@
         window.location.href = getCartConfig().loginUrl;
     }
 
+    function redirectToLoginWithRedirect(redirectPath = '/carrito') {
+        const loginUrl = new URL(getCartConfig().loginUrl, window.location.origin);
+        loginUrl.searchParams.set('redirect', redirectPath);
+        window.location.href = loginUrl.toString();
+    }
+
     async function fetchBackendCart() {
         if (!isLoggedIn()) {
             throw Object.assign(new Error('Primero tenes que iniciar sesion.'), { status: 401 });
         }
 
         const data = await requestJson(getCartConfig().endpoints.obtener);
-        syncLegacyCartFromBackend(data.carrito);
+        updateCartCountFromCarrito(data.carrito);
         return data.carrito;
     }
 
     async function updateCartCount() {
+        if (isLoggedIn()) {
+            const count = getBackendCartCountCache();
+            renderCartCount(count);
+            return count;
+        }
+
+        clearBackendCartCountCache();
         const count = getCartCount();
         renderCartCount(count);
         return count;
+    }
+
+    async function syncBackendCartCount() {
+        if (!isLoggedIn()) {
+            clearBackendCartCountCache();
+            renderCartCount(0);
+            return 0;
+        }
+
+        const carrito = await fetchBackendCart();
+        return getBackendCartCount(carrito);
     }
 
     async function addToCart(productOrId, quantity = 1) {
@@ -252,14 +309,108 @@
         return data;
     }
 
+    async function updateBackendCartItem(itemId, quantity) {
+        const updateUrlTemplate = getCartConfig().endpoints.actualizar || '';
+        const updateUrl = updateUrlTemplate.replace('__ITEM__', itemId);
+
+        const data = await requestJson(updateUrl, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                cantidad: Number(quantity) || 1,
+            }),
+        });
+
+        updateCartCountFromCarrito(data.carrito);
+        return data;
+    }
+
     async function confirmCart() {
         const data = await requestJson(getCartConfig().endpoints.confirmar, {
             method: 'POST',
         });
 
         clearCart();
+        clearBackendCartCountCache();
         renderCartCount(0);
         return data;
+    }
+
+    async function migrateLocalCartIfNeeded() {
+        if (migrationPromise) {
+            return migrationPromise;
+        }
+
+        if (!isLoggedIn()) {
+            setMigrationFlag(false);
+            return null;
+        }
+
+        if (getMigrationFlag()) {
+            return null;
+        }
+
+        const items = getLocalCartItemsForMigration();
+
+        if (items.length === 0) {
+            setMigrationFlag(true);
+            return null;
+        }
+
+        migrationPromise = requestJson(getCartConfig().endpoints.migrar, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ items }),
+        }).then(data => {
+            const remainingItems = Array.isArray(data.remaining_items) ? data.remaining_items : [];
+
+            if (remainingItems.length > 0) {
+                const currentCart = normalizeLegacyCart(getCart());
+                const currentByProductId = new Map(currentCart.map(item => [Number(item.producto_id), item]));
+
+                const leftovers = remainingItems
+                    .map(item => {
+                        const productId = Number(item.producto_id);
+                        const current = currentByProductId.get(productId);
+
+                        if (!current) {
+                            return null;
+                        }
+
+                        return {
+                            ...current,
+                            producto_id: productId,
+                            cantidad: Number(item.cantidad) || current.cantidad,
+                            subtotal: current.precio_unitario * (Number(item.cantidad) || current.cantidad),
+                        };
+                    })
+                    .filter(Boolean);
+
+                if (leftovers.length > 0) {
+                    saveCart(leftovers);
+                } else {
+                    clearCart();
+                }
+            } else {
+                clearCart();
+            }
+
+            setMigrationFlag(true);
+
+            if (data.carrito) {
+                updateCartCountFromCarrito(data.carrito);
+            }
+
+            return data;
+        }).finally(() => {
+            migrationPromise = null;
+        });
+
+        return migrationPromise;
     }
 
     window.CartUtils = {
@@ -274,11 +425,37 @@
         updateCartCount,
         fetchBackendCart,
         removeCartItem,
+        updateBackendCartItem,
         confirmCart,
+        migrateLocalCartIfNeeded,
+        redirectToLoginWithRedirect,
         updateCartCountFromCarrito,
+        syncBackendCartCount,
     };
 
-    document.addEventListener('DOMContentLoaded', function () {
-        updateCartCount();
+    document.addEventListener('DOMContentLoaded', async function () {
+        await updateCartCount();
+
+        let migration = null;
+
+        try {
+            migration = await migrateLocalCartIfNeeded();
+
+            if (migration?.warnings?.length && window.showToast) {
+                window.showToast(migration.warnings[0], 'top');
+            } else if (migration?.migrados > 0 && window.showToast) {
+                window.showToast(migration.message || 'El carrito temporal se migro correctamente.', 'top');
+            }
+        } catch (error) {
+            console.error('No se pudo migrar el carrito temporal:', error);
+        }
+
+        if (isLoggedIn() && !migration?.carrito) {
+            try {
+                await syncBackendCartCount();
+            } catch (error) {
+                console.error('No se pudo sincronizar el contador del carrito:', error);
+            }
+        }
     });
 })();

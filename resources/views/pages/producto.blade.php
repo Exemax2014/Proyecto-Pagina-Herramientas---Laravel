@@ -296,7 +296,9 @@
             try {
                 const response = await window.CartUtils.addToCart(window.productoActual, qty);
 
-                window.showToast(response.message || 'Producto agregado al carrito');
+                if (!response?.suppressToast && response?.message) {
+                    window.showToast(response.message);
+                }
             } catch (error) {
                 window.showToast(error.message || 'No se pudo agregar el producto');
             } finally {

@@ -22,6 +22,7 @@
 
                     <form action="{{ route('login.procesar') }}" method="POST" class="login-form">
                         @csrf
+                        <input type="hidden" name="redirect" value="{{ old('redirect', $redirect ?? null) }}">
 
                         <!-- EMAIL -->
                         <div class="login-field">

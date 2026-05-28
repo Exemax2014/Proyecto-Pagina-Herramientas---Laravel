@@ -66,34 +66,18 @@ class CarritoController extends Controller
             ->where('producto_id', $producto->id)
             ->first();
 
-        $cantidadTotal = ($item?->cantidad ?? 0) + $datos['cantidad'];
+        $resultado = $this->guardarItemDeCarrito(
+            pedido: $pedido,
+            producto: $producto,
+            item: $item,
+            cantidadObjetivo: ($item?->cantidad ?? 0) + $datos['cantidad']
+        );
 
-        if ($producto->stock < $cantidadTotal) {
+        if (! $resultado['ok']) {
             return response()->json([
-                'message' => 'No hay stock suficiente para la cantidad solicitada.',
+                'message' => $resultado['message'],
                 'stock_disponible' => $producto->stock,
             ], 422);
-        }
-
-        if ($item) {
-            $item->cantidad = $cantidadTotal;
-            $item->precio_unitario = $producto->precio;
-            $item->subtotal = $item->cantidad * $item->precio_unitario;
-            $item->producto_nombre = $producto->nombre;
-            $item->producto_marca = $producto->marca?->nombre;
-            $item->producto_categoria = $producto->categoria?->nombre;
-            $item->save();
-        } else {
-            PedidoItem::create([
-                'pedido_id' => $pedido->id,
-                'producto_id' => $producto->id,
-                'producto_nombre' => $producto->nombre,
-                'producto_marca' => $producto->marca?->nombre,
-                'producto_categoria' => $producto->categoria?->nombre,
-                'cantidad' => $datos['cantidad'],
-                'precio_unitario' => $producto->precio,
-                'subtotal' => $datos['cantidad'] * $producto->precio,
-            ]);
         }
 
         $pedido->refresh();
@@ -101,7 +85,8 @@ class CarritoController extends Controller
         $pedido->load(['items.producto.categoria', 'items.producto.marca', 'items.producto.imagenPrincipal']);
 
         return response()->json([
-            'message' => 'Producto agregado al carrito correctamente.',
+            'message' => $resultado['message'] ?: 'Producto agregado al carrito correctamente.',
+            'warnings' => $resultado['warning'] ? [$resultado['warning']] : [],
             'carrito' => $this->serializarCarrito($pedido),
         ]);
     }
@@ -154,6 +139,173 @@ class CarritoController extends Controller
         return response()->json([
             'message' => 'Item eliminado del carrito correctamente.',
             'carrito' => $this->serializarCarrito($pedido),
+        ]);
+    }
+
+    public function actualizarCantidad(Request $request, $itemId)
+    {
+        $usuarioId = session('usuario_id');
+
+        if (! $usuarioId) {
+            return response()->json([
+                'message' => 'Debes iniciar sesion para modificar el carrito.',
+            ], 401);
+        }
+
+        $datos = $request->validate([
+            'cantidad' => ['required', 'integer', 'min:1'],
+        ]);
+
+        $pedido = $this->obtenerCarritoActivo($usuarioId);
+
+        if (! $pedido) {
+            return response()->json([
+                'message' => 'No se encontro un carrito activo para modificar.',
+                'carrito' => $this->serializarCarritoVacio($usuarioId),
+            ], 404);
+        }
+
+        $item = $pedido->items()
+            ->where('id', $itemId)
+            ->first();
+
+        if (! $item) {
+            return response()->json([
+                'message' => 'El item no pertenece a tu carrito activo.',
+            ], 404);
+        }
+
+        $producto = Producto::with(['categoria', 'marca'])
+            ->where('activo', true)
+            ->find($item->producto_id);
+
+        if (! $producto) {
+            return response()->json([
+                'message' => 'El producto seleccionado no esta disponible.',
+            ], 422);
+        }
+
+        $resultado = $this->guardarItemDeCarrito(
+            pedido: $pedido,
+            producto: $producto,
+            item: $item,
+            cantidadObjetivo: $datos['cantidad']
+        );
+
+        if (! $resultado['ok']) {
+            return response()->json([
+                'message' => $resultado['message'],
+                'stock_disponible' => $producto->stock,
+            ], 422);
+        }
+
+        $pedido->refresh();
+        $this->recalcularTotal($pedido);
+        $pedido->load(['items.producto.categoria', 'items.producto.marca', 'items.producto.imagenPrincipal']);
+
+        return response()->json([
+            'message' => $resultado['message'] ?: 'Cantidad actualizada correctamente.',
+            'warnings' => $resultado['warning'] ? [$resultado['warning']] : [],
+            'carrito' => $this->serializarCarrito($pedido),
+        ]);
+    }
+
+    public function migrar(Request $request)
+    {
+        $usuarioId = session('usuario_id');
+
+        if (! $usuarioId) {
+            return response()->json([
+                'message' => 'Debes iniciar sesion para migrar el carrito.',
+            ], 401);
+        }
+
+        $datos = $request->validate([
+            'items' => ['required', 'array'],
+            'items.*.producto_id' => ['required', 'integer', 'exists:productos,id'],
+            'items.*.cantidad' => ['required', 'integer', 'min:1'],
+        ]);
+
+        $pedido = $this->obtenerOCrearCarrito($usuarioId);
+        $warnings = [];
+        $migrados = 0;
+        $remainingItems = [];
+
+        foreach ($datos['items'] as $itemData) {
+            $producto = Producto::with(['categoria', 'marca'])
+                ->find($itemData['producto_id']);
+
+            if (! $producto || ! $producto->activo) {
+                $warnings[] = 'Un producto no pudo migrarse porque ya no esta disponible.';
+                $remainingItems[] = [
+                    'producto_id' => $itemData['producto_id'],
+                    'cantidad' => $itemData['cantidad'],
+                ];
+                continue;
+            }
+
+            if ($producto->stock < 1) {
+                $warnings[] = "El producto {$producto->nombre} no pudo migrarse porque no tiene stock.";
+                $remainingItems[] = [
+                    'producto_id' => $itemData['producto_id'],
+                    'cantidad' => $itemData['cantidad'],
+                ];
+                continue;
+            }
+
+            $itemExistente = $pedido->items()
+                ->where('producto_id', $producto->id)
+                ->first();
+
+            $resultado = $this->guardarItemDeCarrito(
+                pedido: $pedido,
+                producto: $producto,
+                item: $itemExistente,
+                cantidadObjetivo: ($itemExistente?->cantidad ?? 0) + $itemData['cantidad']
+            );
+
+            if ($resultado['ok']) {
+                $migrados++;
+            }
+
+            if ($resultado['warning']) {
+                $warnings[] = $resultado['warning'];
+            }
+
+            if (! $resultado['ok'] && $resultado['message']) {
+                $warnings[] = $resultado['message'];
+                $remainingItems[] = [
+                    'producto_id' => $itemData['producto_id'],
+                    'cantidad' => $itemData['cantidad'],
+                ];
+            }
+        }
+
+        $pedido->refresh();
+
+        if (! $pedido->items()->exists()) {
+            $pedido->delete();
+
+            return response()->json([
+                'message' => 'No se pudieron migrar productos al carrito persistido.',
+                'warnings' => $warnings,
+                'carrito' => $this->serializarCarritoVacio($usuarioId),
+                'migrados' => $migrados,
+                'remaining_items' => $remainingItems,
+            ]);
+        }
+
+        $this->recalcularTotal($pedido);
+        $pedido->load(['items.producto.categoria', 'items.producto.marca', 'items.producto.imagenPrincipal']);
+
+        return response()->json([
+            'message' => $migrados > 0
+                ? 'El carrito temporal se migro correctamente.'
+                : 'No se pudieron migrar productos al carrito persistido.',
+            'warnings' => $warnings,
+            'carrito' => $this->serializarCarrito($pedido),
+            'migrados' => $migrados,
+            'remaining_items' => $remainingItems,
         ]);
     }
 
@@ -349,6 +501,56 @@ class CarritoController extends Controller
             'cantidad_total' => $items->sum('cantidad'),
             'fecha_confirmacion' => optional($pedido->fecha_confirmacion)->toDateTimeString(),
             'items' => $items,
+        ];
+    }
+
+    protected function guardarItemDeCarrito(Pedido $pedido, Producto $producto, ?PedidoItem $item, int $cantidadObjetivo): array
+    {
+        if ($producto->stock < 1) {
+            return [
+                'ok' => false,
+                'message' => "El producto {$producto->nombre} no tiene stock disponible.",
+                'warning' => null,
+            ];
+        }
+
+        $cantidadFinal = min($cantidadObjetivo, $producto->stock);
+
+        if ($cantidadFinal < 1) {
+            return [
+                'ok' => false,
+                'message' => "El producto {$producto->nombre} no tiene stock disponible.",
+                'warning' => null,
+            ];
+        }
+
+        $warning = null;
+        $message = null;
+
+        if ($cantidadFinal < $cantidadObjetivo) {
+            $warning = "El producto {$producto->nombre} fue ajustado al stock disponible.";
+            $message = 'No se puede agregar mas unidades porque supera el stock disponible.';
+        }
+
+        $item ??= new PedidoItem([
+            'pedido_id' => $pedido->id,
+            'producto_id' => $producto->id,
+        ]);
+
+        $item->pedido_id = $pedido->id;
+        $item->producto_id = $producto->id;
+        $item->cantidad = $cantidadFinal;
+        $item->precio_unitario = $producto->precio;
+        $item->subtotal = $item->cantidad * $item->precio_unitario;
+        $item->producto_nombre = $producto->nombre;
+        $item->producto_marca = $producto->marca?->nombre;
+        $item->producto_categoria = $producto->categoria?->nombre;
+        $item->save();
+
+        return [
+            'ok' => true,
+            'message' => $message,
+            'warning' => $warning,
         ];
     }
 }

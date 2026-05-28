@@ -18,6 +18,10 @@ document.addEventListener('DOMContentLoaded', function () {
         return Array.isArray(carrito?.items) ? carrito.items : [];
     }
 
+    function isLoggedIn() {
+        return Boolean(window.usuarioLogueado || window.hfCartConfig?.loggedIn);
+    }
+
     function setFeedback(message, type = 'danger') {
         if (!feedbackEl) return;
 
@@ -60,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const nombre = item.nombre || 'Producto sin nombre';
             const imagen = item.imagen || '/img/producto-sin-imagen.png';
             const marca = item.marca || 'Sin marca';
-            const categoria = item.categoria || 'Sin categoría';
+            const categoria = item.categoria || 'Sin categoria';
             const cantidad = Number(item.cantidad) || 0;
             const subtotal = Number(item.subtotal) || 0;
             const precioUnitario = Number(item.precio_unitario) || 0;
@@ -74,11 +78,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="cart-item-body">
                         <span class="cart-item-brand">${marca}</span>
                         <h3>${nombre}</h3>
-                        <p class="cart-item-meta">Categoría: ${categoria}</p>
+                        <p class="cart-item-meta">Categoria: ${categoria}</p>
 
                         <div class="cart-item-controls">
                             <div class="cart-qty-box">
-                                <span>Cantidad: ${cantidad}</span>
+                                <button type="button" class="cart-qty-btn cart-qty-minus" data-item-id="${item.id}" data-cantidad-actual="${cantidad}" aria-label="Restar cantidad">
+                                    <i class="bi bi-dash"></i>
+                                </button>
+
+                                <span>${cantidad}</span>
+
+                                <button type="button" class="cart-qty-btn cart-qty-plus" data-item-id="${item.id}" data-cantidad-actual="${cantidad}" aria-label="Sumar cantidad">
+                                    <i class="bi bi-plus"></i>
+                                </button>
                             </div>
 
                             <button type="button" class="cart-remove-btn" data-item-id="${item.id}">
@@ -102,7 +114,21 @@ document.addEventListener('DOMContentLoaded', function () {
     async function loadCart() {
         setFeedback('');
 
+        if (!isLoggedIn()) {
+            carrito = getLocalCartView();
+            renderItems();
+            return;
+        }
+
         try {
+            if (window.CartUtils?.migrateLocalCartIfNeeded) {
+                const migration = await window.CartUtils.migrateLocalCartIfNeeded();
+
+                if (migration?.warnings?.length) {
+                    setFeedback(migration.warnings[0], 'warning');
+                }
+            }
+
             carrito = await window.CartUtils.fetchBackendCart();
             renderItems();
             window.CartUtils.updateCartCountFromCarrito(carrito);
@@ -120,7 +146,62 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function getLocalCartView() {
+        const items = (window.CartUtils?.getCart?.() || []).map(item => {
+            const cantidad = Number(item.cantidad) || 0;
+            const precioUnitario = Number(item.precio_unitario ?? item.precio) || 0;
+
+            return {
+                id: Number(item.producto_id ?? item.id) || 0,
+                producto_id: Number(item.producto_id ?? item.id) || 0,
+                nombre: item.nombre || 'Producto sin nombre',
+                marca: item.marca || 'Sin marca',
+                categoria: item.categoria || 'Sin categoria',
+                precio_unitario: precioUnitario,
+                cantidad,
+                subtotal: precioUnitario * cantidad,
+                imagen: item.imagen || '/img/producto-sin-imagen.png',
+            };
+        });
+
+        const subtotal = items.reduce((acc, item) => acc + (Number(item.subtotal) || 0), 0);
+
+        return {
+            items,
+            subtotal,
+            envio: 0,
+            descuento: 0,
+            total: subtotal,
+            cantidad_total: items.reduce((acc, item) => acc + (Number(item.cantidad) || 0), 0),
+        };
+    }
+
     function bindItemEvents() {
+        itemsWrap.querySelectorAll('.cart-qty-minus').forEach(button => {
+            button.addEventListener('click', async function () {
+                const itemId = Number(this.dataset.itemId);
+                const currentQty = Number(this.dataset.cantidadActual) || 1;
+                const nextQty = currentQty - 1;
+
+                if (nextQty < 1) {
+                    setFeedback('La cantidad minima es 1. Usa Eliminar para quitar el item.');
+                    return;
+                }
+
+                await updateItemQuantity(itemId, nextQty, this, currentQty);
+            });
+        });
+
+        itemsWrap.querySelectorAll('.cart-qty-plus').forEach(button => {
+            button.addEventListener('click', async function () {
+                const itemId = Number(this.dataset.itemId);
+                const currentQty = Number(this.dataset.cantidadActual) || 1;
+                const nextQty = currentQty + 1;
+
+                await updateItemQuantity(itemId, nextQty, this, currentQty);
+            });
+        });
+
         itemsWrap.querySelectorAll('.cart-remove-btn').forEach(button => {
             button.addEventListener('click', async function () {
                 const itemId = Number(this.dataset.itemId);
@@ -129,10 +210,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 setFeedback('');
 
                 try {
-                    const response = await window.CartUtils.removeCartItem(itemId);
-                    carrito = response.carrito;
+                    if (isLoggedIn()) {
+                        const response = await window.CartUtils.removeCartItem(itemId);
+                        carrito = response.carrito;
+                        window.showToast(response.message || 'Item eliminado del carrito');
+                    } else {
+                        window.CartUtils.removeFromCart(itemId);
+                        carrito = getLocalCartView();
+                        window.showToast('Item eliminado del carrito');
+                    }
+
                     renderItems();
-                    window.showToast(response.message || 'Item eliminado del carrito');
                 } catch (error) {
                     setFeedback(error.message || 'No se pudo eliminar el item.');
                     this.disabled = false;
@@ -141,9 +229,50 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    async function updateItemQuantity(itemId, quantity, triggerButton, currentQty) {
+        if (triggerButton) {
+            triggerButton.disabled = true;
+        }
+
+        setFeedback('');
+
+        try {
+            if (isLoggedIn()) {
+                const response = await window.CartUtils.updateBackendCartItem(itemId, quantity);
+                carrito = response.carrito;
+
+                if (response?.warnings?.length) {
+                    setFeedback(response.warnings[0], 'warning');
+                }
+            } else {
+                window.CartUtils.updateCartQty(itemId, quantity);
+                carrito = getLocalCartView();
+            }
+
+            renderItems();
+        } catch (error) {
+            setFeedback(error.message || 'No se pudo actualizar la cantidad.');
+
+            if (!isLoggedIn() && typeof currentQty === 'number') {
+                window.CartUtils.updateCartQty(itemId, currentQty);
+                carrito = getLocalCartView();
+                renderItems();
+            }
+        } finally {
+            if (triggerButton && document.body.contains(triggerButton)) {
+                triggerButton.disabled = false;
+            }
+        }
+    }
+
     confirmBtn?.addEventListener('click', async function () {
         if (getItems().length === 0) {
-            setFeedback('Tu carrito está vacío.');
+            setFeedback('Tu carrito esta vacio.');
+            return;
+        }
+
+        if (!isLoggedIn()) {
+            window.CartUtils.redirectToLoginWithRedirect('/carrito');
             return;
         }
 
