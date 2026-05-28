@@ -64,7 +64,8 @@
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{ route('admin.pedidos.index') }}"
+                   class="{{ request()->routeIs('admin.pedidos.*') ? 'active' : '' }}">
                     <i class="bi bi-bag-check"></i> Pedidos
                 </a>
             </li>

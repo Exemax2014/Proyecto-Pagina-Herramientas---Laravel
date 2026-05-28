@@ -9,6 +9,7 @@ use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\Admin\AdminCategoriaController;
 use App\Http\Controllers\Admin\AdminConsultaController;
 use App\Http\Controllers\Admin\AdminMarcaController;
+use App\Http\Controllers\Admin\AdminPedidoController;
 use App\Http\Controllers\Admin\AdminProductoController;
 use App\Http\Controllers\Admin\AdminUsuarioController;
 use App\Models\Categoria;
@@ -199,6 +200,15 @@ Route::prefix('admin')
 
         Route::patch('/consultas/{consulta}/leida', [AdminConsultaController::class, 'marcarLeida'])
             ->name('consultas.leida');
+
+        Route::get('/pedidos', [AdminPedidoController::class, 'index'])
+            ->name('pedidos.index');
+
+        Route::get('/pedidos/{pedido}', [AdminPedidoController::class, 'show'])
+            ->name('pedidos.show');
+
+        Route::patch('/pedidos/{pedido}/estado', [AdminPedidoController::class, 'updateEstado'])
+            ->name('pedidos.estado');
 
         Route::get('/usuarios', [AdminUsuarioController::class, 'index'])
             ->name('usuarios.index');
