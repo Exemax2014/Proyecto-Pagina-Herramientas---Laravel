@@ -185,13 +185,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Click en carrito
         grid.querySelectorAll('.catalog-cart-btn').forEach(button => {
-            button.addEventListener('click', function (event) {
+            button.addEventListener('click', async function (event) {
                 event.stopPropagation();
                 const productId = Number(this.dataset.productId);
                 const product = productos.find(item => Number(item.id) === productId);
+
                 if (!product) return;
-                window.CartUtils.addToCart(product, 1);
-                window.showToast('Producto agregado al carrito');
+
+                this.disabled = true;
+
+                try {
+                    const response = await window.CartUtils.addToCart(product, 1);
+
+                    window.showToast(response.message || 'Producto agregado al carrito');
+                } catch (error) {
+                    window.showToast(error.message || 'No se pudo agregar el producto');
+                } finally {
+                    this.disabled = false;
+                }
             });
         });
     }

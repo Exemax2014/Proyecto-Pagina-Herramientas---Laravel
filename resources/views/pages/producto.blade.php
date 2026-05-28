@@ -126,7 +126,7 @@
                             <i class="bi bi-dash"></i>
                         </button>
 
-                        <span>1</span>
+                        <span id="productQty">1</span>
 
                         <button type="button" class="product-qty-btn" aria-label="Sumar cantidad">
                             <i class="bi bi-plus"></i>
@@ -288,10 +288,20 @@
         });
 
         // Carrito
-        addToCartBtn?.addEventListener('click', () => {
+        addToCartBtn?.addEventListener('click', async () => {
             if (!window.CartUtils) return;
-            window.CartUtils.addToCart(window.productoActual, qty);
-            window.showToast('Producto agregado al carrito');
+
+            addToCartBtn.disabled = true;
+
+            try {
+                const response = await window.CartUtils.addToCart(window.productoActual, qty);
+
+                window.showToast(response.message || 'Producto agregado al carrito');
+            } catch (error) {
+                window.showToast(error.message || 'No se pudo agregar el producto');
+            } finally {
+                addToCartBtn.disabled = false;
+            }
         });
     });
 </script>

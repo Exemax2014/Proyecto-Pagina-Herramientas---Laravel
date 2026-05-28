@@ -26,10 +26,12 @@ class CarritoController extends Controller
             ], 401);
         }
 
-        $pedido = $this->obtenerOCrearCarrito($usuarioId);
+        $pedido = $this->obtenerCarritoActivo($usuarioId);
 
         return response()->json([
-            'carrito' => $this->serializarCarrito($pedido),
+            'carrito' => $pedido
+                ? $this->serializarCarrito($pedido)
+                : $this->serializarCarritoVacio($usuarioId),
         ]);
     }
 
@@ -96,7 +98,7 @@ class CarritoController extends Controller
 
         $pedido->refresh();
         $this->recalcularTotal($pedido);
-        $pedido->load(['items.producto.categoria', 'items.producto.marca']);
+        $pedido->load(['items.producto.categoria', 'items.producto.marca', 'items.producto.imagenPrincipal']);
 
         return response()->json([
             'message' => 'Producto agregado al carrito correctamente.',
@@ -114,7 +116,14 @@ class CarritoController extends Controller
             ], 401);
         }
 
-        $pedido = $this->obtenerOCrearCarrito($usuarioId);
+        $pedido = $this->obtenerCarritoActivo($usuarioId);
+
+        if (! $pedido) {
+            return response()->json([
+                'message' => 'No se encontro un carrito activo para modificar.',
+                'carrito' => $this->serializarCarritoVacio($usuarioId),
+            ], 404);
+        }
 
         $item = $pedido->items()
             ->where('id', $itemId)
@@ -129,8 +138,18 @@ class CarritoController extends Controller
         $item->delete();
 
         $pedido->refresh();
+
+        if (! $pedido->items()->exists()) {
+            $pedido->delete();
+
+            return response()->json([
+                'message' => 'Item eliminado del carrito correctamente.',
+                'carrito' => $this->serializarCarritoVacio($usuarioId),
+            ]);
+        }
+
         $this->recalcularTotal($pedido);
-        $pedido->load(['items.producto.categoria', 'items.producto.marca']);
+        $pedido->load(['items.producto.categoria', 'items.producto.marca', 'items.producto.imagenPrincipal']);
 
         return response()->json([
             'message' => 'Item eliminado del carrito correctamente.',
@@ -158,13 +177,15 @@ class CarritoController extends Controller
 
             if (! $pedido) {
                 return response()->json([
-                    'message' => 'No se encontro un carrito activo para confirmar.',
-                ], 404);
+                    'message' => 'No hay un carrito con productos para confirmar.',
+                ], 422);
             }
 
             $pedido->load('items');
 
             if ($pedido->items->isEmpty()) {
+                $pedido->delete();
+
                 return response()->json([
                     'message' => 'No puedes confirmar un carrito vacio.',
                 ], 422);
@@ -214,7 +235,7 @@ class CarritoController extends Controller
             $pedido->fecha_confirmacion = now();
             $pedido->save();
 
-            $pedido->load(['items.producto.categoria', 'items.producto.marca']);
+            $pedido->load(['items.producto.categoria', 'items.producto.marca', 'items.producto.imagenPrincipal']);
 
             return $pedido;
         });
@@ -246,16 +267,21 @@ class CarritoController extends Controller
         $pedido->total = $total;
         $pedido->save();
 
-        return $pedido->fresh(['items.producto.categoria', 'items.producto.marca']);
+        return $pedido->fresh(['items.producto.categoria', 'items.producto.marca', 'items.producto.imagenPrincipal']);
     }
 
-    protected function obtenerOCrearCarrito(int $usuarioId): Pedido
+    protected function obtenerCarritoActivo(int $usuarioId): ?Pedido
     {
-        $pedido = Pedido::with(['items.producto.categoria', 'items.producto.marca'])
+        return Pedido::with(['items.producto.categoria', 'items.producto.marca', 'items.producto.imagenPrincipal'])
             ->where('usuario_id', $usuarioId)
             ->where('estado', 'carrito')
             ->latest('id')
             ->first();
+    }
+
+    protected function obtenerOCrearCarrito(int $usuarioId): Pedido
+    {
+        $pedido = $this->obtenerCarritoActivo($usuarioId);
 
         if ($pedido) {
             return $pedido;
@@ -275,41 +301,54 @@ class CarritoController extends Controller
             'estado' => 'carrito',
             'subtotal' => 0,
             'total' => 0,
-        ])->load(['items.producto.categoria', 'items.producto.marca']);
+        ])->load(['items.producto.categoria', 'items.producto.marca', 'items.producto.imagenPrincipal']);
+    }
+
+    protected function serializarCarritoVacio(?int $usuarioId = null): array
+    {
+        return [
+            'id' => null,
+            'usuario_id' => $usuarioId,
+            'estado' => 'carrito',
+            'subtotal' => 0,
+            'envio' => 0,
+            'descuento' => 0,
+            'total' => 0,
+            'cantidad_total' => 0,
+            'fecha_confirmacion' => null,
+            'items' => [],
+        ];
     }
 
     protected function serializarCarrito(Pedido $pedido): array
     {
+        $items = $pedido->items->map(function (PedidoItem $item) {
+            return [
+                'id' => $item->id,
+                'producto_id' => $item->producto_id,
+                'nombre' => $item->producto_nombre ?: 'Producto sin nombre',
+                'marca' => $item->producto_marca ?: 'Sin marca',
+                'categoria' => $item->producto_categoria ?: 'Sin categoria',
+                'precio_unitario' => (float) $item->precio_unitario,
+                'cantidad' => (int) $item->cantidad,
+                'subtotal' => (float) $item->subtotal,
+                'imagen' => $item->producto?->imagenPrincipal?->url
+                    ? asset($item->producto->imagenPrincipal->url)
+                    : asset('img/producto-sin-imagen.png'),
+            ];
+        })->values();
+
         return [
             'id' => $pedido->id,
             'usuario_id' => $pedido->usuario_id,
             'estado' => $pedido->estado,
-            'subtotal' => $pedido->subtotal,
-            'envio' => $pedido->envio,
-            'descuento' => $pedido->descuento,
-            'total' => $pedido->total,
+            'subtotal' => (float) $pedido->subtotal,
+            'envio' => (float) $pedido->envio,
+            'descuento' => (float) $pedido->descuento,
+            'total' => (float) $pedido->total,
+            'cantidad_total' => $items->sum('cantidad'),
             'fecha_confirmacion' => optional($pedido->fecha_confirmacion)->toDateTimeString(),
-            'items' => $pedido->items->map(function (PedidoItem $item) {
-                return [
-                    'id' => $item->id,
-                    'producto_id' => $item->producto_id,
-                    'producto_nombre' => $item->producto_nombre,
-                    'producto_marca' => $item->producto_marca,
-                    'producto_categoria' => $item->producto_categoria,
-                    'cantidad' => $item->cantidad,
-                    'precio_unitario' => $item->precio_unitario,
-                    'subtotal' => $item->subtotal,
-                    'producto' => $item->producto ? [
-                        'id' => $item->producto->id,
-                        'nombre' => $item->producto->nombre,
-                        'precio' => $item->producto->precio,
-                        'stock' => $item->producto->stock,
-                        'activo' => $item->producto->activo,
-                        'categoria' => $item->producto->categoria?->nombre,
-                        'marca' => $item->producto->marca?->nombre,
-                    ] : null,
-                ];
-            })->values(),
+            'items' => $items,
         ];
     }
 }
