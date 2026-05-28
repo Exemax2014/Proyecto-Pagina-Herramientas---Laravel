@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\Admin\AdminCategoriaController;
 use App\Http\Controllers\Admin\AdminConsultaController;
@@ -90,9 +91,13 @@ Route::get('/catalogo', [ProductoController::class, 'index'])->name('catalogo');
 Route::get('/catalogo/filtrar', [ProductoController::class, 'filtrar'])->name('catalogo.filtrar');
 Route::get('/producto/{id}', [ProductoController::class, 'show'])->name('producto');
 
-Route::get('/carrito', function () {
-    return view('pages.carrito');
-})->name('carrito');
+Route::middleware('usuario')->group(function () {
+    Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito');
+    Route::get('/carrito/obtener', [CarritoController::class, 'obtenerCarrito'])->name('carrito.obtener');
+    Route::post('/carrito/agregar', [CarritoController::class, 'agregar'])->name('carrito.agregar');
+    Route::delete('/carrito/item/{item}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
+    Route::post('/carrito/confirmar', [CarritoController::class, 'confirmar'])->name('carrito.confirmar');
+});
 
 Route::get('/mis-datos', [PerfilController::class, 'misDatos'])
     ->middleware('usuario')
