@@ -17,9 +17,6 @@
             <div class="admin-pedido-detail-head">
                 <div>
                     <h2>Pedido {{ $pedido->codigo ?: '#' . $pedido->id }}</h2>
-                    <p class="text-muted mb-0">
-                        Revisa los datos del cliente, el detalle de productos comprados y el estado operativo del pedido.
-                    </p>
                 </div>
 
                 <a href="{{ route('admin.pedidos.index') }}" class="btn btn-outline-dark">

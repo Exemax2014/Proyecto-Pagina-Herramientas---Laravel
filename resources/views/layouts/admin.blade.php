@@ -12,13 +12,12 @@
 
     @stack('styles')
 </head>
-<body>
+<body class="admin-body">
 
-    <!-- SIDEBAR -->
     <aside class="admin-sidebar">
         <div class="brand">
             Hierro & Forja
-            <span>Panel de administración</span>
+            <span>Panel de administracion</span>
         </div>
 
         <ul class="admin-nav">
@@ -37,7 +36,8 @@
             </li>
 
             <li>
-                <a href="{{ route('admin.usuarios.index') }}" class="{{ request()->routeIs('admin.usuarios.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.usuarios.index') }}"
+                   class="{{ request()->routeIs('admin.usuarios.*') ? 'active' : '' }}">
                     <i class="bi bi-people"></i> Usuarios
                 </a>
             </li>
@@ -45,7 +45,7 @@
             <li>
                 <a href="{{ route('admin.categorias.index') }}"
                    class="{{ request()->routeIs('admin.categorias.*') ? 'active' : '' }}">
-                    <i class="bi bi-tags"></i> Categorías
+                    <i class="bi bi-tags"></i> Categorias
                 </a>
             </li>
 
@@ -69,6 +69,7 @@
                     <i class="bi bi-bag-check"></i> Pedidos
                 </a>
             </li>
+
             <li>
                 <a href="{{ route('home') }}">
                     <i class="bi bi-arrow-left-circle"></i> Ver sitio
@@ -77,27 +78,27 @@
         </ul>
 
         <div class="admin-user">
-            <i class="bi bi-person-circle"></i>
-            {{ session('usuario_nombre') }}
+            <div class="admin-user-name">
+                <i class="bi bi-person-circle"></i>
+                <span>Admin</span>
+            </div>
 
-            <br>
+            <div class="admin-user-actions">
+                <a href="{{ route('mis-datos') }}" class="btn btn-sm btn-outline-light">
+                    Mis datos
+                </a>
 
-            <a href="{{ route('mis-datos') }}" class="btn btn-sm btn-outline-light mt-2 w-100">
-                Mis datos
-            </a>
-
-            <form action="{{ route('logout') }}" method="POST" class="mt-1">
-                @csrf
-                <button type="submit" class="btn btn-sm btn-outline-light mt-1 w-100">
-                    Cerrar sesión
-                </button>
-            </form>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-sm btn-outline-light w-100">
+                        Cerrar sesion
+                    </button>
+                </form>
+            </div>
         </div>
     </aside>
 
-    <!-- CONTENIDO PRINCIPAL -->
     <main class="admin-main">
-
         <div class="admin-topbar">
             <h1>@yield('page-title', 'Panel administrador')</h1>
         </div>
@@ -115,7 +116,6 @@
         @endif
 
         @yield('contenido')
-
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

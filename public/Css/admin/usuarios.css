@@ -1,0 +1,152 @@
+/* --------------------------------------- ADMIN USUARIOS ------------------------------------------ */
+/* ================================================================================================= */
+
+.admin-users-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-width: 0;
+}
+
+.admin-users-card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.admin-users-card-head h2 {
+    margin-bottom: 0.25rem;
+}
+
+.admin-users-card-head .btn {
+    white-space: nowrap;
+}
+
+/* ================= BUSCADOR USUARIOS ================= */
+
+.admin-search-block {
+    max-width: 680px;
+}
+
+.admin-mini-search {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    gap: 0;
+}
+
+.admin-mini-search .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.admin-search-btn {
+    width: 48px;
+    border-radius: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Boton limpiar al lado de la lupa */
+.admin-clear-btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Si solo esta input + lupa, la lupa cierra el borde derecho */
+.admin-mini-search .admin-search-btn:last-child {
+    border-top-right-radius: 0.75rem;
+    border-bottom-right-radius: 0.75rem;
+}
+
+/* Si esta input + lupa + limpiar, limpiar cierra el borde derecho */
+.admin-mini-search .admin-clear-btn:last-child {
+    border-top-right-radius: 0.75rem;
+    border-bottom-right-radius: 0.75rem;
+}
+
+/* ================= TABLA USUARIOS ================= */
+
+.admin-users-table th,
+.admin-users-table td {
+    padding-top: 0.42rem !important;
+    padding-bottom: 0.42rem !important;
+    vertical-align: middle;
+}
+
+.admin-users-table th {
+    font-size: 0.72rem;
+}
+
+.admin-users-table td {
+    font-size: 0.84rem;
+    line-height: 1.2;
+}
+
+.admin-users-table .small {
+    font-size: 0.7rem;
+}
+
+.admin-users-table .badge {
+    font-size: 0.68rem;
+    padding: 0.3em 0.5em;
+}
+
+.admin-user-action-btn {
+    min-width: 95px;
+    height: 30px;
+    font-size: 0.76rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.admin-user-actions-stack {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+}
+
+.admin-user-contact-btn {
+    min-width: 108px;
+    height: 30px;
+    font-size: 0.76rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.admin-buyers-table {
+    min-width: 1050px;
+}
+
+/* ================= RESPONSIVE USUARIOS ================= */
+
+@media (max-width: 575.98px) {
+    .admin-search-block {
+        max-width: 100%;
+    }
+
+    .admin-mini-search {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .admin-mini-search .form-control,
+    .admin-search-btn,
+    .admin-clear-btn {
+        width: 100%;
+        border-radius: 0.75rem !important;
+    }
+}
