@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Pedido;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Illuminate\Validation\Rule;
 
@@ -18,17 +19,67 @@ class AdminPedidoController extends Controller
         'entregado',
     ];
 
-    public function index(): View
+    public function index(Request $request): View
     {
-        $pedidos = Pedido::query()
+        $buscar = trim((string) $request->input('buscar', ''));
+        $estado = (string) $request->input('estado', '');
+
+        $baseQuery = Pedido::query()
+            ->where('estado', '!=', 'carrito');
+
+        $resumen = (clone $baseQuery)
+            ->selectRaw('COUNT(*) as total_pedidos')
+            ->selectRaw("SUM(CASE WHEN estado = 'confirmado' THEN 1 ELSE 0 END) as confirmados")
+            ->selectRaw("SUM(CASE WHEN estado = 'preparando' THEN 1 ELSE 0 END) as preparando")
+            ->selectRaw("SUM(CASE WHEN estado = 'enviado' THEN 1 ELSE 0 END) as enviados")
+            ->selectRaw("SUM(CASE WHEN estado = 'entregado' THEN 1 ELSE 0 END) as entregados")
+            ->selectRaw('COALESCE(SUM(total), 0) as total_facturado')
+            ->first();
+
+        $pedidos = (clone $baseQuery)
             ->with(['usuario'])
-            ->where('estado', '!=', 'carrito')
+            ->when($estado !== '', function (Builder $query) use ($estado) {
+                $query->where('estado', $estado);
+            })
+            ->when($buscar !== '', function (Builder $query) use ($buscar) {
+                $query->where(function (Builder $subQuery) use ($buscar) {
+                    if (ctype_digit($buscar)) {
+                        $subQuery->orWhere('id', (int) $buscar);
+                    }
+
+                    $subQuery->orWhere('codigo', 'like', "%{$buscar}%")
+                        ->orWhere('nombre_completo', 'like', "%{$buscar}%")
+                        ->orWhere('email', 'like', "%{$buscar}%")
+                        ->orWhere('telefono', 'like', "%{$buscar}%")
+                        ->orWhereHas('usuario', function (Builder $usuarioQuery) use ($buscar) {
+                            $usuarioQuery->where('nombre', 'like', "%{$buscar}%")
+                                ->orWhere('apellido', 'like', "%{$buscar}%")
+                                ->orWhereRaw("CONCAT(COALESCE(nombre, ''), ' ', COALESCE(apellido, '')) like ?", ["%{$buscar}%"])
+                                ->orWhere('email', 'like', "%{$buscar}%")
+                                ->orWhere('telefono', 'like', "%{$buscar}%");
+                        });
+                });
+            })
             ->withCount('items')
             ->orderByDesc('fecha_confirmacion')
             ->orderByDesc('id')
-            ->paginate(12);
+            ->paginate(12)
+            ->withQueryString();
 
-        return view('admin.pedidos.index', compact('pedidos'));
+        return view('admin.pedidos.index', [
+            'pedidos' => $pedidos,
+            'buscar' => $buscar,
+            'estado' => $estado,
+            'estadosPermitidos' => self::ESTADOS_PERMITIDOS,
+            'resumen' => [
+                'total_pedidos' => (int) ($resumen->total_pedidos ?? 0),
+                'confirmados' => (int) ($resumen->confirmados ?? 0),
+                'preparando' => (int) ($resumen->preparando ?? 0),
+                'enviados' => (int) ($resumen->enviados ?? 0),
+                'entregados' => (int) ($resumen->entregados ?? 0),
+                'total_facturado' => (float) ($resumen->total_facturado ?? 0),
+            ],
+        ]);
     }
 
     public function show(Pedido $pedido): View|RedirectResponse
