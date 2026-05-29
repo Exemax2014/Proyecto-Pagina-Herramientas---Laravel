@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Hierro & Forja')</title>
     <link rel="icon" type="image/png" href="{{ asset('img/ICONO-HIERRO&FORJA.png') }}">
 
@@ -27,7 +28,7 @@
     @stack('styles')
 </head>
 
-<body class="site-body">
+<body class="site-body" data-usuario-logueado="{{ session('usuario_id') ? '1' : '0' }}">
     <!-- NAVBAR -->
     @include('layouts.navbar')
 
@@ -42,11 +43,27 @@
     <!-- TOAST GLOBAL -->
     <div id="siteToast" class="site-toast"></div>
 
+    <script>
+        window.usuarioLogueado = @json((bool) session('usuario_id'));
+        window.hfCartConfig = {
+            loggedIn: @json((bool) session('usuario_id')),
+            loginUrl: @json(route('login')),
+            endpoints: {
+                obtener: @json(route('carrito.obtener')),
+                agregar: @json(route('carrito.agregar')),
+                actualizar: @json(route('carrito.actualizar', ['item' => '__ITEM__'])),
+                migrar: @json(route('carrito.migrar')),
+                confirmar: @json(route('carrito.confirmar')),
+                itemBase: @json(url('/carrito/item')),
+            }
+        };
+    </script>
+
     <!-- JS GLOBAL DEL CARRITO -->
-    <script src="{{ asset('js/carrito-utils.js') }}"></script>
+    <script src="{{ asset('js/carrito-utils.js') }}?v={{ filemtime(public_path('js/carrito-utils.js')) }}"></script>
 
     <!-- BUSCADOR DEL NAVBAR -->
-    <script src="{{ asset('js/navbar-search.js') }}"></script>
+    <script src="{{ asset('js/navbar-search.js') }}?v={{ filemtime(public_path('js/navbar-search.js')) }}"></script>
 
     <!-- FUNCIÓN TOAST GLOBAL -->
     <script>

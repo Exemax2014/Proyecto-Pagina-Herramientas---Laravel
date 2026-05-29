@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class AdminUsuarioController extends Controller
 {
@@ -101,83 +101,13 @@ class AdminUsuarioController extends Controller
             ->with('success', 'Administrador creado correctamente.');
     }
 
-    public function edit(Usuario $usuario)
-    {
-        $esMismoUsuario = session('usuario_id') == $usuario->id;
-
-        if ($usuario->role !== 'admin' || ! $esMismoUsuario) {
-            return redirect()
-                ->route('admin.usuarios.index')
-                ->with('error', 'Solo podés modificar los datos del administrador conectado.');
-        }
-
-        return view('admin.usuarios.edit', compact('usuario'));
-    }
-
-    public function update(Request $request, Usuario $usuario)
-    {
-        $esMismoUsuario = session('usuario_id') == $usuario->id;
-
-        if ($usuario->role !== 'admin' || ! $esMismoUsuario) {
-            return redirect()
-                ->route('admin.usuarios.index')
-                ->with('error', 'Solo podés modificar los datos del administrador conectado.');
-        }
-
-        $datos = $request->validate([
-            'nombre' => ['required', 'string', 'max:100'],
-            'apellido' => ['required', 'string', 'max:100'],
-            'email' => [
-                'required',
-                'email',
-                'max:255',
-                Rule::unique('usuarios', 'email')->ignore($usuario->id),
-            ],
-            'dni' => ['nullable', 'string', 'max:20'],
-            'telefono' => ['nullable', 'string', 'max:20'],
-            'direccion' => ['nullable', 'string', 'max:255'],
-            'ciudad' => ['nullable', 'string', 'max:100'],
-            'provincia' => ['nullable', 'string', 'max:100'],
-            'codigo_postal' => ['nullable', 'string', 'max:20'],
-            'password' => ['nullable', 'string', 'min:8'],
-        ]);
-
-        $usuario->fill([
-            'nombre' => $datos['nombre'],
-            'apellido' => $datos['apellido'],
-            'email' => $datos['email'],
-            'dni' => $datos['dni'] ?? null,
-            'telefono' => $datos['telefono'] ?? null,
-            'direccion' => $datos['direccion'] ?? null,
-            'ciudad' => $datos['ciudad'] ?? null,
-            'provincia' => $datos['provincia'] ?? null,
-            'codigo_postal' => $datos['codigo_postal'] ?? null,
-        ]);
-
-        if (! empty($datos['password'])) {
-            $usuario->password = $datos['password'];
-        }
-
-        $usuario->save();
-
-        session([
-            'usuario_nombre' => $usuario->nombre,
-            'usuario_email' => $usuario->email,
-            'usuario_role' => $usuario->role,
-        ]);
-
-        return redirect()
-            ->route('admin.usuarios.index')
-            ->with('success', 'Tus datos fueron actualizados correctamente.');
-    }
-
     public function activar(Usuario $usuario)
     {
-        // Prevenir que un usuario se active/desactive a sí mismo
+        // Prevenir que un usuario se active/desactive a si mismo
         if ($usuario->id === session('usuario_id')) {
             return redirect()
                 ->route('admin.usuarios.index')
-                ->with('error', 'No podés modificar tu propio usuario.');
+                ->with('error', 'No podes modificar tu propio usuario.');
         }
 
         $usuario->update([
@@ -198,11 +128,11 @@ class AdminUsuarioController extends Controller
                 ->with('error', 'El administrador root no puede ser dado de baja.');
         }
 
-        // Prevenir que un usuario se desactive a sí mismo
+        // Prevenir que un usuario se desactive a si mismo
         if ($usuario->id === session('usuario_id')) {
             return redirect()
                 ->route('admin.usuarios.index')
-                ->with('error', 'No podés modificar tu propio usuario.');
+                ->with('error', 'No podes modificar tu propio usuario.');
         }
 
         $usuario->update([

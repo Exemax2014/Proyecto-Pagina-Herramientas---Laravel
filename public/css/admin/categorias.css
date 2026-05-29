@@ -1,0 +1,157 @@
+/* -------------------------------------- ADMIN CATEGORIAS ------------------------------------------ */
+/* ================================================================================================= */
+
+.admin-categories-table th,
+.admin-categories-table td {
+    vertical-align: middle;
+}
+
+.admin-category-thumb {
+    width: 94px;
+    height: 94px;
+    object-fit: cover;
+    border-radius: 0.85rem;
+    border: 1px solid rgba(181, 137, 66, 0.18);
+    background: #f3eee5;
+}
+
+.admin-category-thumb-placeholder {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #8b6728;
+    font-size: 1.2rem;
+}
+
+.admin-category-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(217, 164, 65, 0.12);
+    border: 1px solid rgba(181, 137, 66, 0.18);
+    color: #6d501e;
+    font-weight: 700;
+    font-size: 0.82rem;
+}
+
+.admin-category-note {
+    margin-top: 0.45rem;
+    font-size: 0.72rem;
+    color: #8b6728;
+}
+
+.admin-category-usage {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.admin-home-badge {
+    min-width: 84px;
+    padding: 0.48rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.74rem;
+    font-weight: 700;
+}
+
+.admin-home-badge-visible {
+    background: rgba(25, 135, 84, 0.15);
+    color: #1d6a49;
+    border: 1px solid rgba(25, 135, 84, 0.18);
+}
+
+.admin-home-badge-hidden {
+    background: rgba(108, 117, 125, 0.16);
+    color: #5e6469;
+    border: 1px solid rgba(108, 117, 125, 0.18);
+}
+
+.admin-check-card {
+    min-height: 86px;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 1rem 1.05rem;
+    border-radius: 1rem;
+    background: linear-gradient(180deg, rgba(217, 164, 65, 0.12), rgba(217, 164, 65, 0.06));
+    border: 1px solid rgba(181, 137, 66, 0.18);
+}
+
+.admin-check-card-input {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin: 0;
+    flex: 0 0 auto;
+}
+
+.admin-check-card-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin: 0;
+    color: #3d2d14;
+    cursor: pointer;
+}
+
+.admin-check-card-title {
+    font-weight: 700;
+}
+
+.admin-check-card-copy {
+    font-size: 0.76rem;
+    color: #6d5a3d;
+}
+
+.admin-category-form-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-category-form-grid {
+    flex: 1;
+}
+
+.admin-category-form-grid .admin-form-label {
+    margin-bottom: 0.55rem;
+}
+
+.admin-category-side-stack {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-category-image-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.admin-category-image-current {
+    width: 100%;
+    max-width: 360px;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 0.95rem;
+    border: 1px solid rgba(181, 137, 66, 0.18);
+    background: #f3eee5;
+}
+
+.admin-category-image-empty {
+    min-height: 180px;
+    border-radius: 0.95rem;
+    border: 1px dashed rgba(181, 137, 66, 0.3);
+    background: rgba(217, 164, 65, 0.06);
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    color: #8b6728;
+}
+
+@media (max-width: 575.98px) {
+    .admin-category-thumb {
+        width: 78px;
+        height: 78px;
+    }
+}

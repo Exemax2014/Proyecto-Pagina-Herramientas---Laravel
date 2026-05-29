@@ -93,7 +93,7 @@
                 @php
                     $imagen = $producto->imagenPrincipal?->url
                         ? asset($producto->imagenPrincipal->url)
-                        : asset('img/producto-sin-imagen.png');
+                        : asset('img/producto-sin-imagen.svg');
                 @endphp
 
                 <article
@@ -210,5 +210,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/index.js') }}"></script>
+<script src="{{ asset('js/index.js') }}?v={{ filemtime(public_path('js/index.js')) }}"></script>
 @endpush

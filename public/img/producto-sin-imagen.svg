@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-labelledby="title desc">
+  <title id="title">Producto sin imagen</title>
+  <desc id="desc">Ilustracion simple usada como imagen de respaldo para productos sin foto.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f6efe3" />
+      <stop offset="100%" stop-color="#e6d8bc" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="640" rx="48" fill="url(#bg)" />
+  <rect x="72" y="88" width="496" height="464" rx="36" fill="#fffaf1" stroke="#d4bf96" stroke-width="12" />
+  <rect x="132" y="150" width="376" height="248" rx="22" fill="#efe4cf" />
+  <path d="M176 376l84-86c14-14 36-14 50 0l50 50 34-34c15-15 39-15 54 0l60 70v22H176z" fill="#c8ae77" />
+  <circle cx="240" cy="224" r="34" fill="#d9a441" />
+  <rect x="170" y="444" width="300" height="22" rx="11" fill="#d9c39a" />
+  <rect x="208" y="486" width="224" height="18" rx="9" fill="#e5d6b7" />
+</svg>

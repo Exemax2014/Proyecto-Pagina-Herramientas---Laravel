@@ -1,0 +1,129 @@
+/* ---------------------------------------- ADMIN MARCAS -------------------------------------------- */
+/* ================================================================================================= */
+
+.admin-marcas-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.admin-marcas-create-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+.admin-marcas-create-field {
+    flex: 1 1 auto;
+}
+
+.admin-marcas-create-btn {
+    min-width: 220px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+.admin-marcas-home-grid .form-select {
+    min-height: 44px;
+}
+
+.admin-marcas-home-actions {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.admin-marcas-table th,
+.admin-marcas-table td {
+    vertical-align: middle;
+}
+
+.admin-inline-form {
+    margin: 0;
+}
+
+.admin-inline-brand-form {
+    padding: 0.25rem 0;
+}
+
+.admin-inline-brand-form.is-editing {
+    background: rgba(217, 164, 65, 0.08);
+    border: 1px solid rgba(181, 137, 66, 0.18);
+    border-radius: 0.85rem;
+    padding: 0.75rem;
+}
+
+.admin-inline-brand-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.admin-inline-brand-input {
+    min-width: 220px;
+}
+
+.admin-inline-brand-input:disabled {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(181, 137, 66, 0.12);
+    color: #3d2d14;
+    opacity: 1;
+}
+
+.admin-inline-brand-input.is-invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.18rem rgba(220, 53, 69, 0.12);
+}
+
+.admin-inline-save-btn {
+    min-width: 92px;
+    white-space: nowrap;
+}
+
+.admin-inline-edit-btn,
+.admin-inline-cancel-btn {
+    min-width: 92px;
+    white-space: nowrap;
+}
+
+.admin-inline-brand-error {
+    margin-top: 0.55rem;
+    color: #b02a37;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.admin-marcas-status-note {
+    display: inline-block;
+    font-size: 0.76rem;
+    color: #7a6651;
+}
+
+@media (max-width: 767.98px) {
+    .admin-marcas-create-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-marcas-create-btn {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .admin-inline-brand-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-inline-brand-input {
+        min-width: 100%;
+    }
+
+    .admin-inline-save-btn,
+    .admin-inline-edit-btn,
+    .admin-inline-cancel-btn {
+        width: 100%;
+    }
+}

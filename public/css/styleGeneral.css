@@ -1,0 +1,505 @@
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* ------------------------------------ BASE GLOBAL --------------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* VARIABLES GLOBALES:
+   paleta principal, sombras y colores reutilizables del sistema */
+:root {
+    --hf-coal: #111111;
+    --hf-graphite: #1c1c1c;
+    --hf-highlight: #d9a441;
+    --hf-highlight-soft: #f3d18b;
+    --hf-white: #f8f5ef;
+
+    --hf-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
+    --hf-card-shadow: 0 16px 30px rgba(42, 36, 26, 0.08);
+    --hf-card-shadow-hover: 0 22px 36px rgba(42, 36, 26, 0.14);
+
+    --hf-dark-gradient: linear-gradient(135deg, #161616 0%, #24201b 100%);
+
+    --hf-text-muted: #4f4f4f;
+    --hf-text-soft: #545454;
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+/* BODY GENERAL:
+   define tipografía principal, color base y fondo institucional */
+body.site-body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: "Source Sans 3", sans-serif;
+    color: var(--hf-coal);
+    background:
+        radial-gradient(circle at top left, rgba(217, 164, 65, 0.12), transparent 28%),
+        linear-gradient(180deg, #f4efe7 0%, #ebe4d7 100%);
+}
+
+main.site-main {
+    flex: 1 0 auto;
+}
+
+/* TIPOGRAFIA DE TITULOS:
+   unifica todos los títulos principales del sitio */
+.hero-title,
+.section-heading h2,
+.feature-item h3,
+.hero-panel h3,
+.home-card h3,
+.page-hero h1,
+.page-card h2,
+.contact-name {
+    font-family: "Oswald", sans-serif;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+/* TARJETAS GENERALES:
+   base visual compartida para cards claras del sitio */
+.home-card,
+.page-card {
+    background: rgba(255, 255, 255, 0.74);
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    box-shadow: var(--hf-card-shadow);
+}
+
+/* BLOQUES OSCUROS:
+   estilo base reutilizable para secciones oscuras */
+.home-section-dark,
+.page-card-dark {
+    background: var(--hf-dark-gradient);
+    color: var(--hf-white);
+}
+
+/* GRILLAS VERTICALES:
+   estructura reutilizable para stacks simples */
+.feature-stack,
+.contact-list,
+.form-placeholder {
+    display: grid;
+    gap: 1rem;
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* ------------------------------------ HERO GLOBAL --------------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* HERO PRINCIPAL:
+   bloque superior de apertura para páginas principales */
+.hero-home {
+    padding: 4rem 0 3rem;
+}
+
+/* KICKER:
+   etiqueta superior pequeña para contexto de sección */
+.home-kicker {
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: var(--hf-highlight);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* TITULO HERO:
+   encabezado principal de alto impacto visual */
+.hero-title {
+    font-size: clamp(2.8rem, 6vw, 5.4rem);
+    line-height: 0.95;
+    max-width: 20ch;
+    margin-bottom: 1.5rem;
+}
+
+/* TEXTO HERO:
+   párrafo descriptivo principal */
+.hero-copy {
+    font-size: 1.2rem;
+    max-width: 52rem;
+    color: #3d3d3d;
+}
+
+/* ACCIONES HERO:
+   contenedor flexible para botones */
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+/* METRICAS:
+   grilla para indicadores destacados */
+.hero-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+/* ITEM DE METRICA:
+   agrega separación superior y línea divisoria */
+.hero-metrics div {
+    padding-top: 1rem;
+    border-top: 1px solid rgba(17, 17, 17, 0.18);
+}
+
+/* VALORES DESTACADOS:
+   estilo para números principales */
+.hero-metrics strong,
+.panel-number {
+    display: block;
+    font-family: "Oswald", sans-serif;
+    font-size: 1.5rem;
+}
+
+/* COLOR SOLO PARA METRICAS:
+   diferencia visual del número principal */
+.hero-metrics strong {
+    color: var(--hf-coal);
+}
+
+/* TEXTO SECUNDARIO METRICA:
+   descripción inferior del valor */
+.hero-metrics span {
+    color: #575757;
+}
+
+/* PANEL HERO:
+   panel lateral oscuro reutilizable */
+.hero-panel {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent),
+        linear-gradient(135deg, var(--hf-graphite), #2a2a2a 65%, #3a3128 100%);
+    color: var(--hf-white);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.75rem;
+    padding: 2rem;
+    box-shadow: var(--hf-shadow);
+}
+
+/* ETIQUETA DEL PANEL:
+   pequeño texto superior descriptivo */
+.panel-label {
+    color: var(--hf-highlight-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ITEM PANEL:
+   fila interna con número y contenido */
+.hero-panel-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* PRIMER ITEM PANEL:
+   evita borde superior innecesario */
+.hero-panel-item:first-of-type {
+    padding-top: 0;
+    border-top: 0;
+}
+
+/* TEXTO INTERNO PANEL:
+   párrafos dentro de paneles oscuros */
+.hero-panel-item p,
+.feature-item p {
+    margin-bottom: 0;
+    color: rgba(248, 245, 239, 0.74);
+}
+
+/* NUMERO PANEL:
+   destaca la numeración lateral */
+.panel-number {
+    min-width: 2.5rem;
+    color: var(--hf-highlight);
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* ----------------------------------- SECCIONES BASE ------------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* SECCION GENERAL:
+   espaciado vertical estándar */
+.home-section {
+    padding: 2rem 0 4rem;
+}
+
+/* CABECERA DE SECCION:
+   contenedor de título y descripción */
+.section-heading {
+    max-width: 60rem;
+    margin-bottom: 2rem;
+}
+
+/* TITULO DE SECCION:
+   jerarquía principal de bloque */
+.section-heading h2 {
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    margin-bottom: 0.75rem;
+}
+
+/* TEXTO DE SECCION:
+   descripción secundaria */
+.section-heading p {
+    font-size: 1.1rem;
+    color: var(--hf-text-muted);
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* ------------------------------------ TARJETAS BASE ------------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* TARJETA CLARA:
+   bloque visual estándar reutilizable */
+.home-card {
+    height: 100%;
+    padding: 1.75rem;
+    border-radius: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* HOVER TARJETA:
+   elevación suave solo para cards interactivas */
+.home-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--hf-card-shadow-hover);
+}
+
+/* ICONO TARJETA:
+   ícono principal del bloque */
+.home-card i {
+    font-size: 2rem;
+    color: var(--hf-highlight);
+}
+
+/* TITULO TARJETA:
+   separación superior del encabezado */
+.home-card h3 {
+    margin: 1rem 0 0.5rem;
+}
+
+/* TEXTO TARJETA:
+   contenido secundario */
+.home-card p {
+    margin-bottom: 0;
+    color: var(--hf-text-soft);
+}
+
+/* FEATURE CARD:
+   bloque oscuro informativo reutilizable */
+.feature-item {
+    padding: 1.6rem;
+    border-radius: 1.25rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* TITULO FEATURE:
+   encabezado principal dentro de bloque oscuro */
+.feature-item h3 {
+    color: var(--hf-highlight);
+    margin-bottom: 0.4rem;
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* ---------------------------------- PAGINAS INTERNAS ------------------------------------ */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* SECCION INTERNA:
+   contenedor principal de vistas internas */
+.page-section {
+    padding: 2rem 0 4rem;
+}
+
+/* HERO INTERNO:
+   cabecera principal de vistas secundarias */
+.page-hero {
+    max-width: 48rem;
+    margin-bottom: 2rem;
+}
+
+/* TITULO HERO INTERNO:
+   encabezado principal de vista */
+.page-hero h1 {
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    margin-bottom: 1rem;
+}
+
+/* TEXTO HERO INTERNO:
+   descripción principal */
+.page-hero p {
+    margin-bottom: 0;
+    font-size: 1.08rem;
+    color: var(--hf-text-muted);
+}
+
+/* TARJETA INTERNA:
+   base para bloques informativos internos */
+.page-card {
+    padding: 1.75rem;
+    border-radius: 1.4rem;
+}
+
+/* TITULO TARJETA INTERNA:
+   jerarquía interna */
+.page-card h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+}
+
+/* ULTIMO ELEMENTO:
+   evita espacios sobrantes */
+.page-card p:last-child,
+.page-card ul:last-child {
+    margin-bottom: 0;
+}
+
+/* TEXTO EN OSCURO:
+   mejora contraste en bloques oscuros */
+.page-card-dark p,
+.page-card-dark li {
+    color: rgba(248, 245, 239, 0.78);
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* -------------------------------------- TOAST ------------------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* TOAST GLOBAL:
+   mensajes breves del sistema */
+.site-toast {
+    position: fixed;
+    left: 50%;
+    z-index: 3000;
+    max-width: min(90vw, 420px);
+
+    padding: 0.9rem 1.2rem;
+    border: 1.5px solid var(--hf-highlight);
+    border-radius: 0.9rem;
+
+    background: #111111;
+    color: #f5f1e8;
+    text-align: center;
+    font-size: 0.92rem;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.3),
+        0 0 10px rgba(217, 164, 65, 0.25);
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* TOAST ABAJO:
+   posición inferior */
+.site-toast--bottom {
+    bottom: 1.5rem;
+    transform: translateX(-50%) translateY(20px);
+}
+
+/* TOAST ARRIBA:
+   posición superior */
+.site-toast--top {
+    top: 1.2rem;
+    transform: translateX(-50%) translateY(-20px);
+}
+
+/* TOAST VISIBLE:
+   estado activo */
+.site-toast.is-visible {
+    opacity: 1;
+}
+
+.site-toast--bottom.is-visible,
+.site-toast--top.is-visible {
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* -------------------------------------- UTILS ------------------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* IMAGEN CAROUSEL:
+   altura uniforme para carruseles */
+.carousel-img {
+    height: 420px;
+    object-fit: cover;
+    object-position: center;
+}
+
+
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+/* ------------------------------------ RESPONSIVE ---------------------------------------- */
+/* ═════════════════════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 991.98px) {
+    /* TITULO HERO:
+       libera ancho en tablet */
+    .hero-title {
+        max-width: 100%;
+    }
+
+    /* METRICAS:
+       pasa a una sola columna */
+    .hero-metrics {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 575.98px) {
+    /* HERO:
+       reduce espacio superior */
+    .hero-home {
+        padding-top: 2.5rem;
+    }
+
+    /* TARJETAS:
+       reduce radios en mobile */
+    .hero-panel,
+    .home-card,
+    .feature-item,
+    .page-card {
+        border-radius: 1.1rem;
+    }
+
+    /* BOTONES HERO:
+       ancho completo */
+    .hero-actions .btn {
+        width: 100%;
+    }
+
+    /* PAGINAS INTERNAS:
+       reduce padding superior */
+    .page-section {
+        padding-top: 1rem;
+    }
+
+    /* TARJETA INTERNA:
+       versión compacta */
+    .page-card {
+        padding: 1.3rem;
+    }
+
+    /* TITULO INTERNO:
+       tamaño adaptado */
+    .page-card h2 {
+        font-size: 1.35rem;
+    }
+
+    /* IMAGEN CAROUSEL:
+       menor altura */
+    .carousel-img {
+        height: 280px;
+    }
+
+}
