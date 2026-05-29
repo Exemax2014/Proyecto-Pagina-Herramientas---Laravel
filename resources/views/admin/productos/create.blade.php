@@ -181,6 +181,10 @@
                         <i class="bi bi-save"></i>
                         Guardar producto
                     </button>
+                    
+                    <a href="{{ route('admin.usuarios.index') }}" class="btn btn-outline-dark w-100">
+                        Volver al listado
+                    </a>
                 </div>
             </div>
 

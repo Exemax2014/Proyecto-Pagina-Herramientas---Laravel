@@ -31,6 +31,8 @@
                         <p>Modificá cantidades, eliminá artículos o revisá los importes antes de continuar.</p>
                     </div>
 
+                    <div class="alert d-none" id="cartFeedback" role="alert"></div>
+
                     <div class="cart-items-wrap" id="cartItemsWrap"></div>
 
                     <div class="page-card cart-empty-state d-none" id="cartEmptyState">
@@ -183,5 +185,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/carrito.js') }}"></script>
+<script src="{{ asset('js/carrito.js') }}?v={{ filemtime(public_path('js/carrito.js')) }}"></script>
 @endpush

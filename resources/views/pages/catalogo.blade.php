@@ -156,5 +156,5 @@
     window.routeFiltrar = "{{ route('catalogo.filtrar') }}";
     window.marcasDisponibles = @json($marcas->map(fn($m) => ['id' => $m->id, 'nombre' => $m->nombre]));
 </script>
-<script src="{{ asset('js/catalogo.js') }}"></script>
+<script src="{{ asset('js/catalogo.js') }}?v={{ filemtime(public_path('js/catalogo.js')) }}"></script>
 @endpush

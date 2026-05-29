@@ -1,13 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-    /* =========================================
-       DATOS TEMPORALES: carrito
-       ========================================= */
-    let carrito = window.CartUtils.getCart();
+    let carrito = null;
 
-    /* =========================================
-       REFERENCIAS DEL DOM:
-       elementos principales de la vista
-       ========================================= */
     const itemsWrap = document.getElementById('cartItemsWrap');
     const emptyState = document.getElementById('cartEmptyState');
     const subtotalEl = document.getElementById('cartSubtotal');
@@ -15,200 +8,287 @@ document.addEventListener('DOMContentLoaded', function () {
     const discountEl = document.getElementById('cartDiscount');
     const totalEl = document.getElementById('cartTotal');
     const confirmBtn = document.getElementById('cartConfirmBtn');
+    const feedbackEl = document.getElementById('cartFeedback');
 
-    /* =========================================
-       FORMATEO DE PRECIO:
-       convierte valores numéricos a formato ARS
-       ========================================= */
     function formatPrice(value) {
-        return '$' + Number(value).toLocaleString('es-AR');
+        return '$' + Number(value || 0).toLocaleString('es-AR');
     }
 
-    /* =========================================
-       TEXTO DE CATEGORIA:
-       mejora la presentación del slug
-       ========================================= */
-    function humanizeCategory(value) {
-        const map = {
-            construccion: 'Construcción',
-            herreria: 'Herrería',
-            carpinteria: 'Carpintería',
-            durlok: 'Durlok',
-            pintureria: 'Pinturería',
-            ferreteria: 'Ferretería'
-        };
-
-        return map[value] || value;
+    function getItems() {
+        return Array.isArray(carrito?.items) ? carrito.items : [];
     }
 
-    /* =========================================
-       CALCULOS:
-       obtiene subtotal, envío, descuento y total
-       ========================================= */
-    function getSubtotal() {
-        return carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+    function isLoggedIn() {
+        return Boolean(window.usuarioLogueado || window.hfCartConfig?.loggedIn);
     }
 
-    function getShipping(subtotal) {
-        if (carrito.length === 0) return 0;
-        return subtotal >= 300000 ? 0 : 18000;
+    function setFeedback(message, type = 'danger') {
+        if (!feedbackEl) return;
+
+        if (!message) {
+            feedbackEl.className = 'alert d-none';
+            feedbackEl.textContent = '';
+            return;
+        }
+
+        feedbackEl.className = `alert alert-${type}`;
+        feedbackEl.textContent = message;
     }
 
-    function getDiscount() {
-        return 0;
-    }
-
-    function getTotal() {
-        const subtotal = getSubtotal();
-        const shipping = getShipping(subtotal);
-        const discount = getDiscount();
-
-        return {
-            subtotal,
-            shipping,
-            discount,
-            total: subtotal + shipping - discount
-        };
-    }
-
-    /* =========================================
-       RESUMEN:
-       actualiza importes laterales
-       ========================================= */
     function renderSummary() {
-        const totals = getTotal();
+        subtotalEl.textContent = formatPrice(Number(carrito?.subtotal) || 0);
+        shippingEl.textContent = formatPrice(Number(carrito?.envio) || 0);
+        discountEl.textContent = formatPrice(Number(carrito?.descuento) || 0);
+        totalEl.textContent = formatPrice(Number(carrito?.total) || 0);
 
-        subtotalEl.textContent = formatPrice(totals.subtotal);
-        shippingEl.textContent = formatPrice(totals.shipping);
-        discountEl.textContent = formatPrice(totals.discount);
-        totalEl.textContent = formatPrice(totals.total);
+        if (confirmBtn) {
+            confirmBtn.disabled = getItems().length === 0;
+        }
     }
 
-    /* =========================================
-       ITEMS DEL CARRITO:
-       pinta cada producto con controles de cantidad y eliminación
-       ========================================= */
     function renderItems() {
         if (!itemsWrap) return;
 
-        if (carrito.length === 0) {
+        const items = getItems();
+
+        if (items.length === 0) {
             itemsWrap.innerHTML = '';
-            emptyState.classList.remove('d-none');
+            emptyState?.classList.remove('d-none');
             renderSummary();
             return;
         }
 
-        emptyState.classList.add('d-none');
+        emptyState?.classList.add('d-none');
 
-        itemsWrap.innerHTML = carrito.map(item => `
-            <article class="page-card cart-item-card">
-                <div class="cart-item-media">
-                    <img src="${item.imagen}" alt="${item.nombre}">
-                </div>
+        itemsWrap.innerHTML = items.map(item => {
+            const nombre = item.nombre || 'Producto sin nombre';
+            const imagen = item.imagen || '/img/producto-sin-imagen.png';
+            const marca = item.marca || 'Sin marca';
+            const categoria = item.categoria || 'Sin categoria';
+            const cantidad = Number(item.cantidad) || 0;
+            const subtotal = Number(item.subtotal) || 0;
+            const precioUnitario = Number(item.precio_unitario) || 0;
 
-                <div class="cart-item-body">
-                    <span class="cart-item-brand">${item.marca}</span>
-                    <h3>${item.nombre}</h3>
-                    <p class="cart-item-meta">Categoría: ${humanizeCategory(item.categoria)}</p>
+            return `
+                <article class="page-card cart-item-card">
+                    <div class="cart-item-media">
+                        <img src="${imagen}" alt="${nombre}">
+                    </div>
 
-                    <div class="cart-item-controls">
-                        <div class="cart-qty-box">
-                            <button type="button" class="cart-qty-btn cart-qty-minus" data-id="${item.id}" aria-label="Restar cantidad">
-                                <i class="bi bi-dash"></i>
-                            </button>
+                    <div class="cart-item-body">
+                        <span class="cart-item-brand">${marca}</span>
+                        <h3>${nombre}</h3>
+                        <p class="cart-item-meta">Categoria: ${categoria}</p>
 
-                            <span>${item.cantidad}</span>
+                        <div class="cart-item-controls">
+                            <div class="cart-qty-box">
+                                <button type="button" class="cart-qty-btn cart-qty-minus" data-item-id="${item.id}" data-cantidad-actual="${cantidad}" aria-label="Restar cantidad">
+                                    <i class="bi bi-dash"></i>
+                                </button>
 
-                            <button type="button" class="cart-qty-btn cart-qty-plus" data-id="${item.id}" aria-label="Sumar cantidad">
-                                <i class="bi bi-plus"></i>
+                                <span>${cantidad}</span>
+
+                                <button type="button" class="cart-qty-btn cart-qty-plus" data-item-id="${item.id}" data-cantidad-actual="${cantidad}" aria-label="Sumar cantidad">
+                                    <i class="bi bi-plus"></i>
+                                </button>
+                            </div>
+
+                            <button type="button" class="cart-remove-btn" data-item-id="${item.id}">
+                                Eliminar
                             </button>
                         </div>
-
-                        <button type="button" class="cart-remove-btn" data-id="${item.id}">
-                            Eliminar
-                        </button>
                     </div>
-                </div>
 
-                <div class="cart-item-price">
-                    <strong>${formatPrice(item.precio * item.cantidad)}</strong>
-                    <span>${formatPrice(item.precio)} por unidad</span>
-                </div>
-            </article>
-        `).join('');
+                    <div class="cart-item-price">
+                        <strong>${formatPrice(subtotal)}</strong>
+                        <span>${formatPrice(precioUnitario)} por unidad</span>
+                    </div>
+                </article>
+            `;
+        }).join('');
 
         bindItemEvents();
         renderSummary();
     }
 
-    /* =========================================
-       EVENTOS DE ITEMS:
-       conecta cantidad +/- y eliminar
-       ========================================= */
-    function bindItemEvents() {
-        itemsWrap.querySelectorAll('.cart-qty-minus').forEach(button => {
-            button.addEventListener('click', function () {
-                const id = Number(this.dataset.id);
-                const item = carrito.find(product => Number(product.id) === id);
+    async function loadCart() {
+        setFeedback('');
 
-                if (!item) return;
-
-                item.cantidad = Math.max(1, item.cantidad - 1);
-
-                window.CartUtils.saveCart(carrito);
-                window.CartUtils.updateCartCount();
-                renderItems();
-            });
-        });
-
-        itemsWrap.querySelectorAll('.cart-qty-plus').forEach(button => {
-            button.addEventListener('click', function () {
-                const id = Number(this.dataset.id);
-                const item = carrito.find(product => Number(product.id) === id);
-
-                if (!item) return;
-
-                item.cantidad += 1;
-
-                window.CartUtils.saveCart(carrito);
-                window.CartUtils.updateCartCount();
-                renderItems();
-            });
-        });
-
-        itemsWrap.querySelectorAll('.cart-remove-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const id = Number(this.dataset.id);
-
-                carrito = carrito.filter(product => Number(product.id) !== id);
-
-                window.CartUtils.saveCart(carrito);
-                window.CartUtils.updateCartCount();
-                renderItems();
-            });
-        });
-    }
-
-    /* =========================================
-       CONFIRMAR PEDIDO:
-       limpia carrito, actualiza vista y muestra mensaje
-       ========================================= */
-    confirmBtn?.addEventListener('click', function () {
-        if (carrito.length === 0) {
+        if (!isLoggedIn()) {
+            carrito = getLocalCartView();
             renderItems();
             return;
         }
 
-        carrito = [];
-        window.CartUtils.clearCart();
-        renderItems();
+        try {
+            if (window.CartUtils?.migrateLocalCartIfNeeded) {
+                const migration = await window.CartUtils.migrateLocalCartIfNeeded();
 
-        window.showToast('Pedido realizado correctamente');
+                if (migration?.warnings?.length) {
+                    setFeedback(migration.warnings[0], 'warning');
+                }
+            }
+
+            carrito = await window.CartUtils.fetchBackendCart();
+            renderItems();
+            window.CartUtils.updateCartCountFromCarrito(carrito);
+        } catch (error) {
+            carrito = {
+                subtotal: 0,
+                envio: 0,
+                descuento: 0,
+                total: 0,
+                items: [],
+            };
+
+            renderItems();
+            setFeedback(error.message || 'No se pudo cargar el carrito.');
+        }
+    }
+
+    function getLocalCartView() {
+        const items = (window.CartUtils?.getCart?.() || []).map(item => {
+            const cantidad = Number(item.cantidad) || 0;
+            const precioUnitario = Number(item.precio_unitario ?? item.precio) || 0;
+
+            return {
+                id: Number(item.producto_id ?? item.id) || 0,
+                producto_id: Number(item.producto_id ?? item.id) || 0,
+                nombre: item.nombre || 'Producto sin nombre',
+                marca: item.marca || 'Sin marca',
+                categoria: item.categoria || 'Sin categoria',
+                precio_unitario: precioUnitario,
+                cantidad,
+                subtotal: precioUnitario * cantidad,
+                imagen: item.imagen || '/img/producto-sin-imagen.png',
+            };
+        });
+
+        const subtotal = items.reduce((acc, item) => acc + (Number(item.subtotal) || 0), 0);
+
+        return {
+            items,
+            subtotal,
+            envio: 0,
+            descuento: 0,
+            total: subtotal,
+            cantidad_total: items.reduce((acc, item) => acc + (Number(item.cantidad) || 0), 0),
+        };
+    }
+
+    function bindItemEvents() {
+        itemsWrap.querySelectorAll('.cart-qty-minus').forEach(button => {
+            button.addEventListener('click', async function () {
+                const itemId = Number(this.dataset.itemId);
+                const currentQty = Number(this.dataset.cantidadActual) || 1;
+                const nextQty = currentQty - 1;
+
+                if (nextQty < 1) {
+                    setFeedback('La cantidad minima es 1. Usa Eliminar para quitar el item.');
+                    return;
+                }
+
+                await updateItemQuantity(itemId, nextQty, this, currentQty);
+            });
+        });
+
+        itemsWrap.querySelectorAll('.cart-qty-plus').forEach(button => {
+            button.addEventListener('click', async function () {
+                const itemId = Number(this.dataset.itemId);
+                const currentQty = Number(this.dataset.cantidadActual) || 1;
+                const nextQty = currentQty + 1;
+
+                await updateItemQuantity(itemId, nextQty, this, currentQty);
+            });
+        });
+
+        itemsWrap.querySelectorAll('.cart-remove-btn').forEach(button => {
+            button.addEventListener('click', async function () {
+                const itemId = Number(this.dataset.itemId);
+
+                this.disabled = true;
+                setFeedback('');
+
+                try {
+                    if (isLoggedIn()) {
+                        const response = await window.CartUtils.removeCartItem(itemId);
+                        carrito = response.carrito;
+                        window.showToast(response.message || 'Item eliminado del carrito');
+                    } else {
+                        window.CartUtils.removeFromCart(itemId);
+                        carrito = getLocalCartView();
+                        window.showToast('Item eliminado del carrito');
+                    }
+
+                    renderItems();
+                } catch (error) {
+                    setFeedback(error.message || 'No se pudo eliminar el item.');
+                    this.disabled = false;
+                }
+            });
+        });
+    }
+
+    async function updateItemQuantity(itemId, quantity, triggerButton, currentQty) {
+        if (triggerButton) {
+            triggerButton.disabled = true;
+        }
+
+        setFeedback('');
+
+        try {
+            if (isLoggedIn()) {
+                const response = await window.CartUtils.updateBackendCartItem(itemId, quantity);
+                carrito = response.carrito;
+
+                if (response?.warnings?.length) {
+                    setFeedback(response.warnings[0], 'warning');
+                }
+            } else {
+                window.CartUtils.updateCartQty(itemId, quantity);
+                carrito = getLocalCartView();
+            }
+
+            renderItems();
+        } catch (error) {
+            setFeedback(error.message || 'No se pudo actualizar la cantidad.');
+
+            if (!isLoggedIn() && typeof currentQty === 'number') {
+                window.CartUtils.updateCartQty(itemId, currentQty);
+                carrito = getLocalCartView();
+                renderItems();
+            }
+        } finally {
+            if (triggerButton && document.body.contains(triggerButton)) {
+                triggerButton.disabled = false;
+            }
+        }
+    }
+
+    confirmBtn?.addEventListener('click', async function () {
+        if (getItems().length === 0) {
+            setFeedback('Tu carrito esta vacio.');
+            return;
+        }
+
+        if (!isLoggedIn()) {
+            window.CartUtils.redirectToLoginWithRedirect('/carrito');
+            return;
+        }
+
+        this.disabled = true;
+        setFeedback('');
+
+        try {
+            const response = await window.CartUtils.confirmCart();
+            window.showToast(response.message || 'Pedido confirmado correctamente');
+            await loadCart();
+        } catch (error) {
+            setFeedback(error.message || 'No se pudo confirmar el pedido.');
+        } finally {
+            this.disabled = getItems().length === 0;
+        }
     });
 
-    /* =========================================
-       INICIALIZACION:
-       renderiza items y resumen
-       ========================================= */
-    renderItems();
+    loadCart();
 });

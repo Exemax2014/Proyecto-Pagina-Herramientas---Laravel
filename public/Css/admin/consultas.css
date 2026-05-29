@@ -1,0 +1,21 @@
+/* -------------------------------------- ADMIN CONSULTAS ------------------------------------------- */
+/* ================================================================================================= */
+
+.admin-consultas-table th,
+.admin-consultas-table td {
+    vertical-align: middle;
+}
+
+.admin-consulta-message {
+    max-width: 420px;
+    color: #3d2d14;
+    line-height: 1.45;
+}
+
+.admin-consultas-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}

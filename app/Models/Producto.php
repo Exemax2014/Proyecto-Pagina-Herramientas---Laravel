@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Producto extends Model
 {
@@ -47,5 +48,10 @@ class Producto extends Model
     public function imagenPrincipal()
     {
         return $this->hasOne(ProductoImagen::class)->where('es_principal', true);
+    }
+
+    public function pedidoItems(): HasMany
+    {
+        return $this->hasMany(PedidoItem::class);
     }
 }

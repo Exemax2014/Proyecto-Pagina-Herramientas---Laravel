@@ -289,10 +289,22 @@
         });
 
         // Carrito
-        addToCartBtn?.addEventListener('click', () => {
+        addToCartBtn?.addEventListener('click', async () => {
             if (!window.CartUtils) return;
-            window.CartUtils.addToCart(window.productoActual, qty);
-            window.showToast('Producto agregado al carrito');
+
+            addToCartBtn.disabled = true;
+
+            try {
+                const response = await window.CartUtils.addToCart(window.productoActual, qty);
+
+                if (!response?.suppressToast && response?.message) {
+                    window.showToast(response.message);
+                }
+            } catch (error) {
+                window.showToast(error.message || 'No se pudo agregar el producto');
+            } finally {
+                addToCartBtn.disabled = false;
+            }
         });
     });
 </script>

@@ -15,11 +15,15 @@ class AuthController extends Controller
 
     public function mostrarLogin()
     {
-        return view('pages.login');
+        $redirect = $this->sanitizeRedirect($this->extractRedirect(request()));
+
+        return view('pages.login', compact('redirect'));
     }
 
     public function procesarLogin(Request $request)
     {
+        $redirect = $this->sanitizeRedirect($this->extractRedirect($request));
+
         $request->validate([
             'email'    => ['required', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/'],
             'password' => 'required|min:4',
@@ -53,6 +57,10 @@ class AuthController extends Controller
         // Redirigir según rol
         if ($usuario->role === 'admin') {
             return redirect()->route('admin.dashboard');
+        }
+
+        if ($redirect) {
+            return redirect($redirect);
         }
 
         return redirect()->route('home');
@@ -108,5 +116,29 @@ class AuthController extends Controller
     {
         Session::flush();
         return redirect()->route('home');
+    }
+
+    protected function extractRedirect(Request $request): ?string
+    {
+        return $request->input('redirect');
+    }
+
+    protected function sanitizeRedirect(?string $redirect): ?string
+    {
+        if (! $redirect || ! is_string($redirect)) {
+            return null;
+        }
+
+        if (! str_starts_with($redirect, '/')) {
+            return null;
+        }
+
+        if (str_starts_with($redirect, '//')) {
+            return null;
+        }
+
+        return preg_match('/^\/[A-Za-z0-9\-._~\/?=&%]*$/', $redirect)
+            ? $redirect
+            : null;
     }
 }

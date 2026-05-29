@@ -4,10 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\Admin\AdminCategoriaController;
 use App\Http\Controllers\Admin\AdminConsultaController;
 use App\Http\Controllers\Admin\AdminMarcaController;
+use App\Http\Controllers\Admin\AdminPedidoController;
 use App\Http\Controllers\Admin\AdminProductoController;
 use App\Http\Controllers\Admin\AdminUsuarioController;
 use App\Models\Categoria;
@@ -90,9 +92,16 @@ Route::get('/catalogo', [ProductoController::class, 'index'])->name('catalogo');
 Route::get('/catalogo/filtrar', [ProductoController::class, 'filtrar'])->name('catalogo.filtrar');
 Route::get('/producto/{id}', [ProductoController::class, 'show'])->name('producto');
 
-Route::get('/carrito', function () {
-    return view('pages.carrito');
-})->name('carrito');
+Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito');
+
+Route::middleware('usuario')->group(function () {
+    Route::get('/carrito/obtener', [CarritoController::class, 'obtenerCarrito'])->name('carrito.obtener');
+    Route::post('/carrito/agregar', [CarritoController::class, 'agregar'])->name('carrito.agregar');
+    Route::post('/carrito/migrar', [CarritoController::class, 'migrar'])->name('carrito.migrar');
+    Route::patch('/carrito/item/{item}', [CarritoController::class, 'actualizarCantidad'])->name('carrito.actualizar');
+    Route::delete('/carrito/item/{item}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
+    Route::post('/carrito/confirmar', [CarritoController::class, 'confirmar'])->name('carrito.confirmar');
+});
 
 Route::get('/mis-datos', [PerfilController::class, 'misDatos'])
     ->middleware('usuario')
@@ -191,6 +200,18 @@ Route::prefix('admin')
 
         Route::patch('/consultas/{consulta}/leida', [AdminConsultaController::class, 'marcarLeida'])
             ->name('consultas.leida');
+
+        Route::get('/pedidos', [AdminPedidoController::class, 'index'])
+            ->name('pedidos.index');
+
+        Route::get('/pedidos/{pedido}', [AdminPedidoController::class, 'show'])
+            ->name('pedidos.show');
+
+        Route::get('/pedidos/{pedido}/pdf', [AdminPedidoController::class, 'pdf'])
+            ->name('pedidos.pdf');
+
+        Route::patch('/pedidos/{pedido}/estado', [AdminPedidoController::class, 'updateEstado'])
+            ->name('pedidos.estado');
 
         Route::get('/usuarios', [AdminUsuarioController::class, 'index'])
             ->name('usuarios.index');
