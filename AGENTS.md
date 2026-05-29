@@ -30,6 +30,7 @@ No modificar `.env` ni ejecutar comandos de base de datos sin autorización.
 - Carrito: implementación frontend usando `localStorage` (no hay checkout real aún).
 - Login / Registro / Logout: sesión manual usando la tabla `usuarios` y el modelo `Usuario`.
 - Mis datos: ver y editar perfil (sesión manual requerida).
+- Mis compras: listado y detalle de pedidos confirmados del usuario logueado (excluye carritos y valida propiedad del pedido).
 - Contacto: guarda consultas en base y diferencia visitante vs usuario logueado.
 
 ## Panel Admin (estado actual)

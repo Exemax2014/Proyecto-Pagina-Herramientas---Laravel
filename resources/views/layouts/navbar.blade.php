@@ -117,7 +117,7 @@
                                 <li><hr class="dropdown-divider"></li>
                             @else
                                 <li><a class="dropdown-item" href="{{ route('mis-datos') }}">Mis datos</a></li>
-                                <li><a class="dropdown-item" href="#">Mis compras</a></li>
+                                <li><a class="dropdown-item" href="{{ route('mis-compras.index') }}">Mis compras</a></li>
                                 <li><hr class="dropdown-divider"></li>
                             @endif
 

@@ -5,6 +5,7 @@ use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\MisComprasController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\Admin\AdminCategoriaController;
 use App\Http\Controllers\Admin\AdminConsultaController;
@@ -101,6 +102,8 @@ Route::middleware('usuario')->group(function () {
     Route::patch('/carrito/item/{item}', [CarritoController::class, 'actualizarCantidad'])->name('carrito.actualizar');
     Route::delete('/carrito/item/{item}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
     Route::post('/carrito/confirmar', [CarritoController::class, 'confirmar'])->name('carrito.confirmar');
+    Route::get('/mis-compras', [MisComprasController::class, 'index'])->name('mis-compras.index');
+    Route::get('/mis-compras/{pedido}', [MisComprasController::class, 'show'])->name('mis-compras.show');
 });
 
 Route::get('/mis-datos', [PerfilController::class, 'misDatos'])
