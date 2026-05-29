@@ -254,6 +254,7 @@
         const qtyMinus = document.querySelector('[aria-label="Restar cantidad"]');
         const qtyPlus = document.querySelector('[aria-label="Sumar cantidad"]');
         const addToCartBtn = document.querySelector('.product-main-btn');
+        const buyNowBtn = document.querySelector('.product-secondary-btn');
 
         let qty = 1;
         let currentIndex = 0;
@@ -288,11 +289,10 @@
             qtyEl.textContent = qty;
         });
 
-        // Carrito
-        addToCartBtn?.addEventListener('click', async () => {
+        async function handleCartAction(triggerButton, redirectToCart = false) {
             if (!window.CartUtils) return;
 
-            addToCartBtn.disabled = true;
+            triggerButton.disabled = true;
 
             try {
                 const response = await window.CartUtils.addToCart(window.productoActual, qty);
@@ -300,11 +300,24 @@
                 if (!response?.suppressToast && response?.message) {
                     window.showToast(response.message);
                 }
+
+                if (redirectToCart) {
+                    window.location.href = @json(route('carrito'));
+                }
             } catch (error) {
                 window.showToast(error.message || 'No se pudo agregar el producto');
             } finally {
-                addToCartBtn.disabled = false;
+                triggerButton.disabled = false;
             }
+        }
+
+        // Carrito
+        addToCartBtn?.addEventListener('click', async () => {
+            await handleCartAction(addToCartBtn, false);
+        });
+
+        buyNowBtn?.addEventListener('click', async () => {
+            await handleCartAction(buyNowBtn, true);
         });
     });
 </script>
