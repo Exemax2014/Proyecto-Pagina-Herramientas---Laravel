@@ -714,17 +714,11 @@ class ComposerStaticInitc57754c93ae34ac3b9b716a0fd2f2149
         'App\\Http\\Controllers\\Admin\\AdminConsultaController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminConsultaController.php',
         'App\\Http\\Controllers\\Admin\\AdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminController.php',
         'App\\Http\\Controllers\\Admin\\AdminMarcaController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminMarcaController.php',
-<<<<<<< HEAD
-        'App\\Http\\Controllers\\Admin\\AdminProductoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminProductoController.php',
-        'App\\Http\\Controllers\\Admin\\AdminUsuarioController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminUsuarioController.php',
-        'App\\Http\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthController.php',
-=======
         'App\\Http\\Controllers\\Admin\\AdminPedidoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminPedidoController.php',
         'App\\Http\\Controllers\\Admin\\AdminProductoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminProductoController.php',
         'App\\Http\\Controllers\\Admin\\AdminUsuarioController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminUsuarioController.php',
         'App\\Http\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthController.php',
         'App\\Http\\Controllers\\CarritoController' => __DIR__ . '/../..' . '/app/Http/Controllers/CarritoController.php',
->>>>>>> rama-exe
         'App\\Http\\Controllers\\ConsultaController' => __DIR__ . '/../..' . '/app/Http/Controllers/ConsultaController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\PerfilController' => __DIR__ . '/../..' . '/app/Http/Controllers/PerfilController.php',
@@ -734,11 +728,8 @@ class ComposerStaticInitc57754c93ae34ac3b9b716a0fd2f2149
         'App\\Models\\Categoria' => __DIR__ . '/../..' . '/app/Models/Categoria.php',
         'App\\Models\\Consulta' => __DIR__ . '/../..' . '/app/Models/Consulta.php',
         'App\\Models\\Marca' => __DIR__ . '/../..' . '/app/Models/Marca.php',
-<<<<<<< HEAD
-=======
         'App\\Models\\Pedido' => __DIR__ . '/../..' . '/app/Models/Pedido.php',
         'App\\Models\\PedidoItem' => __DIR__ . '/../..' . '/app/Models/PedidoItem.php',
->>>>>>> rama-exe
         'App\\Models\\Producto' => __DIR__ . '/../..' . '/app/Models/Producto.php',
         'App\\Models\\ProductoImagen' => __DIR__ . '/../..' . '/app/Models/ProductoImagen.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',

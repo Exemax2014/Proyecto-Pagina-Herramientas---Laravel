@@ -11,17 +11,11 @@ return array(
     'App\\Http\\Controllers\\Admin\\AdminConsultaController' => $baseDir . '/app/Http/Controllers/Admin/AdminConsultaController.php',
     'App\\Http\\Controllers\\Admin\\AdminController' => $baseDir . '/app/Http/Controllers/Admin/AdminController.php',
     'App\\Http\\Controllers\\Admin\\AdminMarcaController' => $baseDir . '/app/Http/Controllers/Admin/AdminMarcaController.php',
-<<<<<<< HEAD
-    'App\\Http\\Controllers\\Admin\\AdminProductoController' => $baseDir . '/app/Http/Controllers/Admin/AdminProductoController.php',
-    'App\\Http\\Controllers\\Admin\\AdminUsuarioController' => $baseDir . '/app/Http/Controllers/Admin/AdminUsuarioController.php',
-    'App\\Http\\Controllers\\AuthController' => $baseDir . '/app/Http/Controllers/AuthController.php',
-=======
     'App\\Http\\Controllers\\Admin\\AdminPedidoController' => $baseDir . '/app/Http/Controllers/Admin/AdminPedidoController.php',
     'App\\Http\\Controllers\\Admin\\AdminProductoController' => $baseDir . '/app/Http/Controllers/Admin/AdminProductoController.php',
     'App\\Http\\Controllers\\Admin\\AdminUsuarioController' => $baseDir . '/app/Http/Controllers/Admin/AdminUsuarioController.php',
     'App\\Http\\Controllers\\AuthController' => $baseDir . '/app/Http/Controllers/AuthController.php',
     'App\\Http\\Controllers\\CarritoController' => $baseDir . '/app/Http/Controllers/CarritoController.php',
->>>>>>> rama-exe
     'App\\Http\\Controllers\\ConsultaController' => $baseDir . '/app/Http/Controllers/ConsultaController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\PerfilController' => $baseDir . '/app/Http/Controllers/PerfilController.php',
@@ -31,11 +25,8 @@ return array(
     'App\\Models\\Categoria' => $baseDir . '/app/Models/Categoria.php',
     'App\\Models\\Consulta' => $baseDir . '/app/Models/Consulta.php',
     'App\\Models\\Marca' => $baseDir . '/app/Models/Marca.php',
-<<<<<<< HEAD
-=======
     'App\\Models\\Pedido' => $baseDir . '/app/Models/Pedido.php',
     'App\\Models\\PedidoItem' => $baseDir . '/app/Models/PedidoItem.php',
->>>>>>> rama-exe
     'App\\Models\\Producto' => $baseDir . '/app/Models/Producto.php',
     'App\\Models\\ProductoImagen' => $baseDir . '/app/Models/ProductoImagen.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
