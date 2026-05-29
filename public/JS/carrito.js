@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         itemsWrap.innerHTML = items.map(item => {
             const nombre = item.nombre || 'Producto sin nombre';
-            const imagen = item.imagen || '/img/producto-sin-imagen.png';
+            const imagen = item.imagen || '/img/producto-sin-imagen.svg';
             const marca = item.marca || 'Sin marca';
             const categoria = item.categoria || 'Sin categoria';
             const cantidad = Number(item.cantidad) || 0;
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 precio_unitario: precioUnitario,
                 cantidad,
                 subtotal: precioUnitario * cantidad,
-                imagen: item.imagen || '/img/producto-sin-imagen.png',
+                imagen: item.imagen || '/img/producto-sin-imagen.svg',
             };
         });
 

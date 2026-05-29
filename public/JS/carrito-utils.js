@@ -56,7 +56,7 @@
             precio_unitario: Number(item?.precio_unitario ?? item?.precio) || 0,
             cantidad: Number(item?.cantidad) || 0,
             subtotal: Number(item?.subtotal) || ((Number(item?.precio_unitario ?? item?.precio) || 0) * (Number(item?.cantidad) || 0)),
-            imagen: item?.imagen || item?.producto?.imagen || '/img/producto-sin-imagen.png',
+            imagen: item?.imagen || item?.producto?.imagen || '/img/producto-sin-imagen.svg',
         })).filter(item => item.producto_id > 0 || item.id > 0);
     }
 
@@ -139,7 +139,7 @@
                 precio_unitario: precioUnitario,
                 cantidad: amount,
                 subtotal: precioUnitario * amount,
-                imagen: product.imagen || '/img/producto-sin-imagen.png',
+                imagen: product.imagen || '/img/producto-sin-imagen.svg',
             });
         }
 

@@ -88,7 +88,7 @@ class ProductoController extends Controller
                     'etiquetaClase'  => $p->etiqueta_clase,
                     'categoria'      => $p->categoria->slug,
                     'marca'          => $p->marca->nombre,
-                    'imagen'         => $p->imagenPrincipal?->url ?? '/img/productos/default.jpg',
+                    'imagen'         => $p->imagenPrincipal?->url ?? '/img/producto-sin-imagen.svg',
                 ];
             }),
             'total'        => $productos->total(),

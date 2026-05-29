@@ -14,7 +14,7 @@
 
     $imagenPrincipalUrl = $imagenPrincipal
         ? asset($imagenPrincipal->url)
-        : asset('img/producto-sin-imagen.png');
+        : asset('img/producto-sin-imagen.svg');
 
     $categoriaNombre = $producto->categoria->nombre ?? 'Sin categoría';
     $marcaNombre = $producto->marca->nombre ?? 'Sin marca';
@@ -204,7 +204,7 @@
             <div class="product-related-grid">
                 @foreach($relacionados as $rel)
                     @php
-                        $relImagen = $rel->imagenPrincipal?->url ?? 'img/producto-sin-imagen.png';
+                        $relImagen = $rel->imagenPrincipal?->url ?? 'img/producto-sin-imagen.svg';
                     @endphp
                     <article class="page-card product-related-card">
                         <a href="{{ route('producto', $rel->id) }}">

@@ -72,7 +72,7 @@
                         @php
                             $imagen = $producto->imagenPrincipal?->url
                                 ? asset($producto->imagenPrincipal->url)
-                                : asset('img/producto-sin-imagen.png');
+                                : asset('img/producto-sin-imagen.svg');
                         @endphp
 
                         <tr>

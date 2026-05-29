@@ -486,7 +486,7 @@ class CarritoController extends Controller
                 'subtotal' => (float) $item->subtotal,
                 'imagen' => $item->producto?->imagenPrincipal?->url
                     ? asset($item->producto->imagenPrincipal->url)
-                    : asset('img/producto-sin-imagen.png'),
+                    : asset('img/producto-sin-imagen.svg'),
             ];
         })->values();
 
