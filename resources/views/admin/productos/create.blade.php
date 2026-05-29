@@ -182,7 +182,7 @@
                         Guardar producto
                     </button>
                     
-                    <a href="{{ route('admin.usuarios.index') }}" class="btn btn-outline-dark w-100">
+                    <a href="{{ route('admin.productos.index') }}" class="btn btn-outline-dark w-100">
                         Volver al listado
                     </a>
                 </div>
