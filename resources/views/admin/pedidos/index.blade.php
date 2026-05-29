@@ -160,7 +160,7 @@
                             @endphp
                             <tr>
                                 <td class="text-center">
-                                    <strong>{{ $pedido->codigo ?: '#' . $pedido->id }}</strong>
+                                    <strong>{{ $pedido->codigo_visible }}</strong>
                                 </td>
                                 <td class="text-center">
                                     {{ $pedido->fecha_confirmacion?->format('d/m/Y H:i') ?? '-' }}

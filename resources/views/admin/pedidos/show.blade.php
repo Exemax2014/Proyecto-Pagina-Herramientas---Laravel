@@ -13,33 +13,22 @@
     @endphp
 
     <div class="admin-pedidos-stack">
-        <div class="admin-card">
-            <div class="admin-pedido-detail-head">
-                <div>
-                    <h2>Pedido {{ $pedido->codigo ?: '#' . $pedido->id }}</h2>
-                </div>
-
-                <a href="{{ route('admin.pedidos.index') }}" class="btn btn-outline-dark">
-                    Volver al listado
-                </a>
-            </div>
-        </div>
 
         <div class="row g-4">
             <div class="col-lg-8">
                 <div class="admin-card h-100">
-                    <div class="admin-pedido-section-head">
+                    <div class="admin-pedido-section-head mb-3">
                         <h2>Datos generales</h2>
-                        <span class="badge admin-status-badge admin-status-{{ $pedido->estado }}">
-                            {{ ucfirst($pedido->estado) }}
-                        </span>
                     </div>
 
-                    <div class="admin-pedido-detail-grid">
-                        <div>
-                            <span class="admin-pedido-label">Codigo / ID</span>
-                            <strong>{{ $pedido->codigo ?: '#' . $pedido->id }}</strong>
+                    <div class="admin-pedido-hero ">
+                        <div class="admin-pedido-hero-copy">
+                            <span class="admin-pedido-hero-kicker">Pedido {{ $pedido->codigo_visible }}</span>
+                            <strong class="admin-pedido-hero-total">${{ number_format((float) $pedido->total, 0, ',', '.') }}</strong>
                         </div>
+                    </div>
+
+                    <div class="admin-pedido-detail-grid admin-pedido-detail-grid-main mt-5">
                         <div>
                             <span class="admin-pedido-label">Fecha de confirmacion</span>
                             <strong>{{ $pedido->fecha_confirmacion?->format('d/m/Y H:i') ?? '-' }}</strong>
@@ -56,9 +45,20 @@
                             <span class="admin-pedido-label">Telefono</span>
                             <strong>{{ $pedido->telefono ?: '-' }}</strong>
                         </div>
-                        <div>
-                            <span class="admin-pedido-label">Total</span>
-                            <strong>${{ number_format((float) $pedido->total, 0, ',', '.') }}</strong>
+                    </div>
+
+                    <div class="admin-pedido-timeline-wrap mt-5">
+                        <span class="admin-pedido-label">Linea de estados</span>
+                        <div class="admin-pedido-timeline">
+                            @foreach($lineaEstados as $estadoPaso)
+                                <div class="admin-pedido-step {{ $estadoPaso['actual'] ? 'is-current' : '' }} {{ $estadoPaso['completado'] ? 'is-done' : '' }}">
+                                    <div class="admin-pedido-step-dot"></div>
+                                    <div class="admin-pedido-step-copy">
+                                        <strong>{{ $estadoPaso['titulo'] }}</strong>
+                                        <span>{{ $estadoPaso['fecha']?->format('d/m/Y H:i') ?? 'Pendiente' }}</span>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -72,7 +72,6 @@
                         @method('PATCH')
 
                         <div class="mb-3">
-                            <label for="estado" class="form-label admin-form-label">Estado</label>
                             <select name="estado" id="estado" class="form-select @error('estado') is-invalid @enderror">
                                 @foreach($estadosPermitidos as $estado)
                                     <option value="{{ $estado }}" @selected(old('estado', $pedido->estado) === $estado)>
@@ -85,15 +84,19 @@
                             @enderror
                         </div>
 
-                        <button type="submit" class="btn btn-warning w-100">
+                        <button type="submit" class="btn btn-warning w-100 mb-2">
                             Guardar estado
                         </button>
+
+                        <a href="{{ route('admin.pedidos.index') }}" class="btn btn-outline-dark w-100">
+                            Volver al listado
+                        </a>
                     </form>
 
                     <hr>
 
                     <div class="admin-pedido-address">
-                        <h2 class="mb-3">Entrega y contacto</h2>
+                        <h2 class="mb-3">Datos de entrega</h2>
 
                         <div class="admin-pedido-address-line">
                             <span class="admin-pedido-label">Direccion</span>
@@ -126,8 +129,15 @@
             </div>
         </div>
 
-        <div class="admin-card p-0 overflow-hidden">
-            <div class="table-responsive">
+        <div class="admin-card">
+            <div class="admin-pedido-items-head">
+                <h2>Productos del pedido</h2>
+                <a href="{{ route('admin.pedidos.pdf', $pedido) }}" class="btn btn-outline-dark">
+                    Descargar PDF
+                </a>
+            </div>
+
+            <div class="table-responsive admin-pedido-items-table-wrap">
                 <table class="table table-hover align-middle mb-0 admin-pedidos-table">
                     <thead class="table-light">
                         <tr>
@@ -142,12 +152,16 @@
                     <tbody>
                         @forelse($pedido->items as $item)
                             <tr>
-                                <td>{{ $item->producto_nombre ?: ($item->producto?->nombre ?? 'Producto sin nombre') }}</td>
+                                <td>
+                                    <div class="admin-pedido-product-cell">
+                                        <strong>{{ $item->producto_nombre ?: ($item->producto?->nombre ?? 'Producto sin nombre') }}</strong>
+                                    </div>
+                                </td>
                                 <td>{{ $item->producto_marca ?: ($item->producto?->marca?->nombre ?? 'Sin marca') }}</td>
                                 <td>{{ $item->producto_categoria ?: ($item->producto?->categoria?->nombre ?? 'Sin categoria') }}</td>
                                 <td class="text-center">{{ $item->cantidad }}</td>
                                 <td class="text-center">${{ number_format((float) $item->precio_unitario, 0, ',', '.') }}</td>
-                                <td class="text-center">
+                                <td class="text-center admin-pedido-subtotal-cell">
                                     <strong>${{ number_format((float) $item->subtotal, 0, ',', '.') }}</strong>
                                 </td>
                             </tr>
@@ -162,19 +176,19 @@
                     <tfoot>
                         <tr>
                             <th colspan="5" class="text-end">Subtotal</th>
-                            <th class="text-center">${{ number_format((float) $pedido->subtotal, 0, ',', '.') }}</th>
+                            <th class="text-center admin-pedido-footer-value">${{ number_format((float) $pedido->subtotal, 0, ',', '.') }}</th>
                         </tr>
                         <tr>
                             <th colspan="5" class="text-end">Envio</th>
-                            <th class="text-center">${{ number_format((float) $pedido->envio, 0, ',', '.') }}</th>
+                            <th class="text-center admin-pedido-footer-value">${{ number_format((float) $pedido->envio, 0, ',', '.') }}</th>
                         </tr>
                         <tr>
                             <th colspan="5" class="text-end">Descuento</th>
-                            <th class="text-center">${{ number_format((float) $pedido->descuento, 0, ',', '.') }}</th>
+                            <th class="text-center admin-pedido-footer-value">${{ number_format((float) $pedido->descuento, 0, ',', '.') }}</th>
                         </tr>
-                        <tr>
+                        <tr class="admin-pedido-total-row">
                             <th colspan="5" class="text-end">Total</th>
-                            <th class="text-center">${{ number_format((float) $pedido->total, 0, ',', '.') }}</th>
+                            <th class="text-center admin-pedido-footer-value">${{ number_format((float) $pedido->total, 0, ',', '.') }}</th>
                         </tr>
                     </tfoot>
                 </table>

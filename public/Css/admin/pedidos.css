@@ -158,6 +158,168 @@
     display: block;
 }
 
+.admin-pedido-page-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.admin-pedido-page-title {
+    margin: 0;
+    font-size: clamp(1.55rem, 2vw, 2rem);
+    font-weight: 800;
+    color: #2f2210;
+}
+
+.admin-pedido-page-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.admin-pedido-hero {
+    margin-bottom: 1.35rem;
+    padding: 1rem 1.1rem;
+    border-radius: 1rem;
+    background: linear-gradient(180deg, rgba(217, 164, 65, 0.12), rgba(217, 164, 65, 0.05));
+    border: 1px solid rgba(181, 137, 66, 0.18);
+}
+
+.admin-pedido-hero-copy {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.admin-pedido-hero-kicker {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.42rem 0.8rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(181, 137, 66, 0.18);
+    color: #6d501e;
+    font-weight: 700;
+}
+
+.admin-pedido-hero-total {
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+    color: #2f2210;
+}
+
+.admin-pedido-detail-grid-main {
+    margin-bottom: 1.35rem;
+}
+
+.admin-pedido-timeline-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.admin-pedido-timeline {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.9rem;
+}
+
+.admin-pedido-step {
+    position: relative;
+    min-width: 0;
+    padding: 0.95rem 1rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(181, 137, 66, 0.16);
+    background: rgba(255, 255, 255, 0.62);
+    color: #7a6651;
+}
+
+.admin-pedido-step.is-done {
+    color: #5d4b31;
+}
+
+.admin-pedido-step.is-current {
+    transform: translateY(-2px);
+    border-color: rgba(217, 164, 65, 0.28);
+    background: linear-gradient(180deg, rgba(217, 164, 65, 0.18), rgba(217, 164, 65, 0.08));
+    box-shadow: 0 12px 20px rgba(68, 45, 14, 0.08);
+    color: #2f2210;
+}
+
+.admin-pedido-step-dot {
+    width: 12px;
+    height: 12px;
+    margin-bottom: 0.8rem;
+    border-radius: 999px;
+    background: rgba(122, 102, 81, 0.38);
+}
+
+.admin-pedido-step.is-done .admin-pedido-step-dot {
+    background: rgba(217, 164, 65, 0.55);
+}
+
+.admin-pedido-step.is-current .admin-pedido-step-dot {
+    width: 16px;
+    height: 16px;
+    background: #d9a441;
+    box-shadow: 0 0 0 6px rgba(217, 164, 65, 0.12);
+}
+
+.admin-pedido-step-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.admin-pedido-step-copy strong {
+    font-size: 0.86rem;
+}
+
+.admin-pedido-step.is-current .admin-pedido-step-copy strong {
+    font-size: 0.98rem;
+}
+
+.admin-pedido-step-copy span {
+    font-size: 0.75rem;
+    color: #8a775c;
+}
+
+.admin-pedido-items-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.admin-pedido-items-head h2 {
+    margin: 0;
+}
+
+.admin-pedido-items-table-wrap {
+    border: 1px solid rgba(181, 137, 66, 0.14);
+    border-radius: 1rem;
+}
+
+.admin-pedido-product-cell strong {
+    color: #2f2210;
+}
+
+.admin-pedido-subtotal-cell strong,
+.admin-pedido-footer-value {
+    color: #2f2210;
+}
+
+.admin-pedido-total-row th,
+.admin-pedido-total-row .admin-pedido-footer-value {
+    font-size: 0.95rem;
+}
+
 @media (max-width: 1399.98px) {
     .admin-pedidos-summary-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -192,10 +354,25 @@
     .admin-pedido-detail-grid {
         grid-template-columns: 1fr;
     }
+
+    .admin-pedido-timeline {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 @media (max-width: 575.98px) {
     .admin-pedidos-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-pedido-page-actions,
+    .admin-pedido-hero-copy,
+    .admin-pedido-items-head {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-pedido-timeline {
         grid-template-columns: 1fr;
     }
 }

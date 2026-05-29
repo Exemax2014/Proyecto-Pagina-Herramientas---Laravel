@@ -207,6 +207,9 @@ Route::prefix('admin')
         Route::get('/pedidos/{pedido}', [AdminPedidoController::class, 'show'])
             ->name('pedidos.show');
 
+        Route::get('/pedidos/{pedido}/pdf', [AdminPedidoController::class, 'pdf'])
+            ->name('pedidos.pdf');
+
         Route::patch('/pedidos/{pedido}/estado', [AdminPedidoController::class, 'updateEstado'])
             ->name('pedidos.estado');
 
