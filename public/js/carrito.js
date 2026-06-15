@@ -9,9 +9,45 @@ document.addEventListener('DOMContentLoaded', function () {
     const totalEl = document.getElementById('cartTotal');
     const confirmBtn = document.getElementById('cartConfirmBtn');
     const feedbackEl = document.getElementById('cartFeedback');
+    const paymentInputs = Array.from(document.querySelectorAll('input[name="payment_method"]'));
+    const paymentStorageKey = 'hf_checkout_payment_method';
+    const fallbackImage = '/img/producto-sin-imagen.svg';
 
     function formatPrice(value) {
         return '$' + Number(value || 0).toLocaleString('es-AR');
+    }
+
+    function escapeHtml(value) {
+        return String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function safeImageUrl(value) {
+        const rawValue = String(value ?? '').trim();
+
+        if (!rawValue) {
+            return fallbackImage;
+        }
+
+        const normalizedValue = rawValue.toLowerCase();
+
+        if (/^(javascript|data|vbscript|file):/.test(normalizedValue)) {
+            return fallbackImage;
+        }
+
+        if (/^https?:\/\//i.test(rawValue)) {
+            return rawValue;
+        }
+
+        if (rawValue.startsWith('/') || rawValue.startsWith('./') || rawValue.startsWith('../')) {
+            return rawValue;
+        }
+
+        return fallbackImage;
     }
 
     function getItems() {
@@ -33,6 +69,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
         feedbackEl.className = `alert alert-${type}`;
         feedbackEl.textContent = message;
+    }
+
+    function getSelectedPaymentMethod() {
+        return paymentInputs.find(input => input.checked)?.value || sessionStorage.getItem(paymentStorageKey) || 'tarjeta';
+    }
+
+    function syncSelectedPaymentMethod() {
+        const stored = sessionStorage.getItem(paymentStorageKey);
+        const current = stored === 'efectivo' ? 'efectivo' : 'tarjeta';
+        const targetInput = paymentInputs.find(input => input.value === current);
+
+        if (targetInput) {
+            targetInput.checked = true;
+        }
+    }
+
+    function persistSelectedPaymentMethod() {
+        sessionStorage.setItem(paymentStorageKey, getSelectedPaymentMethod());
     }
 
     function renderSummary() {
@@ -61,10 +115,11 @@ document.addEventListener('DOMContentLoaded', function () {
         emptyState?.classList.add('d-none');
 
         itemsWrap.innerHTML = items.map(item => {
-            const nombre = item.nombre || 'Producto sin nombre';
-            const imagen = item.imagen || '/img/producto-sin-imagen.svg';
-            const marca = item.marca || 'Sin marca';
-            const categoria = item.categoria || 'Sin categoria';
+            const nombre = escapeHtml(item.nombre || 'Producto sin nombre');
+            const imagen = safeImageUrl(item.imagen);
+            const marca = escapeHtml(item.marca || 'Sin marca');
+            const categoria = escapeHtml(item.categoria || 'Sin categoria');
+            const descripcion = escapeHtml(item.descripcion || 'Herramienta lista para coordinar compra, retiro o entrega.');
             const cantidad = Number(item.cantidad) || 0;
             const subtotal = Number(item.subtotal) || 0;
             const precioUnitario = Number(item.precio_unitario) || 0;
@@ -78,7 +133,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="cart-item-body">
                         <span class="cart-item-brand">${marca}</span>
                         <h3>${nombre}</h3>
-                        <p class="cart-item-meta">Categoria: ${categoria}</p>
+                        <p class="cart-item-meta">Categoría: ${categoria}</p>
+                        <p class="cart-item-description">${descripcion}</p>
 
                         <div class="cart-item-controls">
                             <div class="cart-qty-box">
@@ -157,6 +213,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 nombre: item.nombre || 'Producto sin nombre',
                 marca: item.marca || 'Sin marca',
                 categoria: item.categoria || 'Sin categoria',
+                descripcion: item.descripcion || 'Herramienta lista para coordinar compra, retiro o entrega.',
                 precio_unitario: precioUnitario,
                 cantidad,
                 subtotal: precioUnitario * cantidad,
@@ -184,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const nextQty = currentQty - 1;
 
                 if (nextQty < 1) {
-                    setFeedback('La cantidad minima es 1. Usa Eliminar para quitar el item.');
+                    setFeedback('La cantidad mínima es 1. Usá Eliminar para quitar el item.');
                     return;
                 }
 
@@ -265,30 +322,29 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    confirmBtn?.addEventListener('click', async function () {
+    confirmBtn?.addEventListener('click', function () {
         if (getItems().length === 0) {
-            setFeedback('Tu carrito esta vacio.');
+            setFeedback('Tu carrito está vacío.');
             return;
         }
+
+        persistSelectedPaymentMethod();
+
+        const checkoutUrl = this.dataset.checkoutUrl || '/carrito/datos';
+        const nextUrl = `${checkoutUrl}?metodo_pago=${encodeURIComponent(getSelectedPaymentMethod())}`;
 
         if (!isLoggedIn()) {
-            window.CartUtils.redirectToLoginWithRedirect('/carrito');
+            window.CartUtils.redirectToLoginWithRedirect(nextUrl);
             return;
         }
 
-        this.disabled = true;
-        setFeedback('');
-
-        try {
-            const response = await window.CartUtils.confirmCart();
-            window.showToast(response.message || 'Pedido confirmado correctamente');
-            await loadCart();
-        } catch (error) {
-            setFeedback(error.message || 'No se pudo confirmar el pedido.');
-        } finally {
-            this.disabled = getItems().length === 0;
-        }
+        window.location.href = nextUrl;
     });
 
+    paymentInputs.forEach(input => {
+        input.addEventListener('change', persistSelectedPaymentMethod);
+    });
+
+    syncSelectedPaymentMethod();
     loadCart();
 });

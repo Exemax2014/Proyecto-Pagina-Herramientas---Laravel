@@ -9,26 +9,42 @@
 @section('contenido')
 <section class="page-section cart-page">
     <div class="container">
-
-        <!-- ================= HERO DEL CARRITO ================= -->
         <div class="cart-hero">
-            <div class="cart-hero-inline">
-                <span class="home-kicker">Proceso de compra</span>
-                <p class="cart-hero-copy">Revisá tus productos, completá tus datos y dejá listo el pedido para confirmar.</p>
+            <span class="home-kicker">Checkout Hierro & Forja</span>
+            <h1 class="cart-page-title">PRODUCTOS DEL CARRITO</h1>
+            <p class="cart-hero-copy">Revisá tus productos, ajustá cantidades y dejá listo el pedido para continuar con tus datos.</p>
+        </div>
+
+        <div class="cart-steps" aria-label="Pasos del checkout">
+            <div class="cart-step is-active">
+                <span class="cart-step-number">1</span>
+                <div>
+                    <strong>Carrito</strong>
+                    <span>Productos seleccionados</span>
+                </div>
+            </div>
+            <div class="cart-step">
+                <span class="cart-step-number">2</span>
+                <div>
+                    <strong>Datos</strong>
+                    <span>Entrega y contacto</span>
+                </div>
+            </div>
+            <div class="cart-step">
+                <span class="cart-step-number">3</span>
+                <div>
+                    <strong>Confirmación</strong>
+                    <span>Pedido realizado</span>
+                </div>
             </div>
         </div>
 
-        <!-- ================= CONTENIDO PRINCIPAL ================= -->
         <div class="cart-layout">
-
-            <!-- ===== COLUMNA IZQUIERDA ===== -->
             <div class="cart-main">
-
-                <!-- ===== PRODUCTOS DEL CARRITO ===== -->
                 <section class="cart-section">
                     <div class="section-heading cart-section-heading">
                         <h2>Productos del carrito</h2>
-                        <p>Modificá cantidades, eliminá artículos o revisá los importes antes de continuar.</p>
+                        <p>Vas a poder editar cantidades o eliminar artículos antes de avanzar al paso 2.</p>
                     </div>
 
                     <div class="alert d-none" id="cartFeedback" role="alert"></div>
@@ -42,69 +58,13 @@
                         <a href="{{ route('catalogo') }}" class="btn btn-warning">Ir al catálogo</a>
                     </div>
                 </section>
-
-                <!-- ===== DATOS DEL CLIENTE ===== 
-                <section class="cart-section">
-                    <div class="section-heading cart-section-heading">
-                        <span class="home-kicker">Contacto</span>
-                        <h2>Datos del cliente y entrega</h2>
-                    </div>
-
-                    <div class="page-card cart-form-card">
-                        <form id="cartCheckoutForm" class="cart-form">
-                            <div class="cart-form-grid">
-                                <div class="cart-form-field">
-                                    <label for="cliente_nombre">Nombre completo</label>
-                                    <input type="text" id="cliente_nombre" class="form-control" placeholder="Ingresá tu nombre completo">
-                                </div>
-
-                                <div class="cart-form-field">
-                                    <label for="cliente_correo">Correo electrónico</label>
-                                    <input type="email" id="cliente_correo" class="form-control" placeholder="Ingresá tu correo">
-                                </div>
-
-                                <div class="cart-form-field">
-                                    <label for="cliente_telefono">Teléfono</label>
-                                    <input type="text" id="cliente_telefono" class="form-control" placeholder="Ingresá tu teléfono">
-                                </div>
-
-                                <div class="cart-form-field">
-                                    <label for="cliente_ciudad">Ciudad</label>
-                                    <input type="text" id="cliente_ciudad" class="form-control" placeholder="Ingresá tu ciudad">
-                                </div>
-
-                                <div class="cart-form-field cart-form-field-full">
-                                    <label for="cliente_direccion">Dirección</label>
-                                    <input type="text" id="cliente_direccion" class="form-control" placeholder="Ingresá tu dirección">
-                                </div>
-
-                                <div class="cart-form-field">
-                                    <label for="cliente_provincia">Provincia</label>
-                                    <input type="text" id="cliente_provincia" class="form-control" placeholder="Ingresá tu provincia">
-                                </div>
-
-                                <div class="cart-form-field">
-                                    <label for="cliente_cp">Código postal</label>
-                                    <input type="text" id="cliente_cp" class="form-control" placeholder="Ingresá tu código postal">
-                                </div>
-
-                                <div class="cart-form-field cart-form-field-full">
-                                    <label for="cliente_observaciones">Observaciones</label>
-                                    <textarea id="cliente_observaciones" class="form-control" rows="4" placeholder="Escribí una observación si lo necesitás"></textarea>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </section>  -->
             </div>
 
-            <!-- ===== COLUMNA DERECHA ===== -->
             <aside class="cart-sidebar">
-
-                <!-- ===== RESUMEN ===== -->
                 <div class="page-card cart-summary-card">
                     <div class="cart-summary-head">
                         <h2>Resumen del pedido</h2>
+                        <p>El paso 1 no confirma el pedido. Solo prepara el checkout.</p>
                     </div>
 
                     <div class="cart-summary-lines">
@@ -112,12 +72,10 @@
                             <span>Subtotal</span>
                             <strong id="cartSubtotal">$0</strong>
                         </div>
-
                         <div class="cart-summary-line">
                             <span>Envío estimado</span>
                             <strong id="cartShipping">$0</strong>
                         </div>
-
                         <div class="cart-summary-line">
                             <span>Descuento</span>
                             <strong id="cartDiscount">$0</strong>
@@ -131,12 +89,12 @@
 
                     <div class="cart-payment-methods">
                         <h3>Método de pago</h3>
-                        
+
                         <label class="cart-payment-option">
-                            <input type="radio" name="payment_method" value="tarjeta">
+                            <input type="radio" name="payment_method" value="tarjeta" checked>
                             <div>
                                 <strong>Tarjeta</strong>
-                                <span>Preparado para integrar pasarela</span>
+                                <span>Débito, crédito o coordinación comercial</span>
                             </div>
                         </label>
 
@@ -144,13 +102,18 @@
                             <input type="radio" name="payment_method" value="efectivo">
                             <div>
                                 <strong>Efectivo / contra entrega</strong>
-                                <span>Según condiciones comerciales</span>
+                                <span>Pago acordado al retirar o recibir</span>
                             </div>
                         </label>
                     </div>
 
                     <div class="cart-summary-actions">
-                        <button type="button" class="btn btn-warning cart-confirm-btn" id="cartConfirmBtn">
+                        <button
+                            type="button"
+                            class="btn btn-warning cart-confirm-btn"
+                            id="cartConfirmBtn"
+                            data-checkout-url="{{ route('carrito.datos') }}"
+                        >
                             Confirmar pedido
                         </button>
 
@@ -160,13 +123,12 @@
                     </div>
                 </div>
 
-                <!-- ===== BENEFICIOS ===== -->
                 <div class="cart-benefits-grid">
                     <div class="page-card cart-benefit-card">
                         <i class="bi bi-truck"></i>
                         <div>
                             <strong>Envíos</strong>
-                            <span>Coordinación según zona</span>
+                            <span>Coordinación rápida según zona y volumen.</span>
                         </div>
                     </div>
 
@@ -174,7 +136,7 @@
                         <i class="bi bi-shield-check"></i>
                         <div>
                             <strong>Respaldo</strong>
-                            <span>Compra segura y clara</span>
+                            <span>Pedido claro, stock validado y seguimiento.</span>
                         </div>
                     </div>
                 </div>
