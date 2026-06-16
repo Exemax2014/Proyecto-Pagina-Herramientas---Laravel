@@ -145,7 +145,6 @@
                                 data-product-nombre="{{ $producto->nombre }}"
                                 data-product-marca="{{ $producto->marca?->nombre }}"
                                 data-product-categoria="{{ $producto->categoria?->slug }}"
-                                data-product-energia="{{ $producto->energia }}"
                                 data-product-precio="{{ (float) $producto->precio }}"
                                 data-product-precio-anterior="{{ $producto->precio_anterior !== null ? (float) $producto->precio_anterior : '' }}"
                                 data-product-descuento="{{ $producto->porcentaje_descuento ?? '' }}"

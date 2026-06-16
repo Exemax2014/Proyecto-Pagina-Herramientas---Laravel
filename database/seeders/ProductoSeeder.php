@@ -64,7 +64,6 @@ class ProductoSeeder extends Seeder
                     'precio_anterior' => $data['precio_anterior'] ?? null,
                     'stock'           => $data['stock'] ?? 10,
                     'ventas'          => $data['ventas'] ?? 0,
-                    'energia'         => $data['energia'],
                     'etiqueta'        => $data['etiqueta'] ?? null,
                     'etiqueta_clase'  => $data['etiqueta_clase'] ?? null,
                     'etiqueta_id'     => $this->resolverEtiquetaId($data['etiqueta'] ?? null),

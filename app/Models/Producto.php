@@ -18,7 +18,6 @@ class Producto extends Model
         'precio_anterior',
         'stock',
         'ventas',
-        'energia',
         'etiqueta',
         'etiqueta_clase',
         'etiqueta_id',

@@ -83,7 +83,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         nombre: this.dataset.productNombre,
                         marca: this.dataset.productMarca,
                         categoria: this.dataset.productCategoria,
-                        energia: this.dataset.productEnergia,
                         precio: Number(this.dataset.productPrecio),
                         precioAnterior: this.dataset.productPrecioAnterior ? Number(this.dataset.productPrecioAnterior) : null,
                         descuentoPorcentaje: this.dataset.productDescuento ? Number(this.dataset.productDescuento) : null,
