@@ -97,6 +97,8 @@ Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito');
 
 Route::middleware('usuario')->group(function () {
     Route::get('/carrito/datos', [CarritoController::class, 'datos'])->name('carrito.datos');
+    Route::post('/carrito/datos', [CarritoController::class, 'guardarDatos'])->name('carrito.datos.store');
+    Route::get('/carrito/confirmacion', [CarritoController::class, 'confirmacion'])->name('carrito.confirmacion');
     Route::get('/carrito/obtener', [CarritoController::class, 'obtenerCarrito'])->name('carrito.obtener');
     Route::post('/carrito/agregar', [CarritoController::class, 'agregar'])->name('carrito.agregar');
     Route::post('/carrito/migrar', [CarritoController::class, 'migrar'])->name('carrito.migrar');

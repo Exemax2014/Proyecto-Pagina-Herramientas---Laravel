@@ -1111,6 +1111,100 @@
     background: rgba(0, 0, 0, 0.45);
 }
 
+/* ------------------------------------ MIS DATOS ---------------------------------------- */
+
+.profile-page-card {
+    padding: clamp(1.5rem, 2.6vw, 2.2rem);
+}
+
+.profile-data-form {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.profile-data-layout {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.35rem;
+    align-items: start;
+}
+
+.profile-data-card {
+    display: grid;
+    gap: 1.1rem;
+    padding: 1.35rem;
+    border: 1px solid rgba(17, 17, 17, 0.09);
+    border-radius: 1.15rem;
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: 0 18px 34px rgba(17, 17, 17, 0.06);
+}
+
+.profile-data-card-head {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.profile-data-card-head h3 {
+    margin: 0;
+    font-family: "Oswald", sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.profile-data-card-head p {
+    margin: 0;
+    color: var(--hf-text-muted);
+    line-height: 1.55;
+}
+
+.profile-data-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.profile-data-field {
+    display: grid;
+    gap: 0.45rem;
+}
+
+.profile-data-field--full {
+    grid-column: 1 / -1;
+}
+
+.profile-data-field .form-control {
+    min-height: 2.95rem;
+    border-radius: 0.85rem;
+    border-color: rgba(17, 17, 17, 0.12);
+    background: rgba(244, 239, 231, 0.68);
+}
+
+.profile-data-field .form-control:focus {
+    border-color: rgba(217, 164, 65, 0.65);
+    box-shadow: 0 0 0 0.2rem rgba(217, 164, 65, 0.14);
+}
+
+.profile-data-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.profile-address-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+.profile-address-tab {
+    min-height: 2.6rem;
+    padding-inline: 1rem;
+    border-radius: 0.85rem;
+    font-weight: 700;
+}
+
 
 /* ═════════════════════════════════════════════════════════════════════════════════════════ */
 /* ------------------------------------ RESPONSIVE ---------------------------------------- */
@@ -1380,5 +1474,10 @@
 
     .contact-dark-card {
         padding: 1.25rem;
+    }
+
+    .profile-address-tabs .btn,
+    .profile-address-tabs .profile-address-tab {
+        width: 100%;
     }
 }

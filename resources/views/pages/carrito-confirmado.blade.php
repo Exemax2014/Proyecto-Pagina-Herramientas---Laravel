@@ -9,34 +9,11 @@
 @section('contenido')
 <section class="page-section cart-page">
     <div class="container">
+        @include('checkout.partials.timeline', ['currentStep' => 'confirmacion'])
+
         <div class="cart-hero">
-            <span class="home-kicker">Checkout Hierro & Forja</span>
             <h1 class="cart-page-title">¡PEDIDO CONFIRMADO!</h1>
             <p class="cart-hero-copy">Tu pedido ya quedó registrado. A partir de ahora podés seguir su estado desde tu cuenta.</p>
-        </div>
-
-        <div class="cart-steps" aria-label="Pasos del checkout">
-            <div class="cart-step is-complete">
-                <span class="cart-step-number">1</span>
-                <div>
-                    <strong>Carrito</strong>
-                    <span>Completado</span>
-                </div>
-            </div>
-            <div class="cart-step is-complete">
-                <span class="cart-step-number">2</span>
-                <div>
-                    <strong>Datos</strong>
-                    <span>Completado</span>
-                </div>
-            </div>
-            <div class="cart-step is-active">
-                <span class="cart-step-number">3</span>
-                <div>
-                    <strong>Confirmación</strong>
-                    <span>Pedido realizado</span>
-                </div>
-            </div>
         </div>
 
         <div class="cart-layout cart-layout--confirmed">
@@ -67,34 +44,11 @@
                     </div>
                 </section>
 
-                <section class="page-card cart-timeline-card">
-                    <div class="section-heading cart-section-heading">
-                        <h2>Estado del pedido</h2>
-                        <p>Estas son las etapas previstas para tu compra.</p>
-                    </div>
-
-                    <div class="cart-status-timeline">
-                        @foreach($lineaEstados as $estadoPaso)
-                            <div class="cart-status-step {{ $estadoPaso['completado'] ? 'is-complete' : '' }} {{ $estadoPaso['actual'] ? 'is-current' : '' }}">
-                                <span class="cart-status-dot"></span>
-                                <div>
-                                    <strong>{{ $estadoPaso['titulo'] }}</strong>
-                                    <span>{{ $estadoPaso['fecha']?->format('d/m/Y H:i') ?? 'Pendiente' }}</span>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </section>
-
                 <section class="page-card cart-confirmed-items-card">
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
                         <div>
                             <h2 class="h4 mb-1">Resumen real del pedido</h2>
                             <p class="text-muted mb-0">Los importes ya quedaron cerrados al momento de confirmar.</p>
-                        </div>
-                        <div class="cart-confirmed-actions">
-                            <a href="{{ route('mis-compras.index') }}" class="btn btn-outline-dark">Ver mis compras</a>
-                            <a href="{{ route('catalogo') }}" class="btn btn-warning">Seguir comprando</a>
                         </div>
                     </div>
 
@@ -144,6 +98,11 @@
                     <div class="cart-summary-total">
                         <span>Total</span>
                         <strong>${{ number_format((float) $pedido->total, 0, ',', '.') }}</strong>
+                    </div>
+
+                    <div class="cart-confirmed-actions">
+                        <a href="{{ route('mis-compras.index') }}" class="btn btn-outline-dark">Ver mis compras</a>
+                        <a href="{{ route('catalogo') }}" class="btn btn-warning">Seguir comprando</a>
                     </div>
                 </div>
             </aside>

@@ -8,11 +8,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const shippingEl = document.getElementById('checkoutShipping');
     const discountEl = document.getElementById('checkoutDiscount');
     const totalEl = document.getElementById('checkoutTotal');
-    const paymentLabelEl = document.getElementById('checkoutPaymentLabel');
     const feedbackEl = document.getElementById('checkoutFeedback');
     const submitBtn = document.getElementById('checkoutSubmitBtn');
-    const paymentInputs = Array.from(document.querySelectorAll('input[name="metodo_pago"]'));
+    const deliveryRadios = Array.from(form.querySelectorAll('input[name="entrega_opcion"]'));
+    const existingAddressOption = document.getElementById('existingAddressOption');
+    const newAddressOption = document.getElementById('newAddressOption');
+    const pickupOptionCard = document.getElementById('pickupOptionCard');
+    const existingAddressesBlock = document.getElementById('existingAddressesBlock');
+    const existingAddressRadios = Array.from(form.querySelectorAll('input[name="domicilio_id"]'));
+    const newAddressFields = document.getElementById('newAddressFields');
+    const addressFields = Array.from(form.querySelectorAll('#newAddressGrid input'));
+    const provinceField = document.getElementById('checkout_provincia');
     const fallbackImage = '/img/producto-sin-imagen.svg';
+    const localProvince = form.dataset.localProvince || '';
+    const shippingSameProvince = Number(form.dataset.shippingSameProvince || 0);
+    const shippingOtherProvince = Number(form.dataset.shippingOtherProvince || 0);
 
     let carrito = safeParseInitialCart(form.dataset.initialCart);
     let migrationReady = false;
@@ -42,6 +52,13 @@ document.addEventListener('DOMContentLoaded', function () {
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#39;');
+    }
+
+    function normalizeProvince(value) {
+        return String(value ?? '')
+            .trim()
+            .replace(/\s+/g, ' ')
+            .toLowerCase();
     }
 
     function safeImageUrl(value) {
@@ -85,16 +102,53 @@ document.addEventListener('DOMContentLoaded', function () {
         return Array.isArray(carrito?.items) ? carrito.items : [];
     }
 
-    function getSelectedPaymentLabel() {
-        const selected = paymentInputs.find(input => input.checked)?.value || 'tarjeta';
-        return selected === 'efectivo' ? 'Efectivo / contra entrega' : 'Tarjeta';
+    function getSelectedDeliveryMode() {
+        return deliveryRadios.find(function (radio) {
+            return radio.checked;
+        })?.value || 'domicilio_nuevo';
+    }
+
+    function getSelectedExistingProvince() {
+        return existingAddressRadios.find(function (radio) {
+            return radio.checked;
+        })?.dataset.provincia || '';
+    }
+
+    function calculateShippingPreview() {
+        const selectedMode = getSelectedDeliveryMode();
+
+        if (selectedMode === 'retiro_local') {
+            return 0;
+        }
+
+        const province = selectedMode === 'domicilio_existente'
+            ? getSelectedExistingProvince()
+            : provinceField?.value || '';
+
+        const normalizedProvince = normalizeProvince(province);
+
+        if (!normalizedProvince) {
+            return 0;
+        }
+
+        return normalizedProvince === normalizeProvince(localProvince)
+            ? shippingSameProvince
+            : shippingOtherProvince;
+    }
+
+    function updateShippingPreview() {
+        carrito = {
+            ...(carrito || {}),
+            envio: calculateShippingPreview(),
+        };
+        carrito.total = Number(carrito?.subtotal || 0) + Number(carrito?.envio || 0) - Number(carrito?.descuento || 0);
+        renderSummary();
     }
 
     function updateSubmitState() {
         if (!submitBtn) return;
 
-        const hasItems = getItems().length > 0;
-        submitBtn.disabled = !migrationReady || migrationFailed || !hasItems || isSubmitting;
+        submitBtn.disabled = !migrationReady || migrationFailed || getItems().length === 0 || isSubmitting;
     }
 
     function renderSummary() {
@@ -130,12 +184,57 @@ document.addEventListener('DOMContentLoaded', function () {
         shippingEl.textContent = formatPrice(Number(carrito?.envio) || 0);
         discountEl.textContent = formatPrice(Number(carrito?.descuento) || 0);
         totalEl.textContent = formatPrice(Number(carrito?.total) || 0);
-        paymentLabelEl.textContent = getSelectedPaymentLabel();
         updateSubmitState();
+    }
 
-        if (items.length === 0 && migrationReady && !migrationFailed) {
-            setFeedback('No hay productos cargados para confirmar. Volvé al carrito y revisá el pedido.', 'warning');
+    function clearNewAddressFields() {
+        addressFields.forEach(function (field) {
+            field.value = '';
+        });
+    }
+
+    function updateSelectedExistingAddressCards() {
+        existingAddressRadios.forEach(function (radio) {
+            radio.closest('.delivery-address-card')?.classList.toggle('is-selected', radio.checked);
+        });
+    }
+
+    function updateOptionCards(mode) {
+        [
+            [existingAddressOption, mode === 'domicilio_existente'],
+            [newAddressOption, mode === 'domicilio_nuevo'],
+            [pickupOptionCard, mode === 'retiro_local'],
+        ].forEach(function ([element, isActive]) {
+            if (!element) return;
+
+            element.classList.toggle('active', isActive);
+            element.classList.toggle('is-active', isActive);
+        });
+    }
+
+    function setAddressMode(mode, shouldClear = false) {
+        if (mode === 'domicilio_existente' && !existingAddressOption) {
+            mode = 'domicilio_nuevo';
         }
+
+        if (!['domicilio_existente', 'domicilio_nuevo', 'retiro_local'].includes(mode)) {
+            mode = existingAddressOption ? 'domicilio_existente' : 'domicilio_nuevo';
+        }
+
+        deliveryRadios.forEach(function (radio) {
+            radio.checked = radio.value === mode;
+        });
+
+        if (shouldClear) {
+            clearNewAddressFields();
+        }
+
+        updateOptionCards(mode);
+        updateSelectedExistingAddressCards();
+
+        existingAddressesBlock?.classList.toggle('d-none', mode !== 'domicilio_existente');
+        newAddressFields?.classList.toggle('d-none', mode !== 'domicilio_nuevo');
+        updateShippingPreview();
     }
 
     async function loadBackendCart() {
@@ -145,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function () {
         updateSubmitState();
 
         try {
-            setFeedback('Estamos sincronizando tu carrito antes de confirmar el pedido.', 'warning');
+            setFeedback('Estamos sincronizando tu carrito antes de continuar.', 'warning');
 
             if (window.CartUtils?.migrateLocalCartIfNeeded) {
                 const migration = await window.CartUtils.migrateLocalCartIfNeeded();
@@ -163,30 +262,44 @@ document.addEventListener('DOMContentLoaded', function () {
                 setFeedback('');
             }
 
-            renderSummary();
+            updateShippingPreview();
         } catch (error) {
             migrationReady = false;
             migrationFailed = true;
-            setFeedback(error.message || 'No se pudo sincronizar el carrito. No es posible confirmar el pedido hasta resolverlo.');
-            renderSummary();
+            setFeedback(error.message || 'No se pudo sincronizar el carrito. No es posible continuar hasta resolverlo.');
+            updateShippingPreview();
         }
     }
 
-    paymentInputs.forEach(input => {
-        input.addEventListener('change', renderSummary);
+    deliveryRadios.forEach(function (radio) {
+        radio.addEventListener('change', function () {
+            setAddressMode(radio.value, true);
+        });
+    });
+
+    existingAddressRadios.forEach(function (radio) {
+        radio.addEventListener('change', function () {
+            setAddressMode('domicilio_existente', false);
+        });
+    });
+
+    provinceField?.addEventListener('input', function () {
+        if (getSelectedDeliveryMode() === 'domicilio_nuevo') {
+            updateShippingPreview();
+        }
     });
 
     form.addEventListener('submit', function (event) {
         if (!migrationReady || migrationFailed) {
             event.preventDefault();
-            setFeedback('Todavía no terminó la sincronización del carrito. Esperá un momento o recargá la página.', 'warning');
+            setFeedback('Estamos sincronizando el carrito, intenta nuevamente en unos segundos.', 'warning');
             updateSubmitState();
             return;
         }
 
         if (getItems().length === 0) {
             event.preventDefault();
-            setFeedback('No hay productos cargados para confirmar. Volvé al carrito y revisá el pedido.', 'warning');
+            setFeedback('No hay productos cargados para continuar. Vuelve al carrito y revisa el pedido.', 'warning');
             updateSubmitState();
             return;
         }
@@ -200,7 +313,8 @@ document.addEventListener('DOMContentLoaded', function () {
         updateSubmitState();
     });
 
+    setAddressMode(deliveryRadios.find(radio => radio.checked)?.value || 'domicilio_nuevo', false);
     updateSubmitState();
-    renderSummary();
+    updateShippingPreview();
     loadBackendCart();
 });

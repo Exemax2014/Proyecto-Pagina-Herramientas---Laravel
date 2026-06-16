@@ -9,176 +9,274 @@
 @section('contenido')
 <section class="page-section cart-page">
     <div class="container">
+        @include('checkout.partials.timeline', ['currentStep' => 'datos'])
+
         <div class="cart-hero">
-            <span class="home-kicker">Checkout Hierro & Forja</span>
-            <h1 class="cart-page-title">PASO 2: DATOS Y ENTREGA</h1>
-            <p class="cart-hero-copy">Completá tus datos, elegí cómo querés recibir el pedido y confirmá la compra real.</p>
+            <h2>PASO 2: DATOS Y ENTREGA</h2>
+            <p class="cart-hero-copy">Corrobora tus datos personales y elige como quieres recibir tu pedido.</p>
         </div>
 
-        <div class="cart-steps" aria-label="Pasos del checkout">
-            <div class="cart-step is-complete">
-                <span class="cart-step-number">1</span>
-                <div>
-                    <strong>Carrito</strong>
-                    <span>Productos revisados</span>
-                </div>
+        @if($errors->any())
+            <div class="alert alert-danger mb-4" role="alert">
+                {{ $errors->first('checkout') ?: 'Revisa los datos obligatorios antes de continuar.' }}
             </div>
-            <div class="cart-step is-active">
-                <span class="cart-step-number">2</span>
-                <div>
-                    <strong>Datos</strong>
-                    <span>Entrega y contacto</span>
-                </div>
-            </div>
-            <div class="cart-step">
-                <span class="cart-step-number">3</span>
-                <div>
-                    <strong>Confirmación</strong>
-                    <span>Pedido realizado</span>
-                </div>
-            </div>
-        </div>
+        @endif
 
         <div class="cart-layout">
             <div class="cart-main">
-                <section class="cart-section">
-                    <div class="section-heading cart-section-heading">
-                        <h2>Datos del comprador</h2>
-                        <p>Estos datos se guardan en el pedido confirmado para poder coordinar retiro o entrega.</p>
-                    </div>
+                <form
+                    id="cartCheckoutForm"
+                    class="cart-form"
+                    method="POST"
+                    action="{{ route('carrito.datos.store') }}"
+                    data-initial-cart='@json($carrito)'
+                    data-local-province="{{ $provinciaLocal }}"
+                    data-shipping-same-province="{{ $shippingSameProvince }}"
+                    data-shipping-other-province="{{ $shippingOtherProvince }}"
+                >
+                    @csrf
 
-                    @if($errors->any())
-                        <div class="alert alert-danger" role="alert">
-                            {{ $errors->first('checkout') ?: 'Revisá los datos obligatorios antes de continuar.' }}
+                    <section class="page-card cart-form-card buyer-data-card">
+                        <div class="section-heading cart-section-heading">
+                            <h2>DATOS DEL COMPRADOR</h2>
                         </div>
-                    @endif
 
-                    <div class="page-card cart-form-card">
-                        <form
-                            id="cartCheckoutForm"
-                            class="cart-form"
-                            method="POST"
-                            action="{{ route('carrito.confirmar') }}"
-                            data-initial-cart='@json($carrito)'
-                        >
-                            @csrf
-
-                            <div class="cart-form-grid">
-                                <div class="cart-form-field">
-                                    <label for="checkout_nombre">Nombre</label>
-                                    <input type="text" id="checkout_nombre" name="nombre" class="form-control" value="{{ old('nombre', $usuario->nombre) }}" required>
+                        <div class="buyer-data-compact">
+                            <div class="buyer-row buyer-row-two">
+                                <div class="buyer-info-item">
+                                    <span class="buyer-label">Nombre:</span>
+                                    <span class="buyer-value">{{ $usuario->nombre }}</span>
                                 </div>
-
-                                <div class="cart-form-field">
-                                    <label for="checkout_apellido">Apellido</label>
-                                    <input type="text" id="checkout_apellido" name="apellido" class="form-control" value="{{ old('apellido', $usuario->apellido) }}" required>
-                                </div>
-
-                                <div class="cart-form-field">
-                                    <label for="checkout_email">Email</label>
-                                    <input type="email" id="checkout_email" name="email" class="form-control" value="{{ old('email', $usuario->email) }}" required>
-                                </div>
-
-                                <div class="cart-form-field">
-                                    <label for="checkout_dni">DNI</label>
-                                    <input type="text" id="checkout_dni" name="dni" class="form-control" value="{{ old('dni', $usuario->dni) }}" required>
-                                </div>
-
-                                <div class="cart-form-field">
-                                    <label for="checkout_telefono">Teléfono</label>
-                                    <input type="text" id="checkout_telefono" name="telefono" class="form-control" value="{{ old('telefono', $usuario->telefono) }}" required>
-                                </div>
-
-                                <div class="cart-form-field cart-form-field-full">
-                                    <label for="checkout_direccion">Dirección</label>
-                                    <input type="text" id="checkout_direccion" name="direccion" class="form-control" value="{{ old('direccion', $usuario->direccion) }}" required>
-                                </div>
-
-                                <div class="cart-form-field">
-                                    <label for="checkout_ciudad">Ciudad</label>
-                                    <input type="text" id="checkout_ciudad" name="ciudad" class="form-control" value="{{ old('ciudad', $usuario->ciudad) }}" required>
-                                </div>
-
-                                <div class="cart-form-field">
-                                    <label for="checkout_provincia">Provincia</label>
-                                    <input type="text" id="checkout_provincia" name="provincia" class="form-control" value="{{ old('provincia', $usuario->provincia) }}" required>
-                                </div>
-
-                                <div class="cart-form-field">
-                                    <label for="checkout_codigo_postal">Código postal</label>
-                                    <input type="text" id="checkout_codigo_postal" name="codigo_postal" class="form-control" value="{{ old('codigo_postal', $usuario->codigo_postal) }}" required>
+                                <div class="buyer-info-item">
+                                    <span class="buyer-label">Apellido:</span>
+                                    <span class="buyer-value">{{ $usuario->apellido }}</span>
                                 </div>
                             </div>
 
-                            <div class="cart-form-block">
-                                <div class="cart-form-block-head">
-                                    <h3>Entrega</h3>
-                                    <p>Elegí cómo querés coordinar este pedido.</p>
+                            <div class="buyer-row buyer-row-two">
+                                <div class="buyer-info-item">
+                                    <span class="buyer-label">Telefono:</span>
+                                    <span class="buyer-value">{{ $usuario->telefono ?: 'No informado' }}</span>
                                 </div>
-
-                                <div class="cart-choice-grid">
-                                    <label class="cart-choice-card">
-                                        <input type="radio" name="modo_entrega" value="retiro_local" {{ $modoEntregaSeleccionado === 'retiro_local' ? 'checked' : '' }} required>
-                                        <div>
-                                            <strong>Retiro en local</strong>
-                                            <span>Coordinamos día y horario para retiro.</span>
-                                        </div>
-                                    </label>
-
-                                    <label class="cart-choice-card">
-                                        <input type="radio" name="modo_entrega" value="envio_domicilio" {{ $modoEntregaSeleccionado === 'envio_domicilio' ? 'checked' : '' }} required>
-                                        <div>
-                                            <strong>Coordinación de envío</strong>
-                                            <span>Validamos zona, costo y disponibilidad.</span>
-                                        </div>
-                                    </label>
+                                <div class="buyer-info-item">
+                                    <span class="buyer-label">DNI:</span>
+                                    <span class="buyer-value">{{ $usuario->dni ?: 'No informado' }}</span>
                                 </div>
                             </div>
 
-                            <div class="cart-form-block">
-                                <div class="cart-form-block-head">
-                                    <h3>Pago</h3>
-                                    <p>Se toma la selección del paso 1, pero todavía podés ajustarla.</p>
+                            <div class="buyer-row buyer-row-full">
+                                <div class="buyer-info-item">
+                                    <span class="buyer-label">Correo:</span>
+                                    <span class="buyer-value">{{ $usuario->email }}</span>
                                 </div>
+                            </div>
+                        </div>
+                    </section>
 
-                                <div class="cart-choice-grid">
-                                    <label class="cart-choice-card">
-                                        <input type="radio" name="metodo_pago" value="tarjeta" {{ $metodoPagoSeleccionado === 'tarjeta' ? 'checked' : '' }} required>
-                                        <div>
-                                            <strong>Tarjeta</strong>
-                                            <span>Pago digital o coordinación comercial.</span>
-                                        </div>
+                    <section class="page-card cart-form-card delivery-card">
+                        <div class="section-heading cart-section-heading">
+                            <h2>ENTREGA</h2>
+                            <p>Usa tu domicilio actual, carga uno nuevo o elige retiro en local.</p>
+                        </div>
+
+                        @if($domicilios->isEmpty())
+                            <div class="alert alert-warning mb-3" role="alert">
+                                Agrega un nuevo domicilio para continuar con envio o selecciona retiro en local.
+                            </div>
+                        @endif
+
+                        <div class="delivery-options">
+                            @if($domicilios->isNotEmpty())
+                                <div class="delivery-option-group">
+                                    <label
+                                        class="delivery-option {{ $domicilioOpcion === 'domicilio_existente' ? 'active' : '' }}"
+                                        id="existingAddressOption"
+                                        for="entrega_domicilio_existente"
+                                    >
+                                        <input
+                                            type="radio"
+                                            class="delivery-option-input"
+                                            id="entrega_domicilio_existente"
+                                            name="entrega_opcion"
+                                            value="domicilio_existente"
+                                            {{ $domicilioOpcion === 'domicilio_existente' ? 'checked' : '' }}
+                                        >
+                                        <span class="delivery-option-header">
+                                            <span class="delivery-option-radio" aria-hidden="true"></span>
+                                            <span>
+                                                <strong class="delivery-option-title">
+                                                    {{ $domicilios->count() > 1 ? 'Selecciona un domicilio registrado' : 'Domicilio registrado' }}
+                                                </strong>
+                                                <span class="delivery-option-copy">
+                                                    {{ $domicilios->count() > 1 ? 'Elige uno de tus domicilios guardados para esta compra.' : 'Usa tu domicilio guardado para esta compra.' }}
+                                                </span>
+                                            </span>
+                                        </span>
                                     </label>
 
-                                    <label class="cart-choice-card">
-                                        <input type="radio" name="metodo_pago" value="efectivo" {{ $metodoPagoSeleccionado === 'efectivo' ? 'checked' : '' }} required>
-                                        <div>
-                                            <strong>Efectivo / contra entrega</strong>
-                                            <span>Pago acordado al momento de retirar o recibir.</span>
+                                    <div class="delivery-option-body {{ $domicilioOpcion === 'domicilio_existente' ? '' : 'd-none' }}" id="existingAddressesBlock">
+                                        <div class="delivery-address-list">
+                                            @foreach($domicilios as $domicilio)
+                                                <label class="delivery-address-card" for="domicilio_existente_{{ $domicilio->id }}">
+                                                    <input
+                                                        type="radio"
+                                                        class="delivery-address-input"
+                                                        id="domicilio_existente_{{ $domicilio->id }}"
+                                                        name="domicilio_id"
+                                                        value="{{ $domicilio->id }}"
+                                                        data-provincia="{{ $domicilio->provincia }}"
+                                                        {{ (int) $domicilioSeleccionadoId === (int) $domicilio->id ? 'checked' : '' }}
+                                                    >
+                                                    <span class="delivery-address-card-head">
+                                                        <span class="delivery-option-radio" aria-hidden="true"></span>
+                                                        <span>
+                                                            <strong class="delivery-option-title">
+                                                                {{ $domicilio->es_principal ? 'Domicilio principal' : 'Domicilio registrado' }}
+                                                            </strong>
+                                                            <span class="delivery-option-copy">
+                                                                {{ $domicilio->linea_principal ?? trim($domicilio->calle . ' ' . $domicilio->numero) }}
+                                                            </span>
+                                                        </span>
+                                                    </span>
+
+                                                    <span class="address-data-compact">
+                                                        <span class="address-row-two">
+                                                            <span class="address-info-item">
+                                                                <span class="address-label">Calle:</span>
+                                                                <span class="address-value">{{ $domicilio->calle }}</span>
+                                                            </span>
+                                                            <span class="address-info-item">
+                                                                <span class="address-label">Numero:</span>
+                                                                <span class="address-value">{{ $domicilio->numero }}</span>
+                                                            </span>
+                                                        </span>
+
+                                                        <span class="address-row-two">
+                                                            <span class="address-info-item">
+                                                                <span class="address-label">Piso / Departamento:</span>
+                                                                <span class="address-value">{{ $domicilio->piso_departamento ?: 'No informado' }}</span>
+                                                            </span>
+                                                            <span class="address-info-item">
+                                                                <span class="address-label">Ciudad:</span>
+                                                                <span class="address-value">{{ $domicilio->ciudad }}</span>
+                                                            </span>
+                                                        </span>
+
+                                                        <span class="address-row-two">
+                                                            <span class="address-info-item">
+                                                                <span class="address-label">Provincia:</span>
+                                                                <span class="address-value">{{ $domicilio->provincia }}</span>
+                                                            </span>
+                                                            <span class="address-info-item">
+                                                                <span class="address-label">Codigo postal:</span>
+                                                                <span class="address-value">{{ $domicilio->codigo_postal ?: 'No informado' }}</span>
+                                                            </span>
+                                                        </span>
+
+                                                        <span class="address-row-two address-row-two--single">
+                                                            <span class="address-info-item">
+                                                                <span class="address-label">Referencia:</span>
+                                                                <span class="address-value">{{ $domicilio->referencia ?: 'No informado' }}</span>
+                                                            </span>
+                                                        </span>
+                                                    </span>
+                                                </label>
+                                            @endforeach
                                         </div>
-                                    </label>
+                                    </div>
+                                </div>
+                            @endif
+
+                            <div class="delivery-option-group">
+                                <label
+                                    class="delivery-option {{ $domicilioOpcion === 'domicilio_nuevo' ? 'active' : '' }}"
+                                    id="newAddressOption"
+                                    for="entrega_domicilio_nuevo"
+                                >
+                                    <input
+                                        type="radio"
+                                        class="delivery-option-input"
+                                        id="entrega_domicilio_nuevo"
+                                        name="entrega_opcion"
+                                        value="domicilio_nuevo"
+                                        {{ $domicilioOpcion === 'domicilio_nuevo' ? 'checked' : '' }}
+                                    >
+                                    <span class="delivery-option-header">
+                                        <span class="delivery-option-radio" aria-hidden="true"></span>
+                                        <span>
+                                            <strong class="delivery-option-title">Nuevo domicilio</strong>
+                                            <span class="delivery-option-copy">Cargar otro domicilio para esta compra.</span>
+                                        </span>
+                                    </span>
+                                </label>
+
+                                <div class="delivery-option-body {{ $domicilioOpcion === 'domicilio_nuevo' ? '' : 'd-none' }}" id="newAddressFields">
+                                    <div class="cart-form-grid address-grid" id="newAddressGrid">
+                                        <div class="cart-form-field address-field">
+                                            <label for="checkout_calle">Calle</label>
+                                            <input type="text" id="checkout_calle" name="calle" class="form-control" value="{{ $nuevoDomicilio['calle'] }}">
+                                        </div>
+                                        <div class="cart-form-field address-field">
+                                            <label for="checkout_numero">Numero</label>
+                                            <input type="text" id="checkout_numero" name="numero" class="form-control" value="{{ $nuevoDomicilio['numero'] }}">
+                                        </div>
+                                        <div class="cart-form-field address-field">
+                                            <label for="checkout_piso_departamento">Piso / Departamento</label>
+                                            <input type="text" id="checkout_piso_departamento" name="piso_departamento" class="form-control" value="{{ $nuevoDomicilio['piso_departamento'] }}">
+                                        </div>
+                                        <div class="cart-form-field address-field">
+                                            <label for="checkout_ciudad">Ciudad</label>
+                                            <input type="text" id="checkout_ciudad" name="ciudad" class="form-control" value="{{ $nuevoDomicilio['ciudad'] }}">
+                                        </div>
+                                        <div class="cart-form-field address-field">
+                                            <label for="checkout_provincia">Provincia</label>
+                                            <input type="text" id="checkout_provincia" name="provincia" class="form-control" value="{{ $nuevoDomicilio['provincia'] }}">
+                                        </div>
+                                        <div class="cart-form-field address-field">
+                                            <label for="checkout_codigo_postal">Codigo postal</label>
+                                            <input type="text" id="checkout_codigo_postal" name="codigo_postal" class="form-control" value="{{ $nuevoDomicilio['codigo_postal'] }}">
+                                        </div>
+                                        <div class="cart-form-field cart-form-field-full address-field">
+                                            <label for="checkout_referencia">Referencia</label>
+                                            <input type="text" id="checkout_referencia" name="referencia" class="form-control" value="{{ $nuevoDomicilio['referencia'] }}">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="cart-form-actions">
-                                <button type="submit" class="btn btn-warning cart-confirm-btn" id="checkoutSubmitBtn">
-                                    Continuar a confirmación
-                                </button>
-
-                                <a href="{{ route('carrito') }}" class="btn btn-outline-dark cart-continue-btn">
-                                    Volver al carrito
-                                </a>
+                            <div class="delivery-option-group">
+                                <label
+                                    class="delivery-option {{ $domicilioOpcion === 'retiro_local' ? 'active' : '' }}"
+                                    id="pickupOptionCard"
+                                    for="entrega_retiro_local"
+                                >
+                                    <input
+                                        type="radio"
+                                        class="delivery-option-input"
+                                        id="entrega_retiro_local"
+                                        name="entrega_opcion"
+                                        value="retiro_local"
+                                        {{ $domicilioOpcion === 'retiro_local' ? 'checked' : '' }}
+                                    >
+                                    <span class="delivery-option-header">
+                                        <span class="delivery-option-radio" aria-hidden="true"></span>
+                                        <span>
+                                            <strong class="delivery-option-title">Retiro en local</strong>
+                                            <span class="delivery-option-copy">Retira tu pedido en nuestro local. {{ $direccionLocal }}</span>
+                                        </span>
+                                    </span>
+                                </label>
                             </div>
-                        </form>
-                    </div>
-                </section>
+                        </div>
+                    </section>
+                </form>
             </div>
 
             <aside class="cart-sidebar">
                 <div class="page-card cart-summary-card cart-summary-card--sticky">
                     <div class="cart-summary-head">
-                        <h2>Resumen del pedido</h2>
-                        <p>Revisá la compra antes de confirmar.</p>
+                        <h2>RESUMEN DEL PEDIDO</h2>
+                        <p>Revisa tus productos antes de pasar al paso final.</p>
                     </div>
 
                     <div class="alert d-none" id="checkoutFeedback" role="alert"></div>
@@ -191,22 +289,28 @@
                             <strong id="checkoutSubtotal">${{ number_format((float) ($carrito['subtotal'] ?? 0), 0, ',', '.') }}</strong>
                         </div>
                         <div class="cart-summary-line">
-                            <span>Envío</span>
+                            <span>Envio estimado</span>
                             <strong id="checkoutShipping">${{ number_format((float) ($carrito['envio'] ?? 0), 0, ',', '.') }}</strong>
                         </div>
                         <div class="cart-summary-line">
                             <span>Descuento</span>
                             <strong id="checkoutDiscount">${{ number_format((float) ($carrito['descuento'] ?? 0), 0, ',', '.') }}</strong>
                         </div>
-                        <div class="cart-summary-line">
-                            <span>Método de pago</span>
-                            <strong id="checkoutPaymentLabel">{{ $metodoPagoSeleccionado === 'efectivo' ? 'Efectivo / contra entrega' : 'Tarjeta' }}</strong>
-                        </div>
                     </div>
 
                     <div class="cart-summary-total">
                         <span>Total</span>
                         <strong id="checkoutTotal">${{ number_format((float) ($carrito['total'] ?? 0), 0, ',', '.') }}</strong>
+                    </div>
+
+                    <div class="cart-summary-actions cart-summary-actions--stacked">
+                        <button type="submit" form="cartCheckoutForm" class="btn btn-warning cart-confirm-btn" id="checkoutSubmitBtn">
+                            Continuar a confirmacion
+                        </button>
+
+                        <a href="{{ route('carrito') }}" class="btn btn-outline-dark cart-continue-btn">
+                            Volver al carrito
+                        </a>
                     </div>
                 </div>
             </aside>

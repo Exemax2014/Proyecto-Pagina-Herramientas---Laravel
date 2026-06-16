@@ -5,7 +5,6 @@
 @section('contenido')
 <section class="page-section">
     <div class="container">
-
         <div class="row justify-content-center">
             <div class="col-12 col-lg-9">
                 <article class="page-card">
@@ -32,7 +31,7 @@
                             <span class="home-kicker">Perfil de usuario</span>
                             <h2 class="mb-1">Mis datos</h2>
                             <p class="mb-0 text-muted">
-                                Aca podes actualizar la informacion cargada en tu cuenta.
+                                Actualiza tus datos personales y los domicilios disponibles para tus futuras compras.
                             </p>
                         </div>
 
@@ -45,128 +44,208 @@
                                 Volver al catalogo
                             </a>
                         @endif
-
                     </div>
 
-                    <form action="{{ route('mis-datos.update') }}" method="POST">
+                    <form action="{{ route('mis-datos.update') }}" method="POST" id="misDatosForm">
                         @csrf
                         @method('PATCH')
 
+                        <input type="hidden" name="domicilio_mode" id="domicilio_mode" value="{{ $domicilioMode }}">
+                        <input type="hidden" name="selected_domicilio_id" id="selected_domicilio_id" value="{{ $selectedDomicilioId }}">
+
                         <div class="row g-3">
-                            <div class="col-12 col-md-6">
-                                <div class="border rounded-3 p-3 h-100">
-                                    <label for="nombre" class="form-label">Nombre</label>
-                                    <input
-                                        type="text"
-                                        id="nombre"
-                                        name="nombre"
-                                        class="form-control"
-                                        value="{{ old('nombre', $usuario->nombre) }}"
-                                    >
+                            <div class="col-12">
+                                <div class="border rounded-3 p-3">
+                                    <h3 class="h5 mb-3">Datos principales</h3>
+
+                                    <div class="row g-3">
+                                        <div class="col-12 col-md-6">
+                                            <label for="nombre" class="form-label">Nombre</label>
+                                            <input
+                                                type="text"
+                                                id="nombre"
+                                                name="nombre"
+                                                class="form-control"
+                                                value="{{ old('nombre', $usuario->nombre) }}"
+                                            >
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label for="apellido" class="form-label">Apellido</label>
+                                            <input
+                                                type="text"
+                                                id="apellido"
+                                                name="apellido"
+                                                class="form-control"
+                                                value="{{ old('apellido', $usuario->apellido) }}"
+                                            >
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label for="telefono" class="form-label">Telefono</label>
+                                            <input
+                                                type="text"
+                                                id="telefono"
+                                                name="telefono"
+                                                class="form-control"
+                                                value="{{ old('telefono', $usuario->telefono) }}"
+                                            >
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label for="dni" class="form-label">DNI</label>
+                                            <input
+                                                type="text"
+                                                id="dni"
+                                                name="dni"
+                                                class="form-control"
+                                                value="{{ old('dni', $usuario->dni) }}"
+                                            >
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input
+                                                type="email"
+                                                id="email"
+                                                name="email"
+                                                class="form-control"
+                                                value="{{ old('email', $usuario->email) }}"
+                                            >
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col-12 col-md-6">
-                                <div class="border rounded-3 p-3 h-100">
-                                    <label for="apellido" class="form-label">Apellido</label>
-                                    <input
-                                        type="text"
-                                        id="apellido"
-                                        name="apellido"
-                                        class="form-control"
-                                        value="{{ old('apellido', $usuario->apellido) }}"
-                                    >
-                                </div>
-                            </div>
+                            <div class="col-12">
+                                <div class="border rounded-3 p-3">
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
+                                        <div>
+                                            <h3 class="h5 mb-1">Domicilios registrados</h3>
+                                            <p class="mb-0 text-muted">
+                                                Selecciona un domicilio para editarlo o agrega uno nuevo si todavia tienes espacio disponible.
+                                            </p>
+                                        </div>
 
-                            <div class="col-12 col-md-6">
-                                <div class="border rounded-3 p-3 h-100">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                        class="form-control"
-                                        value="{{ old('email', $usuario->email) }}"
-                                    >
-                                </div>
-                            </div>
+                                        @if(! $canAddDomicilio)
+                                            <span class="small text-muted">Maximo 4 domicilios registrados</span>
+                                        @endif
+                                    </div>
 
-                            <div class="col-12 col-md-6">
-                                <div class="border rounded-3 p-3 h-100">
-                                    <label for="dni" class="form-label">DNI</label>
-                                    <input
-                                        type="text"
-                                        id="dni"
-                                        name="dni"
-                                        class="form-control"
-                                        value="{{ old('dni', $usuario->dni) }}"
-                                    >
-                                </div>
-                            </div>
+                                    <div class="profile-address-tabs mb-3" id="domicilioTabs">
+                                        @foreach($domicilios as $index => $domicilio)
+                                            <button
+                                                type="button"
+                                                class="btn {{ $domicilioMode === 'existing' && (int) $selectedDomicilioId === (int) $domicilio->id ? 'btn-warning' : 'btn-outline-dark' }} profile-address-tab"
+                                                data-mode="existing"
+                                                data-id="{{ $domicilio->id }}"
+                                                data-calle="{{ e($domicilio->calle) }}"
+                                                data-numero="{{ e($domicilio->numero) }}"
+                                                data-piso="{{ e($domicilio->piso_departamento ?? '') }}"
+                                                data-ciudad="{{ e($domicilio->ciudad) }}"
+                                                data-provincia="{{ e($domicilio->provincia) }}"
+                                                data-codigo-postal="{{ e($domicilio->codigo_postal ?? '') }}"
+                                                data-referencia="{{ e($domicilio->referencia ?? '') }}"
+                                            >
+                                                Domicilio {{ $index + 1 }}
+                                            </button>
+                                        @endforeach
 
-                            <div class="col-12 col-md-6">
-                                <div class="border rounded-3 p-3 h-100">
-                                    <label for="telefono" class="form-label">Telefono</label>
-                                    <input
-                                        type="text"
-                                        id="telefono"
-                                        name="telefono"
-                                        class="form-control"
-                                        value="{{ old('telefono', $usuario->telefono) }}"
-                                    >
-                                </div>
-                            </div>
+                                        @if($canAddDomicilio)
+                                            <button
+                                                type="button"
+                                                class="btn {{ $domicilioMode === 'new' ? 'btn-warning' : 'btn-outline-dark' }} profile-address-tab"
+                                                id="addAddressTab"
+                                                data-mode="new"
+                                                data-id=""
+                                            >
+                                                Agregar domicilio
+                                            </button>
+                                        @endif
+                                    </div>
 
-                            <div class="col-12 col-md-6">
-                                <div class="border rounded-3 p-3 h-100">
-                                    <label for="direccion" class="form-label">Direccion</label>
-                                    <input
-                                        type="text"
-                                        id="direccion"
-                                        name="direccion"
-                                        class="form-control"
-                                        value="{{ old('direccion', $usuario->direccion) }}"
-                                    >
-                                </div>
-                            </div>
+                                    @if($domicilios->isEmpty())
+                                        <p class="text-muted small mb-3">Completa los datos para registrar tu primer domicilio.</p>
+                                    @endif
 
-                            <div class="col-12 col-md-4">
-                                <div class="border rounded-3 p-3 h-100">
-                                    <label for="ciudad" class="form-label">Ciudad</label>
-                                    <input
-                                        type="text"
-                                        id="ciudad"
-                                        name="ciudad"
-                                        class="form-control"
-                                        value="{{ old('ciudad', $usuario->ciudad) }}"
-                                    >
-                                </div>
-                            </div>
+                                    <div class="row g-3">
+                                        <div class="col-12 col-lg-4">
+                                            <label for="calle" class="form-label">Calle</label>
+                                            <input
+                                                type="text"
+                                                id="calle"
+                                                name="calle"
+                                                class="form-control"
+                                                value="{{ old('calle', $domicilioForm['calle']) }}"
+                                            >
+                                        </div>
 
-                            <div class="col-12 col-md-4">
-                                <div class="border rounded-3 p-3 h-100">
-                                    <label for="provincia" class="form-label">Provincia</label>
-                                    <input
-                                        type="text"
-                                        id="provincia"
-                                        name="provincia"
-                                        class="form-control"
-                                        value="{{ old('provincia', $usuario->provincia) }}"
-                                    >
-                                </div>
-                            </div>
+                                        <div class="col-12 col-lg-4">
+                                            <label for="numero" class="form-label">Numero</label>
+                                            <input
+                                                type="text"
+                                                id="numero"
+                                                name="numero"
+                                                class="form-control"
+                                                value="{{ old('numero', $domicilioForm['numero']) }}"
+                                            >
+                                        </div>
 
-                            <div class="col-12 col-md-4">
-                                <div class="border rounded-3 p-3 h-100">
-                                    <label for="codigo_postal" class="form-label">Codigo postal</label>
-                                    <input
-                                        type="text"
-                                        id="codigo_postal"
-                                        name="codigo_postal"
-                                        class="form-control"
-                                        value="{{ old('codigo_postal', $usuario->codigo_postal) }}"
-                                    >
+                                        <div class="col-12 col-lg-4">
+                                            <label for="piso_departamento" class="form-label">Piso / Departamento</label>
+                                            <input
+                                                type="text"
+                                                id="piso_departamento"
+                                                name="piso_departamento"
+                                                class="form-control"
+                                                value="{{ old('piso_departamento', $domicilioForm['piso_departamento']) }}"
+                                            >
+                                        </div>
+
+                                        <div class="col-12 col-lg-4">
+                                            <label for="ciudad" class="form-label">Ciudad</label>
+                                            <input
+                                                type="text"
+                                                id="ciudad"
+                                                name="ciudad"
+                                                class="form-control"
+                                                value="{{ old('ciudad', $domicilioForm['ciudad']) }}"
+                                            >
+                                        </div>
+
+                                        <div class="col-12 col-lg-4">
+                                            <label for="provincia" class="form-label">Provincia</label>
+                                            <input
+                                                type="text"
+                                                id="provincia"
+                                                name="provincia"
+                                                class="form-control"
+                                                value="{{ old('provincia', $domicilioForm['provincia']) }}"
+                                            >
+                                        </div>
+
+                                        <div class="col-12 col-lg-4">
+                                            <label for="codigo_postal" class="form-label">Codigo postal</label>
+                                            <input
+                                                type="text"
+                                                id="codigo_postal"
+                                                name="codigo_postal"
+                                                class="form-control"
+                                                value="{{ old('codigo_postal', $domicilioForm['codigo_postal']) }}"
+                                            >
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label for="referencia" class="form-label">Referencia</label>
+                                            <input
+                                                type="text"
+                                                id="referencia"
+                                                name="referencia"
+                                                class="form-control"
+                                                value="{{ old('referencia', $domicilioForm['referencia']) }}"
+                                            >
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -175,7 +254,7 @@
                                     <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-dark">
                                         Cancelar
                                     </a>
-                                @else    
+                                @else
                                     <a href="{{ route('catalogo') }}" class="btn btn-outline-dark">
                                         Cancelar
                                     </a>
@@ -190,7 +269,82 @@
                 </article>
             </div>
         </div>
-
     </div>
 </section>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const tabs = Array.from(document.querySelectorAll('.profile-address-tab'));
+    const modeInput = document.getElementById('domicilio_mode');
+    const selectedIdInput = document.getElementById('selected_domicilio_id');
+    const fields = {
+        calle: document.getElementById('calle'),
+        numero: document.getElementById('numero'),
+        piso: document.getElementById('piso_departamento'),
+        ciudad: document.getElementById('ciudad'),
+        provincia: document.getElementById('provincia'),
+        codigoPostal: document.getElementById('codigo_postal'),
+        referencia: document.getElementById('referencia'),
+    };
+
+    if (!tabs.length || !modeInput || !selectedIdInput) return;
+
+    function setTabStyle(activeTab) {
+        tabs.forEach(function (tab) {
+            const isActive = tab === activeTab;
+            tab.classList.toggle('btn-warning', isActive);
+            tab.classList.toggle('btn-outline-dark', !isActive);
+        });
+    }
+
+    function fillAddressForm(data) {
+        fields.calle.value = data.calle || '';
+        fields.numero.value = data.numero || '';
+        fields.piso.value = data.piso || '';
+        fields.ciudad.value = data.ciudad || '';
+        fields.provincia.value = data.provincia || '';
+        fields.codigoPostal.value = data.codigoPostal || '';
+        fields.referencia.value = data.referencia || '';
+    }
+
+    function activateTab(tab) {
+        const mode = tab.dataset.mode || 'existing';
+
+        modeInput.value = mode;
+        selectedIdInput.value = mode === 'existing' ? (tab.dataset.id || '') : '';
+
+        if (mode === 'new') {
+            fillAddressForm({
+                calle: '',
+                numero: '',
+                piso: '',
+                ciudad: '',
+                provincia: '',
+                codigoPostal: '',
+                referencia: '',
+            });
+        } else {
+            fillAddressForm({
+                calle: tab.dataset.calle || '',
+                numero: tab.dataset.numero || '',
+                piso: tab.dataset.piso || '',
+                ciudad: tab.dataset.ciudad || '',
+                provincia: tab.dataset.provincia || '',
+                codigoPostal: tab.dataset.codigoPostal || '',
+                referencia: tab.dataset.referencia || '',
+            });
+        }
+
+        setTabStyle(tab);
+    }
+
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            activateTab(tab);
+        });
+    });
+});
+</script>
+@endpush

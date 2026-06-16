@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Domicilio;
 use App\Models\Pedido;
 use App\Models\PedidoItem;
 use App\Models\Producto;
@@ -12,6 +13,12 @@ use Illuminate\Support\Str;
 
 class CarritoController extends Controller
 {
+    private const CHECKOUT_SESSION_KEY = 'checkout_data';
+    private const LOCAL_PICKUP_ADDRESS = 'Don Bosco 985, Corrientes';
+    private const LOCAL_PICKUP_PROVINCE = 'Corrientes';
+    private const SHIPPING_SAME_PROVINCE = 20000.0;
+    private const SHIPPING_OTHER_PROVINCE = 40000.0;
+
     private const ESTADOS_CONFIRMACION = [
         'confirmado',
         'preparando',
@@ -27,18 +34,220 @@ class CarritoController extends Controller
     {
         $usuario = Usuario::findOrFail(session('usuario_id'));
         $pedido = $this->obtenerCarritoActivo($usuario->id);
+        $checkoutData = $this->getCheckoutData();
+        $domicilioPrincipal = $this->obtenerODefinirDomicilioCheckout($usuario);
+        $domicilios = $usuario->domicilios()
+            ->orderByDesc('es_principal')
+            ->latest('id')
+            ->get();
+        $prefillAddress = $checkoutData['nuevo_domicilio'] ?? [
+            'calle' => '',
+            'numero' => '',
+            'piso_departamento' => '',
+            'ciudad' => '',
+            'provincia' => '',
+            'codigo_postal' => '',
+            'referencia' => '',
+        ];
+
+        $domicilioOpcion = old(
+            'entrega_opcion',
+            $checkoutData['domicilio_opcion'] ?? ($domicilioPrincipal ? 'domicilio_existente' : 'domicilio_nuevo')
+        );
+
+        if (! in_array($domicilioOpcion, ['domicilio_existente', 'domicilio_nuevo', 'retiro_local'], true)) {
+            $domicilioOpcion = $domicilioPrincipal ? 'domicilio_existente' : 'domicilio_nuevo';
+        }
+
+        if (! $domicilioPrincipal && $domicilioOpcion === 'domicilio_existente') {
+            $domicilioOpcion = 'domicilio_nuevo';
+        }
+
+        $domicilioSeleccionadoId = (int) old(
+            'domicilio_id',
+            $checkoutData['domicilio_id'] ?? $domicilioPrincipal?->id
+        );
+
+        if ($domicilioSeleccionadoId > 0 && ! $domicilios->contains('id', $domicilioSeleccionadoId)) {
+            $domicilioSeleccionadoId = (int) ($domicilioPrincipal?->id ?? 0);
+        }
+
+        $carrito = $pedido
+            ? $this->serializarCarrito($pedido)
+            : $this->serializarCarritoVacio($usuario->id);
+
+        $domicilioSeleccionado = $domicilios->firstWhere('id', $domicilioSeleccionadoId) ?: $domicilioPrincipal;
+        $domicilioPreview = match ($domicilioOpcion) {
+            'domicilio_existente' => $domicilioSeleccionado ? $this->serializarDomicilio($domicilioSeleccionado) : null,
+            'domicilio_nuevo' => $this->buildNuevoDomicilioSnapshot($prefillAddress),
+            'retiro_local' => $this->buildRetiroLocalSnapshot(),
+            default => null,
+        };
+
+        $carrito = $this->aplicarEnvioAlCarrito(
+            $carrito,
+            $this->calcularCostoEnvioCheckout(
+                $domicilioOpcion === 'retiro_local' ? 'retiro_local' : 'envio',
+                $domicilioPreview
+            )
+        );
 
         return view('pages.carrito-datos', [
             'usuario' => $usuario,
-            'carrito' => $pedido
-                ? $this->serializarCarrito($pedido)
-                : $this->serializarCarritoVacio($usuario->id),
-            'metodoPagoSeleccionado' => $this->normalizarMetodoPago(
-                old('metodo_pago', $request->query('metodo_pago', 'tarjeta'))
+            'domicilios' => $domicilios,
+            'domicilioActual' => $domicilioPrincipal,
+            'carrito' => $carrito,
+            'domicilioOpcion' => $domicilioOpcion,
+            'nuevoDomicilio' => array_merge($prefillAddress, [
+                'calle' => old('calle', $prefillAddress['calle'] ?? ''),
+                'numero' => old('numero', $prefillAddress['numero'] ?? ''),
+                'piso_departamento' => old('piso_departamento', $prefillAddress['piso_departamento'] ?? ''),
+                'ciudad' => old('ciudad', $prefillAddress['ciudad'] ?? ''),
+                'provincia' => old('provincia', $prefillAddress['provincia'] ?? ''),
+                'codigo_postal' => old('codigo_postal', $prefillAddress['codigo_postal'] ?? ''),
+                'referencia' => old('referencia', $prefillAddress['referencia'] ?? ''),
+            ]),
+            'domicilioSeleccionadoId' => $domicilioSeleccionadoId,
+            'direccionLocal' => self::LOCAL_PICKUP_ADDRESS,
+            'provinciaLocal' => self::LOCAL_PICKUP_PROVINCE,
+            'shippingSameProvince' => self::SHIPPING_SAME_PROVINCE,
+            'shippingOtherProvince' => self::SHIPPING_OTHER_PROVINCE,
+        ]);
+    }
+
+    public function guardarDatos(Request $request)
+    {
+        $usuario = Usuario::findOrFail(session('usuario_id'));
+        $pedido = $this->obtenerCarritoActivo($usuario->id);
+
+        if (! $pedido || $pedido->items->isEmpty()) {
+            return redirect()
+                ->route('carrito')
+                ->withErrors(['checkout' => 'No hay un carrito con productos para continuar el checkout.']);
+        }
+
+        $validated = $request->validate([
+            'entrega_opcion' => ['required', 'in:domicilio_existente,domicilio_nuevo,retiro_local'],
+            'domicilio_id' => ['nullable', 'integer'],
+            'calle' => ['nullable', 'string', 'max:120'],
+            'numero' => ['nullable', 'string', 'max:40'],
+            'piso_departamento' => ['nullable', 'string', 'max:80'],
+            'ciudad' => ['nullable', 'string', 'max:100'],
+            'provincia' => ['nullable', 'string', 'max:100'],
+            'codigo_postal' => ['nullable', 'string', 'max:20'],
+            'referencia' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $domicilioOpcion = $validated['entrega_opcion'];
+        $selectedDomicilio = null;
+        $nuevoDomicilioData = [
+            'calle' => trim((string) ($validated['calle'] ?? '')),
+            'numero' => trim((string) ($validated['numero'] ?? '')),
+            'piso_departamento' => trim((string) ($validated['piso_departamento'] ?? '')),
+            'ciudad' => trim((string) ($validated['ciudad'] ?? '')),
+            'provincia' => trim((string) ($validated['provincia'] ?? '')),
+            'codigo_postal' => trim((string) ($validated['codigo_postal'] ?? '')),
+            'referencia' => trim((string) ($validated['referencia'] ?? '')),
+        ];
+
+        if ($domicilioOpcion === 'retiro_local') {
+            session([
+                self::CHECKOUT_SESSION_KEY => $this->enriquecerCheckoutDataConEnvio([
+                    'modo_entrega' => 'retiro_local',
+                    'domicilio_opcion' => 'retiro_local',
+                    'domicilio_id' => null,
+                    'nuevo_domicilio' => [
+                        'calle' => '',
+                        'numero' => '',
+                        'piso_departamento' => '',
+                        'ciudad' => '',
+                        'provincia' => '',
+                        'codigo_postal' => '',
+                        'referencia' => '',
+                    ],
+                    'domicilio_snapshot' => $this->buildRetiroLocalSnapshot(),
+                ]),
+            ]);
+
+            return redirect()->route('carrito.confirmacion');
+        }
+
+        if ($domicilioOpcion === 'domicilio_existente') {
+            $selectedDomicilio = $usuario->domicilios()
+                ->where('id', $validated['domicilio_id'] ?? 0)
+                ->first();
+
+            if (! $selectedDomicilio || $selectedDomicilio->usuario_id !== $usuario->id) {
+                return back()
+                    ->withErrors(['checkout' => 'Selecciona un domicilio registrado valido para continuar.'])
+                    ->withInput();
+            }
+        } else {
+            foreach (['calle', 'numero', 'ciudad', 'provincia', 'codigo_postal'] as $campo) {
+                if ($nuevoDomicilioData[$campo] === '') {
+                    return back()
+                        ->withErrors(['checkout' => 'Completa calle, numero, ciudad, provincia y codigo postal para usar un domicilio nuevo.'])
+                        ->withInput();
+                }
+            }
+
+            $selectedDomicilio = $usuario->domicilios()->create([
+                'calle' => $nuevoDomicilioData['calle'],
+                'numero' => $nuevoDomicilioData['numero'],
+                'piso_departamento' => $nuevoDomicilioData['piso_departamento'] ?: null,
+                'ciudad' => $nuevoDomicilioData['ciudad'],
+                'provincia' => $nuevoDomicilioData['provincia'],
+                'codigo_postal' => $nuevoDomicilioData['codigo_postal'] ?: null,
+                'referencia' => $nuevoDomicilioData['referencia'] ?: null,
+                'es_principal' => ! $usuario->domicilios()->exists(),
+            ]);
+        }
+
+        session([
+            self::CHECKOUT_SESSION_KEY => $this->enriquecerCheckoutDataConEnvio([
+                'modo_entrega' => 'envio',
+                'domicilio_opcion' => $domicilioOpcion,
+                'domicilio_id' => $selectedDomicilio?->id,
+                'nuevo_domicilio' => $nuevoDomicilioData,
+                'domicilio_snapshot' => $selectedDomicilio
+                    ? $this->serializarDomicilio($selectedDomicilio)
+                    : null,
+            ]),
+        ]);
+
+        return redirect()->route('carrito.confirmacion');
+    }
+
+    public function confirmacion()
+    {
+        $usuario = Usuario::findOrFail(session('usuario_id'));
+        $pedido = $this->obtenerCarritoActivo($usuario->id);
+        $checkoutData = $this->enriquecerCheckoutDataConEnvio($this->getCheckoutData());
+
+        if (! $pedido || $pedido->items->isEmpty()) {
+            return redirect()
+                ->route('carrito')
+                ->withErrors(['checkout' => 'No hay un carrito con productos para continuar el checkout.']);
+        }
+
+        if (! $checkoutData || empty($checkoutData['modo_entrega'])) {
+            return redirect()
+                ->route('carrito.datos')
+                ->withErrors(['checkout' => 'Primero debes confirmar tus datos de entrega.']);
+        }
+
+        session([self::CHECKOUT_SESSION_KEY => $checkoutData]);
+
+        return view('pages.carrito-confirmacion', [
+            'usuario' => $usuario,
+            'carrito' => $this->aplicarEnvioAlCarrito(
+                $this->serializarCarrito($pedido),
+                (float) ($checkoutData['costo_envio'] ?? 0)
             ),
-            'modoEntregaSeleccionado' => $this->normalizarModoEntrega(
-                old('modo_entrega', 'retiro_local')
-            ),
+            'modoEntregaSeleccionado' => $checkoutData['modo_entrega'] ?? 'envio',
+            'metodoPagoSeleccionado' => $this->normalizarMetodoPago(old('metodo_pago', 'tarjeta')),
+            'domicilioSeleccionado' => $checkoutData['domicilio_snapshot'] ?? null,
+            'direccionLocal' => self::LOCAL_PICKUP_ADDRESS,
         ]);
     }
 
@@ -343,21 +552,21 @@ class CarritoController extends Controller
             return $this->checkoutErrorResponse($request, 'Debes iniciar sesion para confirmar el carrito.', 401);
         }
 
+        $usuario = Usuario::findOrFail($usuarioId);
+        $checkoutData = $this->enriquecerCheckoutDataConEnvio($this->getCheckoutData());
+
+        if (! $checkoutData || empty($checkoutData['modo_entrega'])) {
+            return $this->checkoutErrorResponse(
+                $request,
+                'Debes completar el paso de datos y entrega antes de confirmar el pedido.'
+            );
+        }
+
         $datos = $request->validate([
-            'nombre' => ['required', 'string', 'max:100'],
-            'apellido' => ['required', 'string', 'max:100'],
-            'email' => ['required', 'email', 'max:255'],
-            'dni' => ['required', 'string', 'max:20'],
-            'telefono' => ['required', 'string', 'max:50'],
-            'direccion' => ['required', 'string', 'max:255'],
-            'ciudad' => ['required', 'string', 'max:100'],
-            'provincia' => ['required', 'string', 'max:100'],
-            'codigo_postal' => ['required', 'string', 'max:20'],
             'metodo_pago' => ['required', 'in:tarjeta,efectivo'],
-            'modo_entrega' => ['required', 'in:retiro_local,envio_domicilio'],
         ]);
 
-        $pedidoConfirmado = DB::transaction(function () use ($usuarioId, $datos, $request) {
+        $pedidoConfirmado = DB::transaction(function () use ($usuarioId, $usuario, $datos, $checkoutData, $request) {
             $pedido = Pedido::query()
                 ->where('usuario_id', $usuarioId)
                 ->where('estado', 'carrito')
@@ -400,16 +609,28 @@ class CarritoController extends Controller
                 }
             }
 
-            $pedido->nombre_completo = trim($datos['nombre'] . ' ' . $datos['apellido']);
-            $pedido->email = $datos['email'];
-            $pedido->dni = $datos['dni'];
-            $pedido->telefono = $datos['telefono'];
-            $pedido->direccion = $datos['direccion'];
-            $pedido->ciudad = $datos['ciudad'];
-            $pedido->provincia = $datos['provincia'];
-            $pedido->codigo_postal = $datos['codigo_postal'];
+            $domicilioSnapshot = $checkoutData['domicilio_snapshot'] ?? null;
+            $esRetiroLocal = ($checkoutData['modo_entrega'] ?? 'envio') === 'retiro_local';
+
+            $pedido->nombre_completo = trim($usuario->nombre . ' ' . $usuario->apellido);
+            $pedido->email = $usuario->email;
+            $pedido->dni = $usuario->dni;
+            $pedido->telefono = $usuario->telefono;
+            $pedido->direccion = ! $esRetiroLocal
+                ? $this->formatearDomicilioLinea($domicilioSnapshot)
+                : null;
+            $pedido->ciudad = ! $esRetiroLocal
+                ? ($domicilioSnapshot['ciudad'] ?? null)
+                : null;
+            $pedido->provincia = ! $esRetiroLocal
+                ? ($domicilioSnapshot['provincia'] ?? null)
+                : null;
+            $pedido->codigo_postal = ! $esRetiroLocal
+                ? ($domicilioSnapshot['codigo_postal'] ?? null)
+                : null;
             $pedido->metodo_pago = $this->normalizarMetodoPago($datos['metodo_pago']);
-            $pedido->modo_entrega = $this->normalizarModoEntrega($datos['modo_entrega']);
+            $pedido->modo_entrega = $esRetiroLocal ? 'retiro_local' : 'envio_domicilio';
+            $pedido->envio = (float) ($checkoutData['costo_envio'] ?? 0);
 
             foreach ($pedido->items as $item) {
                 $producto = $productos->get($item->producto_id);
@@ -442,6 +663,8 @@ class CarritoController extends Controller
             || $pedidoConfirmado instanceof \Illuminate\Http\RedirectResponse) {
             return $pedidoConfirmado;
         }
+
+        session()->forget(self::CHECKOUT_SESSION_KEY);
 
         if (! $request->expectsJson()) {
             return redirect()->route('carrito.confirmado', $pedidoConfirmado);
@@ -659,6 +882,216 @@ class CarritoController extends Controller
         return in_array($modoEntrega, ['retiro_local', 'envio_domicilio'], true)
             ? $modoEntrega
             : 'retiro_local';
+    }
+
+    protected function getCheckoutData(): ?array
+    {
+        $checkoutData = session(self::CHECKOUT_SESSION_KEY);
+
+        return is_array($checkoutData) ? $checkoutData : null;
+    }
+
+    protected function enriquecerCheckoutDataConEnvio(?array $checkoutData): ?array
+    {
+        if (! is_array($checkoutData)) {
+            return null;
+        }
+
+        $modoEntrega = $checkoutData['modo_entrega'] ?? 'envio';
+        $domicilioSnapshot = is_array($checkoutData['domicilio_snapshot'] ?? null)
+            ? $checkoutData['domicilio_snapshot']
+            : null;
+
+        $checkoutData['provincia_local'] = self::LOCAL_PICKUP_PROVINCE;
+        $checkoutData['provincia_entrega'] = $modoEntrega === 'retiro_local'
+            ? null
+            : trim((string) ($domicilioSnapshot['provincia'] ?? ''));
+        $checkoutData['costo_envio'] = $this->calcularCostoEnvioCheckout($modoEntrega, $domicilioSnapshot);
+
+        return $checkoutData;
+    }
+
+    protected function serializarDomicilio(Domicilio $domicilio): array
+    {
+        return [
+            'id' => $domicilio->id,
+            'calle' => $domicilio->calle,
+            'numero' => $domicilio->numero,
+            'piso_departamento' => $domicilio->piso_departamento,
+            'ciudad' => $domicilio->ciudad,
+            'provincia' => $domicilio->provincia,
+            'codigo_postal' => $domicilio->codigo_postal,
+            'referencia' => $domicilio->referencia,
+            'es_principal' => (bool) $domicilio->es_principal,
+            'linea_principal' => $this->formatearDomicilioLinea([
+                'calle' => $domicilio->calle,
+                'numero' => $domicilio->numero,
+                'piso_departamento' => $domicilio->piso_departamento,
+                'ciudad' => $domicilio->ciudad,
+                'provincia' => $domicilio->provincia,
+                'codigo_postal' => $domicilio->codigo_postal,
+            ]),
+        ];
+    }
+
+    protected function buildNuevoDomicilioSnapshot(array $domicilio): ?array
+    {
+        $snapshot = [
+            'calle' => trim((string) ($domicilio['calle'] ?? '')),
+            'numero' => trim((string) ($domicilio['numero'] ?? '')),
+            'piso_departamento' => trim((string) ($domicilio['piso_departamento'] ?? '')),
+            'ciudad' => trim((string) ($domicilio['ciudad'] ?? '')),
+            'provincia' => trim((string) ($domicilio['provincia'] ?? '')),
+            'codigo_postal' => trim((string) ($domicilio['codigo_postal'] ?? '')),
+            'referencia' => trim((string) ($domicilio['referencia'] ?? '')),
+        ];
+
+        foreach (['calle', 'numero', 'ciudad', 'provincia'] as $field) {
+            if ($snapshot[$field] === '') {
+                return null;
+            }
+        }
+
+        $snapshot['linea_principal'] = $this->formatearDomicilioLinea($snapshot);
+
+        return $snapshot;
+    }
+
+    protected function buildRetiroLocalSnapshot(): array
+    {
+        return [
+            'tipo' => 'Retiro en local',
+            'direccion' => self::LOCAL_PICKUP_ADDRESS,
+            'provincia' => self::LOCAL_PICKUP_PROVINCE,
+            'linea_principal' => self::LOCAL_PICKUP_ADDRESS,
+        ];
+    }
+
+    protected function formatearDomicilioLinea(?array $domicilio): ?string
+    {
+        if (! $domicilio) {
+            return null;
+        }
+
+        $primeraParte = trim(implode(' ', array_filter([
+            $domicilio['calle'] ?? null,
+            $domicilio['numero'] ?? null,
+        ])));
+
+        $extra = array_filter([
+            $domicilio['piso_departamento'] ?? null,
+            $domicilio['ciudad'] ?? null,
+            $domicilio['provincia'] ?? null,
+            $domicilio['codigo_postal'] ?? null,
+        ]);
+
+        return trim(implode(', ', array_filter([$primeraParte, implode(', ', $extra)])));
+    }
+
+    protected function normalizarProvincia(?string $provincia): string
+    {
+        return Str::lower(preg_replace('/\s+/', ' ', trim((string) $provincia)));
+    }
+
+    protected function calcularCostoEnvioCheckout(string $modoEntrega, ?array $domicilioSnapshot = null): float
+    {
+        if ($modoEntrega === 'retiro_local') {
+            return 0.0;
+        }
+
+        $provinciaEntrega = $this->normalizarProvincia($domicilioSnapshot['provincia'] ?? null);
+
+        if ($provinciaEntrega === '') {
+            return 0.0;
+        }
+
+        return $provinciaEntrega === $this->normalizarProvincia(self::LOCAL_PICKUP_PROVINCE)
+            ? self::SHIPPING_SAME_PROVINCE
+            : self::SHIPPING_OTHER_PROVINCE;
+    }
+
+    protected function aplicarEnvioAlCarrito(array $carrito, float $costoEnvio): array
+    {
+        $carrito['envio'] = $costoEnvio;
+        $carrito['total'] = (float) ($carrito['subtotal'] ?? 0) + $costoEnvio - (float) ($carrito['descuento'] ?? 0);
+
+        return $carrito;
+    }
+
+    protected function obtenerDomicilioPrincipalUsuario(Usuario $usuario, $domicilios = null): ?Domicilio
+    {
+        $domicilios ??= $usuario->domicilios()
+            ->orderByDesc('es_principal')
+            ->latest('id')
+            ->get();
+
+        if ($domicilios instanceof \Illuminate\Database\Eloquent\Collection
+            || $domicilios instanceof \Illuminate\Support\Collection) {
+            return $domicilios->firstWhere('es_principal', true) ?: $domicilios->first();
+        }
+
+        return null;
+    }
+
+    protected function obtenerODefinirDomicilioCheckout(Usuario $usuario): ?Domicilio
+    {
+        $domicilios = $usuario->domicilios()
+            ->orderByDesc('es_principal')
+            ->latest('id')
+            ->get();
+
+        $domicilioPrincipal = $this->obtenerDomicilioPrincipalUsuario($usuario, $domicilios);
+
+        if ($domicilioPrincipal) {
+            return $domicilioPrincipal;
+        }
+
+        $legacyAddress = $this->parsearDireccionLegacy($usuario->direccion);
+        $legacyData = [
+            'calle' => $legacyAddress['calle'],
+            'numero' => $legacyAddress['numero'],
+            'ciudad' => trim((string) $usuario->ciudad),
+            'provincia' => trim((string) $usuario->provincia),
+            'codigo_postal' => trim((string) $usuario->codigo_postal),
+        ];
+
+        foreach (['calle', 'numero', 'ciudad', 'provincia'] as $field) {
+            if ($legacyData[$field] === '') {
+                return null;
+            }
+        }
+
+        return $usuario->domicilios()->create([
+            'calle' => $legacyData['calle'],
+            'numero' => $legacyData['numero'],
+            'piso_departamento' => null,
+            'ciudad' => $legacyData['ciudad'],
+            'provincia' => $legacyData['provincia'],
+            'codigo_postal' => $legacyData['codigo_postal'] ?: null,
+            'referencia' => null,
+            'es_principal' => true,
+        ]);
+    }
+
+    protected function parsearDireccionLegacy(?string $direccion): array
+    {
+        $direccion = trim((string) $direccion);
+
+        if ($direccion === '') {
+            return ['calle' => '', 'numero' => ''];
+        }
+
+        if (preg_match('/^(.*?)(?:\s+(\d+[A-Za-z0-9\-\/]*))$/', $direccion, $matches)) {
+            return [
+                'calle' => trim($matches[1]),
+                'numero' => trim($matches[2]),
+            ];
+        }
+
+        return [
+            'calle' => $direccion,
+            'numero' => '',
+        ];
     }
 
     protected function buildLineaEstados(Pedido $pedido): array

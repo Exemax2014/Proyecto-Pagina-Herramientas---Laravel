@@ -35,4 +35,9 @@ class Usuario extends Model
     {
         return $this->hasMany(Pedido::class);
     }
+
+    public function domicilios(): HasMany
+    {
+        return $this->hasMany(Domicilio::class);
+    }
 }

@@ -9,8 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const totalEl = document.getElementById('cartTotal');
     const confirmBtn = document.getElementById('cartConfirmBtn');
     const feedbackEl = document.getElementById('cartFeedback');
-    const paymentInputs = Array.from(document.querySelectorAll('input[name="payment_method"]'));
-    const paymentStorageKey = 'hf_checkout_payment_method';
     const fallbackImage = '/img/producto-sin-imagen.svg';
 
     function formatPrice(value) {
@@ -71,24 +69,6 @@ document.addEventListener('DOMContentLoaded', function () {
         feedbackEl.textContent = message;
     }
 
-    function getSelectedPaymentMethod() {
-        return paymentInputs.find(input => input.checked)?.value || sessionStorage.getItem(paymentStorageKey) || 'tarjeta';
-    }
-
-    function syncSelectedPaymentMethod() {
-        const stored = sessionStorage.getItem(paymentStorageKey);
-        const current = stored === 'efectivo' ? 'efectivo' : 'tarjeta';
-        const targetInput = paymentInputs.find(input => input.value === current);
-
-        if (targetInput) {
-            targetInput.checked = true;
-        }
-    }
-
-    function persistSelectedPaymentMethod() {
-        sessionStorage.setItem(paymentStorageKey, getSelectedPaymentMethod());
-    }
-
     function renderSummary() {
         subtotalEl.textContent = formatPrice(Number(carrito?.subtotal) || 0);
         shippingEl.textContent = formatPrice(Number(carrito?.envio) || 0);
@@ -117,12 +97,9 @@ document.addEventListener('DOMContentLoaded', function () {
         itemsWrap.innerHTML = items.map(item => {
             const nombre = escapeHtml(item.nombre || 'Producto sin nombre');
             const imagen = safeImageUrl(item.imagen);
-            const marca = escapeHtml(item.marca || 'Sin marca');
             const categoria = escapeHtml(item.categoria || 'Sin categoria');
-            const descripcion = escapeHtml(item.descripcion || 'Herramienta lista para coordinar compra, retiro o entrega.');
             const cantidad = Number(item.cantidad) || 0;
             const subtotal = Number(item.subtotal) || 0;
-            const precioUnitario = Number(item.precio_unitario) || 0;
 
             return `
                 <article class="page-card cart-item-card">
@@ -131,10 +108,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
 
                     <div class="cart-item-body">
-                        <span class="cart-item-brand">${marca}</span>
                         <h3>${nombre}</h3>
                         <p class="cart-item-meta">Categoría: ${categoria}</p>
-                        <p class="cart-item-description">${descripcion}</p>
 
                         <div class="cart-item-controls">
                             <div class="cart-qty-box">
@@ -157,7 +132,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <div class="cart-item-price">
                         <strong>${formatPrice(subtotal)}</strong>
-                        <span>${formatPrice(precioUnitario)} por unidad</span>
                     </div>
                 </article>
             `;
@@ -217,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 precio_unitario: precioUnitario,
                 cantidad,
                 subtotal: precioUnitario * cantidad,
-                imagen: item.imagen || '/img/producto-sin-imagen.svg',
+                imagen: item.imagen || fallbackImage,
             };
         });
 
@@ -328,23 +302,15 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        persistSelectedPaymentMethod();
-
         const checkoutUrl = this.dataset.checkoutUrl || '/carrito/datos';
-        const nextUrl = `${checkoutUrl}?metodo_pago=${encodeURIComponent(getSelectedPaymentMethod())}`;
 
         if (!isLoggedIn()) {
-            window.CartUtils.redirectToLoginWithRedirect(nextUrl);
+            window.CartUtils.redirectToLoginWithRedirect(checkoutUrl);
             return;
         }
 
-        window.location.href = nextUrl;
+        window.location.href = checkoutUrl;
     });
 
-    paymentInputs.forEach(input => {
-        input.addEventListener('change', persistSelectedPaymentMethod);
-    });
-
-    syncSelectedPaymentMethod();
     loadCart();
 });

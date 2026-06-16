@@ -9,43 +9,14 @@
 @section('contenido')
 <section class="page-section cart-page">
     <div class="container">
-        <div class="cart-hero">
-            <span class="home-kicker">Checkout Hierro & Forja</span>
-            <h1 class="cart-page-title">PRODUCTOS DEL CARRITO</h1>
-            <p class="cart-hero-copy">Revisá tus productos, ajustá cantidades y dejá listo el pedido para continuar con tus datos.</p>
-        </div>
+        @include('checkout.partials.timeline', ['currentStep' => 'carrito'])
 
-        <div class="cart-steps" aria-label="Pasos del checkout">
-            <div class="cart-step is-active">
-                <span class="cart-step-number">1</span>
-                <div>
-                    <strong>Carrito</strong>
-                    <span>Productos seleccionados</span>
-                </div>
-            </div>
-            <div class="cart-step">
-                <span class="cart-step-number">2</span>
-                <div>
-                    <strong>Datos</strong>
-                    <span>Entrega y contacto</span>
-                </div>
-            </div>
-            <div class="cart-step">
-                <span class="cart-step-number">3</span>
-                <div>
-                    <strong>Confirmación</strong>
-                    <span>Pedido realizado</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="cart-layout">
+        <div class="cart-layout cart-layout--step-one">
             <div class="cart-main">
                 <section class="cart-section">
-                    <div class="section-heading cart-section-heading">
-                        <h2>Productos del carrito</h2>
-                        <p>Vas a poder editar cantidades o eliminar artículos antes de avanzar al paso 2.</p>
-                    </div>
+                    <div class="cart-hero">
+                        <h2>PASO 1: Productos del carrito</h2>
+                        </div>
 
                     <div class="alert d-none" id="cartFeedback" role="alert"></div>
 
@@ -61,10 +32,9 @@
             </div>
 
             <aside class="cart-sidebar">
-                <div class="page-card cart-summary-card">
+                <div class="page-card cart-summary-card cart-summary-card--sticky">
                     <div class="cart-summary-head">
-                        <h2>Resumen del pedido</h2>
-                        <p>El paso 1 no confirma el pedido. Solo prepara el checkout.</p>
+                        <h2>RESUMEN DEL PEDIDO</h2>
                     </div>
 
                     <div class="cart-summary-lines">
@@ -72,10 +42,12 @@
                             <span>Subtotal</span>
                             <strong id="cartSubtotal">$0</strong>
                         </div>
+
                         <div class="cart-summary-line">
                             <span>Envío estimado</span>
                             <strong id="cartShipping">$0</strong>
                         </div>
+
                         <div class="cart-summary-line">
                             <span>Descuento</span>
                             <strong id="cartDiscount">$0</strong>
@@ -87,26 +59,6 @@
                         <strong id="cartTotal">$0</strong>
                     </div>
 
-                    <div class="cart-payment-methods">
-                        <h3>Método de pago</h3>
-
-                        <label class="cart-payment-option">
-                            <input type="radio" name="payment_method" value="tarjeta" checked>
-                            <div>
-                                <strong>Tarjeta</strong>
-                                <span>Débito, crédito o coordinación comercial</span>
-                            </div>
-                        </label>
-
-                        <label class="cart-payment-option">
-                            <input type="radio" name="payment_method" value="efectivo">
-                            <div>
-                                <strong>Efectivo / contra entrega</strong>
-                                <span>Pago acordado al retirar o recibir</span>
-                            </div>
-                        </label>
-                    </div>
-
                     <div class="cart-summary-actions">
                         <button
                             type="button"
@@ -114,7 +66,7 @@
                             id="cartConfirmBtn"
                             data-checkout-url="{{ route('carrito.datos') }}"
                         >
-                            Confirmar pedido
+                            Continuar con datos
                         </button>
 
                         <a href="{{ route('catalogo') }}" class="btn btn-outline-dark cart-continue-btn">
