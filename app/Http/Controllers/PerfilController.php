@@ -11,9 +11,11 @@ class PerfilController extends Controller
 {
     public function misDatos()
     {
-        $usuario = Usuario::with(['domicilios' => function ($query) {
+        $usuario = Usuario::findOrFail(session('usuario_id'));
+        $usuario->ensureLegacyDomicilioPrincipal();
+        $usuario->load(['domicilios' => function ($query) {
             $query->orderByDesc('es_principal')->latest('id')->limit(4);
-        }])->findOrFail(session('usuario_id'));
+        }]);
 
         $domicilios = $usuario->domicilios->values();
         $domicilioPrincipal = $this->obtenerDomicilioPrincipal($usuario);
@@ -98,10 +100,6 @@ class PerfilController extends Controller
             'email' => $datos['email'],
             'dni' => $datos['dni'],
             'telefono' => $datos['telefono'],
-            'direccion' => trim($addressData['calle'] . ' ' . $addressData['numero']),
-            'ciudad' => $addressData['ciudad'] ?: null,
-            'provincia' => $addressData['provincia'] ?: null,
-            'codigo_postal' => $addressData['codigo_postal'] ?: null,
         ]);
         $usuario->save();
 
@@ -147,6 +145,11 @@ class PerfilController extends Controller
             'es_principal' => $domicilioSeleccionado->es_principal || ! $domicilioPrincipal,
         ])->save();
 
+        $usuario->load(['domicilios' => function ($query) {
+            $query->orderByDesc('es_principal')->latest('id');
+        }]);
+        $usuario->syncLegacyAddressFromDomicilio($usuario->domicilioPrincipal());
+
         session([
             'usuario_nombre' => $usuario->nombre,
             'usuario_email' => $usuario->email,
@@ -159,8 +162,7 @@ class PerfilController extends Controller
 
     private function obtenerDomicilioPrincipal(Usuario $usuario): ?Domicilio
     {
-        return $usuario->domicilios->firstWhere('es_principal', true)
-            ?: $usuario->domicilios->first();
+        return $usuario->domicilioPrincipal();
     }
 
     private function armarDomicilioForm(?Domicilio $domicilio): array

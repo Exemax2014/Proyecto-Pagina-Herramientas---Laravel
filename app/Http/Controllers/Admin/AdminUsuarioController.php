@@ -81,7 +81,7 @@ class AdminUsuarioController extends Controller
             'codigo_postal' => ['nullable', 'string', 'max:20'],
         ]);
 
-        Usuario::create([
+        $usuario = Usuario::create([
             'nombre' => $datos['nombre'],
             'apellido' => $datos['apellido'],
             'email' => $datos['email'],
@@ -95,6 +95,8 @@ class AdminUsuarioController extends Controller
             'role' => 'admin',
             'activo' => true,
         ]);
+
+        $usuario->ensureLegacyDomicilioPrincipal();
 
         return redirect()
             ->route('admin.usuarios.index')

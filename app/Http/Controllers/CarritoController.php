@@ -738,16 +738,19 @@ class CarritoController extends Controller
         }
 
         $usuario = Usuario::findOrFail($usuarioId);
+        $domicilioPrincipal = $usuario->ensureLegacyDomicilioPrincipal();
 
         return Pedido::create([
             'usuario_id' => $usuario->id,
             'nombre_completo' => trim($usuario->nombre . ' ' . $usuario->apellido),
             'email' => $usuario->email,
             'telefono' => $usuario->telefono,
-            'direccion' => $usuario->direccion,
-            'ciudad' => $usuario->ciudad,
-            'provincia' => $usuario->provincia,
-            'codigo_postal' => $usuario->codigo_postal,
+            'direccion' => $domicilioPrincipal
+                ? $this->formatearDomicilioLinea($this->serializarDomicilio($domicilioPrincipal))
+                : null,
+            'ciudad' => $domicilioPrincipal?->ciudad,
+            'provincia' => $domicilioPrincipal?->provincia,
+            'codigo_postal' => $domicilioPrincipal?->codigo_postal,
             'estado' => 'carrito',
             'subtotal' => 0,
             'total' => 0,
@@ -1020,78 +1023,17 @@ class CarritoController extends Controller
 
     protected function obtenerDomicilioPrincipalUsuario(Usuario $usuario, $domicilios = null): ?Domicilio
     {
-        $domicilios ??= $usuario->domicilios()
-            ->orderByDesc('es_principal')
-            ->latest('id')
-            ->get();
-
         if ($domicilios instanceof \Illuminate\Database\Eloquent\Collection
             || $domicilios instanceof \Illuminate\Support\Collection) {
-            return $domicilios->firstWhere('es_principal', true) ?: $domicilios->first();
+            $usuario->setRelation('domicilios', $domicilios);
         }
 
-        return null;
+        return $usuario->domicilioPrincipal();
     }
 
     protected function obtenerODefinirDomicilioCheckout(Usuario $usuario): ?Domicilio
     {
-        $domicilios = $usuario->domicilios()
-            ->orderByDesc('es_principal')
-            ->latest('id')
-            ->get();
-
-        $domicilioPrincipal = $this->obtenerDomicilioPrincipalUsuario($usuario, $domicilios);
-
-        if ($domicilioPrincipal) {
-            return $domicilioPrincipal;
-        }
-
-        $legacyAddress = $this->parsearDireccionLegacy($usuario->direccion);
-        $legacyData = [
-            'calle' => $legacyAddress['calle'],
-            'numero' => $legacyAddress['numero'],
-            'ciudad' => trim((string) $usuario->ciudad),
-            'provincia' => trim((string) $usuario->provincia),
-            'codigo_postal' => trim((string) $usuario->codigo_postal),
-        ];
-
-        foreach (['calle', 'numero', 'ciudad', 'provincia'] as $field) {
-            if ($legacyData[$field] === '') {
-                return null;
-            }
-        }
-
-        return $usuario->domicilios()->create([
-            'calle' => $legacyData['calle'],
-            'numero' => $legacyData['numero'],
-            'piso_departamento' => null,
-            'ciudad' => $legacyData['ciudad'],
-            'provincia' => $legacyData['provincia'],
-            'codigo_postal' => $legacyData['codigo_postal'] ?: null,
-            'referencia' => null,
-            'es_principal' => true,
-        ]);
-    }
-
-    protected function parsearDireccionLegacy(?string $direccion): array
-    {
-        $direccion = trim((string) $direccion);
-
-        if ($direccion === '') {
-            return ['calle' => '', 'numero' => ''];
-        }
-
-        if (preg_match('/^(.*?)(?:\s+(\d+[A-Za-z0-9\-\/]*))$/', $direccion, $matches)) {
-            return [
-                'calle' => trim($matches[1]),
-                'numero' => trim($matches[2]),
-            ];
-        }
-
-        return [
-            'calle' => $direccion,
-            'numero' => '',
-        ];
+        return $usuario->ensureLegacyDomicilioPrincipal();
     }
 
     protected function buildLineaEstados(Pedido $pedido): array
