@@ -149,7 +149,7 @@ class AdminProductoController extends Controller
             'descripcion' => ['required', 'string'],
             'categoria_id' => ['required', 'exists:categorias,id'],
             'marca_id' => ['required', 'exists:marcas,id'],
-            // 'energia' removed: not a fixed product attribute
+            'energia' => ['required', 'in:electrica,manual,inalambrica'],
             'precio' => ['required', 'numeric', 'min:0'],
             'precio_anterior' => ['nullable', 'numeric', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],
@@ -190,7 +190,7 @@ class AdminProductoController extends Controller
             'precio_anterior' => $datos['precio_anterior'] ?? null,
             'stock' => $datos['stock'],
             'ventas' => $datos['ventas'] ?? 0,
-            // 'energia' removed: not stored anymore
+            'energia' => $datos['energia'],
             'etiqueta_id' => $this->normalizarEtiquetaManualId($datos['etiqueta_id'] ?? null),
             'etiqueta' => $this->resolverEtiquetaNombre($datos['etiqueta_id'] ?? null),
             'etiqueta_clase' => null,
@@ -314,7 +314,7 @@ class AdminProductoController extends Controller
                         'nombre' => $producto->marca?->nombre,
                         'logo_url' => $producto->marca?->logo_url,
                     ],
-                    // 'energia' removed from export
+                    'energia' => $producto->energia,
                     'precio' => (float) $producto->precio,
                     'precio_anterior' => $producto->precio_anterior !== null
                         ? (float) $producto->precio_anterior

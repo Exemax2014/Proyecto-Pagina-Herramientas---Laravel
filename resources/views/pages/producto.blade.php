@@ -65,9 +65,29 @@
                         </button>
                     @endif
 
-                    @if(!empty($producto->etiquetas_visuales))
-                        <div class="product-badge-stack">
-                            @foreach($producto->etiquetas_visuales as $etiquetaVisual)
+                    @php
+                        $left = collect();
+                        $right = collect();
+                        if (!empty($producto->etiquetas_visuales)) {
+                            $etqs = collect($producto->etiquetas_visuales);
+                            $left = $etqs->where('tipo', 'oferta');
+                            $right = $etqs->where('tipo', 'manual');
+                        }
+                    @endphp
+
+                    @if($left->isNotEmpty())
+                        <div class="product-badge-stack product-detail-badge-stack product-detail-badge-stack--left">
+                            @foreach($left as $etiquetaVisual)
+                                <span class="product-badge" style="background: {{ $etiquetaVisual['color'] }}; color: {{ $etiquetaVisual['texto_color'] ?? '#ffffff' }};">
+                                    {{ $etiquetaVisual['texto'] }}
+                                </span>
+                            @endforeach
+                        </div>
+                    @endif
+
+                    @if($right->isNotEmpty())
+                        <div class="product-badge-stack product-detail-badge-stack product-detail-badge-stack--right">
+                            @foreach($right as $etiquetaVisual)
                                 <span class="product-badge" style="background: {{ $etiquetaVisual['color'] }}; color: {{ $etiquetaVisual['texto_color'] ?? '#ffffff' }};">
                                     {{ $etiquetaVisual['texto'] }}
                                 </span>

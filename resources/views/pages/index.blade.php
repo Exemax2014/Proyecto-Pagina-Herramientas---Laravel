@@ -106,9 +106,29 @@
                     <div class="product-card-media">
                         <img src="{{ $imagen }}" alt="{{ $producto->nombre }}">
 
-                        @if(!empty($producto->etiquetas_visuales))
+                        @php
+                            $left = collect();
+                            $right = collect();
+                            if (!empty($producto->etiquetas_visuales)) {
+                                $etqs = collect($producto->etiquetas_visuales);
+                                $left = $etqs->where('tipo', 'oferta');
+                                $right = $etqs->where('tipo', 'manual');
+                            }
+                        @endphp
+
+                        @if($left->isNotEmpty())
                             <div class="product-card-badge-stack">
-                                @foreach($producto->etiquetas_visuales as $etiquetaVisual)
+                                @foreach($left as $etiquetaVisual)
+                                    <span class="product-card-badge" style="background: {{ $etiquetaVisual['color'] }}; color: {{ $etiquetaVisual['texto_color'] ?? '#ffffff' }};">
+                                        {{ $etiquetaVisual['texto'] }}
+                                    </span>
+                                @endforeach
+                            </div>
+                        @endif
+
+                        @if($right->isNotEmpty())
+                            <div class="product-card-badge-stack product-card-badge-stack--right">
+                                @foreach($right as $etiquetaVisual)
                                     <span class="product-card-badge" style="background: {{ $etiquetaVisual['color'] }}; color: {{ $etiquetaVisual['texto_color'] ?? '#ffffff' }};">
                                         {{ $etiquetaVisual['texto'] }}
                                     </span>
@@ -125,6 +145,7 @@
                                 data-product-nombre="{{ $producto->nombre }}"
                                 data-product-marca="{{ $producto->marca?->nombre }}"
                                 data-product-categoria="{{ $producto->categoria?->slug }}"
+                                data-product-energia="{{ $producto->energia }}"
                                 data-product-precio="{{ (float) $producto->precio }}"
                                 data-product-precio-anterior="{{ $producto->precio_anterior !== null ? (float) $producto->precio_anterior : '' }}"
                                 data-product-descuento="{{ $producto->porcentaje_descuento ?? '' }}"

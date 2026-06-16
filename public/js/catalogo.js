@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const pagination = document.querySelector('.catalog-pagination');
 
     const categoryChecks = Array.from(document.querySelectorAll('.filter-category'));
+    const energyRadios = Array.from(document.querySelectorAll('input[name="energy"]'));
 
     let currentPage = 1;
 
@@ -71,7 +72,9 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.filter-brand:checked')
             .forEach(c => params.append('marcas[]', c.value));
 
-        // Energía: eliminado como filtro general
+        // Energía
+        const energia = energyRadios.find(r => r.checked);
+        if (energia && energia.value) params.set('energia', energia.value);
 
         // Precio máximo
         if (rangeInput) params.set('precio_max', rangeInput.value);
@@ -94,19 +97,55 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function createBadgeHtml(producto) {
-        const etiquetas = Array.isArray(producto.etiquetas) ? producto.etiquetas : [];
+        // Support backend fields: 'etiquetas' or 'etiquetas_visuales'
+        let etiquetas = Array.isArray(producto.etiquetas) ? producto.etiquetas : [];
+        if ((!etiquetas || etiquetas.length === 0) && Array.isArray(producto.etiquetas_visuales)) {
+            etiquetas = producto.etiquetas_visuales;
+        }
 
-        if (etiquetas.length === 0) return '';
+        // Also accept single-string manual etiqueta fields (use only real names)
+        const manualString = producto.etiqueta || producto.etiqueta_manual || null;
 
-        return `
+        etiquetas = etiquetas || [];
+
+        // Partition
+        const left = etiquetas.filter(e => (e.tipo || '').toString().toLowerCase() === 'oferta');
+        const right = etiquetas.filter(e => (e.tipo || '').toString().toLowerCase() === 'manual');
+
+        // If there's a manual string and no right tag yet, add it (but avoid 'oferta')
+        if (manualString && right.length === 0) {
+            const txt = String(manualString).trim();
+            if (txt && txt.toLowerCase() !== 'oferta') {
+                right.push({ texto: txt, color: '#111111', texto_color: '#ffffff', tipo: 'manual' });
+            }
+        }
+
+        // If no left tags but product has descuentoPorcentaje, show percentage as left badge
+        if (left.length === 0 && Number(producto?.descuentoPorcentaje) > 0) {
+            left.push({ texto: `${producto.descuentoPorcentaje}% OFF`, color: '#a06918', texto_color: '#ffffff', tipo: 'oferta' });
+        }
+
+        const leftHtml = left.length ? `
             <div class="product-card-badge-stack">
-                ${etiquetas.map((etiqueta) => `
+                ${left.map((etiqueta) => `
                     <span class="product-card-badge" style="background: ${escapeHtml(etiqueta.color || '#111111')}; color: ${escapeHtml(etiqueta.texto_color || '#ffffff')};">
                         ${escapeHtml(etiqueta.texto || '')}
                     </span>
                 `).join('')}
             </div>
-        `;
+        ` : '';
+
+        const rightHtml = right.length ? `
+            <div class="product-card-badge-stack product-card-badge-stack--right">
+                ${right.map((etiqueta) => `
+                    <span class="product-card-badge" style="background: ${escapeHtml(etiqueta.color || '#111111')}; color: ${escapeHtml(etiqueta.texto_color || '#ffffff')};">
+                        ${escapeHtml(etiqueta.texto || '')}
+                    </span>
+                `).join('')}
+            </div>
+        ` : '';
+
+        return leftHtml + rightHtml;
     }
 
     function createOldPriceHtml(producto) {
@@ -290,7 +329,9 @@ document.addEventListener('DOMContentLoaded', function () {
         check.addEventListener('change', () => { currentPage = 1; fetchProductos(); });
     });
 
-    // energy radios removed: no longer a filter
+    energyRadios.forEach(radio => {
+        radio.addEventListener('change', () => { currentPage = 1; fetchProductos(); });
+    });
 
     rangeInput?.addEventListener('input', function () {
         if (rangeValue) rangeValue.textContent = formatPrice(this.value);
@@ -307,7 +348,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         categoryChecks.forEach(check => check.checked = false);
         document.querySelectorAll('.filter-brand').forEach(check => check.checked = false);
-        // energy radios removed: no longer a filter
+        energyRadios.forEach(radio => radio.checked = radio.value === '');
 
         currentPage = 1;
         fetchProductos();

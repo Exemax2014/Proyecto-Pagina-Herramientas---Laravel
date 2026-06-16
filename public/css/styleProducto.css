@@ -103,6 +103,41 @@
     z-index: 2;
 }
 
+/* Detail-specific badge stacks */
+.product-detail-badge-stack {
+    position: absolute;
+    top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    z-index: 30;
+}
+
+.product-detail-badge-stack--left {
+    left: 1rem;
+    right: auto !important;
+}
+
+.product-detail-badge-stack--right {
+    left: auto !important;
+    right: 1rem;
+    align-items: flex-end;
+}
+
+/* Ensure badges inside detail stacks flow normally, not absolutely positioned */
+.product-detail-badge-stack .product-badge,
+.product-detail-badge-stack .product-card-badge,
+.product-detail-badge-stack .product-detail-badge {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+}
+
+.product-detail-badge-stack:empty {
+    display: none;
+}
+
 /* MINIATURAS:
    permiten cambiar la imagen principal */
 .product-thumbs {
