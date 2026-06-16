@@ -1138,8 +1138,8 @@ class CarritoController extends Controller
         }
 
         return redirect()
-            ->route('mis-datos')
-            ->with('warning', 'Completa tus datos para continuar.');
+            ->route('mis-datos', ['redirect_to' => 'carrito'])
+            ->with('warning', 'Completa tus datos personales para continuar con la compra.');
     }
 
     protected function bloquearComprasAdmin(?Usuario $usuario = null, ?Request $request = null)

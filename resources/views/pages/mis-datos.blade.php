@@ -56,6 +56,10 @@
                         @csrf
                         @method('PATCH')
 
+                        @if(request('redirect_to'))
+                            <input type="hidden" name="redirect_to" value="{{ request('redirect_to') }}">
+                        @endif
+
                         <input type="hidden" name="domicilio_mode" id="domicilio_mode" value="{{ $domicilioMode }}">
                         <input type="hidden" name="selected_domicilio_id" id="selected_domicilio_id" value="{{ $selectedDomicilioId }}">
 
