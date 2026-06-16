@@ -73,15 +73,7 @@
                             </small>
                         </div>
 
-                        <div class="col-12 col-md-6">
-                            <label class="admin-form-label">Tipo de energia</label>
-                            <select name="energia" class="form-select">
-                                <option value="">Seleccionar tipo</option>
-                                <option value="electrica" @selected(old('energia', $producto->energia) === 'electrica')>Electrica</option>
-                                <option value="manual" @selected(old('energia', $producto->energia) === 'manual')>Manual</option>
-                                <option value="inalambrica" @selected(old('energia', $producto->energia) === 'inalambrica')>Inalambrica</option>
-                            </select>
-                        </div>
+                        <!-- Tipo de energía eliminado: no aplica como atributo fijo -->
 
                         <div class="col-12 col-md-6">
                             <label class="admin-form-label">Estado</label>

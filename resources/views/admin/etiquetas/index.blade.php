@@ -3,6 +3,10 @@
 @section('title', 'Etiquetas | Panel Admin')
 @section('page-title', 'Etiquetas')
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/product-cards.css') }}">
+@endpush
+
 @section('contenido')
 
     @if ($errors->any())

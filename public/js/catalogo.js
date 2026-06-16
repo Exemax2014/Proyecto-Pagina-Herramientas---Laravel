@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const pagination = document.querySelector('.catalog-pagination');
 
     const categoryChecks = Array.from(document.querySelectorAll('.filter-category'));
-    const energyRadios = Array.from(document.querySelectorAll('input[name="energy"]'));
 
     let currentPage = 1;
 
@@ -72,9 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.filter-brand:checked')
             .forEach(c => params.append('marcas[]', c.value));
 
-        // Energía
-        const energia = energyRadios.find(r => r.checked);
-        if (energia && energia.value) params.set('energia', energia.value);
+        // Energía: eliminado como filtro general
 
         // Precio máximo
         if (rangeInput) params.set('precio_max', rangeInput.value);
@@ -293,9 +290,7 @@ document.addEventListener('DOMContentLoaded', function () {
         check.addEventListener('change', () => { currentPage = 1; fetchProductos(); });
     });
 
-    energyRadios.forEach(radio => {
-        radio.addEventListener('change', () => { currentPage = 1; fetchProductos(); });
-    });
+    // energy radios removed: no longer a filter
 
     rangeInput?.addEventListener('input', function () {
         if (rangeValue) rangeValue.textContent = formatPrice(this.value);
@@ -312,7 +307,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         categoryChecks.forEach(check => check.checked = false);
         document.querySelectorAll('.filter-brand').forEach(check => check.checked = false);
-        energyRadios.forEach(radio => radio.checked = radio.value === '');
+        // energy radios removed: no longer a filter
 
         currentPage = 1;
         fetchProductos();

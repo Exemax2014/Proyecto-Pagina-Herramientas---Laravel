@@ -42,10 +42,7 @@ class ProductoController extends Controller
             });
         }
 
-        // Filtro por energía
-        if ($request->filled('energia')) {
-            $query->where('energia', $request->energia);
-        }
+        // Filtro por energía eliminado: no es atributo general
 
         // Filtro por precio máximo
         if ($request->filled('precio_max')) {
@@ -90,7 +87,6 @@ class ProductoController extends Controller
                     'precioAnterior' => $p->precio_anterior,
                     'descuentoPorcentaje' => $p->porcentaje_descuento,
                     'ventas'         => $p->ventas,
-                    'energia'        => $p->energia,
                     'etiquetas'      => is_array($p->etiquetas_visuales ?? null) ? $p->etiquetas_visuales : [],
                     'categoria'      => $p->categoria?->slug ?? 'sin-categoria',
                     'marca'          => $p->marca?->nombre ?? 'Sin marca',

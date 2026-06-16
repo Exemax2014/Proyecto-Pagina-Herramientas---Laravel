@@ -48,29 +48,7 @@
                                     <div id="brandFilters"></div>
                                 </div>
 
-                                <div class="catalog-filter-group">
-                                    <h3>Tipo de energia</h3>
-
-                                    <label class="catalog-radio">
-                                        <input type="radio" name="energy" value="" checked>
-                                        <span>Todas</span>
-                                    </label>
-
-                                    <label class="catalog-radio">
-                                        <input type="radio" name="energy" value="manual">
-                                        <span>Manual</span>
-                                    </label>
-
-                                    <label class="catalog-radio">
-                                        <input type="radio" name="energy" value="electrica">
-                                        <span>Electrica</span>
-                                    </label>
-
-                                    <label class="catalog-radio">
-                                        <input type="radio" name="energy" value="inalambrica">
-                                        <span>Inalambrica</span>
-                                    </label>
-                                </div>
+                                <!-- Filtro 'Tipo de energía' eliminado: no es atributo general -->
                             </div>
 
                             <div class="catalog-filter-group catalog-filter-group-price">
