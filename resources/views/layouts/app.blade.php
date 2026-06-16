@@ -45,8 +45,10 @@
 
     <script>
         window.usuarioLogueado = @json((bool) session('usuario_id'));
+        window.hfUserRole = @json(session('usuario_role'));
         window.hfCartConfig = {
             loggedIn: @json((bool) session('usuario_id')),
+            isAdmin: @json(session('usuario_role') === 'admin'),
             loginUrl: @json(route('login')),
             endpoints: {
                 obtener: @json(route('carrito.obtener')),

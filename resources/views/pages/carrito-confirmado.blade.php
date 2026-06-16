@@ -12,8 +12,8 @@
         @include('checkout.partials.timeline', ['currentStep' => 'confirmacion'])
 
         <div class="cart-hero">
-            <h1 class="cart-page-title">¡PEDIDO CONFIRMADO!</h1>
-            <p class="cart-hero-copy">Tu pedido ya quedó registrado. A partir de ahora podés seguir su estado desde tu cuenta.</p>
+            <h1 class="cart-page-title">PEDIDO CONFIRMADO</h1>
+            <p class="cart-hero-copy">Tu pedido ya quedo registrado. A partir de ahora podes seguir su estado desde tu cuenta.</p>
         </div>
 
         <div class="cart-layout cart-layout--confirmed">
@@ -21,25 +21,25 @@
                 <section class="page-card cart-confirmed-hero">
                     <div class="cart-confirmed-badge">
                         <i class="bi bi-check2-circle"></i>
-                        <span>Pedido registrado con éxito</span>
+                        <span>Pedido registrado con exito</span>
                     </div>
 
                     <div class="cart-confirmed-grid">
                         <div>
-                            <span class="cart-confirmed-label">Número de pedido</span>
+                            <span class="cart-confirmed-label">Numero de pedido</span>
                             <strong>{{ $pedido->codigo_visible }}</strong>
                         </div>
                         <div>
-                            <span class="cart-confirmed-label">Fecha de confirmación</span>
+                            <span class="cart-confirmed-label">Fecha de confirmacion</span>
                             <strong>{{ $pedido->fecha_confirmacion?->format('d/m/Y H:i') ?? '-' }}</strong>
                         </div>
                         <div>
-                            <span class="cart-confirmed-label">Método de pago</span>
+                            <span class="cart-confirmed-label">Metodo de pago</span>
                             <strong>{{ $pedido->metodo_pago === 'efectivo' ? 'Efectivo / contra entrega' : 'Tarjeta' }}</strong>
                         </div>
                         <div>
                             <span class="cart-confirmed-label">Modo de entrega</span>
-                            <strong>{{ $pedido->modo_entrega === 'envio_domicilio' ? 'Coordinación de envío' : 'Retiro en local' }}</strong>
+                            <strong>{{ $pedido->modo_entrega === 'envio_domicilio' ? 'Coordinacion de envio' : 'Retiro en local' }}</strong>
                         </div>
                     </div>
                 </section>
@@ -61,7 +61,7 @@
                                 <div class="cart-summary-item-body">
                                     <span class="cart-item-brand">{{ $item->producto_marca ?: ($item->producto?->marca?->nombre ?? 'Sin marca') }}</span>
                                     <strong>{{ $item->producto_nombre ?: ($item->producto?->nombre ?? 'Producto sin nombre') }}</strong>
-                                    <span class="cart-summary-item-meta">{{ $item->producto_categoria ?: ($item->producto?->categoria?->nombre ?? 'Sin categoría') }}</span>
+                                    <span class="cart-summary-item-meta">{{ $item->producto_categoria ?: ($item->producto?->categoria?->nombre ?? 'Sin categoria') }}</span>
                                     <span class="cart-summary-item-meta">Cantidad: {{ $item->cantidad }}</span>
                                 </div>
                                 <div class="cart-summary-item-price">
@@ -86,7 +86,7 @@
                             <strong>${{ number_format((float) $pedido->subtotal, 0, ',', '.') }}</strong>
                         </div>
                         <div class="cart-summary-line">
-                            <span>Envío</span>
+                            <span>Envio</span>
                             <strong>${{ number_format((float) $pedido->envio, 0, ',', '.') }}</strong>
                         </div>
                         <div class="cart-summary-line">
@@ -101,8 +101,8 @@
                     </div>
 
                     <div class="cart-confirmed-actions">
-                        <a href="{{ route('mis-compras.index') }}" class="btn btn-outline-dark">Ver mis compras</a>
-                        <a href="{{ route('catalogo') }}" class="btn btn-warning">Seguir comprando</a>
+                        <a href="{{ route('mis-compras.index') }}" class="btn btn-warning cart-confirm-btn">Ver mis compras</a>
+                        <a href="{{ route('catalogo') }}" class="btn btn-outline-dark cart-continue-btn">Seguir comprando</a>
                     </div>
                 </div>
             </aside>
@@ -110,3 +110,4 @@
     </div>
 </section>
 @endsection
+

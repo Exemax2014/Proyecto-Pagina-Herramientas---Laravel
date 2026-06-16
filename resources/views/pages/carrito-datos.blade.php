@@ -22,6 +22,12 @@
             </div>
         @endif
 
+        @if(session('warning'))
+            <div class="alert alert-warning mb-4" role="alert">
+                {{ session('warning') }}
+            </div>
+        @endif
+
         <div class="cart-layout">
             <div class="cart-main">
                 <form

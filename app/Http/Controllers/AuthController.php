@@ -59,6 +59,12 @@ class AuthController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
+        if ($redirect && str_starts_with($redirect, '/carrito') && ! $usuario->perfilCheckoutCompleto()) {
+            return redirect()
+                ->route('mis-datos')
+                ->with('warning', 'Completa tus datos para continuar.');
+        }
+
         if ($redirect) {
             return redirect($redirect);
         }

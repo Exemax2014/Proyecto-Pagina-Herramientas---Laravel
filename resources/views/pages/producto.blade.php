@@ -120,28 +120,30 @@
                     <p>{{ $producto->descripcion }}</p>
                 </div>
 
-                <div class="product-actions">
-                    <div class="product-qty-box">
-                        <button type="button" class="product-qty-btn" aria-label="Restar cantidad">
-                            <i class="bi bi-dash"></i>
-                        </button>
+                @if(session('usuario_role') !== 'admin')
+                    <div class="product-actions">
+                        <div class="product-qty-box">
+                            <button type="button" class="product-qty-btn" aria-label="Restar cantidad">
+                                <i class="bi bi-dash"></i>
+                            </button>
 
-                        <span id="productQty">1</span>
+                            <span id="productQty">1</span>
 
-                        <button type="button" class="product-qty-btn" aria-label="Sumar cantidad">
-                            <i class="bi bi-plus"></i>
+                            <button type="button" class="product-qty-btn" aria-label="Sumar cantidad">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                        </div>
+
+                        <button type="button" class="btn btn-warning product-main-btn">
+                            <i class="bi bi-cart-plus"></i>
+                            Agregar al carrito
                         </button>
                     </div>
 
-                    <button type="button" class="btn btn-warning product-main-btn">
-                        <i class="bi bi-cart-plus"></i>
-                        Agregar al carrito
+                    <button type="button" class="btn btn-outline-dark product-secondary-btn">
+                        Comprar ahora
                     </button>
-                </div>
-
-                <button type="button" class="btn btn-outline-dark product-secondary-btn">
-                    Comprar ahora
-                </button>
+                @endif
 
                 <div class="product-benefits">
                     <div class="page-card product-benefit-card">

@@ -79,14 +79,14 @@ class AdminUsuarioController extends Controller
                 Rule::unique('usuarios', 'email'),
             ],
             'password' => ['required', 'string', 'min:4'],
-            'dni' => ['nullable', 'string', 'max:20'],
-            'telefono' => ['nullable', 'string', 'max:20'],
-            'calle' => ['nullable', 'string', 'max:120'],
-            'numero' => ['nullable', 'string', 'max:40'],
+            'dni' => ['required', 'string', 'max:20'],
+            'telefono' => ['required', 'string', 'max:20'],
+            'calle' => ['required', 'string', 'max:120'],
+            'numero' => ['required', 'string', 'max:40'],
             'piso_departamento' => ['nullable', 'string', 'max:80'],
-            'ciudad' => ['nullable', 'string', 'max:100'],
-            'provincia' => ['nullable', 'string', 'max:100'],
-            'codigo_postal' => ['nullable', 'string', 'max:20'],
+            'ciudad' => ['required', 'string', 'max:100'],
+            'provincia' => ['required', 'string', 'max:100'],
+            'codigo_postal' => ['required', 'string', 'max:20'],
             'referencia' => ['nullable', 'string', 'max:255'],
         ]);
 
@@ -111,8 +111,14 @@ class AdminUsuarioController extends Controller
             'referencia' => trim((string) ($datos['referencia'] ?? '')),
         ];
 
-        if ($this->domicilioTieneDatosSuficientes($domicilioData)) {
-            $usuario->domicilios()->create([
+        $domicilioActivo = $usuario->domicilios()
+            ->where('activo', true)
+            ->orderByDesc('es_principal')
+            ->latest('id')
+            ->first();
+
+        if ($domicilioActivo) {
+            $domicilioActivo->fill([
                 'calle' => $domicilioData['calle'],
                 'numero' => $domicilioData['numero'],
                 'piso_departamento' => $domicilioData['piso_departamento'] ?: null,
@@ -121,8 +127,28 @@ class AdminUsuarioController extends Controller
                 'codigo_postal' => $domicilioData['codigo_postal'] ?: null,
                 'referencia' => $domicilioData['referencia'] ?: null,
                 'es_principal' => true,
+                'activo' => true,
+            ])->save();
+        } else {
+            $domicilioActivo = $usuario->domicilios()->create([
+                'calle' => $domicilioData['calle'],
+                'numero' => $domicilioData['numero'],
+                'piso_departamento' => $domicilioData['piso_departamento'] ?: null,
+                'ciudad' => $domicilioData['ciudad'],
+                'provincia' => $domicilioData['provincia'],
+                'codigo_postal' => $domicilioData['codigo_postal'] ?: null,
+                'referencia' => $domicilioData['referencia'] ?: null,
+                'es_principal' => true,
+                'activo' => true,
             ]);
         }
+
+        $usuario->domicilios()
+            ->where('id', '!=', $domicilioActivo->id)
+            ->update([
+                'activo' => false,
+                'es_principal' => false,
+            ]);
 
         return redirect()
             ->route('admin.usuarios.index')
@@ -170,16 +196,5 @@ class AdminUsuarioController extends Controller
         return redirect()
             ->route('admin.usuarios.index')
             ->with('success', 'Usuario dado de baja correctamente.');
-    }
-
-    private function domicilioTieneDatosSuficientes(array $domicilioData): bool
-    {
-        foreach (['calle', 'numero', 'ciudad', 'provincia'] as $field) {
-            if ($domicilioData[$field] === '') {
-                return false;
-            }
-        }
-
-        return true;
     }
 }

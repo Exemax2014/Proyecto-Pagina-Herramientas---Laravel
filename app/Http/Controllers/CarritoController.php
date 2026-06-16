@@ -27,16 +27,29 @@ class CarritoController extends Controller
 
     public function index()
     {
+        if ($response = $this->bloquearComprasAdmin()) {
+            return $response;
+        }
+
         return view('pages.carrito');
     }
 
     public function datos(Request $request)
     {
         $usuario = Usuario::findOrFail(session('usuario_id'));
+
+        if ($response = $this->bloquearComprasAdmin($usuario, $request)) {
+            return $response;
+        }
+
+        if ($redirect = $this->redirectSiPerfilIncompleto($usuario)) {
+            return $redirect;
+        }
+
         $pedido = $this->obtenerCarritoActivo($usuario->id);
         $checkoutData = $this->getCheckoutData();
         $domicilioPrincipal = $this->obtenerDomicilioPrincipalUsuario($usuario);
-        $domicilios = $usuario->domicilios()
+        $domicilios = $usuario->domiciliosActivos()
             ->orderByDesc('es_principal')
             ->latest('id')
             ->get();
@@ -118,6 +131,15 @@ class CarritoController extends Controller
     public function guardarDatos(Request $request)
     {
         $usuario = Usuario::findOrFail(session('usuario_id'));
+
+        if ($response = $this->bloquearComprasAdmin($usuario, $request)) {
+            return $response;
+        }
+
+        if ($redirect = $this->redirectSiPerfilIncompleto($usuario)) {
+            return $redirect;
+        }
+
         $pedido = $this->obtenerCarritoActivo($usuario->id);
 
         if (! $pedido || $pedido->items->isEmpty()) {
@@ -173,7 +195,7 @@ class CarritoController extends Controller
         }
 
         if ($domicilioOpcion === 'domicilio_existente') {
-            $selectedDomicilio = $usuario->domicilios()
+            $selectedDomicilio = $usuario->domiciliosActivos()
                 ->where('id', $validated['domicilio_id'] ?? 0)
                 ->first();
 
@@ -191,16 +213,7 @@ class CarritoController extends Controller
                 }
             }
 
-            $selectedDomicilio = $usuario->domicilios()->create([
-                'calle' => $nuevoDomicilioData['calle'],
-                'numero' => $nuevoDomicilioData['numero'],
-                'piso_departamento' => $nuevoDomicilioData['piso_departamento'] ?: null,
-                'ciudad' => $nuevoDomicilioData['ciudad'],
-                'provincia' => $nuevoDomicilioData['provincia'],
-                'codigo_postal' => $nuevoDomicilioData['codigo_postal'] ?: null,
-                'referencia' => $nuevoDomicilioData['referencia'] ?: null,
-                'es_principal' => ! $usuario->domicilios()->exists(),
-            ]);
+            $selectedDomicilio = null;
         }
 
         session([
@@ -211,7 +224,7 @@ class CarritoController extends Controller
                 'nuevo_domicilio' => $nuevoDomicilioData,
                 'domicilio_snapshot' => $selectedDomicilio
                     ? $this->serializarDomicilio($selectedDomicilio)
-                    : null,
+                    : $this->buildNuevoDomicilioSnapshot($nuevoDomicilioData),
             ]),
         ]);
 
@@ -221,6 +234,15 @@ class CarritoController extends Controller
     public function confirmacion()
     {
         $usuario = Usuario::findOrFail(session('usuario_id'));
+
+        if ($response = $this->bloquearComprasAdmin($usuario, request())) {
+            return $response;
+        }
+
+        if ($redirect = $this->redirectSiPerfilIncompleto($usuario)) {
+            return $redirect;
+        }
+
         $pedido = $this->obtenerCarritoActivo($usuario->id);
         $checkoutData = $this->enriquecerCheckoutDataConEnvio($this->getCheckoutData());
 
@@ -262,6 +284,12 @@ class CarritoController extends Controller
             ], 401);
         }
 
+        $usuario = Usuario::findOrFail($usuarioId);
+
+        if ($response = $this->bloquearComprasAdmin($usuario, request())) {
+            return $response;
+        }
+
         $pedido = $this->obtenerCarritoActivo($usuarioId);
 
         return response()->json([
@@ -279,6 +307,12 @@ class CarritoController extends Controller
             return response()->json([
                 'message' => 'Debes iniciar sesion para agregar productos al carrito.',
             ], 401);
+        }
+
+        $usuario = Usuario::findOrFail($usuarioId);
+
+        if ($response = $this->bloquearComprasAdmin($usuario, $request)) {
+            return $response;
         }
 
         $datos = $request->validate([
@@ -337,6 +371,12 @@ class CarritoController extends Controller
             ], 401);
         }
 
+        $usuario = Usuario::findOrFail($usuarioId);
+
+        if ($response = $this->bloquearComprasAdmin($usuario, request())) {
+            return $response;
+        }
+
         $pedido = $this->obtenerCarritoActivo($usuarioId);
 
         if (! $pedido) {
@@ -386,6 +426,12 @@ class CarritoController extends Controller
             return response()->json([
                 'message' => 'Debes iniciar sesion para modificar el carrito.',
             ], 401);
+        }
+
+        $usuario = Usuario::findOrFail($usuarioId);
+
+        if ($response = $this->bloquearComprasAdmin($usuario, $request)) {
+            return $response;
         }
 
         $datos = $request->validate([
@@ -454,6 +500,12 @@ class CarritoController extends Controller
             return response()->json([
                 'message' => 'Debes iniciar sesion para migrar el carrito.',
             ], 401);
+        }
+
+        $usuario = Usuario::findOrFail($usuarioId);
+
+        if ($response = $this->bloquearComprasAdmin($usuario, $request)) {
+            return $response;
         }
 
         $datos = $request->validate([
@@ -554,6 +606,15 @@ class CarritoController extends Controller
         }
 
         $usuario = Usuario::findOrFail($usuarioId);
+
+        if ($response = $this->bloquearComprasAdmin($usuario, $request)) {
+            return $response;
+        }
+
+        if ($redirect = $this->redirectSiPerfilIncompleto($usuario)) {
+            return $redirect;
+        }
+
         $checkoutData = $this->enriquecerCheckoutDataConEnvio($this->getCheckoutData());
 
         if (! $checkoutData || empty($checkoutData['modo_entrega'])) {
@@ -691,6 +752,10 @@ class CarritoController extends Controller
 
     public function confirmado(Pedido $pedido)
     {
+        if ($response = $this->bloquearComprasAdmin()) {
+            return $response;
+        }
+
         abort_if(
             $pedido->usuario_id !== (int) session('usuario_id') || $pedido->estado === 'carrito',
             404
@@ -743,7 +808,7 @@ class CarritoController extends Controller
         }
 
         $usuario = Usuario::with(['domicilios' => function ($query) {
-            $query->orderByDesc('es_principal')->latest('id');
+            $query->where('activo', true)->orderByDesc('es_principal')->latest('id');
         }])->findOrFail($usuarioId);
         $domicilioPrincipal = $this->obtenerDomicilioPrincipalUsuario($usuario);
 
@@ -1060,4 +1125,39 @@ class CarritoController extends Controller
             ];
         })->all();
     }
+
+    protected function redirectSiPerfilIncompleto(Usuario $usuario)
+    {
+        if ($usuario->perfilCheckoutCompleto()) {
+            return null;
+        }
+
+        return redirect()
+            ->route('mis-datos')
+            ->with('warning', 'Completa tus datos para continuar.');
+    }
+
+    protected function bloquearComprasAdmin(?Usuario $usuario = null, ?Request $request = null)
+    {
+        $usuarioId = (int) session('usuario_id');
+
+        if (! $usuario && $usuarioId > 0) {
+            $usuario = Usuario::find($usuarioId);
+        }
+
+        if (! $usuario || $usuario->role !== 'admin') {
+            return null;
+        }
+
+        $mensaje = 'Los administradores no pueden realizar compras.';
+
+        if ($request?->expectsJson()) {
+            return response()->json(['message' => $mensaje], 403);
+        }
+
+        return redirect()
+            ->route('catalogo')
+            ->withErrors(['checkout' => $mensaje]);
+    }
 }
+

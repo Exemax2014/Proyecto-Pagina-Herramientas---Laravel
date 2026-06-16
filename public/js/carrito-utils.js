@@ -28,6 +28,10 @@
         return Boolean(getCartConfig().loggedIn);
     }
 
+    function isAdminUser() {
+        return getCartConfig().isAdmin === true || window.hfUserRole === 'admin';
+    }
+
     function getCart() {
         try {
             const savedCart = localStorage.getItem(CART_STORAGE_KEY);
@@ -243,6 +247,10 @@
     }
 
     async function fetchBackendCart() {
+        if (isAdminUser()) {
+            throw Object.assign(new Error('Los administradores no pueden realizar compras.'), { status: 403 });
+        }
+
         if (!isLoggedIn()) {
             throw Object.assign(new Error('Primero tenes que iniciar sesion.'), { status: 401 });
         }
@@ -253,6 +261,12 @@
     }
 
     async function updateCartCount() {
+        if (isAdminUser()) {
+            clearBackendCartCountCache();
+            renderCartCount(0);
+            return 0;
+        }
+
         if (isLoggedIn()) {
             const count = getBackendCartCountCache();
             renderCartCount(count);
@@ -266,6 +280,12 @@
     }
 
     async function syncBackendCartCount() {
+        if (isAdminUser()) {
+            clearBackendCartCountCache();
+            renderCartCount(0);
+            return 0;
+        }
+
         if (!isLoggedIn()) {
             clearBackendCartCountCache();
             renderCartCount(0);
@@ -277,6 +297,10 @@
     }
 
     async function addToCart(productOrId, quantity = 1) {
+        if (isAdminUser()) {
+            throw Object.assign(new Error('Los administradores no pueden realizar compras.'), { status: 403 });
+        }
+
         if (!isLoggedIn()) {
             return addToLocalCart(productOrId, quantity);
         }
@@ -301,6 +325,10 @@
     }
 
     async function removeCartItem(itemId) {
+        if (isAdminUser()) {
+            throw Object.assign(new Error('Los administradores no pueden realizar compras.'), { status: 403 });
+        }
+
         const data = await requestJson(`${getCartConfig().endpoints.itemBase}/${itemId}`, {
             method: 'DELETE',
         });
@@ -310,6 +338,10 @@
     }
 
     async function updateBackendCartItem(itemId, quantity) {
+        if (isAdminUser()) {
+            throw Object.assign(new Error('Los administradores no pueden realizar compras.'), { status: 403 });
+        }
+
         const updateUrlTemplate = getCartConfig().endpoints.actualizar || '';
         const updateUrl = updateUrlTemplate.replace('__ITEM__', itemId);
 
@@ -328,6 +360,10 @@
     }
 
     async function confirmCart() {
+        if (isAdminUser()) {
+            throw Object.assign(new Error('Los administradores no pueden realizar compras.'), { status: 403 });
+        }
+
         const data = await requestJson(getCartConfig().endpoints.confirmar, {
             method: 'POST',
         });
@@ -339,6 +375,12 @@
     }
 
     async function migrateLocalCartIfNeeded() {
+        if (isAdminUser()) {
+            clearBackendCartCountCache();
+            renderCartCount(0);
+            return null;
+        }
+
         if (migrationPromise) {
             return migrationPromise;
         }

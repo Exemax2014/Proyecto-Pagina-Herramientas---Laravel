@@ -730,6 +730,13 @@
     margin-top: 1.5rem;
 }
 
+.cart-confirmed-actions {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
 .cart-summary-card--sticky {
     box-shadow: 0 24px 42px rgba(17, 17, 17, 0.08);
 }
@@ -864,6 +871,15 @@
     min-height: 3rem;
     padding-inline: 1rem;
     text-align: center;
+}
+
+.cart-confirmed-actions .btn {
+    width: 100%;
+    min-height: 3rem;
+    padding-inline: 1rem;
+    border-radius: 0.8rem;
+    text-align: center;
+    font-weight: 700;
 }
 
 .cart-confirm-btn {

@@ -112,20 +112,22 @@
                             </span>
                         @endif
 
-                        <button
-                            class="product-card-action home-cart-btn"
-                            type="button"
-                            aria-label="Agregar {{ $producto->nombre }} al carrito"
-                            data-product-id="{{ $producto->id }}"
-                            data-product-nombre="{{ $producto->nombre }}"
-                            data-product-marca="{{ $producto->marca?->nombre }}"
-                            data-product-categoria="{{ $producto->categoria?->slug }}"
-                            data-product-energia="{{ $producto->energia }}"
-                            data-product-precio="{{ (float) $producto->precio }}"
-                            data-product-imagen="{{ $imagen }}"
-                        >
-                            <i class="bi bi-cart-plus"></i>
-                        </button>
+                        @if(session('usuario_role') !== 'admin')
+                            <button
+                                class="product-card-action home-cart-btn"
+                                type="button"
+                                aria-label="Agregar {{ $producto->nombre }} al carrito"
+                                data-product-id="{{ $producto->id }}"
+                                data-product-nombre="{{ $producto->nombre }}"
+                                data-product-marca="{{ $producto->marca?->nombre }}"
+                                data-product-categoria="{{ $producto->categoria?->slug }}"
+                                data-product-energia="{{ $producto->energia }}"
+                                data-product-precio="{{ (float) $producto->precio }}"
+                                data-product-imagen="{{ $imagen }}"
+                            >
+                                <i class="bi bi-cart-plus"></i>
+                            </button>
+                        @endif
                     </div>
 
                     <div class="product-card-body">

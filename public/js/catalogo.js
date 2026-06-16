@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const adminUser = window.hfCartConfig?.isAdmin === true;
 
     const searchInput = document.getElementById('catalogSearch');
     const sortMarketSelect = document.getElementById('catalogSortMarket');
@@ -146,9 +147,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div class="product-card-media">
                     <img src="${producto.imagen}" alt="${producto.nombre}">
                     ${createBadgeHtml(producto)}
+                    ${adminUser ? '' : `
                     <button class="product-card-action catalog-cart-btn" type="button" data-product-id="${producto.id}" aria-label="Agregar al carrito">
                         <i class="bi bi-cart-plus"></i>
                     </button>
+                    `}
                 </div>
 
                 <div class="product-card-body">
