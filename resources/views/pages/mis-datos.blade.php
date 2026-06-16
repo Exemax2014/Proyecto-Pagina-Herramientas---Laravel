@@ -129,11 +129,11 @@
                                         <div>
                                             <h3 class="h5 mb-1">Domicilios registrados</h3>
                                             <p class="mb-0 text-muted">
-                                                Selecciona un domicilio para editarlo o agrega uno nuevo si todavia tienes espacio disponible.
+                                                {{ $isAdmin ? 'Actualiza tu domicilio activo para mantener completo el perfil administrador.' : 'Selecciona un domicilio para editarlo o agrega uno nuevo si todavia tienes espacio disponible.' }}
                                             </p>
                                         </div>
 
-                                        @if(! $canAddDomicilio)
+                                        @if(! $isAdmin && ! $canAddDomicilio)
                                             <span class="small text-muted">Maximo 4 domicilios registrados</span>
                                         @endif
                                     </div>
@@ -255,7 +255,7 @@
 
                                     <div
                                         id="deleteAddressFormWrap"
-                                        class="mt-3 {{ $domicilioMode === 'existing' && $selectedDomicilioId ? '' : 'd-none' }}"
+                                        class="mt-3 {{ $canDeleteDomicilio && $domicilioMode === 'existing' && $selectedDomicilioId ? '' : 'd-none' }}"
                                     >
                                         <button type="submit" form="deleteAddressForm" class="btn btn-outline-danger">
                                             Eliminar domicilio

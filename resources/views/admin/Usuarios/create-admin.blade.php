@@ -33,6 +33,7 @@
                                 name="nombre"
                                 class="form-control"
                                 value="{{ old('nombre') }}"
+                                required
                             >
                         </div>
 
@@ -43,6 +44,7 @@
                                 name="apellido"
                                 class="form-control"
                                 value="{{ old('apellido') }}"
+                                required
                             >
                         </div>
 
@@ -53,6 +55,7 @@
                                 name="email"
                                 class="form-control"
                                 value="{{ old('email') }}"
+                                required
                             >
                         </div>
 
@@ -62,6 +65,7 @@
                                 type="password"
                                 name="password"
                                 class="form-control"
+                                required
                             >
                         </div>
 
@@ -72,6 +76,7 @@
                                 name="dni"
                                 class="form-control"
                                 value="{{ old('dni') }}"
+                                required
                             >
                         </div>
 
@@ -82,6 +87,7 @@
                                 name="telefono"
                                 class="form-control"
                                 value="{{ old('telefono') }}"
+                                required
                             >
                         </div>
 
@@ -92,6 +98,7 @@
                                 name="calle"
                                 class="form-control"
                                 value="{{ old('calle') }}"
+                                required
                             >
                         </div>
 
@@ -102,6 +109,7 @@
                                 name="numero"
                                 class="form-control"
                                 value="{{ old('numero') }}"
+                                required
                             >
                         </div>
 
@@ -122,6 +130,7 @@
                                 name="ciudad"
                                 class="form-control"
                                 value="{{ old('ciudad') }}"
+                                required
                             >
                         </div>
 
@@ -132,6 +141,7 @@
                                 name="provincia"
                                 class="form-control"
                                 value="{{ old('provincia') }}"
+                                required
                             >
                         </div>
 
@@ -142,6 +152,7 @@
                                 name="codigo_postal"
                                 class="form-control"
                                 value="{{ old('codigo_postal') }}"
+                                required
                             >
                         </div>
 

@@ -12,14 +12,30 @@ class PerfilController extends Controller
     public function misDatos()
     {
         $usuario = Usuario::findOrFail(session('usuario_id'));
-        $usuario->load(['domicilios' => function ($query) {
-            $query->where('activo', true)->orderByDesc('es_principal')->latest('id')->limit(4);
+        $isAdmin = $this->esAdmin($usuario);
+
+        $usuario->load(['domicilios' => function ($query) use ($isAdmin) {
+            $query->where('activo', true)->orderByDesc('es_principal')->latest('id');
+
+            if (! $isAdmin) {
+                $query->limit(4);
+            }
         }]);
 
         $domicilios = $usuario->domicilios->values();
         $domicilioPrincipal = $this->obtenerDomicilioPrincipal($usuario);
+
+        if ($isAdmin) {
+            $domicilios = collect(array_filter([$domicilioPrincipal]))->values();
+        }
+
         $selectedDomicilioId = (int) old('selected_domicilio_id', $domicilioPrincipal?->id ?? 0);
         $domicilioMode = old('domicilio_mode', $domicilios->isNotEmpty() ? 'existing' : 'new');
+
+        if ($isAdmin && $domicilios->isNotEmpty()) {
+            $domicilioMode = 'existing';
+            $selectedDomicilioId = (int) ($domicilioPrincipal?->id ?? 0);
+        }
 
         if ($domicilioMode === 'existing' && $selectedDomicilioId > 0) {
             $domicilioSeleccionado = $domicilios->firstWhere('id', $selectedDomicilioId) ?: $domicilioPrincipal;
@@ -41,7 +57,8 @@ class PerfilController extends Controller
             'referencia' => old('referencia', $domicilioForm['referencia']),
         ];
 
-        $canAddDomicilio = $domicilios->count() < 4;
+        $canAddDomicilio = ! $isAdmin && $domicilios->count() < 4;
+        $canDeleteDomicilio = ! $isAdmin && $domicilios->count() > 0;
 
         return view('pages.mis-datos', compact(
             'usuario',
@@ -51,7 +68,9 @@ class PerfilController extends Controller
             'selectedDomicilioId',
             'domicilioMode',
             'domicilioForm',
-            'canAddDomicilio'
+            'canAddDomicilio',
+            'canDeleteDomicilio',
+            'isAdmin'
         ));
     }
 
@@ -105,6 +124,12 @@ class PerfilController extends Controller
         $selectedDomicilioId = (int) ($datos['selected_domicilio_id'] ?? 0);
         $domicilioMode = $datos['domicilio_mode'];
         $domicilioPrincipal = $this->obtenerDomicilioPrincipal($usuario);
+        $isAdmin = $this->esAdmin($usuario);
+
+        if ($isAdmin && $usuario->domicilios->isNotEmpty()) {
+            $domicilioMode = 'existing';
+            $selectedDomicilioId = (int) ($domicilioPrincipal?->id ?? $usuario->domicilios->first()->id);
+        }
 
         if ($domicilioMode === 'existing') {
             $domicilioSeleccionado = $usuario->domicilios->firstWhere('id', $selectedDomicilioId);
@@ -115,7 +140,13 @@ class PerfilController extends Controller
                     ->withInput();
             }
         } else {
-            if ($usuario->domicilios->count() >= 4) {
+            if ($isAdmin && $usuario->domicilios->isNotEmpty()) {
+                return back()
+                    ->withErrors(['domicilio' => 'Los administradores solo pueden tener un domicilio activo.'])
+                    ->withInput();
+            }
+
+            if (! $isAdmin && $usuario->domicilios->count() >= 4) {
                 return back()
                     ->withErrors(['domicilio' => 'Maximo 4 domicilios registrados.'])
                     ->withInput();
@@ -163,8 +194,17 @@ class PerfilController extends Controller
     public function bajaDomicilio(Domicilio $domicilio)
     {
         $usuarioId = (int) session('usuario_id');
+        $usuario = Usuario::with(['domicilios' => function ($query) {
+            $query->where('activo', true)->orderByDesc('es_principal')->latest('id');
+        }])->findOrFail($usuarioId);
 
         abort_if($domicilio->usuario_id !== $usuarioId, 404);
+
+        if ($this->esAdmin($usuario)) {
+            return redirect()
+                ->route('mis-datos')
+                ->with('warning', 'Los administradores deben mantener un unico domicilio activo.');
+        }
 
         if (! $domicilio->activo) {
             return redirect()
@@ -226,5 +266,10 @@ class PerfilController extends Controller
             'codigo_postal' => '',
             'referencia' => '',
         ];
+    }
+
+    private function esAdmin(Usuario $usuario): bool
+    {
+        return $usuario->role === 'admin';
     }
 }

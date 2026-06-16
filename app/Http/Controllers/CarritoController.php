@@ -27,12 +27,20 @@ class CarritoController extends Controller
 
     public function index()
     {
+        if ($response = $this->bloquearComprasAdmin()) {
+            return $response;
+        }
+
         return view('pages.carrito');
     }
 
     public function datos(Request $request)
     {
         $usuario = Usuario::findOrFail(session('usuario_id'));
+
+        if ($response = $this->bloquearComprasAdmin($usuario, $request)) {
+            return $response;
+        }
 
         if ($redirect = $this->redirectSiPerfilIncompleto($usuario)) {
             return $redirect;
@@ -123,6 +131,10 @@ class CarritoController extends Controller
     public function guardarDatos(Request $request)
     {
         $usuario = Usuario::findOrFail(session('usuario_id'));
+
+        if ($response = $this->bloquearComprasAdmin($usuario, $request)) {
+            return $response;
+        }
 
         if ($redirect = $this->redirectSiPerfilIncompleto($usuario)) {
             return $redirect;
@@ -223,6 +235,10 @@ class CarritoController extends Controller
     {
         $usuario = Usuario::findOrFail(session('usuario_id'));
 
+        if ($response = $this->bloquearComprasAdmin($usuario, request())) {
+            return $response;
+        }
+
         if ($redirect = $this->redirectSiPerfilIncompleto($usuario)) {
             return $redirect;
         }
@@ -268,6 +284,12 @@ class CarritoController extends Controller
             ], 401);
         }
 
+        $usuario = Usuario::findOrFail($usuarioId);
+
+        if ($response = $this->bloquearComprasAdmin($usuario, request())) {
+            return $response;
+        }
+
         $pedido = $this->obtenerCarritoActivo($usuarioId);
 
         return response()->json([
@@ -285,6 +307,12 @@ class CarritoController extends Controller
             return response()->json([
                 'message' => 'Debes iniciar sesion para agregar productos al carrito.',
             ], 401);
+        }
+
+        $usuario = Usuario::findOrFail($usuarioId);
+
+        if ($response = $this->bloquearComprasAdmin($usuario, $request)) {
+            return $response;
         }
 
         $datos = $request->validate([
@@ -343,6 +371,12 @@ class CarritoController extends Controller
             ], 401);
         }
 
+        $usuario = Usuario::findOrFail($usuarioId);
+
+        if ($response = $this->bloquearComprasAdmin($usuario, request())) {
+            return $response;
+        }
+
         $pedido = $this->obtenerCarritoActivo($usuarioId);
 
         if (! $pedido) {
@@ -392,6 +426,12 @@ class CarritoController extends Controller
             return response()->json([
                 'message' => 'Debes iniciar sesion para modificar el carrito.',
             ], 401);
+        }
+
+        $usuario = Usuario::findOrFail($usuarioId);
+
+        if ($response = $this->bloquearComprasAdmin($usuario, $request)) {
+            return $response;
         }
 
         $datos = $request->validate([
@@ -460,6 +500,12 @@ class CarritoController extends Controller
             return response()->json([
                 'message' => 'Debes iniciar sesion para migrar el carrito.',
             ], 401);
+        }
+
+        $usuario = Usuario::findOrFail($usuarioId);
+
+        if ($response = $this->bloquearComprasAdmin($usuario, $request)) {
+            return $response;
         }
 
         $datos = $request->validate([
@@ -560,6 +606,10 @@ class CarritoController extends Controller
         }
 
         $usuario = Usuario::findOrFail($usuarioId);
+
+        if ($response = $this->bloquearComprasAdmin($usuario, $request)) {
+            return $response;
+        }
 
         if ($redirect = $this->redirectSiPerfilIncompleto($usuario)) {
             return $redirect;
@@ -702,6 +752,10 @@ class CarritoController extends Controller
 
     public function confirmado(Pedido $pedido)
     {
+        if ($response = $this->bloquearComprasAdmin()) {
+            return $response;
+        }
+
         abort_if(
             $pedido->usuario_id !== (int) session('usuario_id') || $pedido->estado === 'carrito',
             404
@@ -1081,6 +1135,29 @@ class CarritoController extends Controller
         return redirect()
             ->route('mis-datos')
             ->with('warning', 'Completa tus datos para continuar.');
+    }
+
+    protected function bloquearComprasAdmin(?Usuario $usuario = null, ?Request $request = null)
+    {
+        $usuarioId = (int) session('usuario_id');
+
+        if (! $usuario && $usuarioId > 0) {
+            $usuario = Usuario::find($usuarioId);
+        }
+
+        if (! $usuario || $usuario->role !== 'admin') {
+            return null;
+        }
+
+        $mensaje = 'Los administradores no pueden realizar compras.';
+
+        if ($request?->expectsJson()) {
+            return response()->json(['message' => $mensaje], 403);
+        }
+
+        return redirect()
+            ->route('catalogo')
+            ->withErrors(['checkout' => $mensaje]);
     }
 }
 
