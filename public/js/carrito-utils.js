@@ -58,6 +58,9 @@
             marca: item?.marca || item?.producto_marca || 'Sin marca',
             categoria: item?.categoria || item?.producto_categoria || 'Sin categoria',
             precio_unitario: Number(item?.precio_unitario ?? item?.precio) || 0,
+            precio_anterior: Number(item?.precio_anterior ?? item?.precioAnterior) || 0,
+            descuento_porcentaje: Number(item?.descuento_porcentaje ?? item?.descuentoPorcentaje) || 0,
+            etiquetas: Array.isArray(item?.etiquetas) ? item.etiquetas : [],
             cantidad: Number(item?.cantidad) || 0,
             subtotal: Number(item?.subtotal) || ((Number(item?.precio_unitario ?? item?.precio) || 0) * (Number(item?.cantidad) || 0)),
             imagen: item?.imagen || item?.producto?.imagen || '/img/producto-sin-imagen.svg',
@@ -131,6 +134,9 @@
         if (existingProduct) {
             existingProduct.cantidad += amount;
             existingProduct.subtotal = existingProduct.precio_unitario * existingProduct.cantidad;
+            existingProduct.precio_anterior = Number(product.precio_anterior ?? product.precioAnterior) || existingProduct.precio_anterior || 0;
+            existingProduct.descuento_porcentaje = Number(product.descuento_porcentaje ?? product.descuentoPorcentaje) || existingProduct.descuento_porcentaje || 0;
+            existingProduct.etiquetas = Array.isArray(product.etiquetas) ? product.etiquetas : (existingProduct.etiquetas || []);
         } else {
             const precioUnitario = Number(product.precio_unitario ?? product.precio) || 0;
 
@@ -141,6 +147,9 @@
                 marca: product.marca || 'Sin marca',
                 categoria: product.categoria || 'Sin categoria',
                 precio_unitario: precioUnitario,
+                precio_anterior: Number(product.precio_anterior ?? product.precioAnterior) || 0,
+                descuento_porcentaje: Number(product.descuento_porcentaje ?? product.descuentoPorcentaje) || 0,
+                etiquetas: Array.isArray(product.etiquetas) ? product.etiquetas : [],
                 cantidad: amount,
                 subtotal: precioUnitario * amount,
                 imagen: product.imagen || '/img/producto-sin-imagen.svg',

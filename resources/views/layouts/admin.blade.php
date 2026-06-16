@@ -36,6 +36,13 @@
             </li>
 
             <li>
+                <a href="{{ route('admin.etiquetas.index') }}"
+                   class="{{ request()->routeIs('admin.etiquetas.*') ? 'active' : '' }}">
+                    <i class="bi bi-bookmark-star"></i> Etiquetas
+                </a>
+            </li>
+
+            <li>
                 <a href="{{ route('admin.usuarios.index') }}"
                    class="{{ request()->routeIs('admin.usuarios.*') ? 'active' : '' }}">
                     <i class="bi bi-people"></i> Usuarios

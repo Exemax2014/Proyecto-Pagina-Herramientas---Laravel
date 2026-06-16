@@ -87,9 +87,10 @@
                             <td>
                                 <strong>{{ $producto->nombre }}</strong>
 
-                                @if($producto->etiqueta)
+                                @if(!empty($producto->etiquetas_visuales))
                                     <div class="small text-muted">
-                                        Etiqueta: {{ $producto->etiqueta }}
+                                        Etiquetas:
+                                        {{ collect($producto->etiquetas_visuales)->pluck('texto')->join(' / ') }}
                                     </div>
                                 @endif
                             </td>
@@ -110,6 +111,12 @@
                                 @if($producto->precio_anterior)
                                     <div class="small text-muted text-decoration-line-through">
                                         ${{ number_format($producto->precio_anterior, 0, ',', '.') }}
+                                    </div>
+                                @endif
+
+                                @if($producto->porcentaje_descuento)
+                                    <div class="small fw-bold text-warning">
+                                        {{ $producto->porcentaje_descuento }}% OFF
                                     </div>
                                 @endif
                             </td>

@@ -48,6 +48,27 @@ document.addEventListener('DOMContentLoaded', function () {
         return fallbackImage;
     }
 
+    function createOfferHtml(item) {
+        const descuento = Number(item.descuento_porcentaje) || 0;
+
+        if (descuento <= 0) {
+            return '';
+        }
+
+        return `<span class="cart-item-offer">${descuento}% OFF</span>`;
+    }
+
+    function createOldPriceHtml(item) {
+        const precioAnterior = Number(item.precio_anterior) || 0;
+        const precioUnitario = Number(item.precio_unitario) || 0;
+
+        if (precioAnterior <= precioUnitario) {
+            return '';
+        }
+
+        return `<span class="cart-item-old-price">${formatPrice(precioAnterior)}</span>`;
+    }
+
     function getItems() {
         return Array.isArray(carrito?.items) ? carrito.items : [];
     }
@@ -100,6 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const categoria = escapeHtml(item.categoria || 'Sin categoria');
             const cantidad = Number(item.cantidad) || 0;
             const subtotal = Number(item.subtotal) || 0;
+            const precioUnitario = Number(item.precio_unitario) || 0;
 
             return `
                 <article class="page-card cart-item-card">
@@ -131,7 +153,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
 
                     <div class="cart-item-price">
+                        ${createOldPriceHtml(item)}
                         <strong>${formatPrice(subtotal)}</strong>
+                        <span>${formatPrice(precioUnitario)} c/u</span>
+                        ${createOfferHtml(item)}
                     </div>
                 </article>
             `;
@@ -192,6 +217,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 cantidad,
                 subtotal: precioUnitario * cantidad,
                 imagen: item.imagen || fallbackImage,
+                precio_anterior: Number(item.precio_anterior) || 0,
+                descuento_porcentaje: Number(item.descuento_porcentaje) || 0,
             };
         });
 

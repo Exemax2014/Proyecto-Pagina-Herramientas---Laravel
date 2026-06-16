@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const pagination = document.querySelector('.catalog-pagination');
 
     const categoryChecks = Array.from(document.querySelectorAll('.filter-category'));
-    const energyRadios = Array.from(document.querySelectorAll('input[name="energy"]'));
 
     let currentPage = 1;
 
@@ -23,7 +22,15 @@ document.addEventListener('DOMContentLoaded', function () {
         return '$' + Number(value).toLocaleString('es-AR');
     }
 
-    // Generar marcas desde el back
+    function escapeHtml(value) {
+        return String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
     function generarMarcas() {
         const contenedor = document.getElementById('brandFilters');
         if (!contenedor || !window.marcasDisponibles) return;
@@ -54,48 +61,90 @@ document.addEventListener('DOMContentLoaded', function () {
     function getParams() {
         const params = new URLSearchParams();
 
-        // Categorías seleccionadas
         categoryChecks
             .filter(c => c.checked)
             .forEach(c => params.append('categorias[]', c.value));
 
-        // Marcas seleccionadas
         document.querySelectorAll('.filter-brand:checked')
             .forEach(c => params.append('marcas[]', c.value));
 
-        // Energía
-        const energia = energyRadios.find(r => r.checked);
-        if (energia && energia.value) params.set('energia', energia.value);
-
-        // Precio máximo
         if (rangeInput) params.set('precio_max', rangeInput.value);
 
-        // Búsqueda
         if (searchInput && searchInput.value.trim()) {
             params.set('search', searchInput.value.trim());
         }
 
-        // Ordenamiento
         const marketSort = sortMarketSelect?.value;
         const nameSort = sortNameSelect?.value;
         if (marketSort && marketSort !== 'default') params.set('sort', marketSort);
         else if (nameSort && nameSort !== 'default') params.set('sort', nameSort);
 
-        // Página
         params.set('page', currentPage);
 
         return params;
     }
 
     function createBadgeHtml(producto) {
-        if (!producto.etiqueta) return '';
-        const extraClass = producto.etiquetaClase ? ` ${producto.etiquetaClase}` : '';
-        return `<span class="product-card-badge${extraClass}">${producto.etiqueta}</span>`;
+        let etiquetas = Array.isArray(producto.etiquetas) ? producto.etiquetas : [];
+        if ((!etiquetas || etiquetas.length === 0) && Array.isArray(producto.etiquetas_visuales)) {
+            etiquetas = producto.etiquetas_visuales;
+        }
+
+        const manualString = producto.etiqueta || producto.etiqueta_manual || null;
+
+        etiquetas = etiquetas || [];
+
+        const left = etiquetas.filter(e => (e.tipo || '').toString().toLowerCase() === 'oferta');
+        const right = etiquetas.filter(e => (e.tipo || '').toString().toLowerCase() === 'manual');
+
+        if (manualString && right.length === 0) {
+            const txt = String(manualString).trim();
+            if (txt && txt.toLowerCase() !== 'oferta') {
+                right.push({ texto: txt, color: '#111111', texto_color: '#ffffff', tipo: 'manual' });
+            }
+        }
+
+        if (left.length === 0 && Number(producto?.descuentoPorcentaje) > 0) {
+            left.push({ texto: `${producto.descuentoPorcentaje}% OFF`, color: '#a06918', texto_color: '#ffffff', tipo: 'oferta' });
+        }
+
+        const leftHtml = left.length ? `
+            <div class="product-card-badge-stack">
+                ${left.map((etiqueta) => `
+                    <span class="product-card-badge" style="background: ${escapeHtml(etiqueta.color || '#111111')}; color: ${escapeHtml(etiqueta.texto_color || '#ffffff')};">
+                        ${escapeHtml(etiqueta.texto || '')}
+                    </span>
+                `).join('')}
+            </div>
+        ` : '';
+
+        const rightHtml = right.length ? `
+            <div class="product-card-badge-stack product-card-badge-stack--right">
+                ${right.map((etiqueta) => `
+                    <span class="product-card-badge" style="background: ${escapeHtml(etiqueta.color || '#111111')}; color: ${escapeHtml(etiqueta.texto_color || '#ffffff')};">
+                        ${escapeHtml(etiqueta.texto || '')}
+                    </span>
+                `).join('')}
+            </div>
+        ` : '';
+
+        return leftHtml + rightHtml;
     }
 
     function createOldPriceHtml(producto) {
-        if (!producto.precioAnterior) return '';
-        return `<small>${formatPrice(producto.precioAnterior)}</small>`;
+        const precioAnterior = Number(producto.precioAnterior) || 0;
+        const precioActual = Number(producto.precio) || 0;
+
+        if (precioAnterior <= precioActual) return '';
+        return `<small>${formatPrice(precioAnterior)}</small>`;
+    }
+
+    function createDiscountHtml(producto) {
+        const descuento = Number(producto?.descuentoPorcentaje) || 0;
+
+        if (descuento <= 0) return '';
+
+        return `<span class="product-card-discount">${escapeHtml(descuento)}% OFF</span>`;
     }
 
     function renderPagination(totalPaginas) {
@@ -128,7 +177,9 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderProducts(productos) {
         if (!grid) return;
 
-        if (productos.length === 0) {
+        const safeProductos = Array.isArray(productos) ? productos : [];
+
+        if (safeProductos.length === 0) {
             grid.innerHTML = '';
             if (emptyState) emptyState.classList.remove('d-none');
             return;
@@ -136,40 +187,42 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (emptyState) emptyState.classList.add('d-none');
 
-        grid.innerHTML = productos.map(producto => `
+        grid.innerHTML = safeProductos.map(producto => `
             <article 
                 class="page-card product-card catalog-product-card" 
-                data-product-id="${producto.id}"
+                data-product-id="${Number(producto?.id) || 0}"
                 role="link"
                 tabindex="0"
-                aria-label="Ver detalle de ${producto.nombre}"
+                aria-label="Ver detalle de ${escapeHtml(producto?.nombre || 'Producto')}"
             >
                 <div class="product-card-media">
-                    <img src="${producto.imagen}" alt="${producto.nombre}">
+                    <img src="${escapeHtml(producto?.imagen || '/img/producto-sin-imagen.svg')}" alt="${escapeHtml(producto?.nombre || 'Producto')}">
                     ${createBadgeHtml(producto)}
                     ${adminUser ? '' : `
-                    <button class="product-card-action catalog-cart-btn" type="button" data-product-id="${producto.id}" aria-label="Agregar al carrito">
+                    <button class="product-card-action catalog-cart-btn" type="button" data-product-id="${Number(producto?.id) || 0}" aria-label="Agregar al carrito">
                         <i class="bi bi-cart-plus"></i>
                     </button>
                     `}
                 </div>
 
                 <div class="product-card-body">
-                    <span class="product-card-brand">${producto.marca}</span>
-                    <h3>${producto.nombre}</h3>
-                    <p>${producto.descripcion}</p>
+                    <span class="product-card-brand">${escapeHtml(producto?.marca || 'Sin marca')}</span>
+                    <h3>${escapeHtml(producto?.nombre || 'Producto sin nombre')}</h3>
+                    <p>${escapeHtml(producto?.descripcion || '')}</p>
 
                     <div class="product-card-footer">
                         <div class="product-card-price">
                             ${createOldPriceHtml(producto)}
-                            <strong>${formatPrice(producto.precio)}</strong>
+                            <div class="product-card-price-current">
+                                <strong>${formatPrice(producto?.precio || 0)}</strong>
+                                ${createDiscountHtml(producto)}
+                            </div>
                         </div>
                     </div>
                 </div>
             </article>
         `).join('');
 
-        // Click en card
         grid.querySelectorAll('.catalog-product-card').forEach(card => {
             card.addEventListener('click', function (event) {
                 if (event.target.closest('.catalog-cart-btn')) return;
@@ -186,12 +239,11 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        // Click en carrito
         grid.querySelectorAll('.catalog-cart-btn').forEach(button => {
             button.addEventListener('click', async function (event) {
                 event.stopPropagation();
                 const productId = Number(this.dataset.productId);
-                const product = productos.find(item => Number(item.id) === productId);
+                const product = safeProductos.find(item => Number(item?.id) === productId);
 
                 if (!product) return;
 
@@ -249,17 +301,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Eventos
     searchInput?.addEventListener('input', () => { currentPage = 1; fetchProductos(); });
     sortMarketSelect?.addEventListener('change', () => { currentPage = 1; fetchProductos(); });
     sortNameSelect?.addEventListener('change', () => { currentPage = 1; fetchProductos(); });
 
     categoryChecks.forEach(check => {
         check.addEventListener('change', () => { currentPage = 1; fetchProductos(); });
-    });
-
-    energyRadios.forEach(radio => {
-        radio.addEventListener('change', () => { currentPage = 1; fetchProductos(); });
     });
 
     rangeInput?.addEventListener('input', function () {
@@ -277,7 +324,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         categoryChecks.forEach(check => check.checked = false);
         document.querySelectorAll('.filter-brand').forEach(check => check.checked = false);
-        energyRadios.forEach(radio => radio.checked = radio.value === '');
 
         currentPage = 1;
         fetchProductos();
@@ -286,7 +332,6 @@ document.addEventListener('DOMContentLoaded', function () {
     filterToggle?.addEventListener('click', () => sidebar?.classList.toggle('is-open'));
     filterClose?.addEventListener('click', () => sidebar?.classList.remove('is-open'));
 
-    // Inicialización
     generarMarcas();
     applyFiltersFromUrl();
     fetchProductos();

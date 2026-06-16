@@ -93,6 +93,51 @@
     letter-spacing: 0.07em;
 }
 
+.product-badge-stack {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    z-index: 2;
+}
+
+/* Detail-specific badge stacks */
+.product-detail-badge-stack {
+    position: absolute;
+    top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    z-index: 30;
+}
+
+.product-detail-badge-stack--left {
+    left: 1rem;
+    right: auto !important;
+}
+
+.product-detail-badge-stack--right {
+    left: auto !important;
+    right: 1rem;
+    align-items: flex-end;
+}
+
+/* Ensure badges inside detail stacks flow normally, not absolutely positioned */
+.product-detail-badge-stack .product-badge,
+.product-detail-badge-stack .product-card-badge,
+.product-detail-badge-stack .product-detail-badge {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+}
+
+.product-detail-badge-stack:empty {
+    display: none;
+}
+
 /* MINIATURAS:
    permiten cambiar la imagen principal */
 .product-thumbs {
@@ -209,6 +254,21 @@
     font-size: clamp(2rem, 3vw, 2.7rem);
     color: var(--hf-coal);
     line-height: 1;
+}
+
+.product-discount-copy {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    margin-top: 0.3rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(217, 164, 65, 0.14);
+    color: #a06918;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 
 /* GRID DE METADATOS:

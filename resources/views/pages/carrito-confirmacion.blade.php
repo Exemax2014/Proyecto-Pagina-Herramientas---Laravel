@@ -146,7 +146,16 @@
                                     <span class="cart-summary-item-meta">Cantidad: {{ $item['cantidad'] }}</span>
                                 </div>
                                 <div class="cart-summary-item-price">
+                                    @if(!empty($item['precio_anterior']) && (float) $item['precio_anterior'] > (float) $item['precio_unitario'])
+                                        <span class="cart-summary-item-old-price">
+                                            ${{ number_format((float) $item['precio_anterior'], 0, ',', '.') }}
+                                        </span>
+                                    @endif
                                     <strong>${{ number_format((float) $item['subtotal'], 0, ',', '.') }}</strong>
+                                    <span>${{ number_format((float) $item['precio_unitario'], 0, ',', '.') }} c/u</span>
+                                    @if(!empty($item['descuento_porcentaje']))
+                                        <span class="cart-item-offer">{{ $item['descuento_porcentaje'] }}% OFF</span>
+                                    @endif
                                 </div>
                             </article>
                         @endforeach

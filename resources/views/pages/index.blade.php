@@ -106,10 +106,34 @@
                     <div class="product-card-media">
                         <img src="{{ $imagen }}" alt="{{ $producto->nombre }}">
 
-                        @if($producto->etiqueta)
-                            <span class="product-card-badge {{ $producto->etiqueta_clase }}">
-                                {{ $producto->etiqueta }}
-                            </span>
+                        @php
+                            $left = collect();
+                            $right = collect();
+                            if (!empty($producto->etiquetas_visuales)) {
+                                $etqs = collect($producto->etiquetas_visuales);
+                                $left = $etqs->where('tipo', 'oferta');
+                                $right = $etqs->where('tipo', 'manual');
+                            }
+                        @endphp
+
+                        @if($left->isNotEmpty())
+                            <div class="product-card-badge-stack">
+                                @foreach($left as $etiquetaVisual)
+                                    <span class="product-card-badge" style="background: {{ $etiquetaVisual['color'] }}; color: {{ $etiquetaVisual['texto_color'] ?? '#ffffff' }};">
+                                        {{ $etiquetaVisual['texto'] }}
+                                    </span>
+                                @endforeach
+                            </div>
+                        @endif
+
+                        @if($right->isNotEmpty())
+                            <div class="product-card-badge-stack product-card-badge-stack--right">
+                                @foreach($right as $etiquetaVisual)
+                                    <span class="product-card-badge" style="background: {{ $etiquetaVisual['color'] }}; color: {{ $etiquetaVisual['texto_color'] ?? '#ffffff' }};">
+                                        {{ $etiquetaVisual['texto'] }}
+                                    </span>
+                                @endforeach
+                            </div>
                         @endif
 
                         @if(session('usuario_role') !== 'admin')
@@ -121,8 +145,9 @@
                                 data-product-nombre="{{ $producto->nombre }}"
                                 data-product-marca="{{ $producto->marca?->nombre }}"
                                 data-product-categoria="{{ $producto->categoria?->slug }}"
-                                data-product-energia="{{ $producto->energia }}"
                                 data-product-precio="{{ (float) $producto->precio }}"
+                                data-product-precio-anterior="{{ $producto->precio_anterior !== null ? (float) $producto->precio_anterior : '' }}"
+                                data-product-descuento="{{ $producto->porcentaje_descuento ?? '' }}"
                                 data-product-imagen="{{ $imagen }}"
                             >
                                 <i class="bi bi-cart-plus"></i>
@@ -137,11 +162,17 @@
 
                         <div class="product-card-footer">
                             <div class="product-card-price">
-                                @if($producto->precio_anterior)
+                                @if($producto->tieneOfertaActiva())
                                     <small>${{ number_format($producto->precio_anterior, 0, ',', '.') }}</small>
                                 @endif
 
-                                <strong>${{ number_format($producto->precio, 0, ',', '.') }}</strong>
+                                <div class="product-card-price-current">
+                                    <strong>${{ number_format($producto->precio, 0, ',', '.') }}</strong>
+
+                                    @if($producto->porcentaje_descuento)
+                                        <span class="product-card-discount">{{ $producto->porcentaje_descuento }}% OFF</span>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>

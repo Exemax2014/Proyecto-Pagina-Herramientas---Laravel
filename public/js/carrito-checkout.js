@@ -85,6 +85,27 @@ document.addEventListener('DOMContentLoaded', function () {
         return fallbackImage;
     }
 
+    function createSummaryOldPriceHtml(item) {
+        const precioAnterior = Number(item.precio_anterior) || 0;
+        const precioUnitario = Number(item.precio_unitario) || 0;
+
+        if (precioAnterior <= precioUnitario) {
+            return '';
+        }
+
+        return `<span class="cart-summary-item-old-price">${formatPrice(precioAnterior)}</span>`;
+    }
+
+    function createSummaryOfferHtml(item) {
+        const descuento = Number(item.descuento_porcentaje) || 0;
+
+        if (descuento <= 0) {
+            return '';
+        }
+
+        return `<span class="cart-item-offer">${descuento}% OFF</span>`;
+    }
+
     function setFeedback(message, type = 'danger') {
         if (!feedbackEl) return;
 
@@ -161,6 +182,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const imagen = safeImageUrl(item.imagen);
             const cantidad = Number(item.cantidad) || 0;
             const subtotal = Number(item.subtotal) || 0;
+            const precioUnitario = Number(item.precio_unitario) || 0;
 
             return `
                 <article class="cart-summary-item">
@@ -174,7 +196,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         <span class="cart-summary-item-meta">Cantidad: ${cantidad}</span>
                     </div>
                     <div class="cart-summary-item-price">
+                        ${createSummaryOldPriceHtml(item)}
                         <strong>${formatPrice(subtotal)}</strong>
+                        <span>${formatPrice(precioUnitario)} c/u</span>
+                        ${createSummaryOfferHtml(item)}
                     </div>
                 </article>
             `;

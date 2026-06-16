@@ -848,6 +848,8 @@ class CarritoController extends Controller
     protected function serializarCarrito(Pedido $pedido): array
     {
         $items = $pedido->items->map(function (PedidoItem $item) {
+            $producto = $item->producto;
+
             return [
                 'id' => $item->id,
                 'producto_id' => $item->producto_id,
@@ -858,10 +860,13 @@ class CarritoController extends Controller
                     ? Str::limit(trim(strip_tags($item->producto->descripcion)), 140)
                     : null,
                 'precio_unitario' => (float) $item->precio_unitario,
+                'precio_anterior' => (float) ($producto?->precio_anterior ?? 0),
+                'descuento_porcentaje' => $producto?->porcentaje_descuento,
+                'etiquetas' => $producto?->etiquetas_visuales ?? [],
                 'cantidad' => (int) $item->cantidad,
                 'subtotal' => (float) $item->subtotal,
-                'imagen' => $item->producto?->imagenPrincipal?->url
-                    ? asset($item->producto->imagenPrincipal->url)
+                'imagen' => $producto?->imagenPrincipal?->url
+                    ? asset($producto->imagenPrincipal->url)
                     : asset('img/producto-sin-imagen.svg'),
             ];
         })->values();
@@ -1160,4 +1165,3 @@ class CarritoController extends Controller
             ->withErrors(['checkout' => $mensaje]);
     }
 }
-

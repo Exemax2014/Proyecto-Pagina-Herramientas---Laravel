@@ -16,21 +16,13 @@
         ? asset($imagenPrincipal->url)
         : asset('img/producto-sin-imagen.svg');
 
-    $categoriaNombre = $producto->categoria->nombre ?? 'Sin categoría';
+    $categoriaNombre = $producto->categoria->nombre ?? 'Sin categoria';
     $marcaNombre = $producto->marca->nombre ?? 'Sin marca';
-
-    $energiaTexto = match($producto->energia) {
-        'electrica' => 'Eléctrica',
-        'manual' => 'Manual',
-        'inalambrica' => 'Inalámbrica',
-        default => 'No especificada'
-    };
 @endphp
 
 <section class="page-section product-page">
     <div class="container">
 
-        <!-- ================= BREADCRUMB ================= -->
         <nav class="product-breadcrumb">
             <a href="{{ url('/') }}">Inicio</a>
             <span>/</span>
@@ -39,10 +31,7 @@
             <strong>{{ $producto->nombre }}</strong>
         </nav>
 
-        <!-- ================= DETALLE PRINCIPAL ================= -->
         <div class="product-layout">
-
-            <!-- ===== GALERIA ===== -->
             <div class="product-gallery">
                 <div class="page-card product-main-image-wrap">
 
@@ -52,10 +41,10 @@
                         </button>
                     @endif
 
-                    <img 
+                    <img
                         id="productMainImage"
-                        src="{{ $imagenPrincipalUrl }}" 
-                        alt="{{ $producto->nombre }}" 
+                        src="{{ $imagenPrincipalUrl }}"
+                        alt="{{ $producto->nombre }}"
                         class="product-main-image"
                     >
 
@@ -65,25 +54,49 @@
                         </button>
                     @endif
 
-                    @if($producto->etiqueta)
-                        <span class="product-badge {{ $producto->etiqueta_clase }}">
-                            {{ $producto->etiqueta }}
-                        </span>
+                    @php
+                        $left = collect();
+                        $right = collect();
+                        if (!empty($producto->etiquetas_visuales)) {
+                            $etqs = collect($producto->etiquetas_visuales);
+                            $left = $etqs->where('tipo', 'oferta');
+                            $right = $etqs->where('tipo', 'manual');
+                        }
+                    @endphp
+
+                    @if($left->isNotEmpty())
+                        <div class="product-badge-stack product-detail-badge-stack product-detail-badge-stack--left">
+                            @foreach($left as $etiquetaVisual)
+                                <span class="product-badge" style="background: {{ $etiquetaVisual['color'] }}; color: {{ $etiquetaVisual['texto_color'] ?? '#ffffff' }};">
+                                    {{ $etiquetaVisual['texto'] }}
+                                </span>
+                            @endforeach
+                        </div>
+                    @endif
+
+                    @if($right->isNotEmpty())
+                        <div class="product-badge-stack product-detail-badge-stack product-detail-badge-stack--right">
+                            @foreach($right as $etiquetaVisual)
+                                <span class="product-badge" style="background: {{ $etiquetaVisual['color'] }}; color: {{ $etiquetaVisual['texto_color'] ?? '#ffffff' }};">
+                                    {{ $etiquetaVisual['texto'] }}
+                                </span>
+                            @endforeach
+                        </div>
                     @endif
                 </div>
 
                 @if($imagenes->count() > 1)
                     <div class="product-thumbs" id="productThumbs">
                         @foreach($imagenes as $index => $imagen)
-                            <button 
-                                type="button" 
+                            <button
+                                type="button"
                                 class="product-thumb {{ $index === 0 ? 'active' : '' }}"
                                 data-index="{{ $index }}"
                                 data-image="{{ asset($imagen->url) }}"
                                 aria-label="Ver imagen {{ $index + 1 }}"
                             >
-                                <img 
-                                    src="{{ asset($imagen->url) }}" 
+                                <img
+                                    src="{{ asset($imagen->url) }}"
                                     alt="{{ $producto->nombre }} imagen {{ $index + 1 }}"
                                 >
                             </button>
@@ -92,7 +105,6 @@
                 @endif
             </div>
 
-            <!-- ===== INFORMACION ===== -->
             <div class="product-info">
                 <div class="product-head">
                     <span class="product-brand">{{ $marcaNombre }}</span>
@@ -100,11 +112,10 @@
                     <h1 class="product-title">
                         {{ $producto->nombre }}
                     </h1>
-
                 </div>
 
                 <div class="product-price-block">
-                    @if($producto->precio_anterior)
+                    @if($producto->tieneOfertaActiva())
                         <small class="product-old-price">
                             ${{ number_format($producto->precio_anterior, 0, ',', '.') }}
                         </small>
@@ -113,10 +124,14 @@
                     <strong class="product-price">
                         ${{ number_format($producto->precio, 0, ',', '.') }}
                     </strong>
+
+                    @if($producto->porcentaje_descuento)
+                        <span class="product-discount-copy">{{ $producto->porcentaje_descuento }}% OFF</span>
+                    @endif
                 </div>
 
                 <div class="page-card product-description-card">
-                    <h2>Descripción</h2>
+                    <h2>Descripcion</h2>
                     <p>{{ $producto->descripcion }}</p>
                 </div>
 
@@ -149,26 +164,25 @@
                     <div class="page-card product-benefit-card">
                         <i class="bi bi-truck"></i>
                         <div>
-                            <strong>Envíos</strong>
-                            <span>Coordinación según zona y producto</span>
+                            <strong>Envios</strong>
+                            <span>Coordinacion segun zona y producto</span>
                         </div>
                     </div>
 
                     <div class="page-card product-benefit-card">
                         <i class="bi bi-shield-check"></i>
                         <div>
-                            <strong>Garantía</strong>
-                            <span>Según marca y proveedor</span>
+                            <strong>Garantia</strong>
+                            <span>Segun marca y proveedor</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ================= ESPECIFICACIONES ================= -->
         <section class="product-section">
             <div class="section-heading">
-                <span class="home-kicker">Ficha técnica</span>
+                <span class="home-kicker">Ficha tecnica</span>
                 <h2>Especificaciones del producto</h2>
             </div>
 
@@ -179,23 +193,17 @@
                 </div>
 
                 <div class="page-card product-meta-card">
-                    <span class="product-meta-label">Tipo de energía</span>
-                    <strong>{{ $energiaTexto }}</strong>
-                </div>
-
-                <div class="page-card product-meta-card">
                     <span class="product-meta-label">Marca</span>
                     <strong>{{ $marcaNombre }}</strong>
                 </div>
 
                 <div class="page-card product-meta-card">
-                    <span class="product-meta-label">Categoría</span>
+                    <span class="product-meta-label">Categoria</span>
                     <strong>{{ $categoriaNombre }}</strong>
                 </div>
             </div>
         </section>
 
-        <!-- ================= RELACIONADOS ================= -->
         @if($relacionados->count() > 0)
         <section class="product-section">
             <div class="section-heading">
@@ -239,11 +247,10 @@
         precioAnterior: {{ $producto->precio_anterior ?? 'null' }},
         imagen: @json($imagenPrincipalUrl),
         categoria: @json($producto->categoria->slug),
-        energia: @json($producto->energia),
         ventas: {{ $producto->ventas }},
         descripcion: @json($producto->descripcion),
-        etiqueta: @json($producto->etiqueta),
-        etiquetaClase: @json($producto->etiqueta_clase),
+        descuentoPorcentaje: {{ $producto->porcentaje_descuento ?? 'null' }},
+        etiquetas: @json($producto->etiquetas_visuales),
         stock: {{ $producto->stock }},
     };
 
@@ -261,7 +268,6 @@
         let qty = 1;
         let currentIndex = 0;
 
-        // Galería
         function showImage(index) {
             if (index < 0) index = thumbs.length - 1;
             if (index >= thumbs.length) index = 0;
@@ -280,7 +286,6 @@
         prevBtn?.addEventListener('click', () => showImage(currentIndex - 1));
         nextBtn?.addEventListener('click', () => showImage(currentIndex + 1));
 
-        // Cantidad - actualiza visualmente el contador en tiempo real
         qtyMinus?.addEventListener('click', () => {
             qty = Math.max(1, qty - 1);
             qtyEl.textContent = qty;
@@ -313,7 +318,6 @@
             }
         }
 
-        // Carrito
         addToCartBtn?.addEventListener('click', async () => {
             await handleCartAction(addToCartBtn, false);
         });

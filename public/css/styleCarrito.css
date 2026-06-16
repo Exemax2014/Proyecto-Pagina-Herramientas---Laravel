@@ -295,6 +295,28 @@
     color: var(--hf-text-muted);
 }
 
+.cart-item-old-price,
+.cart-summary-item-old-price {
+    color: #8a8a8a;
+    text-decoration: line-through;
+    font-size: 0.8rem;
+}
+
+.cart-item-offer {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    margin-left: auto;
+    padding: 0.26rem 0.44rem;
+    border-radius: 999px;
+    background: rgba(217, 164, 65, 0.14);
+    color: #a06918;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
 .cart-empty-state {
     text-align: center;
     padding: 2rem;
