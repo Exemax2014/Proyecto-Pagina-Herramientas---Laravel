@@ -264,26 +264,7 @@
     </section>
 
     <!-- BLOQUE DESTACADO INTRODUCTORIO -->
-    <section class="home-section comerc-section-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <article class="page-card contact-info-card" style="padding: 2rem; border-left: 4px solid #d4a574;">
-                        <div style="display: flex; gap: 1rem; align-items: flex-start;">
-                            <i class="bi bi-info-circle" style="color: #d4a574; font-size: 1.5rem; flex-shrink: 0;"></i>
-                            <div>
-                                <h3 style="margin-top: 0; color: #8b4513;">Nuestra propuesta comercial</h3>
-                                <p style="margin: 0; color: #555;">
-                                    Hierro &amp; Forja organiza sus operaciones para brindar experiencia clara y práctica, con medios de pago accesibles,
-                                    coordinación de entregas ordenada, asesoramiento real y seguimiento comercial en cada etapa.
-                                </p>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- ===== SECCIÓN 01: PAGOS Y ENVÍOS ===== -->
     <section id="pagos-envios" class="home-section comerc-section-light">
@@ -381,7 +362,7 @@
     </section>
 
     <!-- ===== SECCIÓN 02: ASESORAMIENTO ===== -->
-    <section id="asesoramiento" class="home-section comerc-section-dark" style="background: #1a1a1a; color: #fff;">
+    <section id="asesoramiento" class="home-section comerc-section-dark" stroke="#d4a574"; color: #fff;">
         <div class="container">
             <div class="section-heading contact-section-heading" style="color: #fff;">
                 <span class="home-kicker" style="color: #d4a574;">Orientación</span>
@@ -390,12 +371,12 @@
                     <div class="comerc-section-icon">
                         <i class="bi bi-person-check"></i>
                     </div>
-                    <h2 style="color: #fff;">Asesoramiento</h2>
+                    <h2 style="color: #0d0d0d;">Asesoramiento</h2>
                 </div>
 
                 <div class="comerc-tag-list">
-                    <span class="comerc-tag" style="background: #2a2a2a; color: #d4a574; border-color: #3a3a3a;">Criterio técnico</span>
-                    <span class="comerc-tag" style="background: #2a2a2a; color: #d4a574; border-color: #3a3a3a;">Comparación real</span>
+                    <span class="comerc-tag" stroke="#d4a574"; color: #d4a574; border-color: #3a3a3a;">Criterio técnico</span>
+                    <span class="comerc-tag" stroke="#d4a574" color: #d4a574; border-color: #3a3a3a;">Comparación real</span>
                 </div>
             </div>
 

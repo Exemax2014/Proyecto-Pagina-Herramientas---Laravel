@@ -172,17 +172,7 @@
                         ordenada y accesible antes de avanzar con cualquier operación comercial.
                     </p>
 
-                    <!-- Badges descriptivos -->
-                    <div class="hero-actions" style="gap: 1rem; display: flex; flex-wrap: wrap; margin-top: 1.5rem;">
-                        <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: #f0f0f0; border-radius: 8px; font-size: 0.9rem; color: #333;">
-                            <i class="bi bi-check2-circle" style="color: #d4a574;"></i>
-                            <span>Información clara</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: #f0f0f0; border-radius: 8px; font-size: 0.9rem; color: #333;">
-                            <i class="bi bi-award" style="color: #d4a574;"></i>
-                            <span>Respaldo comercial</span>
-                        </div>
-                    </div>
+                
                 </div>
 
                 <!-- Panel lateral indexador - Mismo patrón que contacto -->
@@ -223,28 +213,7 @@
         </div>
     </section>
 
-    <!-- BLOQUE DESTACADO INTRODUCTORIO -->
-    <section class="home-section terms-section-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <article class="page-card contact-info-card" style="padding: 2rem; border-left: 4px solid #d4a574;">
-                        <div style="display: flex; gap: 1rem; align-items: flex-start;">
-                            <i class="bi bi-exclamation-triangle" style="color: #d4a574; font-size: 1.5rem; flex-shrink: 0;"></i>
-                            <div>
-                                <h3 style="margin-top: 0; color: #8b4513;">Información importante</h3>
-                                <p style="margin: 0; color: #555;">
-                                    El acceso, navegación y uso del sitio implica el conocimiento de estas condiciones generales.
-                                    Hierro &amp; Forja podrá actualizar, modificar o ampliar los presentes términos cuando resulte
-                                    necesario. Las condiciones vigentes serán las publicadas en esta sección al momento de la consulta.
-                                </p>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- ===== SECCIÓN 01: GARANTÍA ===== -->
     <section id="garantia" class="home-section terms-section-light">
