@@ -103,6 +103,26 @@
                             </label>
                         </div>
                     </section>
+
+                    <section class="page-card cart-form-card">
+                        <div class="section-heading cart-section-heading">
+                            <h2>OBSERVACIONES DEL PEDIDO</h2>
+                            <p>Agrega una aclaracion opcional para la entrega, el contacto o algun detalle puntual.</p>
+                        </div>
+
+                        <div class="cart-form-field">
+                            <label for="checkout_observaciones">Observaciones</label>
+                            <textarea
+                                id="checkout_observaciones"
+                                name="observaciones"
+                                class="form-control"
+                                rows="4"
+                                maxlength="500"
+                                placeholder="Ej: aclaraciones sobre entrega, horario de contacto o detalles del pedido"
+                            >{{ old('observaciones', $observaciones ?? '') }}</textarea>
+                            <small class="text-muted d-block mt-2">Opcional. Hasta 500 caracteres.</small>
+                        </div>
+                    </section>
                 </form>
             </div>
 

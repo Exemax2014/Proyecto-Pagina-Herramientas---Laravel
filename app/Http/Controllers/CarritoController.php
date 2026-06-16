@@ -248,6 +248,7 @@ class CarritoController extends Controller
             'metodoPagoSeleccionado' => $this->normalizarMetodoPago(old('metodo_pago', 'tarjeta')),
             'domicilioSeleccionado' => $checkoutData['domicilio_snapshot'] ?? null,
             'direccionLocal' => self::LOCAL_PICKUP_ADDRESS,
+            'observaciones' => old('observaciones', $pedido->observaciones),
         ]);
     }
 
@@ -564,6 +565,7 @@ class CarritoController extends Controller
 
         $datos = $request->validate([
             'metodo_pago' => ['required', 'in:tarjeta,efectivo'],
+            'observaciones' => ['nullable', 'string', 'max:500'],
         ]);
 
         $pedidoConfirmado = DB::transaction(function () use ($usuarioId, $usuario, $datos, $checkoutData, $request) {
@@ -630,6 +632,9 @@ class CarritoController extends Controller
                 : null;
             $pedido->metodo_pago = $this->normalizarMetodoPago($datos['metodo_pago']);
             $pedido->modo_entrega = $esRetiroLocal ? 'retiro_local' : 'envio_domicilio';
+            $pedido->observaciones = filled($datos['observaciones'] ?? null)
+                ? trim((string) $datos['observaciones'])
+                : null;
             $pedido->envio = (float) ($checkoutData['costo_envio'] ?? 0);
 
             foreach ($pedido->items as $item) {
