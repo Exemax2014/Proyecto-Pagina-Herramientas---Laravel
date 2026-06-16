@@ -12,7 +12,6 @@ class PerfilController extends Controller
     public function misDatos()
     {
         $usuario = Usuario::findOrFail(session('usuario_id'));
-        $usuario->ensureLegacyDomicilioPrincipal();
         $usuario->load(['domicilios' => function ($query) {
             $query->orderByDesc('es_principal')->latest('id')->limit(4);
         }]);
@@ -148,7 +147,6 @@ class PerfilController extends Controller
         $usuario->load(['domicilios' => function ($query) {
             $query->orderByDesc('es_principal')->latest('id');
         }]);
-        $usuario->syncLegacyAddressFromDomicilio($usuario->domicilioPrincipal());
 
         session([
             'usuario_nombre' => $usuario->nombre,

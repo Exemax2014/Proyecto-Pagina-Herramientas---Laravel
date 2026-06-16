@@ -62,6 +62,7 @@
                                 $esMismo = $usuario->id === session('usuario_id');
                                 $telefonoLimpio = preg_replace('/\D+/', '', $usuario->telefono ?? '');
                                 $whatsAppDisponible = filled($telefonoLimpio) && strlen($telefonoLimpio) >= 8;
+                                $domicilioPrincipal = $usuario->domicilioPrincipal();
                             @endphp
                             <tr>
                                 <td>
@@ -75,10 +76,10 @@
                                 <td>{{ $usuario->telefono ?? '-' }}</td>
 
                                 <td>
-                                    {{ $usuario->ciudad ?? '-' }}
-                                    @if($usuario->provincia)
+                                    {{ $domicilioPrincipal?->ciudad ?? '-' }}
+                                    @if($domicilioPrincipal?->provincia)
                                         <div class="small text-muted">
-                                            {{ $usuario->provincia }}
+                                            {{ $domicilioPrincipal->provincia }}
                                         </div>
                                     @endif
                                 </td>
@@ -214,6 +215,7 @@
                             @php
                                 $telefonoLimpio = preg_replace('/\D+/', '', $usuario->telefono ?? '');
                                 $whatsAppDisponible = filled($telefonoLimpio) && strlen($telefonoLimpio) >= 8;
+                                $domicilioPrincipal = $usuario->domicilioPrincipal();
                             @endphp
                             <tr>
                                 <td>
@@ -230,19 +232,25 @@
 
                                 <td>{{ $usuario->telefono ?? '-' }}</td>
 
-                                <td>{{ $usuario->direccion ?? '-' }}</td>
+                                <td>
+                                    @if($domicilioPrincipal)
+                                        {{ trim($domicilioPrincipal->calle . ' ' . $domicilioPrincipal->numero) }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
 
                                 <td>
-                                    {{ $usuario->ciudad ?? '-' }}
+                                    {{ $domicilioPrincipal?->ciudad ?? '-' }}
 
-                                    @if($usuario->provincia)
+                                    @if($domicilioPrincipal?->provincia)
                                         <div class="small text-muted">
-                                            {{ $usuario->provincia }}
+                                            {{ $domicilioPrincipal->provincia }}
                                         </div>
                                     @endif
                                 </td>
 
-                                <td>{{ $usuario->codigo_postal ?? '-' }}</td>
+                                <td>{{ $domicilioPrincipal?->codigo_postal ?? '-' }}</td>
 
                                 <td>
                                     @if($usuario->activo)

@@ -35,7 +35,7 @@ class CarritoController extends Controller
         $usuario = Usuario::findOrFail(session('usuario_id'));
         $pedido = $this->obtenerCarritoActivo($usuario->id);
         $checkoutData = $this->getCheckoutData();
-        $domicilioPrincipal = $this->obtenerODefinirDomicilioCheckout($usuario);
+        $domicilioPrincipal = $this->obtenerDomicilioPrincipalUsuario($usuario);
         $domicilios = $usuario->domicilios()
             ->orderByDesc('es_principal')
             ->latest('id')
@@ -742,8 +742,10 @@ class CarritoController extends Controller
             return $pedido;
         }
 
-        $usuario = Usuario::findOrFail($usuarioId);
-        $domicilioPrincipal = $usuario->ensureLegacyDomicilioPrincipal();
+        $usuario = Usuario::with(['domicilios' => function ($query) {
+            $query->orderByDesc('es_principal')->latest('id');
+        }])->findOrFail($usuarioId);
+        $domicilioPrincipal = $this->obtenerDomicilioPrincipalUsuario($usuario);
 
         return Pedido::create([
             'usuario_id' => $usuario->id,
@@ -1034,11 +1036,6 @@ class CarritoController extends Controller
         }
 
         return $usuario->domicilioPrincipal();
-    }
-
-    protected function obtenerODefinirDomicilioCheckout(Usuario $usuario): ?Domicilio
-    {
-        return $usuario->ensureLegacyDomicilioPrincipal();
     }
 
     protected function buildLineaEstados(Pedido $pedido): array

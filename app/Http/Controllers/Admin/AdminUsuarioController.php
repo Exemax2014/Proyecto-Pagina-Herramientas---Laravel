@@ -18,6 +18,9 @@ class AdminUsuarioController extends Controller
         $buscarComprador = $request->input('buscar_comprador');
 
         $administradores = Usuario::query()
+            ->with(['domicilios' => function ($query) {
+                $query->orderByDesc('es_principal')->latest('id');
+            }])
             ->where('role', 'admin')
             ->when($buscarAdmin, function ($query) use ($buscarAdmin) {
                 $query->where(function ($q) use ($buscarAdmin) {
@@ -32,6 +35,9 @@ class AdminUsuarioController extends Controller
             ->withQueryString();
 
         $compradores = Usuario::query()
+            ->with(['domicilios' => function ($query) {
+                $query->orderByDesc('es_principal')->latest('id');
+            }])
             ->where('role', 'comprador')
             ->when($buscarComprador, function ($query) use ($buscarComprador) {
                 $query->where(function ($q) use ($buscarComprador) {
@@ -75,10 +81,13 @@ class AdminUsuarioController extends Controller
             'password' => ['required', 'string', 'min:4'],
             'dni' => ['nullable', 'string', 'max:20'],
             'telefono' => ['nullable', 'string', 'max:20'],
-            'direccion' => ['nullable', 'string', 'max:255'],
+            'calle' => ['nullable', 'string', 'max:120'],
+            'numero' => ['nullable', 'string', 'max:40'],
+            'piso_departamento' => ['nullable', 'string', 'max:80'],
             'ciudad' => ['nullable', 'string', 'max:100'],
             'provincia' => ['nullable', 'string', 'max:100'],
             'codigo_postal' => ['nullable', 'string', 'max:20'],
+            'referencia' => ['nullable', 'string', 'max:255'],
         ]);
 
         $usuario = Usuario::create([
@@ -88,15 +97,32 @@ class AdminUsuarioController extends Controller
             'password' => Hash::make($datos['password']),
             'dni' => $datos['dni'] ?? null,
             'telefono' => $datos['telefono'] ?? null,
-            'direccion' => $datos['direccion'] ?? null,
-            'ciudad' => $datos['ciudad'] ?? null,
-            'provincia' => $datos['provincia'] ?? null,
-            'codigo_postal' => $datos['codigo_postal'] ?? null,
             'role' => 'admin',
             'activo' => true,
         ]);
 
-        $usuario->ensureLegacyDomicilioPrincipal();
+        $domicilioData = [
+            'calle' => trim((string) ($datos['calle'] ?? '')),
+            'numero' => trim((string) ($datos['numero'] ?? '')),
+            'piso_departamento' => trim((string) ($datos['piso_departamento'] ?? '')),
+            'ciudad' => trim((string) ($datos['ciudad'] ?? '')),
+            'provincia' => trim((string) ($datos['provincia'] ?? '')),
+            'codigo_postal' => trim((string) ($datos['codigo_postal'] ?? '')),
+            'referencia' => trim((string) ($datos['referencia'] ?? '')),
+        ];
+
+        if ($this->domicilioTieneDatosSuficientes($domicilioData)) {
+            $usuario->domicilios()->create([
+                'calle' => $domicilioData['calle'],
+                'numero' => $domicilioData['numero'],
+                'piso_departamento' => $domicilioData['piso_departamento'] ?: null,
+                'ciudad' => $domicilioData['ciudad'],
+                'provincia' => $domicilioData['provincia'],
+                'codigo_postal' => $domicilioData['codigo_postal'] ?: null,
+                'referencia' => $domicilioData['referencia'] ?: null,
+                'es_principal' => true,
+            ]);
+        }
 
         return redirect()
             ->route('admin.usuarios.index')
@@ -144,5 +170,16 @@ class AdminUsuarioController extends Controller
         return redirect()
             ->route('admin.usuarios.index')
             ->with('success', 'Usuario dado de baja correctamente.');
+    }
+
+    private function domicilioTieneDatosSuficientes(array $domicilioData): bool
+    {
+        foreach (['calle', 'numero', 'ciudad', 'provincia'] as $field) {
+            if ($domicilioData[$field] === '') {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
