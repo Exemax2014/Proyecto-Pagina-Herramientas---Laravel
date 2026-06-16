@@ -211,18 +211,6 @@
                         Centralizamos una propuesta comercial pensada para talleres, obras, profesionales y clientes que necesitan
                         herramientas confiables, con condiciones claras, atención directa y acompañamiento en cada etapa del proceso.
                     </p>
-
-                    <!-- Badges descriptivos -->
-                    <div class="hero-actions" style="gap: 1rem; display: flex; flex-wrap: wrap; margin-top: 1.5rem;">
-                        <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: #f0f0f0; border-radius: 8px; font-size: 0.9rem; color: #333;">
-                            <i class="bi bi-check2-circle" style="color: #d4a574;"></i>
-                            <span>Atención personalizada</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: #f0f0f0; border-radius: 8px; font-size: 0.9rem; color: #333;">
-                            <i class="bi bi-award" style="color: #d4a574;"></i>
-                            <span>Respaldo comercial</span>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Panel lateral indexador - Mismo patrón que terminos -->
