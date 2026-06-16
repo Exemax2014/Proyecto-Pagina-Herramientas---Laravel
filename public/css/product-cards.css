@@ -46,9 +46,32 @@
     letter-spacing: 0.07em;
 }
 
+.product-card-badge-stack {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    z-index: 2;
+}
+
+.product-card-badge-stack--static {
+    position: static;
+    top: auto;
+    left: auto;
+    display: inline-flex;
+}
+
 .product-card-badge-dark {
     background: #111111;
     color: #ffffff;
+}
+
+.product-card-badge--static {
+    position: static;
+    top: auto;
+    left: auto;
 }
 
 .product-card-badge-soft {
@@ -145,6 +168,14 @@
     min-height: 2.85rem;
 }
 
+.product-card-price-current {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 1.25rem;
+    flex-wrap: nowrap;
+}
+
 /* PRECIO ANTERIOR:
    mantiene espacio reservado aunque no exista */
 .product-card-price small {
@@ -167,4 +198,22 @@
 .product-card-price strong {
     font-size: 1.02rem;
     color: var(--hf-coal);
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.product-card-discount {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    padding: 0.28rem 0.48rem;
+    border-radius: 999px;
+    background: rgba(217, 164, 65, 0.14);
+    color: #a06918;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
 }

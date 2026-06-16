@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Categoria;
+use App\Models\Etiqueta;
 use App\Models\Marca;
 use App\Models\Producto;
 use App\Models\ProductoImagen;
@@ -66,6 +67,7 @@ class ProductoSeeder extends Seeder
                     'energia'         => $data['energia'],
                     'etiqueta'        => $data['etiqueta'] ?? null,
                     'etiqueta_clase'  => $data['etiqueta_clase'] ?? null,
+                    'etiqueta_id'     => $this->resolverEtiquetaId($data['etiqueta'] ?? null),
                     'activo'          => $data['activo'] ?? true,
                     'categoria_id'    => $categoria->id,
                     'marca_id'        => $marca->id,
@@ -92,5 +94,20 @@ class ProductoSeeder extends Seeder
                 }
             }
         }
+    }
+
+    private function resolverEtiquetaId(?string $nombreEtiqueta): ?int
+    {
+        $nombreEtiqueta = trim((string) $nombreEtiqueta);
+
+        if ($nombreEtiqueta === '') {
+            return null;
+        }
+
+        $etiqueta = Etiqueta::query()
+            ->where('slug', Etiqueta::buildSlug($nombreEtiqueta))
+            ->first();
+
+        return $etiqueta?->id;
     }
 }

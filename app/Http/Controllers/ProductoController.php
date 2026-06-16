@@ -19,7 +19,13 @@ class ProductoController extends Controller
 
     public function filtrar(Request $request)
     {
-        $query = Producto::with(['imagenPrincipal', 'categoria', 'marca'])
+        $with = ['imagenPrincipal', 'categoria', 'marca'];
+
+        if (Producto::etiquetasDisponibles()) {
+            $with[] = 'etiquetaManual';
+        }
+
+        $query = Producto::with($with)
             ->where('activo', true);
 
         // Filtro por categorías
@@ -80,14 +86,14 @@ class ProductoController extends Controller
                     'id'             => $p->id,
                     'nombre'         => $p->nombre,
                     'descripcion'    => $p->descripcion,
-                    'precio'         => $p->precio,
+                    'precio'         => (float) $p->precio,
                     'precioAnterior' => $p->precio_anterior,
+                    'descuentoPorcentaje' => $p->porcentaje_descuento,
                     'ventas'         => $p->ventas,
                     'energia'        => $p->energia,
-                    'etiqueta'       => $p->etiqueta,
-                    'etiquetaClase'  => $p->etiqueta_clase,
-                    'categoria'      => $p->categoria->slug,
-                    'marca'          => $p->marca->nombre,
+                    'etiquetas'      => is_array($p->etiquetas_visuales ?? null) ? $p->etiquetas_visuales : [],
+                    'categoria'      => $p->categoria?->slug ?? 'sin-categoria',
+                    'marca'          => $p->marca?->nombre ?? 'Sin marca',
                     'imagen'         => $p->imagenPrincipal?->url ?? '/img/producto-sin-imagen.svg',
                 ];
             }),
@@ -98,7 +104,13 @@ class ProductoController extends Controller
     }
 
     public function show($id){
-        $producto = Producto::with(['imagenes', 'categoria', 'marca'])
+        $with = ['imagenes', 'categoria', 'marca'];
+
+        if (Producto::etiquetasDisponibles()) {
+            $with[] = 'etiquetaManual';
+        }
+
+        $producto = Producto::with($with)
             ->where('activo', true)
             ->findOrFail($id);
 

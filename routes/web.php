@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\AdminConsultaController;
 use App\Http\Controllers\Admin\AdminMarcaController;
 use App\Http\Controllers\Admin\AdminPedidoController;
 use App\Http\Controllers\Admin\AdminProductoController;
+use App\Http\Controllers\Admin\AdminEtiquetaController;
 use App\Http\Controllers\Admin\AdminUsuarioController;
 use App\Models\Categoria;
 use App\Models\Marca;
@@ -58,12 +59,16 @@ Route::get('/', function () {
             ];
         });
 
-    $ofertasHome = Producto::with(['categoria', 'marca', 'imagenPrincipal'])
+    $with = ['categoria', 'marca', 'imagenPrincipal'];
+
+    if (Producto::etiquetasDisponibles()) {
+        $with[] = 'etiquetaManual';
+    }
+
+    $ofertasHome = Producto::with($with)
         ->where('activo', true)
-        ->where(function ($query) {
-            $query->whereNotNull('precio_anterior')
-                ->orWhere('etiqueta', 'Oferta');
-        })
+        ->whereNotNull('precio_anterior')
+        ->whereColumn('precio_anterior', '>', 'precio')
         ->orderByDesc('ventas')
         ->orderBy('id')
         ->get();
@@ -196,6 +201,15 @@ Route::prefix('admin')
 
         Route::get('/marcas', [AdminMarcaController::class, 'index'])
             ->name('marcas.index');
+
+        Route::get('/etiquetas', [AdminEtiquetaController::class, 'index'])
+            ->name('etiquetas.index');
+
+        Route::post('/etiquetas', [AdminEtiquetaController::class, 'store'])
+            ->name('etiquetas.store');
+
+        Route::patch('/etiquetas/{etiqueta}', [AdminEtiquetaController::class, 'update'])
+            ->name('etiquetas.update');
 
         Route::post('/marcas', [AdminMarcaController::class, 'store'])
             ->name('marcas.store');

@@ -22,43 +22,36 @@
         @method('PATCH')
 
         <div class="row g-4">
-
-            {{-- DATOS PRINCIPALES --}}
             <div class="col-12 col-xl-8">
                 <div class="admin-card mb-4">
-                    <h2>Información principal</h2>
+                    <h2>Informacion principal</h2>
 
                     <div class="row g-2">
                         <div class="col-12">
                             <label class="admin-form-label">Nombre del producto</label>
-                            <input 
-                                type="text" 
-                                name="nombre" 
-                                class="form-control" 
+                            <input
+                                type="text"
+                                name="nombre"
+                                class="form-control"
                                 value="{{ old('nombre', $producto->nombre) }}"
                             >
                         </div>
 
                         <div class="col-12">
-                            <label class="admin-form-label">Descripción</label>
-                            <textarea 
-                                name="descripcion" 
-                                class="form-control" 
+                            <label class="admin-form-label">Descripcion</label>
+                            <textarea
+                                name="descripcion"
+                                class="form-control"
                                 rows="6"
                             >{{ old('descripcion', $producto->descripcion) }}</textarea>
                         </div>
 
                         <div class="col-12 col-md-6">
-                            <label class="admin-form-label">Categoría</label>
-
+                            <label class="admin-form-label">Categoria</label>
                             <select name="categoria_id" class="form-select">
-                                <option value="">Seleccionar categoría</option>
-
+                                <option value="">Seleccionar categoria</option>
                                 @foreach($categorias as $categoria)
-                                    <option 
-                                        value="{{ $categoria->id }}"
-                                        @if(old('categoria_id', $producto->categoria_id) == $categoria->id) selected @endif
-                                    >
+                                    <option value="{{ $categoria->id }}" @selected((string) old('categoria_id', $producto->categoria_id) === (string) $categoria->id)>
                                         {{ $categoria->nombre }}
                                     </option>
                                 @endforeach
@@ -70,65 +63,48 @@
                             <select name="marca_id" class="form-select">
                                 <option value="">Seleccionar marca</option>
                                 @foreach($marcas as $marca)
-                                    <option
-                                        value="{{ $marca->id }}"
-                                        @selected((string) old('marca_id', $producto->marca_id) === (string) $marca->id)
-                                    >
+                                    <option value="{{ $marca->id }}" @selected((string) old('marca_id', $producto->marca_id) === (string) $marca->id)>
                                         {{ $marca->nombre }}
                                     </option>
                                 @endforeach
                             </select>
                             <small class="text-muted d-block mt-2">
-                                Si necesitás una marca nueva, cargala primero desde Admin Marcas.
+                                Si necesitas una marca nueva, cargala primero desde Admin Marcas.
                             </small>
                         </div>
 
                         <div class="col-12 col-md-6">
-                            <label class="admin-form-label">Tipo de energía</label>
-
+                            <label class="admin-form-label">Tipo de energia</label>
                             <select name="energia" class="form-select">
                                 <option value="">Seleccionar tipo</option>
-                                <option value="electrica" @if(old('energia', $producto->energia) === 'electrica') selected @endif>
-                                    Eléctrica
-                                </option>
-                                <option value="manual" @if(old('energia', $producto->energia) === 'manual') selected @endif>
-                                    Manual
-                                </option>
-                                <option value="inalambrica" @if(old('energia', $producto->energia) === 'inalambrica') selected @endif>
-                                    Inalámbrica
-                                </option>
+                                <option value="electrica" @selected(old('energia', $producto->energia) === 'electrica')>Electrica</option>
+                                <option value="manual" @selected(old('energia', $producto->energia) === 'manual')>Manual</option>
+                                <option value="inalambrica" @selected(old('energia', $producto->energia) === 'inalambrica')>Inalambrica</option>
                             </select>
                         </div>
 
                         <div class="col-12 col-md-6">
                             <label class="admin-form-label">Estado</label>
-
                             <select name="activo" class="form-select">
-                                <option value="1" @if(old('activo', $producto->activo) == 1) selected @endif>
-                                    Activo
-                                </option>
-                                <option value="0" @if(old('activo', $producto->activo) == 0) selected @endif>
-                                    Inactivo
-                                </option>
+                                <option value="1" @selected((string) old('activo', (int) $producto->activo) === '1')>Activo</option>
+                                <option value="0" @selected((string) old('activo', (int) $producto->activo) === '0')>Inactivo</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-                {{-- IMÁGENES ACTUALES --}}
                 <div class="admin-card mb-2">
-                    <h2>Imágenes actuales</h2>
+                    <h2>Imagenes actuales</h2>
 
                     <p class="text-muted mb-2">
-                        Seleccioná cuál imagen querés usar como principal del producto.
+                        Selecciona cual imagen queres usar como principal del producto.
                     </p>
 
                     @if($producto->imagenes->count())
                         <div class="admin-main-image-selector">
                             @foreach($producto->imagenes->sortBy('orden') as $imagen)
                                 <div class="admin-main-image-option" data-image-card="{{ $imagen->id }}">
-
-                                    <input 
+                                    <input
                                         type="checkbox"
                                         name="imagenes_eliminar[]"
                                         value="{{ $imagen->id }}"
@@ -137,7 +113,7 @@
                                     >
 
                                     <label class="admin-main-image-radio-label">
-                                        <input 
+                                        <input
                                             type="radio"
                                             name="imagen_principal_id"
                                             value="{{ $imagen->id }}"
@@ -147,15 +123,12 @@
 
                                         <div class="admin-main-image-card">
                                             <img src="{{ asset($imagen->url) }}" alt="{{ $producto->nombre }}">
-
-                                            <span class="admin-main-image-check">
-                                                Principal
-                                            </span>
+                                            <span class="admin-main-image-check">Principal</span>
                                         </div>
                                     </label>
 
-                                    <button 
-                                        type="button" 
+                                    <button
+                                        type="button"
                                         class="admin-old-image-remove"
                                         data-image-id="{{ $imagen->id }}"
                                         title="Eliminar imagen"
@@ -163,84 +136,78 @@
                                         <i class="bi bi-x"></i>
                                     </button>
 
-                                    <span class="admin-image-delete-label">
-                                        Se eliminará
-                                    </span>
+                                    <span class="admin-image-delete-label">Se eliminara</span>
                                 </div>
                             @endforeach
                         </div>
                     @else
                         <p class="text-muted mb-0">
-                            Este producto todavía no tiene imágenes cargadas.
+                            Este producto todavia no tiene imagenes cargadas.
                         </p>
                     @endif
 
-                    {{-- NUEVAS IMÁGENES --}}
                     <div class="mb-2 mt-2">
-                        <label class="admin-form-label">Subir imágenes</label>
+                        <label class="admin-form-label">Subir imagenes</label>
 
                         <small class="text-muted">
-                            Si agregás imágenes nuevas, se sumarán a las actuales.
+                            Si agregas imagenes nuevas, se sumaran a las actuales.
                         </small>
 
-                        <input 
-                            type="file" 
-                            name="imagenes[]" 
+                        <input
+                            type="file"
+                            name="imagenes[]"
                             id="productImagesInput"
-                            class="form-control" 
+                            class="form-control"
                             accept="image/*"
                             multiple
                         >
 
                         <div id="productImagesPreview" class="admin-images-preview mt-3"></div>
                     </div>
-
                 </div>
-
             </div>
 
-            {{-- PRECIO Y DATOS COMERCIALES --}}
             <div class="col-12 col-xl-4">
                 <div class="admin-card mb-4">
                     <h2>Precio y stock</h2>
 
                     <div class="mb-3">
                         <label class="admin-form-label">Precio actual</label>
-                        <input 
-                            type="number" 
-                            name="precio" 
-                            class="form-control" 
+                        <input
+                            type="number"
+                            name="precio"
+                            class="form-control"
                             value="{{ old('precio', $producto->precio) }}"
                         >
                     </div>
 
                     <div class="mb-3">
                         <label class="admin-form-label">Precio anterior</label>
-                        <input 
-                            type="number" 
-                            name="precio_anterior" 
-                            class="form-control" 
-                            placeholder="Opcional. Se puede dejar vacío."
+                        <input
+                            type="number"
+                            name="precio_anterior"
+                            class="form-control"
+                            placeholder="Opcional. Se puede dejar vacio."
                             value="{{ old('precio_anterior', $producto->precio_anterior) }}"
                         >
                     </div>
 
                     <div class="mb-3">
                         <label class="admin-form-label">Stock</label>
-                        <input 
-                            type="number" 
-                            name="stock" 
-                            class="form-control" 
+                        <input
+                            type="number"
+                            name="stock"
+                            class="form-control"
                             value="{{ old('stock', $producto->stock) }}"
                         >
                     </div>
 
                     <div class="mb-3">
                         <label class="admin-form-label">Ventas registradas</label>
-                        <input 
-                            type="number" 
-                            name="ventas" 
-                            class="form-control" 
+                        <input
+                            type="number"
+                            name="ventas"
+                            class="form-control"
                             min="0"
                             value="{{ old('ventas', $producto->ventas) }}"
                         >
@@ -251,26 +218,20 @@
                     <h2>Etiqueta</h2>
 
                     <div class="mb-3">
-                        <label class="admin-form-label">Texto de etiqueta</label>
-                        <input 
-                            type="text" 
-                            name="etiqueta" 
-                            class="form-control" 
-                            placeholder="Ej: Nuevo, Oferta, Destacado"
-                            value="{{ old('etiqueta', $producto->etiqueta) }}"
-                        >
+                        <label class="admin-form-label">Etiqueta manual</label>
+                        <select name="etiqueta_id" class="form-select">
+                            <option value="">Sin etiqueta manual</option>
+                            @foreach($etiquetas as $etiqueta)
+                                <option value="{{ $etiqueta->id }}" @selected((string) old('etiqueta_id', $producto->etiqueta_id) === (string) $etiqueta->id)>
+                                    {{ $etiqueta->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="admin-form-label">Clase de etiqueta</label>
-                        <input 
-                            type="text" 
-                            name="etiqueta_clase" 
-                            class="form-control" 
-                            placeholder="Opcional. Se puede dejar vacío."
-                            value="{{ old('etiqueta_clase', $producto->etiqueta_clase) }}"
-                        >
-                    </div>
+                    <small class="text-muted d-block">
+                        La oferta se calcula automaticamente cuando el precio anterior es mayor al precio actual. La etiqueta manual es opcional.
+                    </small>
                 </div>
 
                 <div class="admin-card">
@@ -284,7 +245,6 @@
                     </a>
                 </div>
             </div>
-
         </div>
     </form>
 
@@ -293,25 +253,20 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        /*
-        |--------------------------------------------------------------------------
-        | Eliminar imágenes existentes visualmente
-        |--------------------------------------------------------------------------
-        */
         const oldImageButtons = document.querySelectorAll('.admin-old-image-remove');
 
         function selectFirstAvailableMainImage() {
             const radios = Array.from(document.querySelectorAll('.admin-main-image-radio'))
-                .filter(radio => !radio.disabled);
+                .filter((radio) => !radio.disabled);
 
-            const hasChecked = radios.some(radio => radio.checked);
+            const hasChecked = radios.some((radio) => radio.checked);
 
             if (!hasChecked && radios.length > 0) {
                 radios[0].checked = true;
             }
         }
 
-        oldImageButtons.forEach(button => {
+        oldImageButtons.forEach((button) => {
             button.addEventListener('click', () => {
                 const imageId = button.dataset.imageId;
                 const card = document.querySelector(`[data-image-card="${imageId}"]`);
@@ -323,7 +278,6 @@
                 const icon = button.querySelector('i');
 
                 checkbox.checked = !checkbox.checked;
-
                 card.classList.toggle('is-marked-delete', checkbox.checked);
 
                 if (checkbox.checked) {
@@ -334,7 +288,7 @@
                     }
 
                     icon.className = 'bi bi-arrow-counterclockwise';
-                    button.title = 'Cancelar eliminación';
+                    button.title = 'Cancelar eliminacion';
                 } else {
                     radio.disabled = false;
                     icon.className = 'bi bi-x';
@@ -345,11 +299,6 @@
             });
         });
 
-        /*
-        |--------------------------------------------------------------------------
-        | Preview de imágenes nuevas
-        |--------------------------------------------------------------------------
-        */
         const input = document.getElementById('productImagesInput');
         const preview = document.getElementById('productImagesPreview');
 
@@ -393,9 +342,7 @@
             if (!removeButton) return;
 
             const index = Number(removeButton.dataset.index);
-
             selectedFiles.splice(index, 1);
-
             renderPreview();
             updateInputFiles();
         });
@@ -403,7 +350,7 @@
         function updateInputFiles() {
             const dataTransfer = new DataTransfer();
 
-            selectedFiles.forEach(file => {
+            selectedFiles.forEach((file) => {
                 dataTransfer.items.add(file);
             });
 

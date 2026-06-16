@@ -65,10 +65,14 @@
                         </button>
                     @endif
 
-                    @if($producto->etiqueta)
-                        <span class="product-badge {{ $producto->etiqueta_clase }}">
-                            {{ $producto->etiqueta }}
-                        </span>
+                    @if(!empty($producto->etiquetas_visuales))
+                        <div class="product-badge-stack">
+                            @foreach($producto->etiquetas_visuales as $etiquetaVisual)
+                                <span class="product-badge" style="background: {{ $etiquetaVisual['color'] }}; color: {{ $etiquetaVisual['texto_color'] ?? '#ffffff' }};">
+                                    {{ $etiquetaVisual['texto'] }}
+                                </span>
+                            @endforeach
+                        </div>
                     @endif
                 </div>
 
@@ -104,7 +108,7 @@
                 </div>
 
                 <div class="product-price-block">
-                    @if($producto->precio_anterior)
+                    @if($producto->tieneOfertaActiva())
                         <small class="product-old-price">
                             ${{ number_format($producto->precio_anterior, 0, ',', '.') }}
                         </small>
@@ -113,6 +117,10 @@
                     <strong class="product-price">
                         ${{ number_format($producto->precio, 0, ',', '.') }}
                     </strong>
+
+                    @if($producto->porcentaje_descuento)
+                        <span class="product-discount-copy">{{ $producto->porcentaje_descuento }}% OFF</span>
+                    @endif
                 </div>
 
                 <div class="page-card product-description-card">
@@ -242,8 +250,8 @@
         energia: @json($producto->energia),
         ventas: {{ $producto->ventas }},
         descripcion: @json($producto->descripcion),
-        etiqueta: @json($producto->etiqueta),
-        etiquetaClase: @json($producto->etiqueta_clase),
+        descuentoPorcentaje: {{ $producto->porcentaje_descuento ?? 'null' }},
+        etiquetas: @json($producto->etiquetas_visuales),
         stock: {{ $producto->stock }},
     };
 

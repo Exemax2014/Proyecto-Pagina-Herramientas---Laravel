@@ -93,6 +93,16 @@
     letter-spacing: 0.07em;
 }
 
+.product-badge-stack {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    z-index: 2;
+}
+
 /* MINIATURAS:
    permiten cambiar la imagen principal */
 .product-thumbs {
@@ -209,6 +219,21 @@
     font-size: clamp(2rem, 3vw, 2.7rem);
     color: var(--hf-coal);
     line-height: 1;
+}
+
+.product-discount-copy {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    margin-top: 0.3rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(217, 164, 65, 0.14);
+    color: #a06918;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 
 /* GRID DE METADATOS:

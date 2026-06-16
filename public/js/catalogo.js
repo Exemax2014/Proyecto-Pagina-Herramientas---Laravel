@@ -23,6 +23,15 @@ document.addEventListener('DOMContentLoaded', function () {
         return '$' + Number(value).toLocaleString('es-AR');
     }
 
+    function escapeHtml(value) {
+        return String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
     // Generar marcas desde el back
     function generarMarcas() {
         const contenedor = document.getElementById('brandFilters');
@@ -88,14 +97,35 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function createBadgeHtml(producto) {
-        if (!producto.etiqueta) return '';
-        const extraClass = producto.etiquetaClase ? ` ${producto.etiquetaClase}` : '';
-        return `<span class="product-card-badge${extraClass}">${producto.etiqueta}</span>`;
+        const etiquetas = Array.isArray(producto.etiquetas) ? producto.etiquetas : [];
+
+        if (etiquetas.length === 0) return '';
+
+        return `
+            <div class="product-card-badge-stack">
+                ${etiquetas.map((etiqueta) => `
+                    <span class="product-card-badge" style="background: ${escapeHtml(etiqueta.color || '#111111')}; color: ${escapeHtml(etiqueta.texto_color || '#ffffff')};">
+                        ${escapeHtml(etiqueta.texto || '')}
+                    </span>
+                `).join('')}
+            </div>
+        `;
     }
 
     function createOldPriceHtml(producto) {
-        if (!producto.precioAnterior) return '';
-        return `<small>${formatPrice(producto.precioAnterior)}</small>`;
+        const precioAnterior = Number(producto.precioAnterior) || 0;
+        const precioActual = Number(producto.precio) || 0;
+
+        if (precioAnterior <= precioActual) return '';
+        return `<small>${formatPrice(precioAnterior)}</small>`;
+    }
+
+    function createDiscountHtml(producto) {
+        const descuento = Number(producto?.descuentoPorcentaje) || 0;
+
+        if (descuento <= 0) return '';
+
+        return `<span class="product-card-discount">${escapeHtml(descuento)}% OFF</span>`;
     }
 
     function renderPagination(totalPaginas) {
@@ -128,7 +158,9 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderProducts(productos) {
         if (!grid) return;
 
-        if (productos.length === 0) {
+        const safeProductos = Array.isArray(productos) ? productos : [];
+
+        if (safeProductos.length === 0) {
             grid.innerHTML = '';
             if (emptyState) emptyState.classList.remove('d-none');
             return;
@@ -136,33 +168,36 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (emptyState) emptyState.classList.add('d-none');
 
-        grid.innerHTML = productos.map(producto => `
+        grid.innerHTML = safeProductos.map(producto => `
             <article 
                 class="page-card product-card catalog-product-card" 
-                data-product-id="${producto.id}"
+                data-product-id="${Number(producto?.id) || 0}"
                 role="link"
                 tabindex="0"
-                aria-label="Ver detalle de ${producto.nombre}"
+                aria-label="Ver detalle de ${escapeHtml(producto?.nombre || 'Producto')}"
             >
                 <div class="product-card-media">
-                    <img src="${producto.imagen}" alt="${producto.nombre}">
+                    <img src="${escapeHtml(producto?.imagen || '/img/producto-sin-imagen.svg')}" alt="${escapeHtml(producto?.nombre || 'Producto')}">
                     ${createBadgeHtml(producto)}
                     ${adminUser ? '' : `
-                    <button class="product-card-action catalog-cart-btn" type="button" data-product-id="${producto.id}" aria-label="Agregar al carrito">
+                    <button class="product-card-action catalog-cart-btn" type="button" data-product-id="${Number(producto?.id) || 0}" aria-label="Agregar al carrito">
                         <i class="bi bi-cart-plus"></i>
                     </button>
                     `}
                 </div>
 
                 <div class="product-card-body">
-                    <span class="product-card-brand">${producto.marca}</span>
-                    <h3>${producto.nombre}</h3>
-                    <p>${producto.descripcion}</p>
+                    <span class="product-card-brand">${escapeHtml(producto?.marca || 'Sin marca')}</span>
+                    <h3>${escapeHtml(producto?.nombre || 'Producto sin nombre')}</h3>
+                    <p>${escapeHtml(producto?.descripcion || '')}</p>
 
                     <div class="product-card-footer">
                         <div class="product-card-price">
                             ${createOldPriceHtml(producto)}
-                            <strong>${formatPrice(producto.precio)}</strong>
+                            <div class="product-card-price-current">
+                                <strong>${formatPrice(producto?.precio || 0)}</strong>
+                                ${createDiscountHtml(producto)}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -191,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function () {
             button.addEventListener('click', async function (event) {
                 event.stopPropagation();
                 const productId = Number(this.dataset.productId);
-                const product = productos.find(item => Number(item.id) === productId);
+                const product = safeProductos.find(item => Number(item?.id) === productId);
 
                 if (!product) return;
 

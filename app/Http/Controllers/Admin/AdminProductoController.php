@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Categoria;
+use App\Models\Etiqueta;
 use App\Models\Marca;
 use App\Models\Producto;
 use App\Models\ProductoImagen;
@@ -18,7 +19,13 @@ class AdminProductoController extends Controller
     {
         $buscar = $request->input('buscar');
 
-        $productos = Producto::with(['categoria', 'marca', 'imagenPrincipal'])
+        $with = ['categoria', 'marca', 'imagenPrincipal'];
+
+        if (Producto::etiquetasDisponibles()) {
+            $with[] = 'etiquetaManual';
+        }
+
+        $productos = Producto::with($with)
             ->when($buscar, function ($query) use ($buscar) {
                 $query->where('nombre', 'like', "%{$buscar}%")
                     ->orWhereHas('categoria', function ($q) use ($buscar) {
@@ -39,8 +46,9 @@ class AdminProductoController extends Controller
     {
         $categorias = Categoria::orderBy('nombre')->get();
         $marcas = Marca::orderBy('nombre')->get();
+        $etiquetas = $this->obtenerEtiquetasManualesDisponibles();
 
-        return view('admin.productos.create', compact('categorias', 'marcas'));
+        return view('admin.productos.create', compact('categorias', 'marcas', 'etiquetas'));
     }
 
     public function store(Request $request)
@@ -69,8 +77,9 @@ class AdminProductoController extends Controller
 
         $categorias = Categoria::orderBy('nombre')->get();
         $marcas = Marca::orderBy('nombre')->get();
+        $etiquetas = $this->obtenerEtiquetasManualesDisponibles();
 
-        return view('admin.productos.edit', compact('producto', 'categorias', 'marcas'));
+        return view('admin.productos.edit', compact('producto', 'categorias', 'marcas', 'etiquetas'));
     }
 
     public function update(Request $request, Producto $producto)
@@ -145,8 +154,9 @@ class AdminProductoController extends Controller
             'precio_anterior' => ['nullable', 'numeric', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],
             'ventas' => [$esEdicion ? 'required' : 'nullable', 'integer', 'min:0'],
-            'etiqueta' => ['nullable', 'string', 'max:100'],
-            'etiqueta_clase' => ['nullable', 'string', 'max:150'],
+            'etiqueta_id' => Producto::etiquetasDisponibles()
+                ? ['nullable', 'exists:etiquetas,id']
+                : ['nullable'],
             'imagenes' => ['nullable', 'array'],
             'imagenes.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         ];
@@ -181,8 +191,9 @@ class AdminProductoController extends Controller
             'stock' => $datos['stock'],
             'ventas' => $datos['ventas'] ?? 0,
             'energia' => $datos['energia'],
-            'etiqueta' => $datos['etiqueta'] ?? null,
-            'etiqueta_clase' => $datos['etiqueta_clase'] ?? null,
+            'etiqueta_id' => $this->normalizarEtiquetaManualId($datos['etiqueta_id'] ?? null),
+            'etiqueta' => $this->resolverEtiquetaNombre($datos['etiqueta_id'] ?? null),
+            'etiqueta_clase' => null,
             'activo' => $datos['activo'],
             'categoria_id' => $datos['categoria_id'],
             'marca_id' => $datos['marca_id'],
@@ -283,7 +294,13 @@ class AdminProductoController extends Controller
 
     private function exportarProductosJson(): void
     {
-        $productos = Producto::with(['categoria', 'marca', 'imagenes'])
+        $with = ['categoria', 'marca', 'imagenes'];
+
+        if (Producto::etiquetasDisponibles()) {
+            $with[] = 'etiquetaManual';
+        }
+
+        $productos = Producto::with($with)
             ->orderBy('id')
             ->get()
             ->map(function ($producto) {
@@ -305,8 +322,8 @@ class AdminProductoController extends Controller
                     'stock' => (int) $producto->stock,
                     'ventas' => (int) $producto->ventas,
                     'descripcion' => $producto->descripcion,
-                    'etiqueta' => $producto->etiqueta,
-                    'etiqueta_clase' => $producto->etiqueta_clase,
+                    'etiqueta' => $producto->etiqueta_manual_nombre,
+                    'etiqueta_clase' => null,
                     'activo' => (bool) $producto->activo,
                     'imagenes' => $producto->imagenes
                         ->sortBy('orden')
@@ -362,5 +379,45 @@ class AdminProductoController extends Controller
         throw ValidationException::withMessages([
             'imagen_principal_id' => 'La imagen principal seleccionada no pertenece a este producto.',
         ]);
+    }
+
+    private function resolverEtiquetaNombre(?int $etiquetaId): ?string
+    {
+        $etiquetaId = $this->normalizarEtiquetaManualId($etiquetaId);
+
+        if (! $etiquetaId || ! Producto::etiquetasDisponibles()) {
+            return null;
+        }
+
+        return Etiqueta::query()->where('id', $etiquetaId)->value('nombre');
+    }
+
+    private function obtenerEtiquetasManualesDisponibles()
+    {
+        if (! Producto::etiquetasDisponibles()) {
+            return collect();
+        }
+
+        return Etiqueta::query()
+            ->where('activo', true)
+            ->where('slug', '!=', Etiqueta::buildSlug(Etiqueta::OFERTA_NOMBRE))
+            ->orderBy('nombre')
+            ->get();
+    }
+
+    private function normalizarEtiquetaManualId($etiquetaId): ?int
+    {
+        if (! Producto::etiquetasDisponibles() || ! $etiquetaId) {
+            return null;
+        }
+
+        $etiquetaId = (int) $etiquetaId;
+
+        $esOferta = Etiqueta::query()
+            ->where('id', $etiquetaId)
+            ->where('slug', Etiqueta::buildSlug(Etiqueta::OFERTA_NOMBRE))
+            ->exists();
+
+        return $esOferta ? null : $etiquetaId;
     }
 }
