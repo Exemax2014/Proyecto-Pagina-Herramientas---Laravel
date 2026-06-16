@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Confirmacion y pago | Hierro & Forja')
+@section('title', 'Confirmación y pago | Hierro & Forja')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/styleCarrito.css') }}">
@@ -12,12 +12,12 @@
         @include('checkout.partials.timeline', ['currentStep' => 'confirmacion'])
 
         <div class="cart-hero">
-            <h2>PASO 3: CONFIRMACION Y PAGO</h2>
-          </div>
+            <h2>PASO 3: CONFIRMACIÓN Y PAGO</h2>
+        </div>
 
         @if($errors->any())
             <div class="alert alert-danger mb-4" role="alert">
-                {{ $errors->first('checkout') ?: 'No se pudo confirmar el pedido. Revisa la informacion y vuelve a intentar.' }}
+                {{ $errors->first('checkout') ?: 'No se pudo confirmar el pedido. Revisá la información y volvé a intentar.' }}
             </div>
         @endif
 
@@ -46,7 +46,7 @@
                                 <strong>{{ $usuario->dni ?: 'No cargado' }}</strong>
                             </div>
                             <div class="cart-readonly-field">
-                                <span>Telefono</span>
+                                <span>Teléfono</span>
                                 <strong>{{ $usuario->telefono ?: 'No cargado' }}</strong>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                     <section class="page-card cart-form-card">
                         <div class="section-heading cart-section-heading">
                             <h2>PAGO</h2>
-                            <p>Selecciona la forma de pago antes de confirmar el pedido real.</p>
+                            <p>Seleccioná la forma de pago antes de confirmar el pedido real.</p>
                         </div>
 
                         <div class="cart-choice-grid">
@@ -90,7 +90,7 @@
                                 <input type="radio" name="metodo_pago" value="tarjeta" {{ $metodoPagoSeleccionado === 'tarjeta' ? 'checked' : '' }} required>
                                 <div>
                                     <strong>Tarjeta</strong>
-                                    <span>Pago digital o coordinacion comercial.</span>
+                                    <span>Pago digital o coordinación comercial.</span>
                                 </div>
                             </label>
 
@@ -107,7 +107,7 @@
                     <section class="page-card cart-form-card">
                         <div class="section-heading cart-section-heading">
                             <h2>OBSERVACIONES DEL PEDIDO</h2>
-                            <p>Agrega una aclaracion opcional para la entrega, el contacto o algun detalle puntual.</p>
+                            <p>Agregá una aclaración opcional para la entrega, el contacto o algún detalle puntual.</p>
                         </div>
 
                         <div class="cart-form-field">
@@ -130,7 +130,7 @@
                 <div class="page-card cart-summary-card cart-summary-card--sticky">
                     <div class="cart-summary-head">
                         <h2>RESUMEN DEL PEDIDO</h2>
-                        <p>Verifica el pedido antes de la confirmacion final.</p>
+                        <p>Verificá el pedido antes de la confirmación final.</p>
                     </div>
 
                     <div class="cart-summary-items">
@@ -158,7 +158,7 @@
                             <strong>${{ number_format((float) ($carrito['subtotal'] ?? 0), 0, ',', '.') }}</strong>
                         </div>
                         <div class="cart-summary-line">
-                            <span>Envio estimado</span>
+                            <span>Envío estimado</span>
                             <strong>${{ number_format((float) ($carrito['envio'] ?? 0), 0, ',', '.') }}</strong>
                         </div>
                         <div class="cart-summary-line">

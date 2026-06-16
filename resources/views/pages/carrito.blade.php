@@ -16,7 +16,7 @@
                 <section class="cart-section">
                     <div class="cart-hero">
                         <h2>PASO 1: Productos del carrito</h2>
-                        </div>
+                    </div>
 
                     <div class="alert d-none" id="cartFeedback" role="alert"></div>
 
