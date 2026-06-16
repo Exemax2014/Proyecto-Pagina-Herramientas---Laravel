@@ -14,6 +14,12 @@
                         </div>
                     @endif
 
+                    @if(session('warning'))
+                        <div class="alert alert-warning mb-4">
+                            {{ session('warning') }}
+                        </div>
+                    @endif
+
                     @if ($errors->any())
                         <div class="alert alert-danger mb-4">
                             <strong>Hay errores en el formulario:</strong>
@@ -246,6 +252,15 @@
                                             >
                                         </div>
                                     </div>
+
+                                    <div
+                                        id="deleteAddressFormWrap"
+                                        class="mt-3 {{ $domicilioMode === 'existing' && $selectedDomicilioId ? '' : 'd-none' }}"
+                                    >
+                                        <button type="submit" form="deleteAddressForm" class="btn btn-outline-danger">
+                                            Eliminar domicilio
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
@@ -266,6 +281,18 @@
                             </div>
                         </div>
                     </form>
+
+                    <form
+                        action="{{ route('mis-datos.domicilios.baja', ['domicilio' => $selectedDomicilioId ?: 0]) }}"
+                        method="POST"
+                        id="deleteAddressForm"
+                        class="d-none"
+                        data-base-url="{{ url('/mis-datos/domicilios') }}"
+                        onsubmit="return confirm('Seguro que queres dar de baja este domicilio?');"
+                    >
+                        @csrf
+                        @method('PATCH')
+                    </form>
                 </article>
             </div>
         </div>
@@ -279,6 +306,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const tabs = Array.from(document.querySelectorAll('.profile-address-tab'));
     const modeInput = document.getElementById('domicilio_mode');
     const selectedIdInput = document.getElementById('selected_domicilio_id');
+    const deleteAddressForm = document.getElementById('deleteAddressForm');
+    const deleteAddressFormWrap = document.getElementById('deleteAddressFormWrap');
     const fields = {
         calle: document.getElementById('calle'),
         numero: document.getElementById('numero'),
@@ -311,9 +340,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function activateTab(tab) {
         const mode = tab.dataset.mode || 'existing';
+        const selectedId = mode === 'existing' ? (tab.dataset.id || '') : '';
 
         modeInput.value = mode;
-        selectedIdInput.value = mode === 'existing' ? (tab.dataset.id || '') : '';
+        selectedIdInput.value = selectedId;
 
         if (mode === 'new') {
             fillAddressForm({
@@ -337,6 +367,15 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
+        if (deleteAddressForm && deleteAddressFormWrap) {
+            const shouldShowDelete = mode === 'existing' && selectedId;
+            deleteAddressFormWrap.classList.toggle('d-none', !shouldShowDelete);
+
+            if (shouldShowDelete) {
+                deleteAddressForm.action = `${deleteAddressForm.dataset.baseUrl}/${selectedId}/baja`;
+            }
+        }
+
         setTabStyle(tab);
     }
 
@@ -348,3 +387,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 @endpush
+
+
+

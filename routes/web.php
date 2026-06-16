@@ -118,6 +118,10 @@ Route::patch('/mis-datos', [PerfilController::class, 'update'])
     ->middleware('usuario')
     ->name('mis-datos.update');
 
+Route::patch('/mis-datos/domicilios/{domicilio}/baja', [PerfilController::class, 'bajaDomicilio'])
+    ->middleware('usuario')
+    ->name('mis-datos.domicilios.baja');
+
 /* =========================================
    LOGIN
    ========================================= */

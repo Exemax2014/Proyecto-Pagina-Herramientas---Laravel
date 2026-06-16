@@ -17,10 +17,12 @@ class Domicilio extends Model
         'codigo_postal',
         'referencia',
         'es_principal',
+        'activo',
     ];
 
     protected $casts = [
         'es_principal' => 'boolean',
+        'activo' => 'boolean',
     ];
 
     public function usuario(): BelongsTo

@@ -121,6 +121,7 @@ class AdminUsuarioController extends Controller
                 'codigo_postal' => $domicilioData['codigo_postal'] ?: null,
                 'referencia' => $domicilioData['referencia'] ?: null,
                 'es_principal' => true,
+                'activo' => true,
             ]);
         }
 

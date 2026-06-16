@@ -38,18 +38,36 @@ class Usuario extends Model
         return $this->hasMany(Domicilio::class);
     }
 
+    public function domiciliosActivos(): HasMany
+    {
+        return $this->domicilios()->where('activo', true);
+    }
+
     public function domicilioPrincipal(): ?Domicilio
     {
         if ($this->relationLoaded('domicilios')) {
             /** @var Collection<int, Domicilio> $domicilios */
-            $domicilios = $this->getRelation('domicilios');
+            $domicilios = $this->getRelation('domicilios')
+                ->filter(fn (Domicilio $domicilio) => (bool) $domicilio->activo)
+                ->values();
 
             return $domicilios->firstWhere('es_principal', true) ?: $domicilios->first();
         }
 
-        return $this->domicilios()
+        return $this->domiciliosActivos()
             ->orderByDesc('es_principal')
             ->latest('id')
             ->first();
+    }
+
+    public function perfilCheckoutCompleto(): bool
+    {
+        foreach (['nombre', 'apellido', 'email', 'telefono', 'dni'] as $field) {
+            if (trim((string) $this->{$field}) === '') {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

@@ -12,8 +12,8 @@
         "energia": "electrica",
         "precio": 125000,
         "precio_anterior": 145000,
-        "stock": 10,
-        "ventas": 2,
+        "stock": 4,
+        "ventas": 8,
         "descripcion": "Equipo compacto para corte y desbaste con excelente agarre y potencia constante.",
         "etiqueta": "Oferta",
         "etiqueta_clase": null,
@@ -39,8 +39,8 @@
         "energia": "electrica",
         "precio": 280000,
         "precio_anterior": null,
-        "stock": 10,
-        "ventas": 15,
+        "stock": 9,
+        "ventas": 16,
         "descripcion": "Ideal para trabajos exigentes con buena estabilidad de arco y estructura reforzada.",
         "etiqueta": "Destacado",
         "etiqueta_clase": "product-card-badge-dark",
@@ -93,8 +93,8 @@
         "energia": "manual",
         "precio": 92000,
         "precio_anterior": null,
-        "stock": 10,
-        "ventas": 5,
+        "stock": 9,
+        "ventas": 6,
         "descripcion": "Protección visual y frontal para tareas de soldadura con pantalla de oscurecimiento automático.",
         "etiqueta": null,
         "etiqueta_clase": null,
@@ -120,12 +120,12 @@
         "energia": "manual",
         "precio": 138000,
         "precio_anterior": null,
-        "stock": 10,
-        "ventas": 6,
+        "stock": 8,
+        "ventas": 8,
         "descripcion": "Base firme y cuerpo robusto para sujeción segura en trabajos de taller y montaje.",
         "etiqueta": null,
         "etiqueta_clase": null,
-        "activo": true,
+        "activo": false,
         "imagenes": [
             {
                 "url": "/img/productos/prensa-de-banco-lusqtoff.jpg",
@@ -147,8 +147,8 @@
         "energia": "manual",
         "precio": 28000,
         "precio_anterior": 34000,
-        "stock": 10,
-        "ventas": 8,
+        "stock": 9,
+        "ventas": 9,
         "descripcion": "Protección y comodidad para manipulación diaria en entornos de trabajo exigentes.",
         "etiqueta": "Oferta",
         "etiqueta_clase": null,
@@ -174,8 +174,8 @@
         "energia": "inalambrica",
         "precio": 167000,
         "precio_anterior": null,
-        "stock": 10,
-        "ventas": 9,
+        "stock": 9,
+        "ventas": 10,
         "descripcion": "Ideal para montaje en seco, fijaciones ágiles y trabajo continuo con buena autonomía.",
         "etiqueta": "Nuevo",
         "etiqueta_clase": "product-card-badge-soft",
@@ -710,33 +710,6 @@
             {
                 "url": "/img/productos/multimetro-digital-automatico-6000-cuentas-recargable-6a12034f2d2bd.webp",
                 "orden": 2,
-                "es_principal": true
-            }
-        ]
-    },
-    {
-        "nombre": "salamines Lario",
-        "categoria": {
-            "nombre": "Construcción",
-            "slug": "construccion"
-        },
-        "marca": {
-            "nombre": "Bosch",
-            "logo_url": null
-        },
-        "energia": "manual",
-        "precio": 1500,
-        "precio_anterior": null,
-        "stock": 7,
-        "ventas": 0,
-        "descripcion": "5kg",
-        "etiqueta": "Nuevo",
-        "etiqueta_clase": null,
-        "activo": true,
-        "imagenes": [
-            {
-                "url": "/img/productos/salamines-lario-6a14cc7aa8640.png",
-                "orden": 0,
                 "es_principal": true
             }
         ]

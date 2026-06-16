@@ -13,7 +13,7 @@ class PerfilController extends Controller
     {
         $usuario = Usuario::findOrFail(session('usuario_id'));
         $usuario->load(['domicilios' => function ($query) {
-            $query->orderByDesc('es_principal')->latest('id')->limit(4);
+            $query->where('activo', true)->orderByDesc('es_principal')->latest('id')->limit(4);
         }]);
 
         $domicilios = $usuario->domicilios->values();
@@ -58,7 +58,7 @@ class PerfilController extends Controller
     public function update(Request $request)
     {
         $usuario = Usuario::with(['domicilios' => function ($query) {
-            $query->orderByDesc('es_principal')->latest('id');
+            $query->where('activo', true)->orderByDesc('es_principal')->latest('id');
         }])->findOrFail(session('usuario_id'));
 
         $datos = $request->validate([
@@ -70,8 +70,8 @@ class PerfilController extends Controller
                 'max:255',
                 Rule::unique('usuarios', 'email')->ignore($usuario->id),
             ],
-            'dni' => ['nullable', 'string', 'max:20'],
-            'telefono' => ['nullable', 'string', 'max:20'],
+            'dni' => ['required', 'string', 'max:20'],
+            'telefono' => ['required', 'string', 'max:20'],
             'domicilio_mode' => ['required', 'in:existing,new'],
             'selected_domicilio_id' => ['nullable', 'integer'],
             'calle' => ['required', 'string', 'max:120'],
@@ -130,6 +130,7 @@ class PerfilController extends Controller
                 'codigo_postal' => null,
                 'referencia' => null,
                 'es_principal' => ! $domicilioPrincipal,
+                'activo' => true,
             ]);
         }
 
@@ -142,10 +143,11 @@ class PerfilController extends Controller
             'codigo_postal' => $addressData['codigo_postal'] ?: null,
             'referencia' => $addressData['referencia'] ?: null,
             'es_principal' => $domicilioSeleccionado->es_principal || ! $domicilioPrincipal,
+            'activo' => true,
         ])->save();
 
         $usuario->load(['domicilios' => function ($query) {
-            $query->orderByDesc('es_principal')->latest('id');
+            $query->where('activo', true)->orderByDesc('es_principal')->latest('id');
         }]);
 
         session([
@@ -156,6 +158,43 @@ class PerfilController extends Controller
         return redirect()
             ->route('mis-datos')
             ->with('success', 'Tus datos fueron actualizados correctamente.');
+    }
+
+    public function bajaDomicilio(Domicilio $domicilio)
+    {
+        $usuarioId = (int) session('usuario_id');
+
+        abort_if($domicilio->usuario_id !== $usuarioId, 404);
+
+        if (! $domicilio->activo) {
+            return redirect()
+                ->route('mis-datos')
+                ->with('warning', 'Ese domicilio ya estaba dado de baja.');
+        }
+
+        $eraPrincipal = (bool) $domicilio->es_principal;
+
+        $domicilio->forceFill([
+            'activo' => false,
+            'es_principal' => false,
+        ])->save();
+
+        if ($eraPrincipal) {
+            $nuevoPrincipal = Domicilio::query()
+                ->where('usuario_id', $usuarioId)
+                ->where('activo', true)
+                ->orderByDesc('es_principal')
+                ->latest('id')
+                ->first();
+
+            if ($nuevoPrincipal) {
+                $nuevoPrincipal->forceFill(['es_principal' => true])->save();
+            }
+        }
+
+        return redirect()
+            ->route('mis-datos')
+            ->with('success', 'El domicilio fue dado de baja correctamente.');
     }
 
     private function obtenerDomicilioPrincipal(Usuario $usuario): ?Domicilio
