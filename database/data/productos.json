@@ -11,8 +11,8 @@
         },
         "precio": 125000,
         "precio_anterior": 145000,
-        "stock": 3,
-        "ventas": 9,
+        "stock": 0,
+        "ventas": 12,
         "descripcion": "Equipo compacto para corte y desbaste con excelente agarre y potencia constante.\n\nTipo de energía: Eléctrica",
         "etiqueta": "Oferta",
         "etiqueta_clase": null,
@@ -37,8 +37,8 @@
         },
         "precio": 280000,
         "precio_anterior": null,
-        "stock": 8,
-        "ventas": 17,
+        "stock": 6,
+        "ventas": 19,
         "descripcion": "Ideal para trabajos exigentes con buena estabilidad de arco y estructura reforzada.\n\nTipo de energía: Eléctrica",
         "etiqueta": "Destacado",
         "etiqueta_clase": null,
@@ -89,8 +89,8 @@
         },
         "precio": 92000,
         "precio_anterior": null,
-        "stock": 8,
-        "ventas": 7,
+        "stock": 7,
+        "ventas": 8,
         "descripcion": "Protección visual y frontal para tareas de soldadura con pantalla de oscurecimiento automático.\n\nTipo de energía: Manual",
         "etiqueta": null,
         "etiqueta_clase": null,
@@ -141,10 +141,10 @@
         },
         "precio": 28000,
         "precio_anterior": 34000,
-        "stock": 8,
-        "ventas": 10,
-        "descripcion": "Protección y comodidad para manipulación diaria en entornos de trabajo exigentes.\n\nTipo de energía: Manual",
-        "etiqueta": "Oferta",
+        "stock": 2,
+        "ventas": 11,
+        "descripcion": "Protección y comodidad para manipulación diaria en entornos de trabajo exigentes.\r\n\r\nTipo de energía: Manual",
+        "etiqueta": null,
         "etiqueta_clase": null,
         "activo": true,
         "imagenes": [
@@ -167,8 +167,8 @@
         },
         "precio": 167000,
         "precio_anterior": null,
-        "stock": 8,
-        "ventas": 11,
+        "stock": 7,
+        "ventas": 12,
         "descripcion": "Ideal para montaje en seco, fijaciones ágiles y trabajo continuo con buena autonomía.\n\nTipo de energía: Inalámbrica",
         "etiqueta": "Nuevo",
         "etiqueta_clase": null,
@@ -326,7 +326,7 @@
         "stock": 10,
         "ventas": 3,
         "descripcion": "Sierra circular inalámbrica de alto rendimiento ideal para cortes precisos en madera.\n\nTipo de energía: Inalámbrica",
-        "etiqueta": "Más vendido",
+        "etiqueta": "Mas vendido",
         "etiqueta_clase": null,
         "activo": true,
         "imagenes": [
@@ -505,8 +505,8 @@
         },
         "precio": 145000,
         "precio_anterior": null,
-        "stock": 10,
-        "ventas": 2,
+        "stock": 9,
+        "ventas": 3,
         "descripcion": "Sierra caladora precisa para cortes rectos y curvos en madera.\n\nTipo de energía: Eléctrica",
         "etiqueta": null,
         "etiqueta_clase": null,
@@ -685,6 +685,32 @@
             {
                 "url": "/img/productos/multimetro-digital-automatico-6000-cuentas-recargable-6a12034f2d2bd.webp",
                 "orden": 2,
+                "es_principal": true
+            }
+        ]
+    },
+    {
+        "nombre": "salamines Lario",
+        "categoria": {
+            "nombre": "Construcción",
+            "slug": "construccion"
+        },
+        "marca": {
+            "nombre": "Bosch",
+            "logo_url": null
+        },
+        "precio": 1500,
+        "precio_anterior": null,
+        "stock": 7,
+        "ventas": 0,
+        "descripcion": "5kg\n\nTipo de energía: Manual",
+        "etiqueta": "Nuevo",
+        "etiqueta_clase": null,
+        "activo": true,
+        "imagenes": [
+            {
+                "url": "/img/productos/salamines-lario-6a14cc7aa8640.png",
+                "orden": 0,
                 "es_principal": true
             }
         ]
