@@ -77,6 +77,10 @@
                                                 name="nombre"
                                                 class="form-control"
                                                 value="{{ old('nombre', $usuario->nombre) }}"
+                                                required
+                                                maxlength="100"
+                                                pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s\-']+"
+                                                autocomplete="given-name"
                                             >
                                         </div>
 
@@ -88,6 +92,10 @@
                                                 name="apellido"
                                                 class="form-control"
                                                 value="{{ old('apellido', $usuario->apellido) }}"
+                                                required
+                                                maxlength="100"
+                                                pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s\-']+"
+                                                autocomplete="family-name"
                                             >
                                         </div>
 
@@ -99,6 +107,11 @@
                                                 name="telefono"
                                                 class="form-control"
                                                 value="{{ old('telefono', $usuario->telefono) }}"
+                                                required
+                                                maxlength="30"
+                                                inputmode="tel"
+                                                pattern="[0-9+\s\-()\.]+"
+                                                autocomplete="tel"
                                             >
                                         </div>
 
@@ -110,6 +123,10 @@
                                                 name="dni"
                                                 class="form-control"
                                                 value="{{ old('dni', $usuario->dni) }}"
+                                                required
+                                                maxlength="10"
+                                                inputmode="numeric"
+                                                pattern="\d{6,10}"
                                             >
                                         </div>
 
@@ -121,6 +138,9 @@
                                                 name="email"
                                                 class="form-control"
                                                 value="{{ old('email', $usuario->email) }}"
+                                                required
+                                                maxlength="255"
+                                                autocomplete="email"
                                             >
                                         </div>
                                     </div>
@@ -187,6 +207,9 @@
                                                 name="calle"
                                                 class="form-control"
                                                 value="{{ old('calle', $domicilioForm['calle']) }}"
+                                                maxlength="120"
+                                                pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s\-']+"
+                                                autocomplete="street-address"
                                             >
                                         </div>
 
@@ -198,6 +221,8 @@
                                                 name="numero"
                                                 class="form-control"
                                                 value="{{ old('numero', $domicilioForm['numero']) }}"
+                                                maxlength="40"
+                                                pattern="[A-Za-z0-9\s\/\-]+"
                                             >
                                         </div>
 
@@ -209,6 +234,7 @@
                                                 name="piso_departamento"
                                                 class="form-control"
                                                 value="{{ old('piso_departamento', $domicilioForm['piso_departamento']) }}"
+                                                maxlength="80"
                                             >
                                         </div>
 
@@ -220,6 +246,9 @@
                                                 name="ciudad"
                                                 class="form-control"
                                                 value="{{ old('ciudad', $domicilioForm['ciudad']) }}"
+                                                maxlength="100"
+                                                pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s\-']+"
+                                                autocomplete="address-level2"
                                             >
                                         </div>
 
@@ -231,6 +260,9 @@
                                                 name="provincia"
                                                 class="form-control"
                                                 value="{{ old('provincia', $domicilioForm['provincia']) }}"
+                                                maxlength="100"
+                                                pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s\-']+"
+                                                autocomplete="address-level1"
                                             >
                                         </div>
 
@@ -242,6 +274,9 @@
                                                 name="codigo_postal"
                                                 class="form-control"
                                                 value="{{ old('codigo_postal', $domicilioForm['codigo_postal']) }}"
+                                                maxlength="20"
+                                                pattern="[A-Za-z0-9\s\-]+"
+                                                autocomplete="postal-code"
                                             >
                                         </div>
 
@@ -253,6 +288,7 @@
                                                 name="referencia"
                                                 class="form-control"
                                                 value="{{ old('referencia', $domicilioForm['referencia']) }}"
+                                                maxlength="255"
                                             >
                                         </div>
                                     </div>

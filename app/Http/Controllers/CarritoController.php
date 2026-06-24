@@ -10,6 +10,7 @@ use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class CarritoController extends Controller
 {
@@ -150,13 +151,15 @@ class CarritoController extends Controller
 
         $validated = $request->validate([
             'entrega_opcion' => ['required', 'in:domicilio_existente,domicilio_nuevo,retiro_local'],
-            'domicilio_id' => ['nullable', 'integer'],
-            'calle' => ['nullable', 'string', 'max:120'],
-            'numero' => ['nullable', 'string', 'max:40'],
+            'domicilio_id' => ['nullable', 'integer', 'required_if:entrega_opcion,domicilio_existente', Rule::exists('domicilios', 'id')->where(function ($query) use ($usuario) {
+                $query->where('usuario_id', $usuario->id)->where('activo', true);
+            })],
+            'calle' => ['nullable', 'string', 'max:120', 'required_if:entrega_opcion,domicilio_nuevo', 'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s\-\']+$/u'],
+            'numero' => ['nullable', 'string', 'max:40', 'required_if:entrega_opcion,domicilio_nuevo', 'regex:/^[A-Za-z0-9\s\/\-]+$/'],
             'piso_departamento' => ['nullable', 'string', 'max:80'],
-            'ciudad' => ['nullable', 'string', 'max:100'],
-            'provincia' => ['nullable', 'string', 'max:100'],
-            'codigo_postal' => ['nullable', 'string', 'max:20'],
+            'ciudad' => ['nullable', 'string', 'max:100', 'required_if:entrega_opcion,domicilio_nuevo', 'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s\-\']+$/u'],
+            'provincia' => ['nullable', 'string', 'max:100', 'required_if:entrega_opcion,domicilio_nuevo', 'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s\-\']+$/u'],
+            'codigo_postal' => ['nullable', 'string', 'max:20', 'required_if:entrega_opcion,domicilio_nuevo', 'regex:/^[A-Za-z0-9\s\-]+$/'],
             'referencia' => ['nullable', 'string', 'max:255'],
         ]);
 

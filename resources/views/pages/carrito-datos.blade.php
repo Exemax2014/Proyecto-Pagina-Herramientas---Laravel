@@ -220,31 +220,31 @@
                                     <div class="cart-form-grid address-grid" id="newAddressGrid">
                                         <div class="cart-form-field address-field">
                                             <label for="checkout_calle">Calle</label>
-                                            <input type="text" id="checkout_calle" name="calle" class="form-control" value="{{ $nuevoDomicilio['calle'] }}">
+                                            <input type="text" id="checkout_calle" name="calle" class="form-control" value="{{ $nuevoDomicilio['calle'] }}" maxlength="120" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s\-' ]+" autocomplete="street-address">
                                         </div>
                                         <div class="cart-form-field address-field">
                                             <label for="checkout_numero">Numero</label>
-                                            <input type="text" id="checkout_numero" name="numero" class="form-control" value="{{ $nuevoDomicilio['numero'] }}">
+                                            <input type="text" id="checkout_numero" name="numero" class="form-control" value="{{ $nuevoDomicilio['numero'] }}" maxlength="40" pattern="[A-Za-z0-9\s\/\-]+">
                                         </div>
                                         <div class="cart-form-field address-field">
                                             <label for="checkout_piso_departamento">Piso / Departamento</label>
-                                            <input type="text" id="checkout_piso_departamento" name="piso_departamento" class="form-control" value="{{ $nuevoDomicilio['piso_departamento'] }}">
+                                            <input type="text" id="checkout_piso_departamento" name="piso_departamento" class="form-control" value="{{ $nuevoDomicilio['piso_departamento'] }}" maxlength="80">
                                         </div>
                                         <div class="cart-form-field address-field">
                                             <label for="checkout_ciudad">Ciudad</label>
-                                            <input type="text" id="checkout_ciudad" name="ciudad" class="form-control" value="{{ $nuevoDomicilio['ciudad'] }}">
+                                            <input type="text" id="checkout_ciudad" name="ciudad" class="form-control" value="{{ $nuevoDomicilio['ciudad'] }}" maxlength="100" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s\-']+" autocomplete="address-level2">
                                         </div>
                                         <div class="cart-form-field address-field">
                                             <label for="checkout_provincia">Provincia</label>
-                                            <input type="text" id="checkout_provincia" name="provincia" class="form-control" value="{{ $nuevoDomicilio['provincia'] }}">
+                                            <input type="text" id="checkout_provincia" name="provincia" class="form-control" value="{{ $nuevoDomicilio['provincia'] }}" maxlength="100" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s\-']+" autocomplete="address-level1">
                                         </div>
                                         <div class="cart-form-field address-field">
                                             <label for="checkout_codigo_postal">Codigo postal</label>
-                                            <input type="text" id="checkout_codigo_postal" name="codigo_postal" class="form-control" value="{{ $nuevoDomicilio['codigo_postal'] }}">
+                                            <input type="text" id="checkout_codigo_postal" name="codigo_postal" class="form-control" value="{{ $nuevoDomicilio['codigo_postal'] }}" maxlength="20" pattern="[A-Za-z0-9\s\-]+" autocomplete="postal-code">
                                         </div>
                                         <div class="cart-form-field cart-form-field-full address-field">
                                             <label for="checkout_referencia">Referencia</label>
-                                            <input type="text" id="checkout_referencia" name="referencia" class="form-control" value="{{ $nuevoDomicilio['referencia'] }}">
+                                            <input type="text" id="checkout_referencia" name="referencia" class="form-control" value="{{ $nuevoDomicilio['referencia'] }}" maxlength="255">
                                         </div>
                                     </div>
                                 </div>

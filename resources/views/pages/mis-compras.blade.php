@@ -66,8 +66,8 @@
                     </table>
                 </div>
 
-                <div class="mt-4">
-                    {{ $pedidos->links() }}
+                <div class="mis-compras-pagination-wrap mt-4">
+                    {{ $pedidos->onEachSide(1)->links('vendor.pagination.hierro') }}
                 </div>
             @endif
         </div>

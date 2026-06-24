@@ -246,6 +246,8 @@
                                             placeholder="Ingresá tu nombre y apellido"
                                             value="{{ old('nombre_completo') }}"
                                             required
+                                            maxlength="150"
+                                            pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s\-']+"
                                         >
 
                                         @error('nombre_completo')
@@ -265,6 +267,8 @@
                                             placeholder="Ingresá tu correo"
                                             value="{{ old('correo') }}"
                                             required
+                                            maxlength="255"
+                                            autocomplete="email"
                                         >
 
                                         @error('correo')
@@ -283,7 +287,9 @@
                                             class="form-control contact-form-input @error('telefono') is-invalid @enderror"
                                             placeholder="Ingresá tu teléfono"
                                             value="{{ old('telefono') }}"
-                                            required
+                                            maxlength="30"
+                                            inputmode="tel"
+                                            pattern="[0-9+\s\-()\.]+"
                                         >
 
                                         @error('telefono')
@@ -301,6 +307,7 @@
                                         name="consulta"
                                         class="form-control contact-form-textarea @error('consulta') is-invalid @enderror"
                                         rows="5"
+                                        maxlength="5000"
                                         placeholder="Escribí tu consulta"
                                         required
                                     >{{ old('consulta') }}</textarea>

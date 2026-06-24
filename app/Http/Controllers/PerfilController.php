@@ -81,122 +81,25 @@ class PerfilController extends Controller
         }])->findOrFail(session('usuario_id'));
 
         $datos = $request->validate([
-            // Datos personales
-            'nombre' => [
-                'required',
-                'string',
-                'min:2',
-                'max:100',
-                'regex:/^[\pL\s\-]+$/u',
-            ],
-            'apellido' => [
-                'required',
-                'string',
-                'min:2',
-                'max:100',
-                'regex:/^[\pL\s\-]+$/u',
-            ],
+            'nombre' => ['required', 'string', 'max:100'],
+            'apellido' => ['required', 'string', 'max:100'],
             'email' => [
                 'required',
                 'email:rfc,dns',
                 'max:255',
                 Rule::unique('usuarios', 'email')->ignore($usuario->id),
             ],
-            'dni' => [
-                'required',
-                'digits_between:7,8',
-            ],
-            'telefono' => [
-                'required',
-                'string',
-                'min:7',
-                'max:20',
-                'regex:/^[\d\s\+\-]+$/',
-            ],
-
-            // Control de modo
+            'dni' => ['required', 'string', 'max:20'],
+            'telefono' => ['required', 'string', 'max:20'],
             'domicilio_mode' => ['required', 'in:existing,new'],
             'selected_domicilio_id' => ['nullable', 'integer'],
-
-            // Domicilio
-            'calle' => [
-                'required',
-                'string',
-                'min:2',
-                'max:120',
-            ],
-            'numero' => [
-                'required',
-                'string',
-                'max:10',
-                'regex:/^[0-9]+$/',
-            ],
-            'piso_departamento' => [
-                'nullable',
-                'string',
-                'max:80',
-            ],
-            'ciudad' => [
-                'required',
-                'string',
-                'min:2',
-                'max:100',
-                'regex:/^[\pL\s\-]+$/u',
-            ],
-            'provincia' => [
-                'required',
-                'string',
-                'min:2',
-                'max:100',
-                'regex:/^[\pL\s\-]+$/u',
-            ],
-            'codigo_postal' => [
-                'nullable',
-                'string',
-                'digits_between:4,8',
-            ],
-            'referencia' => [
-                'nullable',
-                'string',
-                'max:255',
-            ],
-        ], [
-            // Mensajes personalizados
-            'nombre.required'         => 'El nombre es obligatorio.',
-            'nombre.min'              => 'El nombre debe tener al menos 2 caracteres.',
-            'nombre.regex'            => 'El nombre solo puede contener letras y espacios.',
-
-            'apellido.required'       => 'El apellido es obligatorio.',
-            'apellido.min'            => 'El apellido debe tener al menos 2 caracteres.',
-            'apellido.regex'          => 'El apellido solo puede contener letras y espacios.',
-
-            'email.required'          => 'El email es obligatorio.',
-            'email.email'             => 'Ingresá un email válido.',
-            'email.unique'            => 'Este email ya está en uso por otra cuenta.',
-
-            'dni.required'            => 'El DNI es obligatorio.',
-            'dni.digits_between'      => 'El DNI debe tener 7 u 8 números sin puntos.',
-
-            'telefono.required'       => 'El teléfono es obligatorio.',
-            'telefono.min'            => 'El teléfono debe tener al menos 7 dígitos.',
-            'telefono.regex'          => 'El teléfono solo puede contener números, espacios, + o -.',
-
-            'calle.required'          => 'La calle es obligatoria.',
-            'calle.min'               => 'La calle debe tener al menos 2 caracteres.',
-
-            'numero.required'         => 'El número es obligatorio.',
-            'numero.regex'            => 'El número solo puede contener dígitos.',
-            'numero.max'              => 'El número no puede superar 10 dígitos.',
-
-            'ciudad.required'         => 'La ciudad es obligatoria.',
-            'ciudad.min'              => 'La ciudad debe tener al menos 2 caracteres.',
-            'ciudad.regex'            => 'La ciudad solo puede contener letras y espacios.',
-
-            'provincia.required'      => 'La provincia es obligatoria.',
-            'provincia.min'           => 'La provincia debe tener al menos 2 caracteres.',
-            'provincia.regex'         => 'La provincia solo puede contener letras y espacios.',
-
-            'codigo_postal.digits_between' => 'El código postal debe tener entre 4 y 8 números.',
+            'calle' => ['required', 'string', 'max:120'],
+            'numero' => ['required', 'string', 'max:40'],
+            'piso_departamento' => ['nullable', 'string', 'max:80'],
+            'ciudad' => ['required', 'string', 'max:100'],
+            'provincia' => ['required', 'string', 'max:100'],
+            'codigo_postal' => ['required', 'string', 'max:20'],
+            'referencia' => ['nullable', 'string', 'max:255'],
         ]);
 
         $addressData = [
