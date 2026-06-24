@@ -25,13 +25,14 @@ class AuthController extends Controller
         $redirect = $this->sanitizeRedirect($this->extractRedirect($request));
 
         $request->validate([
-            'email'    => ['required', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/'],
-            'password' => 'required|min:4',
+            'email'    => ['required', 'email', 'max:255'],
+            'password' => ['required', 'string'],
         ], [
             'email.required' => 'Debes ingresar un correo.',
-            'email.regex'    => 'El correo debe tener formato ejemplo@dominio.com.',
+            'email.email'    => 'Debes ingresar un correo válido.',
+            'email.max'      => 'El correo no puede superar los 255 caracteres.',
             'password.required' => 'Debes ingresar una contraseña.',
-            'password.min'   => 'Mínimo 4 caracteres.',
+            'password.string'   => 'La contraseña debe ser un texto válido.',
         ]);
 
         $usuario = Usuario::where('email', $request->email)->first();
@@ -84,22 +85,27 @@ class AuthController extends Controller
     public function procesarRegistro(Request $request)
     {
         $request->validate([
-            'nombre'                => ['required', 'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/'],
-            'apellido'              => ['required', 'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/'],
-            'email'                 => ['required', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/', 'unique:usuarios,email'],
-            'password'              => 'required|min:4',
-            'password_confirmation' => 'required|same:password',
+            'nombre'                => ['required', 'string', 'max:100', 'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s\-\']+$/u'],
+            'apellido'              => ['required', 'string', 'max:100', 'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s\-\']+$/u'],
+            'email'                 => ['required', 'email', 'max:255', 'unique:usuarios,email'],
+            'password'              => 'required|string|min:8|confirmed',
         ], [
             'nombre.required'   => 'Debes ingresar tu nombre.',
-            'nombre.regex'      => 'El nombre solo puede contener letras y espacios.',
+            'nombre.string'     => 'El nombre debe ser texto.',
+            'nombre.max'        => 'El nombre no puede superar los 100 caracteres.',
+            'nombre.regex'      => 'El nombre solo puede contener letras, espacios, guiones y apóstrofos.',
             'apellido.required' => 'Debes ingresar tu apellido.',
-            'apellido.regex'    => 'El apellido solo puede contener letras y espacios.',
+            'apellido.string'   => 'El apellido debe ser texto.',
+            'apellido.max'      => 'El apellido no puede superar los 100 caracteres.',
+            'apellido.regex'    => 'El apellido solo puede contener letras, espacios, guiones y apóstrofos.',
             'email.required'    => 'Debes ingresar un correo.',
-            'email.regex'       => 'El correo debe tener formato ejemplo@dominio.com.',
+            'email.email'       => 'Debes ingresar un correo válido.',
+            'email.max'         => 'El correo no puede superar los 255 caracteres.',
             'email.unique'      => 'Este correo ya está registrado.',
             'password.required' => 'Debes ingresar una contraseña.',
-            'password.min'      => 'Mínimo 4 caracteres.',
-            'password_confirmation.same' => 'Las contraseñas no coinciden.',
+            'password.string'   => 'La contraseña debe ser texto.',
+            'password.min'      => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.confirmed' => 'Las contraseñas no coinciden.',
         ]);
 
         Usuario::create([

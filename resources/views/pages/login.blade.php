@@ -36,6 +36,8 @@
                                 placeholder="Ingresá tu correo"
                                 value="{{ old('email') }}"
                                 required
+                                maxlength="255"
+                                autocomplete="email"
                             >
 
                             @error('email')
@@ -54,6 +56,7 @@
                                 class="form-control login-input @error('password') is-invalid @enderror"
                                 placeholder="Ingresá tu contraseña"
                                 required
+                                autocomplete="current-password"
                             >
 
                             @error('password')

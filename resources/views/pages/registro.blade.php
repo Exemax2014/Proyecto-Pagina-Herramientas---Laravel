@@ -25,6 +25,10 @@
                                 class="form-control register-input"
                                 placeholder="Ingresá tu nombre"
                                 value="{{ old('nombre') }}"
+                                required
+                                maxlength="100"
+                                pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s\-']+"
+                                autocomplete="name"
                             >
                             @error('nombre')
                                 <div class="text-danger">{{ $message }}</div>
@@ -41,6 +45,10 @@
                                 class="form-control register-input"
                                 placeholder="Ingresá tu apellido"
                                 value="{{ old('apellido') }}"
+                                required
+                                maxlength="100"
+                                pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s\-']+"
+                                autocomplete="family-name"
                             >
                             @error('apellido')
                                 <div class="text-danger">{{ $message }}</div>
@@ -57,6 +65,9 @@
                                 class="form-control register-input"
                                 placeholder="Ingresá tu correo"
                                 value="{{ old('email') }}"
+                                required
+                                maxlength="255"
+                                autocomplete="email"
                             >
                             @error('email')
                                 <div class="text-danger">{{ $message }}</div>
@@ -72,6 +83,9 @@
                                 name="password"
                                 class="form-control register-input"
                                 placeholder="Ingresá tu contraseña"
+                                required
+                                minlength="8"
+                                autocomplete="new-password"
                             >
                             @error('password')
                                 <div class="text-danger">{{ $message }}</div>
@@ -89,6 +103,8 @@
                                 name="password_confirmation"
                                 class="form-control register-input"
                                 placeholder="Repetí tu contraseña"
+                                required
+                                autocomplete="new-password"
                             >
                             @error('password_confirmation')
                                 <div class="text-danger">{{ $message }}</div>

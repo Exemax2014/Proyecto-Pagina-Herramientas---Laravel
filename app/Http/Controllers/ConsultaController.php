@@ -29,7 +29,7 @@ class ConsultaController extends Controller
             $datos = $request->validate([
                 'nombre_completo' => ['required', 'string', 'max:150'],
                 'correo' => ['required', 'email', 'max:255'],
-                'telefono' => ['required', 'string', 'max:20'],
+                'telefono' => ['nullable', 'string', 'max:30', 'regex:/^[0-9+\s\-()\.]+$/'],
                 'consulta' => ['required', 'string', 'max:5000'],
             ]);
 
@@ -37,7 +37,7 @@ class ConsultaController extends Controller
                 'usuario_id' => null,
                 'nombre_completo' => $datos['nombre_completo'],
                 'correo' => $datos['correo'],
-                'telefono' => $datos['telefono'],
+                'telefono' => $datos['telefono'] ?? null,
                 'consulta' => $datos['consulta'],
             ]);
         }
